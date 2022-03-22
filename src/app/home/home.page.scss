@@ -25,3 +25,17 @@
 #container a {
   text-decoration: none;
 }
+
+ion-content{
+
+  --ion-background-color: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #00388B 100%), url(../../assets/img/golf-course.jpg);
+
+}
+
+.gp-toolbar{
+  --background:#00388B;
+}
+
+ion-title{
+  --color: #fff;
+}
