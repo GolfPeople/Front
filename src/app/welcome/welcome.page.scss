@@ -1,0 +1,39 @@
+ion-content{
+
+  --ion-background-color: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #00388B 100%), url(../../assets/img/golf-course.jpg);
+
+}
+
+
+.vertical-align-content > *
+{
+    height: 100%;
+     display: flex!important;
+     align-content: center!important;
+     align-items: center!important;
+}
+
+.align-center{
+  text-align: center;
+}
+
+.welcome-title{
+  text-align: center;
+}
+
+.title-text{
+  color: #fff;
+}
+
+.login-btn{
+  --background: transparent;
+  --border-style: solid;
+  --border-width: 1px;
+  --border-color: #fff;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.signup-btn{
+  --background: #009DD6;
+}
