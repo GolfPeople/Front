@@ -1,0 +1,90 @@
+ion-content{
+
+  --ion-background-color: linear-gradient(180deg, rgba(0, 56, 139, 0.8) 0%, rgba(0, 56, 139, 0.8) 68.23%), url(../../assets/img/golf-course.jpg);
+
+}
+
+ion-col{
+  height: 90%;
+  width: 100% !important;
+  padding: 20px;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  position: fixed;
+  bottom:0;
+  left: 0;
+  background-color: #fff;
+}
+
+.vertical-align-center > *
+{
+  height: 100%;
+  display: flex!important;
+  align-content: center!important;
+  align-items: center!important;
+  justify-content: center;
+}
+
+.text-center{
+  text-align: center;
+}
+
+.title-text-pos{
+  color: #00388B;
+  font-weight: 900;
+}
+.subtitle-text-pos{
+  color: #383838;
+  font-weight: 800;
+}
+
+.signup-form-title{
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.signup-form-checkbox{
+  color: #383838;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.show-password{
+  font-size:16px !important;
+  position: relative !important;
+  top: 16px !important;
+  margin: 0 auto !important;
+  color: #00388B;
+}
+
+ion-list{
+  --ion-item-background: transparent !important;
+}
+
+ion-label{
+  --color: #00388B !important;
+}
+
+ion-item.item-has-focus > ion-label{
+  color: #00388B !important;
+}
+
+ion-checkbox{
+  --background: transparent;
+  --background-checked:#00388B;
+  --border-color-checked: #00388B;
+  margin-right: .5rem;
+}
+
+.login-btn{
+  --background: transparent;
+  --border-style: solid;
+  --border-width: 1px;
+  --border-color: #fff;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.signup-btn{
+  --background: #009DD6;
+}

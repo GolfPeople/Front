@@ -1,9 +1,39 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>auth</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-
+  <ion-grid>
+    <ion-row>
+      <div>
+      <ion-col size-sm="4" offset-sm="4">
+        <h2 class="title-text-pos">REGÍSTRATE</h2>
+        <p class="subtitle-text-pos">Ingresa tus credenciales</p>
+        <form>
+        <ion-list>
+          <ion-item>
+            <ion-label position="floating" class="signup-form-title"><ion-icon name="mail"></ion-icon> E-Mail</ion-label>
+            <ion-input type="email" ngModel name="email" required email></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating" class="signup-form-title"><ion-icon name="person"></ion-icon> Usuario</ion-label>
+            <ion-input type="text" ngModel name="user" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating" class="signup-form-title"><ion-icon name="lock-open"></ion-icon> Contraseña</ion-label>
+            <ion-input [type]="passwordType" name="password" ngModel name="password" required minlength="8"></ion-input>
+            <ion-icon [name]="eye" slot="end" (click)="togglePasswordMode()" class="show-password"></ion-icon>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating" class="signup-form-title"><ion-icon name="lock-open"></ion-icon> Confirmar contraseña</ion-label>
+            <ion-input [type]="passwordType" name="password"  ngModel name="password" required minlength="8"></ion-input>
+            <ion-icon [name]="eye" slot="end" (click)="togglePasswordMode()" class="show-password"></ion-icon>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-checkbox></ion-checkbox>
+            <ion-label text-wrap class="checkbox-text signup-form-checkbox">Acepto los <a href="#" onclick="return false;">Términos y condiciones</a></ion-label>
+          </ion-item>
+        </ion-list>
+        </form>
+        <ion-button shape="round" expand="block" class="signup-btn">Continuar</ion-button>
+      </ion-col>
+    </div>
+    </ion-row>
+  </ion-grid>
 </ion-content>

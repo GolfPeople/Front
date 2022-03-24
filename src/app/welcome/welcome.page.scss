@@ -4,8 +4,7 @@ ion-content{
 
 }
 
-
-.vertical-align-content > *
+.vertical-align-center > *
 {
     height: 100%;
      display: flex!important;
@@ -24,6 +23,7 @@ ion-content{
 
 .title-text{
   color: #fff;
+  font-weight: 600;
 }
 
 .login-btn{
