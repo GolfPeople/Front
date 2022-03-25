@@ -69,11 +69,21 @@ ion-item.item-has-focus > ion-label{
   color: #00388B !important;
 }
 
+ion-input{
+  color: #383838 !important;
+}
+
 ion-checkbox{
   --background: transparent;
   --background-checked:#00388B;
+  --border-color: #383838;
   --border-color-checked: #00388B;
   margin-right: .5rem;
+}
+
+.validation-text{
+  font-size: 12px;
+  color: red;
 }
 
 .login-btn{
