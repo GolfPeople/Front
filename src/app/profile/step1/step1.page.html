@@ -1,0 +1,48 @@
+<ion-content class="vertical-align-center">
+  <ion-grid>
+    <ion-row justify-content-center>
+      <ion-col size-sm="8" offset-sm="2">
+        <h2 class="title-text-pos text-center">¡Comencemos!</h2>
+        <p class="subtitle-text-pos text-center">Vamos a completar tu perfil rellenando algunos campos</p>
+        <form>
+          <ion-list>
+            <ion-item lines="none">
+              <div class="container">
+                <div class="outer"
+                  [ngStyle]="{'background-image': 'url(' + imageAvatarDefault + ')'}">
+                    <div class="inner" (click)="selectImage()">
+                       <ion-icon name="camera" class="camera-icon"></ion-icon>
+                    </div>
+                 </div>
+              </div>
+            </ion-item>
+            <div class="user-profile">
+              <h3 class="profile-name text-center">Username</h3>
+              <h5 class="profile-name text-center">Perfil golfer</h5>
+            </div>
+            <p class="profile-name text-center">Número de licencia</p>
+            <ion-item lines="none">
+              <ion-input
+                type="text"
+                name="name"
+              ><ion-icon name="pencil"></ion-icon></ion-input>
+            </ion-item>
+        </ion-list>
+        <ion-button
+          type="submit"
+          shape="round"
+          expand="block"
+        >
+          Siguiente
+        </ion-button>
+        </form>
+        <p class="text-center"><a [routerLink]="['/home']">Saltar</a><p></p>
+        <div class="progress text-center">
+          <ion-icon name="ellipse" class="progress-icon"></ion-icon>
+          <ion-icon name="ellipse-outline" class="progress-icon"></ion-icon>
+          <ion-icon name="ellipse-outline" class="progress-icon"></ion-icon>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

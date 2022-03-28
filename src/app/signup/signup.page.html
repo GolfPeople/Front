@@ -16,6 +16,7 @@
               required
               email
               #emailCtrl="ngModel"
+              class="input-text"
             ></ion-input>
           </ion-item>
           <ion-item
@@ -41,7 +42,7 @@
             <ion-label class="validation-text">Nombre inválido</ion-label>
           </ion-item>
           <ion-item>
-            <ion-label position="floating" class="signup-form-title"><ion-icon name="lock-open"></ion-icon> Contraseña</ion-label>
+            <ion-label position="floating" class="signup-form-title" ><ion-icon name="lock-open"></ion-icon> Contraseña</ion-label>
             <ion-input
               [type]="passwordType"
               ngModel
@@ -49,6 +50,7 @@
               required
               minlength="8"
               #passwordCtrl="ngModel"
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}"
             ></ion-input>
             <ion-icon [name]="eye" slot="end" (click)="togglePasswordMode()" class="show-password"></ion-icon>
           </ion-item>
@@ -56,7 +58,9 @@
             *ngIf="!passwordCtrl.valid && passwordCtrl.touched"
             lines="none"
           >
-            <ion-label class="validation-text">Contraseña inválida</ion-label>
+            <ion-label text-wrap class="validation-text">
+              Contraseña inválida: debe contener al menos 8 caracteres, ser alfanumérica e incluir mayúsculas y minúsculas.
+            </ion-label>
           </ion-item>
           <ion-item>
             <ion-label position="floating" class="signup-form-title"><ion-icon name="lock-open"></ion-icon> Confirmar contraseña</ion-label>
@@ -66,30 +70,33 @@
               name="rePassword"
               required
               #rePasswordCtrl="ngModel"
+              minlength = "8"
             ></ion-input>
             <ion-icon [name]="eye" slot="end" (click)="togglePasswordMode()" class="show-password"></ion-icon>
           </ion-item>
           <ion-item
-            *ngIf="!rePasswordCtrl.valid && rePasswordCtrl.touched"
+            *ngIf="(passwordCtrl.value !== rePasswordCtrl.value) && passwordCtrl.touched"
             lines="none"
           >
-          <ion-label class="validation-text">Contraseña inválida</ion-label>
+          <ion-label class="validation-text">La contraseña de verificación no coincide.</ion-label>
           </ion-item>
           <ion-item lines="none">
             <ion-checkbox required></ion-checkbox>
             <ion-label text-wrap class="checkbox-text signup-form-checkbox">Acepto los <a href="#">Términos y condiciones</a></ion-label>
           </ion-item>
         </ion-list>
+
         <ion-button
           type="submit"
           shape="round"
           expand="block"
           class="signup-btn"
-          [disabled]="!f.valid"
+          [disabled]="(!f.valid) || (passwordCtrl.value !== rePasswordCtrl.value)"
         >
           Continuar
         </ion-button>
         </form>
+        <p class="text-center link">¿Ya tienes cuenta? <a [routerLink]="['/login']">Inicia Sesión</a><p></p>
       </ion-col>
     </div>
     </ion-row>

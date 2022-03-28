@@ -1,6 +1,6 @@
 ion-content{
 
-  --ion-background-color: linear-gradient(180deg, rgba(0, 56, 139, 0.8) 0%, rgba(0, 56, 139, 0.8) 68.23%), url(../../assets/img/golf-course.jpg);
+  --ion-background-color: linear-gradient(180deg, rgba(0, 56, 139, 0.8) 0%, rgba(0, 56, 139, 0.8) 68.23%), url(../../assets/img/golf-course.jpg), 0, 0/100%, 100%, no-repeat;
 
 }
 
@@ -18,7 +18,7 @@ ion-col{
 
 .vertical-align-center > *
 {
-  height: 100%;
+
   display: flex!important;
   align-content: center!important;
   align-items: center!important;
@@ -81,6 +81,7 @@ ion-checkbox{
   margin-right: .5rem;
 }
 
+
 .validation-text{
   font-size: 12px;
   color: red;
@@ -97,4 +98,8 @@ ion-checkbox{
 
 .signup-btn{
   --background: #009DD6;
+}
+
+.link{
+  color: #009DD6;
 }

@@ -1,3 +1,9 @@
+ion-content{
+
+  --ion-background-color: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #00388B 100%), url(../../assets/img/golf-course.jpg), 0, 0/100%, 100%, no-repeat;
+
+}
+
 #container {
   text-align: center;
 
@@ -24,12 +30,6 @@
 
 #container a {
   text-decoration: none;
-}
-
-ion-content{
-
-  --ion-background-color: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #00388B 100%), url(../../assets/img/golf-course.jpg);
-
 }
 
 .gp-toolbar{

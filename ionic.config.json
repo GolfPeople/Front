@@ -1,5 +1,7 @@
 {
   "name": "golf-people-app",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }
