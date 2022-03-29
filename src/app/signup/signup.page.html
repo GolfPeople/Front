@@ -50,7 +50,7 @@
               required
               minlength="8"
               #passwordCtrl="ngModel"
-              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}"
+              pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.]).{8,}$"
             ></ion-input>
             <ion-icon [name]="eye" slot="end" (click)="togglePasswordMode()" class="show-password"></ion-icon>
           </ion-item>

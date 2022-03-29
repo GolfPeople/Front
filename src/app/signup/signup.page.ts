@@ -85,7 +85,7 @@ export class SignupPage implements OnInit {
       message,
       buttons: [{
         text:'Aceptar',
-        handler: () => {this.router.navigateByUrl('/step1');}
+        handler: () => {this.router.navigateByUrl('/login');}
       }]
       }
     ).then(alertEl => alertEl.present());

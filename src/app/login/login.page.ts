@@ -1,9 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { Directory, Filesystem } from '@capacitor/filesystem';
 import { LoadingController, AlertController } from '@ionic/angular';
 import { LoginService, LoginResponseData} from './login.service';
 import { Observable } from 'rxjs';
+
+const TOKEN_DIR = 'session';
+
+interface LocalFile {
+  name: string;
+  path: string;
+  data: string;
+}
 
 @Component({
   selector: 'app-login',
@@ -45,7 +54,6 @@ export class LoginPage implements OnInit {
         }
         authObs.subscribe(
           resData => {
-            console.log(resData);
             this.isLoading = false;
             loadingEl.dismiss();
             this.router.navigateByUrl('/home');

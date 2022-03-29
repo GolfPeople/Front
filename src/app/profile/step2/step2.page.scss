@@ -1,0 +1,122 @@
+ion-content{
+
+  --ion-background-color: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 68.23%), url(../../../assets/img/golf-course.jpg), 0, 0/100%, 100%, no-repeat;
+
+}
+
+ion-col{
+  padding: 20px;
+  margin: 10px;
+  border-radius: 25px;
+  left: 0;
+  background-color: #fff;
+}
+
+.vertical-align-center > *
+{
+    height: 100%;
+     display: flex!important;
+     align-content: center!important;
+     align-items: center!important;
+     justify-content: center;
+}
+
+.step-img{
+  width: 150px;
+  height: auto;
+}
+
+.text-center{
+  text-align: center;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.title-text-pos{
+  color: #00388B;
+  font-weight: 900;
+}
+.subtitle-text-pos{
+  color: #383838 !important;
+  font-weight: 700;
+}
+
+.profile-field{
+  margin-top: 20px;
+  margin-bottom: 5px;
+  color: #383838 !important;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.signup-form-title{
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.user-profile{
+  margin-top: 20px !important;
+  margin-bottom: 30px !important;
+}
+
+a:link, a:visited, a:active {
+  text-decoration:none;
+}
+
+.progress-icon{
+  margin-left: 10px;
+  margin-right: 10px;
+  color: #009DD6;
+}
+
+ion-list{
+  --ion-item-background: transparent !important;
+}
+
+ion-label{
+  --color: #00388B !important;
+}
+
+ion-item.item-has-focus > ion-label{
+  color: #00388B !important;
+}
+
+ion-input{
+  --background: rgba(143, 143, 143, 0.3) !important;
+  border-radius: 25px;
+  color: #383838 !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+}
+
+ion-checkbox{
+  --background: transparent;
+  --background-checked:#00388B;
+  --border-color: #383838;
+  --border-color-checked: #00388B;
+  margin-right: .5rem;
+}
+
+
+.validation-text{
+  font-size: 12px;
+  color: red;
+}
+
+.login-btn{
+  --background: transparent;
+  --border-style: solid;
+  --border-width: 1px;
+  --border-color: #fff;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.signup-btn{
+  --background: #009DD6;
+}
+

@@ -23,15 +23,18 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
+    canLoad: [AuthGuard]
   },
   {
     path: 'step1',
-    loadChildren: () => import('./profile/step1/step1.module').then( m => m.Step1PageModule)
+    loadChildren: () => import('./profile/step1/step1.module').then( m => m.Step1PageModule),
+    canLoad: [AuthGuard]
   },
   {
     path: 'step2',
-    loadChildren: () => import('./profile/step2/step2.module').then( m => m.Step2PageModule)
+    loadChildren: () => import('./profile/step2/step2.module').then( m => m.Step2PageModule),
+    canLoad: [AuthGuard]
   },
 ];
 

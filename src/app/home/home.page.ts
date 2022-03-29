@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { LoginService} from '../login/login.service';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +9,14 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+  ) {}
+
+  onlogout(){
+    this.loginService.logout();
+    this.router.navigateByUrl('/welcome');
+  }
 
 }

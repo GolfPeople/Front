@@ -18,20 +18,16 @@ export interface LoginResponseData{
   providedIn: 'root'
 })
 export class LoginService {
+  private _userIsAuthenticated = false;
+
   private _user = new BehaviorSubject<User>(null);
 
   constructor(private http: HttpClient) { }
 
-  get userIsAuthenticated() {
-    return this._user.asObservable().pipe(
-      map(user => {
-        if (user) {
-          return !!user.token;
-        } else {
-          return false;
-        }
-      })
-    );
+  get userIsAuthenticated(){
+    console.log('Usuario: ', this._userIsAuthenticated);
+    return this._userIsAuthenticated;
+
   }
 
   login(email: string, password: string){
@@ -41,12 +37,18 @@ export class LoginService {
         'X-Requested-With': 'XMLHttpRequest'
       })
     };
+    this._userIsAuthenticated = true;
     return this.http.post<LoginResponseData>(
       'https://www.api.app.golfpeople.com/api/auth/login',
       {email, password},
       opts
     )
-    .pipe(tap(this.setUserData.bind(this)));;
+    .pipe(tap(this.setUserData.bind(this)));
+  }
+
+
+  logout(){
+    this._userIsAuthenticated = false;
   }
 
   private setUserData(userData: LoginResponseData) {

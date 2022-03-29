@@ -7,7 +7,7 @@
         <form>
           <ion-list>
             <ion-item lines="none">
-              <div class="container">
+              <div class="container-avatar">
                 <div class="outer"
                   [ngStyle]="{'background-image': 'url(' + imageAvatarDefault + ')'}">
                     <div class="inner" (click)="selectImage()">
@@ -24,7 +24,8 @@
             <ion-item lines="none">
               <ion-input
                 type="text"
-                name="name"
+                ngModel
+                name="licence"
               ><ion-icon name="pencil"></ion-icon></ion-input>
             </ion-item>
         </ion-list>
@@ -32,6 +33,7 @@
           type="submit"
           shape="round"
           expand="block"
+          [routerLink]="['/step2']"
         >
           Siguiente
         </ion-button>
