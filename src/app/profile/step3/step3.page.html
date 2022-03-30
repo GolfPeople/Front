@@ -3,28 +3,27 @@
     <ion-row justify-content-center>
       <ion-col size-sm="8" offset-sm="2">
         <div class="text-center">
-          <ion-img class="step-img center" src="assets/img/player1.png"></ion-img>
+          <ion-img class="step-img center" src="assets/img/player2.png"></ion-img>
         </div>
         <h2 class="title-text-pos text-center">Analicemos tu nivel</h2>
         <p class="subtitle-text-pos text-center">Responde estas preguntas para poder deducir tu nivel actual</p>
         <form>
           <ion-list>
-            <p class="profile-field text-center">¿Cúal es tu Handicap federativo?</p>
+            <p class="profile-field text-center">Eres un jugador...</p>
             <ion-item lines="none">
-              <ion-input
-                type="text"
-                ngModel
-                name="licence"
-              ><ion-icon name="pencil"></ion-icon></ion-input>
-            </ion-item>
-            <p class="profile-field text-center">¿Cúanto tiempo llevas jugando?</p>
-            <ion-item lines="none">
-              <ion-label>Experiencia de juego</ion-label>
+              <ion-label>Frecuencia de juego</ion-label>
               <ion-select ok-text="Ok" cancel-text="Cancelar">
-                <ion-select-option value="menos de un año">Menos de un año</ion-select-option>
-                <ion-select-option value="De 3 a 5 años">De 3 a 5 años</ion-select-option>
-                <ion-select-option value="De 5 a 10 años">De 5 a 10 años</ion-select-option>
-                <ion-select-option value="Más de 10 años">Más de 10 años</ion-select-option>
+                <ion-select-option value="Recurrente">Recurrente</ion-select-option>
+                <ion-select-option value="Ocasional">Ocasional</ion-select-option>
+                <ion-select-option value="Diario">Diario</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label>Tipo de jugador</ion-label>
+              <ion-select ok-text="Ok" cancel-text="Cancelar">
+                <ion-select-option value="Aficionado">Aficionado</ion-select-option>
+                <ion-select-option value="Profesional">Profesional</ion-select-option>
+                <ion-select-option value="Profesor/Entrenador">Profesor/Entrenador</ion-select-option>
               </ion-select>
             </ion-item>
         </ion-list>
@@ -32,21 +31,21 @@
           type="submit"
           shape="round"
           expand="block"
-          [routerLink]="['/step3']"
+          [routerLink]="['/step4']"
         >
-        <ion-icon name="arrow-forward"></ion-icon>
-           Siguiente
+          Siguiente
         </ion-button>
         </form>
         <p class="text-center"><a [routerLink]="['/home']">Saltar</a><p></p>
         <div class="progress text-center">
           <ion-icon name="ellipse" class="progress-icon-done"></ion-icon>
+          <ion-icon name="ellipse" class="progress-icon-done"></ion-icon>
           <ion-icon name="ellipse" class="progress-icon"></ion-icon>
-          <ion-icon name="ellipse-outline" class="progress-icon"></ion-icon>
           <ion-icon name="ellipse-outline" class="progress-icon"></ion-icon>
         </div>
       </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
+
 

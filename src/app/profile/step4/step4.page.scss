@@ -113,6 +113,17 @@ ion-checkbox{
   color: red;
 }
 
+.add-camps{
+  cursor: pointer;
+  color: #383838;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.add-camps-icon, .admin-camps{
+  color: #009DD6;
+}
+
 .login-btn{
   --background: transparent;
   --border-style: solid;
