@@ -3,7 +3,10 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { LoadingController, AlertController } from '@ionic/angular';
-import { LoginService, LoginResponseData} from './login.service';
+import {
+  LoginService,
+  LoginResponseData,
+} from '../core/services/login.service';
 import { Observable } from 'rxjs';
 
 const TOKEN_DIR = 'session';
@@ -20,7 +23,6 @@ interface LocalFile {
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-
   passwordType = 'password';
   eye = 'eye';
   isLoading = false;
@@ -31,34 +33,33 @@ export class LoginPage implements OnInit {
     private router: Router,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController
-  ) { }
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   togglePasswordMode() {
     this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
     this.eye = this.eye === 'eye-off' ? 'eye' : 'eye-off';
   }
 
-
   login(email: string, password: string) {
     this.isLoading = true;
     this.loadingCtrl
       .create({ keyboardClose: true, message: 'Iniciando sesión...' })
-      .then(loadingEl => {
+      .then((loadingEl) => {
         loadingEl.present();
         let authObs: Observable<LoginResponseData>;
         if (this.isLogin) {
           authObs = this.loginService.login(email, password);
         }
         authObs.subscribe(
-          resData => {
+          (resData) => {
+            console.log(resData.access_token);
             this.isLoading = false;
             loadingEl.dismiss();
             this.router.navigateByUrl('/home');
           },
-          errRes => {
+          (errRes) => {
             loadingEl.dismiss();
             const code = errRes.message;
             let message = 'Datos incorrectos, intenta de nuevo.';
@@ -69,10 +70,11 @@ export class LoginPage implements OnInit {
           }
         );
       });
+    // this.getProfile();
   }
 
-  onSubmit(form: NgForm){
-    if(!form.valid){
+  onSubmit(form: NgForm) {
+    if (!form.valid) {
       return;
     }
     const email = form.value.email;
@@ -81,7 +83,19 @@ export class LoginPage implements OnInit {
     this.login(email, password);
   }
 
-  private showAlert(message: string){
-    this.alertCtrl.create({header: 'Inicio de sesión fallido', message, buttons: ['Aceptar']}).then(alertEl => alertEl.present());
+  private showAlert(message: string) {
+    this.alertCtrl
+      .create({
+        header: 'Inicio de sesión fallido',
+        message,
+        buttons: ['Aceptar'],
+      })
+      .then((alertEl) => alertEl.present());
   }
+
+  // getProfile() {
+  //   this.loginService
+  //     .getProfile(this.token)
+  //     .subscribe((profile) => console.log('Profile', profile));
+  // }
 }
