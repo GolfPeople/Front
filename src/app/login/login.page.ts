@@ -26,7 +26,6 @@ export class LoginPage implements OnInit {
   passwordType = 'password';
   eye = 'eye';
   isLoading = false;
-  isLogin = true;
 
   constructor(
     private loginService: LoginService,
@@ -48,16 +47,17 @@ export class LoginPage implements OnInit {
       .create({ keyboardClose: true, message: 'Iniciando sesión...' })
       .then((loadingEl) => {
         loadingEl.present();
-        let authObs: Observable<LoginResponseData>;
-        if (this.isLogin) {
-          authObs = this.loginService.login(email, password);
-        }
-        authObs.subscribe(
-          (resData) => {
-            console.log(resData.access_token);
+        // let authObs: Observable<LoginResponseData>;
+        // if (this.isLogin) {
+        //   authObs = this.loginService.login(email, password);
+        // }
+        // authObs.subscribe(
+        this.loginService.login(email, password).subscribe(
+          () => {
+            // this.loginService.isLogged$.subscribe((data) => console.log(data));
             this.isLoading = false;
             loadingEl.dismiss();
-            this.router.navigateByUrl('/home');
+            this.router.navigate(['/home']);
           },
           (errRes) => {
             loadingEl.dismiss();
@@ -70,7 +70,6 @@ export class LoginPage implements OnInit {
           }
         );
       });
-    // this.getProfile();
   }
 
   onSubmit(form: NgForm) {
@@ -92,10 +91,4 @@ export class LoginPage implements OnInit {
       })
       .then((alertEl) => alertEl.present());
   }
-
-  // getProfile() {
-  //   this.loginService
-  //     .getProfile(this.token)
-  //     .subscribe((profile) => console.log('Profile', profile));
-  // }
 }

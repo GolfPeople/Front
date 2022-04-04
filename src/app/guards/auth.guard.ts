@@ -8,15 +8,25 @@ import { LoginService } from '../core/services/login.service';
   providedIn: 'root',
 })
 export class AuthGuard implements CanLoad {
+  isLogged: boolean;
+
   constructor(private loginService: LoginService, private router: Router) {}
 
   canLoad(
     route: Route,
     segments: UrlSegment[]
   ): Observable<boolean> | Promise<boolean> | boolean {
-    if (!this.loginService.userIsAuthenticated) {
-      this.router.navigateByUrl('/login');
+    this.loginService.isLogged$.subscribe((data) => {
+      this.isLogged = data;
+    });
+    if (this.isLogged === false) {
+      this.router.navigate(['/login']);
     }
-    return this.loginService.userIsAuthenticated;
+    return this.isLogged;
+
+    // if (!this.loginService.userIsAuthenticated) {
+    //   this.router.navigateByUrl('/login');
+    // }
+    // return this.loginService.userIsAuthenticated;
   }
 }
