@@ -3,43 +3,47 @@
     <ion-row justify-content-center>
       <ion-col size-sm="8" offset-sm="2">
         <h2 class="title-text-pos text-center">¡Comencemos!</h2>
-        <p class="subtitle-text-pos text-center">Vamos a completar tu perfil rellenando algunos campos</p>
-        <form>
+        <p class="subtitle-text-pos text-center">
+          Vamos a completar tu perfil rellenando algunos campos
+        </p>
+
+        <form (ngSubmit)="subirArchivo()">
           <ion-list>
             <ion-item lines="none">
               <div class="container-avatar">
-                <div class="outer"
-                  [ngStyle]="{'background-image': 'url(' + imageAvatarDefault + ')'}">
-                    <div class="inner" (click)="selectImage()">
-                       <ion-icon name="camera" class="camera-icon"></ion-icon>
-                    </div>
-                 </div>
+                <div
+                  class="outer"
+                  [ngStyle]="{'background-image': 'url(' + imageAvatarDefault + ')'}"
+                >
+                  <img *ngIf="previsualizacion" class="previsualizacion" [src]="previsualizacion" alt="">
+                  <input  type="file" class="inner" (change)="selectImage($event)"/>
+                    <!-- <ion-icon name="camera" class="camera-icon"></ion-icon> -->
+                </div>
               </div>
             </ion-item>
             <div class="user-profile">
-              <h3 class="profile-name text-center">Username</h3>
+              <h3 class="profile-name text-center">{{userName}}</h3>
               <h5 class="profile-name text-center">Perfil golfer</h5>
             </div>
             <p class="profile-name text-center">Número de licencia</p>
             <ion-item lines="none">
-              <ion-input
-                type="text"
-                ngModel
-                name="licence"
-              ><ion-icon name="pencil"></ion-icon></ion-input>
+              <ion-input  type="text" [(ngModel)]="license" name="license"
+                ><ion-icon name="pencil"></ion-icon
+              ></ion-input>
             </ion-item>
-        </ion-list>
-        <ion-button
-          type="submit"
-          shape="round"
-          expand="block"
-          [routerLink]="['/step2']"
-        >
-        <ion-icon name="arrow-forward"></ion-icon>
-           Siguiente
-        </ion-button>
+          </ion-list>
+          <ion-button
+            type="submit"
+            shape="round"
+            expand="block"
+            [routerLink]="['/step2']"
+          >
+            <ion-icon name="arrow-forward"></ion-icon>
+            Siguiente
+          </ion-button>
         </form>
-        <p class="text-center"><a [routerLink]="['/home']">Saltar</a><p></p>
+        <p class="text-center"><a [routerLink]="['/home']">Saltar</a></p>
+        <p></p>
         <div class="progress text-center">
           <ion-icon name="ellipse" class="progress-icon"></ion-icon>
           <ion-icon name="ellipse-outline" class="progress-icon"></ion-icon>

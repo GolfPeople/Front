@@ -1,11 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import { Component, OnInit, Sanitizer } from '@angular/core';
+import {
+  Camera,
+  CameraResultType,
+  CameraSource,
+  Photo,
+} from '@capacitor/camera';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { LoadingController, AlertController, Platform } from '@ionic/angular';
 import { Step1Service, UploadDataS1ResponseData } from './step1.service';
 import { Observable } from 'rxjs';
+
+import { UserService } from 'src/app/core/services/user.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { FilesService } from 'src/app/core/services/files.service';
 
 const IMAGE_DIR = 'stored-images';
 
@@ -21,9 +30,12 @@ interface LocalFile {
   styleUrls: ['./step1.page.scss'],
 })
 export class Step1Page implements OnInit {
-
+  public previsualizacion: string;
+  public archivos: any = []
   isLoading = false;
   isSignedUp = true;
+  userName: string = '';
+  license = ''
 
   imageAvatarDefault = 'assets/img/default-avatar.png';
 
@@ -32,76 +44,132 @@ export class Step1Page implements OnInit {
     private router: Router,
     private platform: Platform,
     private loadingCtrl: LoadingController,
-    private alertCtrl: AlertController) { }
+    private alertCtrl: AlertController,
+    private userService: UserService,
+    private sanitizer: DomSanitizer,
+    private fileService: FilesService
+  ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.userService
+      .getUserInfo()
+      .subscribe((user) => (this.userName = user.name));
 
+    
   }
 
+  selectImage(event) {
+    console.log(event.target.value)
+    const archivoCapturado = event.target.files[0];
+    this.extraerBase64(archivoCapturado).then((imagen: any) => {
+    localStorage.setItem('userImage', imagen.base);
 
-  async selectImage(){
-    const image = await Camera.getPhoto({
-      quality: 60,
-      allowEditing: true,
-      resultType: CameraResultType.Uri,
-      source: CameraSource.Photos,
-      correctOrientation: true,
-      width: 250
-    });
-
-    const imageUrl = image.webPath;
-    this.imageAvatarDefault = imageUrl;
-    this.saveImage(image);
-
-  };
-
-  async saveImage(photo: Photo){
-    const base64Data = await this.readAsBase64(photo);
-
-    const fileName = new Date().getTime() + '.jpeg';
-
-    const loading = await this.loadingCtrl.create({
-      message: 'Cargando imagen...',
-    });
-    await loading.present();
-
-    const savedFile = await Filesystem.writeFile({
-      directory: Directory.Data,
-      path: `${IMAGE_DIR}/${fileName}`,
-      data: base64Data
-    }).then(_ =>{
-      loading.dismiss();
-    });
-//    this.loadFile();
+      this.previsualizacion = imagen.base;
+      console.log(imagen.base);
+    })
+    this.archivos.push(archivoCapturado);
   }
 
-  async readAsBase64(photo: Photo){
-    if (this.platform.is('hybrid')){
-      const file = await Filesystem.readFile({
-        path: photo.path
+  extraerBase64 = async ($event: any) =>
+    new Promise((resolve, reject) => {
+      try {
+        const unsafeImg = window.URL.createObjectURL($event);
+        const image = this.sanitizer.bypassSecurityTrustUrl(unsafeImg);
+        const reader = new FileReader();
+        reader.readAsDataURL($event);
+        reader.onload = () => {
+          resolve({
+            base: reader.result,
+          });
+          reader.onerror = (error) => {
+            resolve({
+              base: null,
+            });
+          };
+        };
+      } catch (e) {
+        return null
+      }
+    });
+
+  subirArchivo(): any {
+    try {
+      const formularioDeDatos = new FormData();
+      this.archivos.forEach(archivo => {
+        formularioDeDatos.append('photo', archivo)
       });
-
-      return file.data;
+      this.fileService.uploadFile(formularioDeDatos, this.license)
+      .subscribe(
+        data => console.log(data)
+      )
+    } catch (error) {
+      
     }
-    else{
-      const response = await fetch(photo.webPath);
-      const blob = await response.blob();
-
-      return await this.convertBlobToBase64(blob) as string;
-    }
-
   }
 
-  convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onerror = reject;
-    reader.onload = () => {
-      resolve(reader.result);
-    };
-    reader.readAsDataURL(blob);
-  });
+    // async selectImage(){
+    //   const image = await Camera.getPhoto({
+    //     quality: 60,
+    //     allowEditing: true,
+    //     resultType: CameraResultType.Uri,
+    //     source: CameraSource.Photos,
+    //     correctOrientation: true,
+    //     width: 250
+    //   });
 
-/*
+    //   const imageUrl = image.webPath;
+    //   this.imageAvatarDefault = imageUrl;
+    //   this.saveImage(image);
+
+    // };
+
+  //   async saveImage(photo: Photo){
+  //     const base64Data = await this.readAsBase64(photo);
+
+  //     const fileName = new Date().getTime() + '.jpeg';
+
+  //     const loading = await this.loadingCtrl.create({
+  //       message: 'Cargando imagen...',
+  //     });
+  //     await loading.present();
+
+  //     const savedFile = await Filesystem.writeFile({
+  //       directory: Directory.Data,
+  //       path: `${IMAGE_DIR}/${fileName}`,
+  //       data: base64Data
+  //     }).then(_ =>{
+  //       loading.dismiss();
+  //     });
+  // //    this.loadFile();
+  //   }
+
+  //   async readAsBase64(photo: Photo){
+  //     if (this.platform.is('hybrid')){
+  //       const file = await Filesystem.readFile({
+  //         path: photo.path
+  //       });
+
+  //       return file.data;
+  //     }
+  //     else{
+  //       const response = await fetch(photo.webPath);
+  //       const blob = await response.blob();
+
+  //       return await this.convertBlobToBase64(blob) as string;
+  //     }
+
+  //   }
+
+  //   convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.onerror = reject;
+  //     reader.onload = () => {
+  //       resolve(reader.result);
+  //     };
+  //     reader.readAsDataURL(blob);
+  //   });
+
+  /*
   uploadDataS1(image: string, licence: string, userToken: string) {
     this.isLoading = true;
     this.loadingCtrl
@@ -145,7 +213,7 @@ export class Step1Page implements OnInit {
 
   }
 */
-/*
+  /*
   private showSuccessAlert(message: string){
     this.alertCtrl.create({
       header: 'Registro Exitoso',
