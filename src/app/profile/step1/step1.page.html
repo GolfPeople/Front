@@ -15,9 +15,11 @@
                   class="outer"
                   [ngStyle]="{'background-image': 'url(' + imageAvatarDefault + ')'}"
                 >
+
                   <img *ngIf="previsualizacion" class="previsualizacion" [src]="previsualizacion" alt="">
                   <input  type="file" class="inner" (change)="selectImage($event)"/>
-                    <!-- <ion-icon name="camera" class="camera-icon"></ion-icon> -->
+                    <!-- <ion-icon name="camera" classs="camera-icon"></ion-icon> -->
+
                 </div>
               </div>
             </ion-item>
