@@ -12,6 +12,6 @@ export class HomePage {
 
   onlogout() {
     this.loginService.logout();
-    this.router.navigateByUrl('/welcome');
+    this.router.navigate(['/welcome']);
   }
 }

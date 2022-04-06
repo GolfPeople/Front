@@ -88,6 +88,7 @@ ion-col {
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #fff;
 
   input {
     position: absolute;
@@ -96,15 +97,15 @@ ion-col {
     bottom: 0;
     width: 100%;
     height: 100%;
-    // padding: 10px;
     border-radius: 100%;
     opacity: 0;
   }
-}
-.camera-icon {
-  height: 30px;
-  width: 30px;
-  color: white;
+
+  ion-icon {
+    height: 30px;
+    width: 30px;
+    color: white;
+  }
 }
 
 .user-profile {

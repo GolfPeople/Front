@@ -102,12 +102,23 @@ export class Step1Page implements OnInit {
     // const element = event.target as HTMLInputElement;
     const element = this.selectedImage as HTMLInputElement;
     const file = element.files?.item(0);
+    console.log(file);
     if (file) {
       this.fileService
         .uploadFile(file, this.license)
         .subscribe((rta) => console.log(rta));
     }
   }
+  // onUpload() {
+  //   // const element = event.target as HTMLInputElement;
+  //   const element = this.selectedImage as HTMLInputElement;
+  //   const file = element.files?.item(0);
+  //   if (file) {
+  //     this.fileService
+  //       .uploadFile(file, this.license)
+  //       .subscribe((rta) => console.log(rta));
+  //   }
+  // }
 
   // subirArchivo(): any {
   //   try {
