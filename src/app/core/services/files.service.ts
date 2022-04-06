@@ -12,7 +12,7 @@ export class FilesService {
 
   constructor(private http: HttpClient) {}
 
-  uploadFile(file, license) {
+  uploadFile(file: Blob, license) {
     const dto = new FormData();
     const headers = {
       headers: new HttpHeaders({

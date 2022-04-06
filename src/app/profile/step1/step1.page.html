@@ -7,7 +7,7 @@
           Vamos a completar tu perfil rellenando algunos campos
         </p>
 
-        <form (ngSubmit)="subirArchivo()">
+        <form (ngSubmit)="onUpload()">
           <ion-list>
             <ion-item lines="none">
               <div class="container-avatar">
@@ -15,11 +15,20 @@
                   class="outer"
                   [ngStyle]="{'background-image': 'url(' + imageAvatarDefault + ')'}"
                 >
-
-                  <img *ngIf="previsualizacion" class="previsualizacion" [src]="previsualizacion" alt="">
-                  <input  type="file" class="inner" (change)="selectImage($event)"/>
-                    <!-- <ion-icon name="camera" classs="camera-icon"></ion-icon> -->
-
+                  <img
+                    *ngIf="previsualizacion"
+                    class="preview"
+                    [src]="previsualizacion"
+                    alt=""
+                  />
+                  <div class="input-file-container">
+                    <ion-icon name="camera" classs="camera-icon"></ion-icon>
+                    <input
+                      type="file"
+                      class=""
+                      (change)="selectImage($event)"
+                    />
+                  </div>
                 </div>
               </div>
             </ion-item>
@@ -29,7 +38,7 @@
             </div>
             <p class="profile-name text-center">Número de licencia</p>
             <ion-item lines="none">
-              <ion-input  type="text" [(ngModel)]="license" name="license"
+              <ion-input type="text" [(ngModel)]="license" name="license"
                 ><ion-icon name="pencil"></ion-icon
               ></ion-input>
             </ion-item>

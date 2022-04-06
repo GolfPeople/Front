@@ -1,10 +1,13 @@
-ion-content{
-
-  --ion-background-color: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 68.23%), url(../../../assets/img/golf-course.jpg), 0, 0/100%, 100%, no-repeat;
-
+ion-content {
+  --ion-background-color: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.7) 68.23%
+    ),
+    url(../../../assets/img/golf-course.jpg), 0, 0/100%, 100%, no-repeat;
 }
 
-ion-col{
+ion-col {
   padding: 20px;
   margin: 10px;
   border-radius: 25px;
@@ -12,29 +15,29 @@ ion-col{
   background-color: #fff;
 }
 
-.vertical-align-center > *
-{
-    height: 100%;
-     display: flex!important;
-     align-content: center!important;
-     align-items: center!important;
-     justify-content: center;
+.vertical-align-center > * {
+  height: 100%;
+  display: flex !important;
+  align-content: center !important;
+  align-items: center !important;
+  justify-content: center;
 }
 
-.text-center{
+.text-center {
   text-align: center;
 }
 
-.title-text-pos{
-  color: #00388B;
+.title-text-pos {
+  color: #00388b;
   font-weight: 900;
 }
-.subtitle-text-pos, .profile-name{
+.subtitle-text-pos,
+.profile-name {
   color: #383838 !important;
   font-weight: 700;
 }
 
-.signup-form-title{
+.signup-form-title {
   font-size: 14px;
   font-weight: 500;
 }
@@ -47,7 +50,7 @@ ion-col{
   padding: 5px;
   border-style: solid;
   border-width: 2px !important;
-  border-color: #009DD6;
+  border-color: #009dd6;
   border-radius: 100%;
 }
 .profile-pic {
@@ -65,12 +68,17 @@ ion-col{
   background-size: 150px 150px;
 }
 
-.previsualizacion {
+.preview {
   border-radius: 100%;
+  width: 100%;
+  height: 100%;
 }
 
-.inner {
-  background-color: #009DD6;
+.input-file-container {
+  display: flex;
+  align-items: center;
+  justify-content: centger;
+  background-color: #009dd6;
   width: 45px;
   height: 45px;
   border-radius: 100%;
@@ -80,6 +88,18 @@ ion-col{
   display: flex;
   align-items: center;
   justify-content: center;
+
+  input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    // padding: 10px;
+    border-radius: 100%;
+    opacity: 0;
+  }
 }
 .camera-icon {
   height: 30px;
@@ -87,34 +107,36 @@ ion-col{
   color: white;
 }
 
-.user-profile{
+.user-profile {
   margin-top: 20px !important;
   margin-bottom: 30px !important;
 }
 
-a:link, a:visited, a:active {
-  text-decoration:none;
+a:link,
+a:visited,
+a:active {
+  text-decoration: none;
 }
 
-.progress-icon{
+.progress-icon {
   margin-left: 10px;
   margin-right: 10px;
-  color: #009DD6;
+  color: #009dd6;
 }
 
-ion-list{
+ion-list {
   --ion-item-background: transparent !important;
 }
 
-ion-label{
-  --color: #00388B !important;
+ion-label {
+  --color: #00388b !important;
 }
 
-ion-item.item-has-focus > ion-label{
-  color: #00388B !important;
+ion-item.item-has-focus > ion-label {
+  color: #00388b !important;
 }
 
-ion-input{
+ion-input {
   --background: rgba(143, 143, 143, 0.3) !important;
   border-radius: 25px;
   color: #383838 !important;
@@ -122,21 +144,20 @@ ion-input{
   padding-right: 20px !important;
 }
 
-ion-checkbox{
+ion-checkbox {
   --background: transparent;
-  --background-checked:#00388B;
+  --background-checked: #00388b;
   --border-color: #383838;
-  --border-color-checked: #00388B;
-  margin-right: .5rem;
+  --border-color-checked: #00388b;
+  margin-right: 0.5rem;
 }
 
-
-.validation-text{
+.validation-text {
   font-size: 12px;
   color: red;
 }
 
-.login-btn{
+.login-btn {
   --background: transparent;
   --border-style: solid;
   --border-width: 1px;
@@ -145,7 +166,6 @@ ion-checkbox{
   margin-bottom: 20px;
 }
 
-.signup-btn{
-  --background: #009DD6;
+.signup-btn {
+  --background: #009dd6;
 }
-

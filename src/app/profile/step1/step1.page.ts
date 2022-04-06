@@ -15,6 +15,7 @@ import { Observable } from 'rxjs';
 import { UserService } from 'src/app/core/services/user.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FilesService } from 'src/app/core/services/files.service';
+import { LoginService } from 'src/app/core/services/login.service';
 
 const IMAGE_DIR = 'stored-images';
 
@@ -31,11 +32,12 @@ interface LocalFile {
 })
 export class Step1Page implements OnInit {
   public previsualizacion: string;
-  public archivos: any = []
+  public archivos: any = [];
   isLoading = false;
   isSignedUp = true;
   userName: string = '';
-  license = ''
+  license = '';
+  selectedImage: any;
 
   imageAvatarDefault = 'assets/img/default-avatar.png';
 
@@ -47,26 +49,30 @@ export class Step1Page implements OnInit {
     private alertCtrl: AlertController,
     private userService: UserService,
     private sanitizer: DomSanitizer,
-    private fileService: FilesService
+    private fileService: FilesService,
+    private loginService: LoginService
   ) {}
 
   ngOnInit() {
     this.userService
       .getUserInfo()
       .subscribe((user) => (this.userName = user.name));
-
-    
+    // this.loginService.isLogged$.subscribe((rta) => {
+    //   if (rta === false) {
+    //     localStorage.removeItem('userImage');
+    //   }
+    //   return;
+    // });
   }
 
   selectImage(event) {
-    console.log(event.target.value)
     const archivoCapturado = event.target.files[0];
+    this.selectedImage = event.target;
     this.extraerBase64(archivoCapturado).then((imagen: any) => {
-    localStorage.setItem('userImage', imagen.base);
+      // localStorage.setItem('userImage', imagen.base);
 
       this.previsualizacion = imagen.base;
-      console.log(imagen.base);
-    })
+    });
     this.archivos.push(archivoCapturado);
   }
 
@@ -88,40 +94,51 @@ export class Step1Page implements OnInit {
           };
         };
       } catch (e) {
-        return null
+        return null;
       }
     });
 
-  subirArchivo(): any {
-    try {
-      const formularioDeDatos = new FormData();
-      this.archivos.forEach(archivo => {
-        formularioDeDatos.append('photo', archivo)
-      });
-      this.fileService.uploadFile(formularioDeDatos, this.license)
-      .subscribe(
-        data => console.log(data)
-      )
-    } catch (error) {
-      
+  onUpload() {
+    // const element = event.target as HTMLInputElement;
+    const element = this.selectedImage as HTMLInputElement;
+    const file = element.files?.item(0);
+    if (file) {
+      this.fileService
+        .uploadFile(file, this.license)
+        .subscribe((rta) => console.log(rta));
     }
   }
 
-    // async selectImage(){
-    //   const image = await Camera.getPhoto({
-    //     quality: 60,
-    //     allowEditing: true,
-    //     resultType: CameraResultType.Uri,
-    //     source: CameraSource.Photos,
-    //     correctOrientation: true,
-    //     width: 250
-    //   });
+  // subirArchivo(): any {
+  //   try {
+  //     const formularioDeDatos = new FormData();
+  //     this.archivos.forEach(archivo => {
+  //       formularioDeDatos.append('photo', archivo)
+  //     });
+  //     this.fileService.uploadFile(formularioDeDatos, this.license)
+  //     .subscribe(
+  //       data => console.log(data)
+  //     )
+  //   } catch (error) {
 
-    //   const imageUrl = image.webPath;
-    //   this.imageAvatarDefault = imageUrl;
-    //   this.saveImage(image);
+  //   }
+  // }
 
-    // };
+  // async selectImage(){
+  //   const image = await Camera.getPhoto({
+  //     quality: 60,
+  //     allowEditing: true,
+  //     resultType: CameraResultType.Uri,
+  //     source: CameraSource.Photos,
+  //     correctOrientation: true,
+  //     width: 250
+  //   });
+
+  //   const imageUrl = image.webPath;
+  //   this.imageAvatarDefault = imageUrl;
+  //   this.saveImage(image);
+
+  // };
 
   //   async saveImage(photo: Photo){
   //     const base64Data = await this.readAsBase64(photo);
