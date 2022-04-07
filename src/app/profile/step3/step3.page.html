@@ -19,38 +19,28 @@
               <ion-grid class="buttons-containers">
                 <ion-row>
                   <ion-col class="ion-text-center">
-                    <ion-button (click)="type = 1" color="light"
-                      >Recurrente</ion-button
-                    >
+                    <button (click)="type = 1">Recurrente</button>
                     <!-- <input type="button" value="Menos de un año" (click)="timePlaying = 1"> -->
                   </ion-col>
                   <ion-col class="ion-text-center">
-                    <ion-button (click)="type = 2" color="light"
-                      >Ocasional</ion-button
-                    >
+                    <button (click)="type = 2">Ocasional</button>
                   </ion-col>
                   <ion-col class="ion-text-center">
-                    <ion-button (click)="type = 3" color="light"
-                      >Diario</ion-button
-                    >
+                    <button (click)="type = 3">Diario</button>
                   </ion-col>
                 </ion-row>
                 <ion-row class="top-10">
                   <ion-col class="ion-text-center">
-                    <ion-button
-                      (click)="type = 4"
-                      value
-                      color="light"
-                      expand="block"
-                      >Profesor/Entrenador de Golf</ion-button
-                    >
+                    <button (click)="type = 4" value expand="block">
+                      Profesor/Entrenador de Golf
+                    </button>
                   </ion-col>
                 </ion-row>
                 <ion-row class="top-10">
                   <ion-col class="ion-text-center">
-                    <ion-button (click)="type = 5" value color="light"
-                      >Profesional del Circuito de Golf</ion-button
-                    >
+                    <button (click)="type = 5" value>
+                      Profesional del Circuito de Golf
+                    </button>
                   </ion-col>
                 </ion-row>
               </ion-grid>
@@ -65,8 +55,8 @@
         <p></p>
         <div class="progress text-center">
           <ion-icon name="ellipse" class="progress-icon-done"></ion-icon>
+          <ion-icon name="ellipse" class="progress-icon-done"></ion-icon>
           <ion-icon name="ellipse" class="progress-icon"></ion-icon>
-          <ion-icon name="ellipse-outline" class="progress-icon"></ion-icon>
           <ion-icon name="ellipse-outline" class="progress-icon"></ion-icon>
         </div>
       </ion-col>

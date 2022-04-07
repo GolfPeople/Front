@@ -60,10 +60,10 @@ ion-content > *
   ion-col {
     padding: 0;
 
-    ion-button {
-      --background: #fff;
+    button {
+      background: #fff;
       width: 113px;
-      height: 30px;
+      height: 26px;
       margin: 0;
       font-weight: 500;
       font-size: 1rem;
@@ -72,7 +72,13 @@ ion-content > *
       border: 1.2px solid #a7a7a7;
       border-radius: 17.5px;
       text-transform: capitalize;
-      --border-radius: 17.5px;
+
+      &:active {
+        background-color: rgb(184, 47, 47);
+      }
+      &:focus {
+        background: rgb(155, 155, 155);
+      }
     }
   }
 }
