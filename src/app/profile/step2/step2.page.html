@@ -1,44 +1,84 @@
+
 <ion-content class="vertical-align-center">
   <ion-grid>
     <ion-row justify-content-center>
       <ion-col size-sm="8" offset-sm="2">
         <div class="text-center">
-          <ion-img class="step-img center" src="assets/img/player1.png"></ion-img>
+          <ion-img
+            class="step-img center"
+            src="assets/img/player1.png"
+          ></ion-img>
         </div>
         <h2 class="title-text-pos text-center">Analicemos tu nivel</h2>
-        <p class="subtitle-text-pos text-center">Responde estas preguntas para poder deducir tu nivel actual</p>
+        <p class="subtitle-text-pos text-center">
+          Responde estas preguntas para poder deducir tu nivel actual
+        </p>
         <form>
           <ion-list>
-            <p class="profile-field text-center">¿Cúal es tu Handicap federativo?</p>
+            <p class="profile-field text-center">
+              ¿Cúal es tu Handicap federativo?
+            </p>
             <ion-item lines="none">
-              <ion-input
-                type="text"
-                ngModel
-                name="licence"
-              ><ion-icon name="pencil"></ion-icon></ion-input>
+              <ion-input type="number" inputmode="tel" min="0" max="5" [(ngModel)]="handicap" name="handicap"
+                ><ion-icon name="pencil"></ion-icon
+              ></ion-input>
             </ion-item>
-            <p class="profile-field text-center">¿Cúanto tiempo llevas jugando?</p>
+              <p class="profile-field text-center">
+                ¿Cúanto tiempo llevas jugando?
+              </p>
             <ion-item lines="none">
-              <ion-label>Experiencia de juego</ion-label>
-              <ion-select ok-text="Ok" cancel-text="Cancelar">
-                <ion-select-option value="menos de un año">Menos de un año</ion-select-option>
-                <ion-select-option value="De 3 a 5 años">De 3 a 5 años</ion-select-option>
-                <ion-select-option value="De 5 a 10 años">De 5 a 10 años</ion-select-option>
-                <ion-select-option value="Más de 10 años">Más de 10 años</ion-select-option>
-              </ion-select>
+              <ion-label class="ion-text-center"
+                >Experiencia de juego</ion-label
+              >
             </ion-item>
-        </ion-list>
-        <ion-button
-          type="submit"
-          shape="round"
-          expand="block"
-          [routerLink]="['/step3']"
-        >
-        <ion-icon name="arrow-forward"></ion-icon>
-           Siguiente
-        </ion-button>
+            <ion-item>
+              <ion-grid class="buttons-containers">
+                <ion-row>
+                  <ion-col>
+                    <ion-button (click)="timePlaying = 1"   color="light"
+                      >Menos de un año</ion-button
+                    >
+                    <!-- <input type="button" value="Menos de un año" (click)="timePlaying = 1"> -->
+                  </ion-col>
+                  <ion-col>
+                    <ion-button (click)="timePlaying = 2" color="light"
+                      >De 3 a 5 años</ion-button
+                    >
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <ion-button
+                      (click)="timePlaying = 3"
+                      value
+                      color="light"
+                      >De 5 a 10 años</ion-button
+                    >
+                  </ion-col>
+                  <ion-col>
+                    <ion-button
+                      (click)="timePlaying = 4"
+                      value
+                      color="light"
+                      >Más de 10 años</ion-button
+                    >
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-item>
+          </ion-list>
+          <ion-button
+            (click)="onSubmit()"
+            type="submit"
+            shape="round"
+            expand="block"
+          >
+            <ion-icon name="arrow-forward"></ion-icon>
+            Siguiente
+          </ion-button>
         </form>
-        <p class="text-center"><a [routerLink]="['/home']">Saltar</a><p></p>
+        <p class="text-center"><a [routerLink]="['/home']">Saltar</a></p>
+        <p></p>
         <div class="progress text-center">
           <ion-icon name="ellipse" class="progress-icon-done"></ion-icon>
           <ion-icon name="ellipse" class="progress-icon"></ion-icon>
@@ -49,4 +89,3 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-
