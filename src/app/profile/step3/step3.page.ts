@@ -21,7 +21,7 @@ export class Step3Page implements OnInit {
     if (this.type === 0 ) {
       return window.alert('Tienes que selecionar un tipo de jugador')
     }
-    this.step3Service.type(5).subscribe(
+    this.step3Service.type(this.type).subscribe(
       rta => console.log(rta)
       )
   }
