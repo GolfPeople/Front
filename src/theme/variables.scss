@@ -3,6 +3,10 @@
 
 /** Ionic CSS Variables **/
 :root {
+
+  /** Custon colors **/
+  --ion-item-color-focused: var(--ion-color-tertiary-shade) !important;
+
   /** primary **/
   --ion-color-primary: #3880ff;
   --ion-color-primary-rgb: 56, 128, 255;

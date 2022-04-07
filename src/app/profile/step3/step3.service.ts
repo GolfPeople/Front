@@ -1,13 +1,11 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-
 
 @Injectable({
   providedIn: 'root'
 })
-export class Step2Service {
+export class Step3Service {
 
   private apiUrl = `${environment.golfpeopleAPI}/api/auth`;
 
@@ -15,7 +13,7 @@ export class Step2Service {
   constructor(private http: HttpClient) { }
 
 
-  enviarHandicap(handicap: number, time_playing: number) {
+  type(type: number) {
     const headers = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -24,8 +22,8 @@ export class Step2Service {
     };
     return this.http
       .post(
-        `${this.apiUrl}/profile/2`,
-        { handicap, time_playing },
+        `${this.apiUrl}/profile/3`,
+        {type},
         headers
       );
   }

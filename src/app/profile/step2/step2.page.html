@@ -1,8 +1,7 @@
-
-<ion-content class="vertical-align-center">
+<ion-content class="vertical-align-center register-card">
   <ion-grid>
     <ion-row justify-content-center>
-      <ion-col size-sm="8" offset-sm="2">
+      <ion-col class="register-card--info text-center" size-sm="">
         <div class="text-center">
           <ion-img
             class="step-img center"
@@ -15,48 +14,74 @@
         </p>
         <form>
           <ion-list>
-            <p class="profile-field text-center">
+            <p class="profile-license text-center">
               ¿Cúal es tu Handicap federativo?
             </p>
             <ion-item lines="none">
-              <ion-input type="number" inputmode="tel" min="0" max="5" [(ngModel)]="handicap" name="handicap"
-                ><ion-icon name="pencil"></ion-icon
-              ></ion-input>
-            </ion-item>
-              <p class="profile-field text-center">
-                ¿Cúanto tiempo llevas jugando?
-              </p>
-            <ion-item lines="none">
-              <ion-label class="ion-text-center"
-                >Experiencia de juego</ion-label
+              <ion-select
+                value="brown"
+                class="handicapInput"
+                placeholder="00"
+                interface="popover"
+                (ionChange)="getHandicapValue($event)"
               >
+                <ion-select-option
+                  *ngFor="let number of numberOptions"
+                  [value]="number.value"
+                  >{{number.value}}</ion-select-option
+                >
+              </ion-select>
+              <ion-select
+                value="brown"
+                class="handicapInput"
+                placeholder="00"
+                interface="popover"
+                (ionChange)="getDecimalValue($event)"
+              >
+                <ion-select-option
+                  *ngFor="let decimal of decimalOptions"
+                  [value]="decimal.value"
+                  >{{decimal.value}}</ion-select-option
+                >
+              </ion-select>
             </ion-item>
+            <p class="profile-license text-center">
+              ¿Cúanto tiempo llevas jugando?
+            </p>
             <ion-item>
               <ion-grid class="buttons-containers">
                 <ion-row>
-                  <ion-col>
-                    <ion-button (click)="timePlaying = 1"   color="light"
-                      >Menos de un año</ion-button
+                  <ion-col class="ion-text-center">
+                    <ion-button
+                      class="experience-button"
+                      (click)="timePlaying = 1"
+                      color="light"
+                      >Menos de 1 año</ion-button
                     >
                     <!-- <input type="button" value="Menos de un año" (click)="timePlaying = 1"> -->
                   </ion-col>
-                  <ion-col>
-                    <ion-button (click)="timePlaying = 2" color="light"
+                  <ion-col class="ion-text-center">
+                    <ion-button
+                      class="experience-button"
+                      (click)="timePlaying = 2"
+                      color="light"
                       >De 3 a 5 años</ion-button
                     >
                   </ion-col>
                 </ion-row>
-                <ion-row>
-                  <ion-col>
+                <ion-row class="top-10">
+                  <ion-col class="ion-text-center">
                     <ion-button
+                      class="experience-button"
                       (click)="timePlaying = 3"
                       value
                       color="light"
                       >De 5 a 10 años</ion-button
                     >
                   </ion-col>
-                  <ion-col>
+                  <ion-col class="ion-text-center">
                     <ion-button
+                      class="experience-button"
                       (click)="timePlaying = 4"
                       value
                       color="light"
@@ -68,6 +93,7 @@
             </ion-item>
           </ion-list>
           <ion-button
+            class=""
             (click)="onSubmit()"
             type="submit"
             shape="round"

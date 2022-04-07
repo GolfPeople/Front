@@ -27,16 +27,6 @@ ion-col {
   text-align: center;
 }
 
-.title-text-pos {
-  color: #00388b;
-  font-weight: 900;
-}
-.subtitle-text-pos,
-.profile-name {
-  color: #383838 !important;
-  font-weight: 700;
-}
-
 .signup-form-title {
   font-size: 14px;
   font-weight: 500;
@@ -111,6 +101,12 @@ ion-col {
 .user-profile {
   margin-top: 20px !important;
   margin-bottom: 30px !important;
+}
+
+ion-button{
+  --background: #009DD6;
+margin-top: 20px;
+margin-bottom: 20px;
 }
 
 a:link,

@@ -1,16 +1,11 @@
+@import "../../scss/variables.scss";
+
 ion-content{
 
   --ion-background-color: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 68.23%), url(../../../assets/img/golf-course.jpg), 0, 0/100%, 100%, no-repeat;
 
 }
 
-ion-col{
-  padding: 20px;
-  margin: 10px;
-  border-radius: 25px;
-  left: 0;
-  background-color: #fff;
-}
 
 .vertical-align-center > *
 {
@@ -23,7 +18,7 @@ ion-col{
 
 .step-img{
   width: 150px;
-  height: auto;
+  height: 150px;
 }
 
 .text-center{
@@ -36,35 +31,69 @@ ion-col{
   margin-right: auto;
 }
 
-.title-text-pos{
-  color: #00388B;
-  font-weight: 900;
-}
-.subtitle-text-pos{
-  color: #383838 !important;
-  font-weight: 700;
+.handicap-container {
+  width: 100%;
+  padding: 8px;
+  background: rgba(143, 143, 143, 0.3);
+  border-radius: 25px;
+  color: #383838 ;
+  padding-left: 20px ;
+  padding-right: 20px !important;
+  border: none;
+
+  &__input {
+    width: 90%;
+    margin: 0 auto;
+    background: transparent;
+    border: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
 }
 
-.profile-field{
-  margin-top: 20px;
-  margin-bottom: 5px;
-  color: #383838 !important;
-  font-weight: 700;
-  font-size: 14px;
+
+.buttons-containers {
+  margin-top: 10px;
+  ion-col {
+    padding: 0;
+
+    ion-button {
+      width: auto;
+      height: 30px;
+      margin: 0;
+      font-weight: 500;
+      font-size: 1rem;
+      line-height: 1.6rem;
+      color: $text-color;
+      border: 1.2px solid #a7a7a7;
+      border-radius: 17.5px;
+      text-transform: capitalize;
+      --border-radius: 17.5px;
+
+      &:active {
+        --background: rgb(194, 55, 55);
+      }
+    }
+  }
 }
 
-.signup-form-title{
-  font-size: 14px;
-  font-weight: 500;
-}
 
 .user-profile{
-  margin-top: 20px !important;
-  margin-bottom: 30px !important;
+  margin-top: 20px ;
+  margin-bottom: 30px ;
 }
 
 a:link, a:visited, a:active {
   text-decoration:none;
+}
+
+ion-button{
+    --background: #009DD6;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .progress-icon{
@@ -83,46 +112,78 @@ ion-list{
   --ion-item-background: transparent !important;
 }
 
-ion-label{
-  --color: #00388B !important;
-}
+// ion-label{
+//   --color: #00388B !important;
+// }
 
-ion-item.item-has-focus > ion-label{
-  color: #00388B !important;
-}
+// ion-item.item-has-focus > ion-label{
+//   color: #00388B !important;
+// }
 
-ion-input{
-  --background: rgba(143, 143, 143, 0.3) !important;
-  border-radius: 25px;
-  color: #383838 !important;
-  padding-left: 20px !important;
-  padding-right: 20px !important;
-}
+// ion-input{
+//   // --background: rgba(143, 143, 143, 0.3) !important;
+//   // border-radius: 25px;
+//   // color: #383838 !important;
+//   // padding-left: 20px !important;
+//   // padding-right: 20px !important;
+// }
 
-ion-checkbox{
-  --background: transparent;
-  --background-checked:#00388B;
-  --border-color: #383838;
-  --border-color-checked: #00388B;
-  margin-right: .5rem;
-}
+// .progress-icon{
+//   margin-left: 10px;
+//   margin-right: 10px;
+//   color: #009DD6;
+// }
+
+// .progress-icon-done{
+//   margin-left: 10px;
+//   margin-right: 10px;
+//   color: #009838;
+// }
+
+// ion-list{
+//   --ion-item-background: transparent !important;
+// }
+
+// ion-label{
+//   --color: #00388B !important;
+// }
+
+// ion-item.item-has-focus > ion-label{
+//   color: #00388B !important;
+// }
+
+// ion-input{
+//   --background: rgba(143, 143, 143, 0.3) !important;
+//   border-radius: 25px;
+//   color: #383838 !important;
+//   padding-left: 20px !important;
+//   padding-right: 20px !important;
+// }
+
+// ion-checkbox{
+//   --background: transparent;
+//   --background-checked:#00388B;
+//   --border-color: #383838;
+//   --border-color-checked: #00388B;
+//   margin-right: .5rem;
+// }
 
 
-.validation-text{
-  font-size: 12px;
-  color: red;
-}
+// .validation-text{
+//   font-size: 12px;
+//   color: red;
+// }
 
-.login-btn{
-  --background: transparent;
-  --border-style: solid;
-  --border-width: 1px;
-  --border-color: #fff;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
+// .login-btn{
+//   --background: transparent;
+//   --border-style: solid;
+//   --border-width: 1px;
+//   --border-color: #fff;
+//   margin-top: 20px;
+//   margin-bottom: 20px;
+// }
 
-.signup-btn{
-  --background: #009DD6;
-}
+// .signup-btn{
+//   --background: #009DD6;
+// }
 

@@ -1,7 +1,7 @@
-<ion-content class="vertical-align-center">
+<ion-content class="vertical-align-center register-card">
   <ion-grid>
     <ion-row justify-content-center>
-      <ion-col size-sm="8" offset-sm="2">
+      <ion-col class="register-card--info" size-sm="8" offset-sm="2">
         <h2 class="title-text-pos text-center">¡Comencemos!</h2>
         <p class="subtitle-text-pos text-center">
           Vamos a completar tu perfil rellenando algunos campos
@@ -34,9 +34,9 @@
             </ion-item>
             <div class="user-profile">
               <h3 class="profile-name text-center">{{userName}}</h3>
-              <h5 class="profile-name text-center">Perfil golfer</h5>
+              <h5 class="profile-golfer text-center">Perfil golfer</h5>
             </div>
-            <p class="profile-name text-center">Número de licencia</p>
+            <p class="profile-license text-center">Número de licencia</p>
             <ion-item lines="none">
               <ion-input type="text" [(ngModel)]="license" name="license"
                 ><ion-icon name="pencil"></ion-icon
@@ -44,6 +44,7 @@
             </ion-item>
           </ion-list>
           <ion-button
+            class="next-button"
             type="submit"
             shape="round"
             expand="block"
@@ -53,7 +54,9 @@
             Siguiente
           </ion-button>
         </form>
-        <p class="text-center"><a [routerLink]="['/home']">Saltar</a></p>
+        <p class="text-center back-link">
+          <a [routerLink]="['/home']">Saltar</a>
+        </p>
         <p></p>
         <div class="progress text-center">
           <ion-icon name="ellipse" class="progress-icon"></ion-icon>
