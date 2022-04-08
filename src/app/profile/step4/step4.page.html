@@ -3,40 +3,71 @@
     <ion-row justify-content-center>
       <ion-col size-sm="8" offset-sm="2">
         <div class="text-center">
-          <ion-img class="step-img center" src="assets/img/player3.png"></ion-img>
+          <ion-img
+            class="step-img center"
+            src="assets/img/player3.png"
+          ></ion-img>
         </div>
         <h2 class="title-text-pos text-center">¿Donde juegas?</h2>
-        <p class="subtitle-text-pos text-center">Vamos a completar tu perfil rellenando algunos campos</p>
+        <p class="subtitle-text-pos text-center">
+          Vamos a completar tu perfil rellenando algunos campos
+        </p>
 
         <form>
-        <ion-list>
-          <p class="profile-field text-center">¿Eres socio de algún campo o club?</p>
-          <ion-item lines="none">
-            <ion-input type="text"  text-right name="camp"><ion-icon slot="end" name="search"></ion-icon> </ion-input>
-          </ion-item>
-          <ion-item lines="none" *ngFor="let att of otherCamps; let idx = index">
-            <ion-input type="text"  text-right  [(ngModel)]="otherCamps[idx].camp" name="camp"><ion-icon slot="end" name="search"> </ion-icon> </ion-input>
-          </ion-item>
-          <div class="text-center">
-            <p class="add-camps" (click)="add()"><ion-icon name="add-circle-outline" class="add-camps-icon"></ion-icon> Agregar</p>
-            <p class="add-camps" (click)="remove()"><ion-icon name="remove-circle-outline" class="add-camps-icon"></ion-icon> Eliminar</p>
-          </div>
-          <div class="text-center">
-            <p class="admin-camps">¿Administras algunos de estos campos?</p>
-          </div>
-        </ion-list>
-        <ion-button
-          type="submit"
-          shape="round"
-          expand="block"
-          (click)="goTo()"
-          [routerLink]="['/home']"
-        >
-        <ion-icon name="arrow-forward"></ion-icon>
-           Siguiente
-        </ion-button>
+          <ion-list>
+            <p class="profile-field text-center">
+              ¿Eres socio de algún campo o club?
+            </p>
+            <ion-item lines="none">
+              <ion-input type="text" text-right name="camp"
+                ><ion-icon slot="end" name="search"></ion-icon>
+              </ion-input>
+            </ion-item>
+            <ion-item
+              lines="none"
+              *ngFor="let att of otherCamps; let idx = index"
+            >
+              <ion-input
+                type="text"
+                text-right
+                [(ngModel)]="otherCamps[idx].camp"
+                name="camp"
+                ><ion-icon slot="end" name="search"> </ion-icon>
+              </ion-input>
+            </ion-item>
+            <div class="text-center">
+              <p class="add-camps" (click)="add()">
+                <ion-icon
+                  name="add-circle-outline"
+                  class="add-camps-icon"
+                ></ion-icon>
+                Agregar
+              </p>
+              <p class="add-camps" (click)="remove()">
+                <ion-icon
+                  name="remove-circle-outline"
+                  class="add-camps-icon"
+                ></ion-icon>
+                Eliminar
+              </p>
+            </div>
+            <div class="text-center">
+              <p class="admin-camps">¿Administras algunos de estos campos?</p>
+            </div>
+          </ion-list>
+          <ion-button
+            type="submit"
+            shape="round"
+            expand="block"
+            (click)="goTo()"
+            [routerLink]="['/ste5']"
+          >
+            <ion-icon name="arrow-forward"></ion-icon>
+            Siguiente
+          </ion-button>
         </form>
-        <p class="text-center"><a [routerLink]="['/home']">Saltar</a><p></p>
+        <p class="text-center"><a [routerLink]="['/home']">Saltar</a></p>
+        <p></p>
         <div class="progress text-center">
           <ion-icon name="ellipse" class="progress-icon-done"></ion-icon>
           <ion-icon name="ellipse" class="progress-icon-done"></ion-icon>
@@ -47,6 +78,3 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-
-
-

@@ -97,6 +97,7 @@ ion-button{
     --background: #009DD6;
   margin-top: 20px;
   margin-bottom: 20px;
+  text-transform: capitalize;
 }
 
 .progress-icon{
@@ -125,7 +126,7 @@ ion-item.item-has-focus > ion-label{
 
 .handicapInput {
   width: 50%;
-  padding: 8px;
+  padding: 8px 15px;
   // padding-left: 20px;
   background: rgba(143, 143, 143, 0.3);
   border-radius: 25px;

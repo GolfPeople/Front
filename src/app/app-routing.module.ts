@@ -51,7 +51,11 @@ const routes: Routes = [
     path: 'step4',
     loadChildren: () =>
       import('./profile/step4/step4.module').then((m) => m.Step4PageModule),
+  },  {
+    path: 'step5',
+    loadChildren: () => import('./profile/step5/step5.module').then( m => m.Step5PageModule)
   },
+
 ];
 
 @NgModule({

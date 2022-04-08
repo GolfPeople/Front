@@ -18,32 +18,21 @@
               ¿Cúal es tu Handicap federativo?
             </p>
             <ion-item lines="none">
-              <ion-select
-                value="brown"
+              <input
+                type="number"
                 class="handicapInput"
                 placeholder="00"
                 interface="popover"
-                (ionChange)="getHandicapValue($event)"
-              >
-                <ion-select-option
-                  *ngFor="let number of numberOptions"
-                  [value]="number.value"
-                  >{{number.value}}</ion-select-option
-                >
-              </ion-select>
-              <ion-select
-                value="brown"
+                (onchange)="getHandicapValue($event)"
+              />
+
+              <input
+                type="number"
                 class="handicapInput"
                 placeholder="00"
                 interface="popover"
-                (ionChange)="getDecimalValue($event)"
-              >
-                <ion-select-option
-                  *ngFor="let decimal of decimalOptions"
-                  [value]="decimal.value"
-                  >{{decimal.value}}</ion-select-option
-                >
-              </ion-select>
+                (onchange)="getDecimalValue($event)"
+              />
             </ion-item>
             <p class="profile-license text-center">
               ¿Cúanto tiempo llevas jugando?

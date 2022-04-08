@@ -32,31 +32,11 @@ ion-col {
   font-weight: 500;
 }
 
-.container-avatar {
-  width: 155px;
-  height: 155px;
-  display: block;
-  margin: 0 auto;
-  padding: 5px;
-  border-style: solid;
-  border-width: 2px !important;
-  border-color: #009dd6;
-  border-radius: 100%;
-}
 .profile-pic {
   width: 150px;
   height: 150px;
 }
-.outer {
-  width: 100% !important;
-  height: 100% !important;
-  max-width: 150px !important; /* any size */
-  max-height: 150px !important; /* any size */
-  margin: auto;
-  border-radius: 100%;
-  position: relative;
-  background-size: 150px 150px;
-}
+
 
 .preview {
   border-radius: 100%;

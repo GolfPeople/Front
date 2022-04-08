@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router'
 
 import {Step3Service} from './step3.service'
 import {UserService} from '../../core/services/user.service'
@@ -12,7 +13,7 @@ export class Step3Page implements OnInit {
 
   type: number = 0;
 
-  constructor(private step3Service:Step3Service, private userService: UserService) { }
+  constructor(private step3Service:Step3Service, private userService: UserService, private router:Router) { }
 
   ngOnInit() {
   }
@@ -22,7 +23,8 @@ export class Step3Page implements OnInit {
       return window.alert('Tienes que selecionar un tipo de jugador')
     }
     this.step3Service.type(this.type).subscribe(
-      rta => console.log(rta)
+      rta => {console.log(rta)
+      this.router.navigate(['/step5'])}
       )
   }
 

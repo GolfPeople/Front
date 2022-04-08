@@ -1,0 +1,54 @@
+<ion-content class="vertical-align-center register-card">
+  <ion-grid>
+    <ion-row justify-content-center class="register-card__container">
+      <ion-col class="register-card--info" size-sm="8" offset-sm="2">
+        <h2 class="title-text-pos text-center">Resumen de tu perfil</h2>
+
+        <ion-list>
+          <ion-item lines="none">
+            <div class="container-avatar">
+              <div
+                class="outer"
+                [ngStyle]="{'background-image': 'url(' + imageAvatarDefault + ')'}"
+              >
+                <div class="input-file-container">
+                  <ion-button>
+                    <ion-icon
+                      ion-icon
+                      name="pencil"
+                      classs="camera-icon"
+                    ></ion-icon>
+                  </ion-button>
+                </div>
+              </div>
+            </div>
+          </ion-item>
+          <div class="user-profile">
+            <h3 class="profile-name text-center">{{userName}}</h3>
+            <h5 class="profile-golfer text-center">Perfil golfer</h5>
+          </div>
+          <div class="user-profile">
+            <p class="profile-text text-center">Handicap {{handicap}}</p>
+            <p class="profile-text text-center">Licencia {{license}}</p>
+            <p class="subtitle-text-pos text-center">
+              <span>
+                <img src="./../../../assets/icon/corona.png" alt="" />
+              </span>
+              Socio Real Club Valderrama
+            </p>
+          </div>
+        </ion-list>
+        <ion-button
+          class="next-button"
+          type="submit"
+          shape="round"
+          expand="block"
+          [routerLink]="['/home']"
+        >
+          <ion-icon name="arrow-forward"></ion-icon>
+          Siguiente
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

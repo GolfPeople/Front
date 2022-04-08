@@ -57,11 +57,18 @@ html {
   font-family: "Montserrat", sans-serif;
 }
   
+  // .register-card__container {
+  //   height: 90%;
+  //   max-height: 634px;
+  // }
+
   .register-card--info{
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: space-between;
+    width: 90%;
     max-width: 308px;
     height: 100%;
-    // min-height: 550px;
-    max-height: 95vh;
     padding: 20px;
     margin: 10px;
     border-radius: 25px;
@@ -72,6 +79,7 @@ html {
     font-size: 1.8rem;
     font-weight: bold;
     color: $title-color;
+    text-transform: uppercase;
   }
 
   .subtitle-text-pos {
@@ -81,6 +89,31 @@ html {
     color: $text-color;
   }
 
+  .container-avatar {
+    width: 135px;
+    height: 135px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 5px;
+    border-style: solid;
+    border-width: 2px !important;
+    border-color: #009dd6;
+    border-radius: 100%;
+  }
+
+  .outer {
+    width: 100% ;
+    height: 100% ;
+    max-width: 130px ; /* any size */
+    max-height: 130px ; /* any size */
+    // margin: auto;
+    border-radius: 100%;
+    position: relative;
+    background-size: 130px 130px;
+  }
+
   .profile-name {
     font-size: 1.8rem;
     font-weight: bold;
@@ -88,10 +121,18 @@ html {
     color: $text-color;
   }
 
+  .profile-text {
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 20px;
+    color: $text-color;
+  }
+
   .profile-golfer {
     font-size: 1.6rem;
     font-weight: 600;
     line-height: 1.6rem;
+    margin: 0;
     color: $text-color;
   }
 
@@ -101,16 +142,23 @@ html {
     line-height: 1.7rem;
   }
 
-  // .next-button {
-  //   width: 250px;
-  //   height: 40px;
-  //   margin: 0 auto;
-  //   font-size: 1.6rem;
-  //   font-weight: 500;
-  //   line-height: 2rem;
-  //   text-transform: capitalize;
-  //   --background-color: #009dd6;
-  // }
+  .next-button {
+    // width: 250px;
+    // height: 40px;
+    // margin: 0 auto;
+    // font-size: 1.6rem;
+    // font-weight: 500;
+    // line-height: 2rem;
+    // text-transform: capitalize;
+    // --background-color: #009dd6; 
+      font-size: 1.6rem;
+      font-weight: 500;
+      line-height: 2rem;
+      --background: #009dd6;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      text-transform: capitalize;
+  }
 
   .back-link {
     margin: 15px 0;
