@@ -1,7 +1,15 @@
-ion-content{
+ion-content {
+  --ion-background-color: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 0%,
+      #00388b 100%
+    ),
+    url(../../assets/img/golf-course.jpg), 0, 0/100%, 100%, no-repeat;
+}
 
-  --ion-background-color: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #00388B 100%), url(../../assets/img/golf-course.jpg), 0, 0/100%, 100%, no-repeat;
-
+ion-img {
+  max-width: 255px;
+  margin: 0 auto;
 }
 
 #container {
@@ -32,16 +40,16 @@ ion-content{
   text-decoration: none;
 }
 
-.gp-toolbar{
-  --background:#00388B;
+.gp-toolbar {
+  --background: #00388b;
 }
 
-ion-button{
-  --background: #009DD6;
+ion-button {
+  --background: #009dd6;
   margin-top: 20px;
   margin-bottom: 20px;
 }
 
-ion-title{
+ion-title {
   --color: #fff;
 }

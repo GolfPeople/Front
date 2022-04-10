@@ -1,27 +1,39 @@
 @import "../../scss/variables.scss";
 
-ion-content{
-
-  --ion-background-color: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 68.23%), url(../../../assets/img/golf-course.jpg), 0, 0/100%, 100%, no-repeat;
-
+ion-content {
+  --background: none;
+  background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.7) 68.23%
+    ),
+    url(../../../assets/img/golf-course.jpg) no-repeat center / cover;
 }
 
+// ion-col {
+//   // padding: 20px;
+//   // margin: 10px;
+//   // border-radius: 25px;
+//   // left: 0;
+//   // background-color: #fff;
+//   display: flex;
+//   align-items: center;
+// }
 
-.vertical-align-center > *
-{
-    height: 100%;
-     display: flex!important;
-     align-content: center!important;
-     align-items: center!important;
-     justify-content: center;
+.vertical-align-center > * {
+  height: 100%;
+  display: flex !important;
+  align-content: center !important;
+  align-items: center !important;
+  justify-content: center;
 }
 
-.step-img{
+.step-img {
   width: 150px;
   height: 150px;
 }
 
-.text-center{
+.text-center {
   text-align: center;
 }
 
@@ -36,8 +48,8 @@ ion-content{
   padding: 8px;
   background: rgba(143, 143, 143, 0.3);
   border-radius: 25px;
-  color: #383838 ;
-  padding-left: 20px ;
+  color: #383838;
+  padding-left: 20px;
   padding-right: 20px !important;
   border: none;
 
@@ -51,21 +63,24 @@ ion-content{
       outline: none;
     }
   }
-
 }
 
-
 .buttons-containers {
+  width: 100%;
   margin-top: 10px;
   ion-col {
     padding: 0;
 
-    button {
-      align-items: center;
-      justify-content: center;
+    .type-button {
       width: 100%;
+    }
+
+    button {
+      background: #fff;
+      width: auto;
       height: 26px;
-      margin: 0;
+      margin: 0 auto;
+      padding: 0 10px;
       font-weight: 500;
       font-size: 1rem;
       line-height: 1.6rem;
@@ -73,7 +88,6 @@ ion-content{
       border: 1.2px solid #a7a7a7;
       border-radius: 17.5px;
       text-transform: capitalize;
-
 
       &:active {
         background-color: rgb(184, 47, 47);
@@ -85,18 +99,19 @@ ion-content{
   }
 }
 
-
-.user-profile{
-  margin-top: 20px ;
-  margin-bottom: 30px ;
+.user-profile {
+  margin-top: 20px;
+  margin-bottom: 30px;
 }
 
-a:link, a:visited, a:active {
-  text-decoration:none;
+a:link,
+a:visited,
+a:active {
+  text-decoration: none;
 }
 
-ion-button{
-  --background: #009DD6;
+ion-button {
+  --background: #009dd6;
   margin-top: 20px;
   margin-bottom: 20px;
   text-transform: capitalize;
@@ -114,7 +129,7 @@ ion-button{
 //   color: #009838;
 // }
 
-ion-list{
+ion-list {
   --ion-item-background: transparent !important;
 }
 
@@ -134,13 +149,13 @@ ion-list{
 //   // padding-right: 20px !important;
 // }
 
-.progress-icon{
+.progress-icon {
   margin-left: 10px;
   margin-right: 10px;
-  color: #009DD6;
+  color: #009dd6;
 }
 
-.progress-icon-done{
+.progress-icon-done {
   margin-left: 10px;
   margin-right: 10px;
   color: #009838;
@@ -174,7 +189,6 @@ ion-list{
 //   margin-right: .5rem;
 // }
 
-
 // .validation-text{
 //   font-size: 12px;
 //   color: red;
@@ -192,4 +206,3 @@ ion-list{
 // .signup-btn{
 //   --background: #009DD6;
 // }
-

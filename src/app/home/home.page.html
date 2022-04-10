@@ -1,25 +1,34 @@
-
 <ion-header [translucent]="true">
   <ion-toolbar class="gp-toolbar">
-    <ion-title>
-      Golf People App Home
-    </ion-title>
+    <ion-title> Golf People App Home </ion-title>
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content [fullscreen]="true">
-
   <div id="container">
     <ion-grid>
       <ion-row>
         <ion-col size-sm="4" offset-sm="4">
-          <ion-img class="main-logo" src="src/assets/img/golfPeople-logo.png"></ion-img>
-          <ion-button [routerLink]="['/step1']" shape="round" expand="block" class="login-btn">Completar Perfil</ion-button>
-          <ion-button shape="round" expand="block" class="login-btn" (click)="onlogout()">Cerrar Sesión</ion-button>
+          <ion-img
+            class="main-logo"
+            src="../../assets/img/GolfPeople-logo.png"
+          ></ion-img>
+          <ion-button
+            [routerLink]="['/step1']"
+            shape="round"
+            expand="block"
+            class="login-btn"
+            >Completar Perfil</ion-button
+          >
+          <ion-button
+            shape="round"
+            expand="block"
+            class="login-btn"
+            (click)="onlogout()"
+            >Cerrar Sesión</ion-button
+          >
         </ion-col>
       </ion-row>
     </ion-grid>
-
   </div>
 </ion-content>

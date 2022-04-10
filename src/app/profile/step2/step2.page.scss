@@ -1,27 +1,29 @@
 @import "../../scss/variables.scss";
 
-ion-content{
-
-  --ion-background-color: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 68.23%), url(../../../assets/img/golf-course.jpg), 0, 0/100%, 100%, no-repeat;
-
+ion-content {
+  --background: none;
+  background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.7) 68.23%
+    ),
+    url(../../../assets/img/golf-course.jpg) no-repeat center / cover;
 }
 
-
-ion-content > *
-{
-    height: 100%;
-     display: flex!important;
-     align-content: center!important;
-     align-items: center!important;
-     justify-content: center;
+ion-content > * {
+  height: 100%;
+  display: flex !important;
+  align-content: center !important;
+  align-items: center !important;
+  justify-content: center;
 }
 
-.step-img{
-  width: 150px;
-  height: 150px;
-}
+// ion-col {
+//   display: flex;
+//   align-items: center;
+// }
 
-.text-center{
+.text-center {
   text-align: center;
 }
 
@@ -36,7 +38,7 @@ ion-content > *
   padding: 8px;
   background: rgba(143, 143, 143, 0.3);
   border-radius: 25px;
-  color: #383838 ;
+  color: #383838;
   // padding-left: 20px ;
   padding-right: 20px !important;
   border: none;
@@ -51,11 +53,10 @@ ion-content > *
       outline: none;
     }
   }
-
 }
 
-
 .buttons-containers {
+  width: 100%;
   margin: 20px 0;
   ion-col {
     padding: 0;
@@ -64,7 +65,7 @@ ion-content > *
       background: #fff;
       width: 113px;
       height: 26px;
-      margin: 0;
+      margin: 0 auto;
       font-weight: 500;
       font-size: 1rem;
       line-height: 1.6rem;
@@ -83,45 +84,46 @@ ion-content > *
   }
 }
 
-
-.user-profile{
-  margin-top: 20px ;
-  margin-bottom: 30px ;
-}
-
-a:link, a:visited, a:active {
-  text-decoration:none;
-}
-
-ion-button{
-    --background: #009DD6;
+.user-profile {
   margin-top: 20px;
-  margin-bottom: 20px;
-  text-transform: capitalize;
+  margin-bottom: 30px;
 }
 
-.progress-icon{
+a:link,
+a:visited,
+a:active {
+  text-decoration: none;
+}
+
+// ion-button {
+//   --background: #009dd6;
+//   margin-top: 20px;
+//   margin-bottom: 20px;
+//   text-transform: capitalize;
+// }
+
+.progress-icon {
   margin-left: 10px;
   margin-right: 10px;
-  color: #009DD6;
+  color: #009dd6;
 }
 
-.progress-icon-done{
+.progress-icon-done {
   margin-left: 10px;
   margin-right: 10px;
   color: #009838;
 }
 
-ion-list{
+ion-list {
   --ion-item-background: transparent !important;
 }
 
-ion-label{
-  --color: #00388B !important;
+ion-label {
+  --color: #00388b !important;
 }
 
-ion-item.item-has-focus > ion-label{
-  color: #00388B !important;
+ion-item.item-has-focus > ion-label {
+  color: #00388b !important;
 }
 
 .handicapInput {
@@ -130,10 +132,17 @@ ion-item.item-has-focus > ion-label{
   // padding-left: 20px;
   background: rgba(143, 143, 143, 0.3);
   border-radius: 25px;
-  color: #383838 ;
+  text-align: center;
+  color: #383838;
   border: none;
-  &:focus{
+  &:focus {
     outline: none;
+  }
+}
+
+@media screen and (min-height: 630px) {
+  .image-container {
+    display: block;
   }
 }
 
@@ -153,7 +162,6 @@ ion-item.item-has-focus > ion-label{
 //   margin-right: .5rem;
 // }
 
-
 // .validation-text{
 //   font-size: 12px;
 //   color: red;
@@ -171,4 +179,3 @@ ion-item.item-has-focus > ion-label{
 // .signup-btn{
 //   --background: #009DD6;
 // }
-

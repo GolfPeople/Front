@@ -1,8 +1,9 @@
-<ion-content class="vertical-align-center register-card">
-  <ion-grid>
-    <ion-row justify-content-center>
-      <ion-col class="register-card--info">
-        <div class="text-center">
+<ion-content class="vertical-align-center">
+  <!-- <ion-grid> -->
+  <ion-row justify-content-center>
+    <ion-col class="pricipal-col">
+      <div class="register-card">
+        <div class="image-container text-center">
           <ion-img
             class="step-img center"
             src="assets/img/player2.png"
@@ -15,51 +16,67 @@
         <form (ngSubmit)="onSubmit()">
           <ion-list>
             <p class="profile-license text-center">Eres un jugador...</p>
-            <ion-item>
-              <ion-grid class="buttons-containers">
+            <ion-item lines="none">
+              <div class="buttons-containers">
                 <ion-row>
                   <ion-col class="ion-text-center">
-                    <button (click)="type = 1">Recurrente</button>
+                    <button class="type-button" (click)="type = 1">
+                      Recurrente
+                    </button>
                     <!-- <input type="button" value="Menos de un año" (click)="timePlaying = 1"> -->
                   </ion-col>
                   <ion-col class="ion-text-center">
-                    <button (click)="type = 2">Ocasional</button>
+                    <button class="type-button" (click)="type = 2">
+                      Ocasional
+                    </button>
                   </ion-col>
                   <ion-col class="ion-text-center">
-                    <button (click)="type = 3">Diario</button>
+                    <button class="type-button" (click)="type = 3">
+                      Diario
+                    </button>
                   </ion-col>
                 </ion-row>
                 <ion-row class="top-10">
                   <ion-col class="ion-text-center">
-                    <button (click)="type = 4" value expand="block">
+                    <button
+                      class="experience-button"
+                      (click)="type = 4"
+                      value
+                      expand="block"
+                    >
                       Profesor/Entrenador de Golf
                     </button>
                   </ion-col>
                 </ion-row>
                 <ion-row class="top-10">
                   <ion-col class="ion-text-center">
-                    <button (click)="type = 5" value>
+                    <button class="experience-button" (click)="type = 5" value>
                       Profesional del Circuito de Golf
                     </button>
                   </ion-col>
                 </ion-row>
-              </ion-grid>
+              </div>
             </ion-item>
           </ion-list>
+        </form>
+        <div>
           <ion-button type="submit" shape="round" expand="block">
             <ion-icon name="arrow-forward"></ion-icon>
             Siguiente
           </ion-button>
-        </form>
-        <p class="text-center"><a [routerLink]="['/home']">Saltar</a></p>
-        <p></p>
-        <div class="progress text-center">
-          <ion-icon name="ellipse" class="progress-icon-done"></ion-icon>
-          <ion-icon name="ellipse" class="progress-icon-done"></ion-icon>
-          <ion-icon name="ellipse" class="progress-icon"></ion-icon>
-          <ion-icon name="ellipse-outline" class="progress-icon"></ion-icon>
+          <p class="text-center back-link">
+            <a [routerLink]="['/home']">Saltar</a>
+          </p>
+          <!-- <p></p> -->
+          <div class="progress text-center">
+            <ion-icon name="ellipse" class="progress-icon-done"></ion-icon>
+            <ion-icon name="ellipse" class="progress-icon-done"></ion-icon>
+            <ion-icon name="ellipse" class="progress-icon"></ion-icon>
+            <ion-icon name="ellipse-outline" class="progress-icon"></ion-icon>
+          </div>
         </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+      </div>
+    </ion-col>
+  </ion-row>
+  <!-- </ion-grid> -->
 </ion-content>

@@ -1,7 +1,8 @@
-<ion-content class="vertical-align-center register-card">
-  <ion-grid>
-    <ion-row justify-content-center class="register-card__container">
-      <ion-col class="register-card--info" size-sm="8" offset-sm="2">
+<ion-content class="vertical-align-center">
+  <!-- <ion-grid> -->
+  <ion-row justify-content-center>
+    <ion-col class="pricipal-col">
+      <div class="register-card">
         <h2 class="title-text-pos text-center">Resumen de tu perfil</h2>
 
         <ion-list>
@@ -27,7 +28,7 @@
             <h3 class="profile-name text-center">{{userName}}</h3>
             <h5 class="profile-golfer text-center">Perfil golfer</h5>
           </div>
-          <div class="user-profile">
+          <div class="user-info">
             <p class="profile-text text-center">Handicap {{handicap}}</p>
             <p class="profile-text text-center">Licencia {{license}}</p>
             <p class="subtitle-text-pos text-center">
@@ -38,17 +39,25 @@
             </p>
           </div>
         </ion-list>
-        <ion-button
-          class="next-button"
-          type="submit"
-          shape="round"
-          expand="block"
-          [routerLink]="['/home']"
-        >
-          <ion-icon name="arrow-forward"></ion-icon>
-          Siguiente
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+        <div class="edit">
+          <a href="/home">
+            <ion-icon ion-icon name="pencil"></ion-icon> Editar</a
+          >
+        </div>
+        <div class="button-container">
+          <ion-button
+            class="next-button"
+            type="submit"
+            shape="round"
+            expand="block"
+            [routerLink]="['/home']"
+          >
+            <ion-icon name="arrow-forward"></ion-icon>
+            Siguiente
+          </ion-button>
+        </div>
+      </div>
+    </ion-col>
+  </ion-row>
+  <!-- </ion-grid> -->
 </ion-content>
