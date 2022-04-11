@@ -46,16 +46,20 @@ const routes: Routes = [
     path: 'step3',
     loadChildren: () =>
       import('./profile/step3/step3.module').then((m) => m.Step3PageModule),
+    canLoad: [AuthGuard],
   },
   {
     path: 'step4',
     loadChildren: () =>
       import('./profile/step4/step4.module').then((m) => m.Step4PageModule),
-  },  {
-    path: 'step5',
-    loadChildren: () => import('./profile/step5/step5.module').then( m => m.Step5PageModule)
+    canLoad: [AuthGuard],
   },
-
+  {
+    path: 'step5',
+    loadChildren: () =>
+      import('./profile/step5/step5.module').then((m) => m.Step5PageModule),
+    canLoad: [AuthGuard],
+  },
 ];
 
 @NgModule({

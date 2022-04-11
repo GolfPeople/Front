@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -12,9 +12,10 @@ import { Step2Page } from './step2.page';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     IonicModule,
-    Step2PageRoutingModule
+    Step2PageRoutingModule,
   ],
-  declarations: [Step2Page]
+  declarations: [Step2Page],
 })
 export class Step2PageModule {}

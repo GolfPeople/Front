@@ -40,6 +40,7 @@ export class Step1Page implements OnInit {
   selectedImage: any;
 
   imageAvatarDefault = 'assets/img/default-avatar.png';
+  file: File;
 
   constructor(
     private step1Service: Step1Service,
@@ -65,15 +66,18 @@ export class Step1Page implements OnInit {
     // });
   }
 
-  selectImage(event) {
-    const archivoCapturado = event.target.files[0];
-    this.selectedImage = event.target;
-    this.extraerBase64(archivoCapturado).then((imagen: any) => {
-      // localStorage.setItem('userImage', imagen.base);
+  selectImage(event: Event) {
+    const element = event.target as HTMLInputElement;
+    const file = element.files?.item(0);
 
+    // const archivoCapturado = event.target.files[0];
+    this.selectedImage = event.target;
+    this.extraerBase64(file).then((imagen: any) => {
       this.previsualizacion = imagen.base;
     });
-    this.archivos.push(archivoCapturado);
+
+    this.file = file;
+    // this.archivos.push(archivoCapturado);
   }
 
   extraerBase64 = async ($event: any) =>
@@ -98,16 +102,40 @@ export class Step1Page implements OnInit {
       }
     });
 
-  onUpload() {
-    // const element = event.target as HTMLInputElement;
-    const element = this.selectedImage as HTMLInputElement;
-    const file = element.files?.item(0);
-    console.log(file);
-    if (file) {
-      this.fileService
-        .uploadFile(file, this.license)
-        .subscribe((rta) => console.log(rta));
+  async onUpload() {
+    this.isLoading = true;
+    if (this.file && this.license) {
+      this.fileService.uploadFile(this.file, this.license).subscribe(
+        (rta) => {
+          console.log(this.file);
+          console.log(rta);
+          this.isLoading = false;
+          this.router.navigate(['/step2']);
+        },
+        (error) => {
+          const code = error.message;
+          let message = 'Datos incorrectos, intenta de nuevo.';
+          if (code === 'Credenciales incorrectas') {
+            message = 'Datos incorrectos, intenta de nuevo.';
+          }
+        }
+      );
+      setTimeout(() => {
+        this.userService.getUserInfo().subscribe((rta) => console.log(rta));
+      }, 3000);
+    } else {
+      return window.alert('Los campos son obligatorios!');
     }
+  }
+
+  private showAlert(message: string) {
+    this.alertCtrl
+      .create({
+        header: 'Inicio de sesión fallido',
+        message,
+        buttons: ['Aceptar'],
+      })
+      .then((alertEl) => alertEl.present());
   }
   // onUpload() {
   //   // const element = event.target as HTMLInputElement;

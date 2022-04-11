@@ -13,13 +13,14 @@
         <p class="subtitle-text-pos text-center">
           Responde estas preguntas para poder deducir tu nivel actual
         </p>
-        <form>
+        <form [formGroup]="handicapForm">
           <ion-list>
             <p class="profile-license text-center">
               ¿Cúal es tu Handicap federativo?
             </p>
             <ion-item lines="none">
               <input
+                formControlName="handicap"
                 type="number"
                 class="handicapInput"
                 placeholder="00"
@@ -28,13 +29,44 @@
               />
 
               <input
+                formControlName="decimal"
                 type="number"
                 class="handicapInput"
+                maxlength="2"
                 placeholder="00"
                 interface="popover"
                 (onchange)="getDecimalValue($event)"
               />
             </ion-item>
+            <ion-row>
+              <!-- {{handicapForm.get('handicap').errors | json}} -->
+              <ion-col>
+                <div
+                  class="error-message"
+                  *ngIf="handicapForm.get('handicap')?.errors?.isInvalid"
+                >
+                  valor máximo 54
+                </div>
+                <div
+                  class="error-message"
+                  *ngIf="handicapForm.get('handicap')?.touched && handicapForm.get('handicap')?.errors?.['required']"
+                >
+                  Este campo es obligatorio
+                </div>
+              </ion-col>
+              <ion-col>
+                <div
+                  class="error-message"
+                  *ngIf="handicapForm.get('decimal')?.touched && handicapForm.get('decimal')?.errors?.['required']"
+                >
+                  Los campos son obligatorios
+                </div>
+              </ion-col>
+              <p class="profile-license text-center">
+                {{ handicapForm.valid }}
+              </p>
+            </ion-row>
+            <div class="validation-errors"></div>
             <p class="profile-license text-center">
               ¿Cúanto tiempo llevas jugando?
             </p>

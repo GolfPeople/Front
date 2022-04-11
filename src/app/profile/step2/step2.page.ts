@@ -3,6 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { Step2Service } from './step2.service';
 import { UserService } from '../../core/services/user.service';
 import { Router } from '@angular/router';
+import { LoadingController, AlertController, Platform } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { MyValidations } from '../../utils/my-validations';
 
 @Component({
   selector: 'app-step2',
@@ -14,22 +18,30 @@ export class Step2Page implements OnInit {
   // medio: number= 2;
   // escalado: number = 3;
   // avanzado: number = 4;
+  isLoading = false;
   nivelSelecionado: number = 4;
   handicap: string = '';
   handicapDecimal: string = '00';
   handicapValue: string = `${this.handicap}.${this.handicapDecimal}`;
   timePlaying: number = 0;
 
+  public handicapForm: FormGroup;
 
   public experience: any;
 
   constructor(
+    private loadingCtrl: LoadingController,
+    private alertCtrl: AlertController,
     private step2Service: Step2Service,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private formBuilder: FormBuilder
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.handicapForm = this.initForm();
+    console.log(this.handicapForm);
+  }
 
   getHandicapValue(e) {
     const element = e.target.value;
@@ -37,6 +49,21 @@ export class Step2Page implements OnInit {
     this.handicap = element;
 
     console.log(element);
+  }
+
+  initForm(): FormGroup {
+    return this.formBuilder.group({
+      handicap: [
+        '',
+        [
+          MyValidations.handicap,
+          Validators.required,
+          // Validators.maxLength(2),
+          // Validators.max(3),
+        ],
+      ],
+      decimal: ['', [Validators.maxLength(2), Validators.max(3)]],
+    });
   }
 
   getDecimalValue(e) {
@@ -52,27 +79,45 @@ export class Step2Page implements OnInit {
     console.log('Nivel selecionado ', this.nivelSelecionado);
   }
 
-  onSubmit() {
-    // const handicap = this.handicap;
+  async onSubmit() {
     const timePlaying = this.timePlaying;
-    const handicap = parseFloat(`${this.handicap}.${this.handicapDecimal}`);
-    console.log('el handicap es', handicap);
-    if (handicap === 0 && timePlaying === 0) {
-      return window.alert('Los campos son abligatorios');
-    }
-    if (this.handicap.length > 2) {
-      return window.alert('El handicap no puede ser mayor de 54');
-    }
-    if (this.handicapDecimal.length > 2) {
-      return window.alert('El decimal no puede tener más e dos números');
+    const handicap = this.handicapForm.value.handicap;
+    const decimal = this.handicapForm.value.decimal;
+    const value = handicap && decimal ? `${handicap}.${decimal}` : handicap;
+
+    if (handicap) {
+      this.step2Service.enviarHandicap(value, timePlaying).subscribe(
+        (rta) => {
+          console.log(rta);
+          this.isLoading = false;
+          this.router.navigate(['/step3']);
+        },
+        (error) => {
+          const code = error.message;
+          let message = 'Datos incorrectos, intenta de nuevo.';
+          if (code === 'Credenciales incorrectas') {
+            message = 'Datos incorrectos, intenta de nuevo.';
+          }
+        }
+      );
+      setTimeout(() => {
+        this.userService.getUserInfo().subscribe((rta) => console.log(rta));
+      }, 3000);
+    } else {
+      return window.alert('Los campos son obligatorios!');
     }
 
-    this.step2Service
-      .enviarHandicap(handicap, timePlaying)
-      .subscribe((rta) => console.log(rta));
-    this.router.navigate(['/step3']);
-    this.userService
-      .getUserInfo()
-      .subscribe((rta) => console.log('respuesta', rta));
+    // const handicap = this.handicap;
+    // const handicap = parseFloat(`${this.handicap}.${this.handicapDecimal}`);
+    // console.log('el handicap es', handicap);
+    // if (handicap === 0 && timePlaying === 0) {
+    //   return window.alert('Los campos son abligatorios');
+    // }
+    // if (this.handicap.length > 2) {
+    //   return window.alert('El handicap no puede ser mayor de 54');
+    // }
+    // if (this.handicapDecimal.length > 2) {
+    //   return window.alert('El decimal no puede tener más e dos números');
+    // }
   }
 }

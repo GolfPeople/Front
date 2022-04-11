@@ -54,6 +54,25 @@ ion-content > * {
     }
   }
 }
+.validation-errors {
+  font-size: small;
+  color: #f1453d;
+}
+.error-message {
+  padding: 0 5px;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #f1453d;
+}
+
+/* These are necessary to make the underline red */
+ion-item.invalid {
+  --highlight-background: #f1453d;
+}
+
+ion-item {
+  --highlight-color-invalid: #f1453d;
+}
 
 .buttons-containers {
   width: 100%;
@@ -138,6 +157,10 @@ ion-item.item-has-focus > ion-label {
   &:focus {
     outline: none;
   }
+
+  // &.is-invalid {
+  //   border: 1px solid #f1453d;
+  // }
 }
 
 @media screen and (min-height: 630px) {
