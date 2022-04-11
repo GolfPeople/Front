@@ -42,7 +42,7 @@ export class Step1Page implements OnInit {
   // license = '';
   // selectedImage: any;
   // public file: ImageData;
-  
+
   images: LocalFile[] = [];
   previsualizacion;
   userName: string;
@@ -66,7 +66,16 @@ export class Step1Page implements OnInit {
 
   async ngOnInit() {
     // console.log(this.selectImage())
-    this.loadFiles()
+    this.userService.getUserInfo().subscribe((res) => {
+      this.userName = res.name
+      res.profile.license
+        ? (this.license = res.profile.license)
+        : (this.license = '');
+      res.profile.photo
+        ? (this.imageAvatarDefault = res.profile.photo)
+        : (this.license = 'assets/img/default-avatar.png');
+    });
+    this.loadFiles();
     // this.imageAvatarDefault = this.images[this.images.length - 1].data
   }
 
@@ -74,45 +83,50 @@ export class Step1Page implements OnInit {
     this.images = [];
 
     const loading = await this.loadingCtrl.create({
-      message: 'Loading data...'
+      message: 'Loading data...',
     });
     await loading.present();
 
     Filesystem.readdir({
       directory: Directory.Data,
-      path: IMAGE_DIR
-    }).then(result => {
-      console.log('HERE: ', result)
-      this.loadFilesData(result.files)
-      // this.imageAvatarDefault = result.files[result.files.length - 1]
-    }, async err => {
-      await Filesystem.mkdir({
-        directory: Directory.Data,
-        path: IMAGE_DIR
+      path: IMAGE_DIR,
+    })
+      .then(
+        (result) => {
+          console.log('HERE: ', result);
+          this.loadFilesData(result.files);
+          // this.imageAvatarDefault = result.files[result.files.length - 1]
+        },
+        async (err) => {
+          await Filesystem.mkdir({
+            directory: Directory.Data,
+            path: IMAGE_DIR,
+          });
+        }
+      )
+      .then((_) => {
+        loading.dismiss();
       });
-    }).then(_ => {
-      loading.dismiss()
-    })
   }
 
-async loadFilesData(filesNames: string[]) {
-  for (let f of filesNames) {
-    const filePath = `${IMAGE_DIR}/${f}`
+  async loadFilesData(filesNames: string[]) {
+    for (let f of filesNames) {
+      const filePath = `${IMAGE_DIR}/${f}`;
 
-    const readFile = await Filesystem.readFile({
-      directory: Directory.Data,
-      path: filePath
-    })
-    // console.log('READ: ', readFile)
-    this.images.push({
-      name: f,
-      path: filePath,
-      data: `data:image/jpeg;base64,${readFile.data}`
-    })
-    // this.previsualizacion = this.images[this.images.length - 1].data;
-    // this.imageAvatarDefault = this.images[this.images.length - 1].data;
+      const readFile = await Filesystem.readFile({
+        directory: Directory.Data,
+        path: filePath,
+      });
+      // console.log('READ: ', readFile)
+      this.images.push({
+        name: f,
+        path: filePath,
+        data: `data:image/jpeg;base64,${readFile.data}`,
+      });
+      // this.previsualizacion = this.images[this.images.length - 1].data;
+      // this.imageAvatarDefault = this.images[this.images.length - 1].data;
+    }
   }
-}
 
   async selectImage() {
     const image = await Camera.getPhoto({
@@ -125,15 +139,15 @@ async loadFilesData(filesNames: string[]) {
 
     if (image) {
       const imageUrl = image.webPath;
-        this.imageAvatarDefault = imageUrl;
-      this.saveImage(image)
+      this.imageAvatarDefault = imageUrl;
+      this.saveImage(image);
     }
-    this.loadFiles()
+    this.loadFiles();
   }
 
   async saveImage(photo: Photo) {
     const base64Data = await this.readAsBase64(photo);
-    console.log(base64Data)
+    console.log(base64Data);
 
     const fileName = new Date().getTime() + '.jpeg';
     const savedFile = await Filesystem.writeFile({
@@ -146,29 +160,28 @@ async loadFilesData(filesNames: string[]) {
   }
 
   async readAsBase64(photo: Photo) {
-    if(this.platform.is('hybrid')) {
+    if (this.platform.is('hybrid')) {
       const file = await Filesystem.readFile({
-        path: photo.path
-      })
-      return file.data
-    }
-    else {
+        path: photo.path,
+      });
+      return file.data;
+    } else {
       const response = await fetch(photo.webPath);
       const blob = await response.blob();
 
-      return await this.convertBlobToBase64(blob) as string;
+      return (await this.convertBlobToBase64(blob)) as string;
     }
-
   }
 
-  convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
-    const reader = new FileReader;
-    reader.onerror = reject;
-    reader.onload = () => {
-      resolve(reader.result);
-    };
-    reader.readAsDataURL(blob)
-  })
+  convertBlobToBase64 = (blob: Blob) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = reject;
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+      reader.readAsDataURL(blob);
+    });
 
   async startUpload(file: LocalFile) {
     const response = await fetch(file.data);
@@ -178,26 +191,29 @@ async loadFilesData(filesNames: string[]) {
     const formData = new FormData();
     formData.append('photo', blob, file.name);
     formData.append('license', this.license);
-    this.uploadData(formData)
+    this.uploadData(formData);
   }
 
   async uploadData(formData: FormData) {
     const loading = await this.loadingCtrl.create({
-      message: 'Subiendo imagen..'
+      message: 'Subiendo imagen..',
     });
     await loading.present();
 
-    const url = 'https://www.api.app.golfpeople.com/api/auth/profile/1'
+    const url = 'https://www.api.app.golfpeople.com/api/auth/profile/1';
 
-    this.http.post(url, formData).pipe(
-      finalize(() => {
-        loading.dismiss();
-      })
-    ).subscribe(res => {
-      console.log(res)
-      this.userService.getUserInfo().subscribe(rta => {
-        console.log('User info -->',rta)
-      })
-    })
+    this.http
+      .post(url, formData)
+      .pipe(
+        finalize(() => {
+          loading.dismiss();
+        })
+      )
+      .subscribe((res) => {
+        console.log(res);
+        this.userService.getUserInfo().subscribe((rta) => {
+          console.log('User info -->', rta);
+        });
+      });
   }
 }
