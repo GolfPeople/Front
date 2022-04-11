@@ -57,14 +57,11 @@
               <ion-col>
                 <div
                   class="error-message"
-                  *ngIf="handicapForm.get('decimal')?.touched && handicapForm.get('decimal')?.errors?.['required']"
+                  *ngIf="handicapForm.get('decimal')?.errors?.invalidDecimal"
                 >
-                  Los campos son obligatorios
+                  Valor máximo 99
                 </div>
               </ion-col>
-              <p class="profile-license text-center">
-                {{ handicapForm.valid }}
-              </p>
             </ion-row>
             <div class="validation-errors"></div>
             <p class="profile-license text-center">

@@ -62,7 +62,7 @@ export class Step2Page implements OnInit {
           // Validators.max(3),
         ],
       ],
-      decimal: ['', [Validators.maxLength(2), Validators.max(3)]],
+      decimal: ['', [MyValidations.decimal]],
     });
   }
 
@@ -84,7 +84,8 @@ export class Step2Page implements OnInit {
     const handicap = this.handicapForm.value.handicap;
     const decimal = this.handicapForm.value.decimal;
     const value = handicap && decimal ? `${handicap}.${decimal}` : handicap;
-
+    if (this.handicapForm.invalid) return;
+    if (timePlaying === 0) window.alert('Debes selecionar una opción.');
     if (handicap) {
       this.step2Service.enviarHandicap(value, timePlaying).subscribe(
         (rta) => {
