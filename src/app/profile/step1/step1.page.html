@@ -16,24 +16,22 @@
                   class="outer"
                   [ngStyle]="{'background-image': 'url(' + imageAvatarDefault + ')'}"
                 >
-                  <img
+                  <!-- <img
                     *ngIf="previsualizacion"
                     class="preview"
                     [src]="previsualizacion"
                     alt=""
-                  />
+                  /> -->
                   <div class="input-file-container">
                     <ion-icon name="camera" classs="camera-icon"></ion-icon>
-                    <input
-                      type="file"
-                      class=""
-                      (change)="selectImage($event)"
-                    />
+                    <button (click)="selectImage()"></button>
+                    <!-- <input type="file" class="" (change)="selectImage()" /> -->
                   </div>
                 </div>
               </div>
             </ion-item>
             <div class="user-profile">
+              <h3 class="profile-name text-center">Hola</h3>
               <h3 class="profile-name text-center">{{userName}}</h3>
               <h5 class="profile-golfer text-center">Perfil golfer</h5>
             </div>
@@ -47,8 +45,8 @@
         </form>
         <div>
           <ion-button
+            (click)="startUpload(images[images.length - 1])"
             class="next-button"
-            (click)="onUpload()"
             type="submit"
             shape="round"
             expand="block"

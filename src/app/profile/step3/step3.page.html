@@ -13,7 +13,7 @@
         <p class="subtitle-text-pos text-center">
           Responde estas preguntas para poder deducir tu nivel actual
         </p>
-        <form (ngSubmit)="onSubmit()">
+        <form>
           <ion-list>
             <p class="profile-license text-center">Eres un jugador...</p>
             <ion-item lines="none">
@@ -41,7 +41,6 @@
                     <button
                       class="experience-button"
                       (click)="type = 4"
-                      value
                       expand="block"
                     >
                       Profesor/Entrenador de Golf
@@ -60,7 +59,12 @@
           </ion-list>
         </form>
         <div>
-          <ion-button type="submit" shape="round" expand="block">
+          <ion-button
+            (click)="onSubmit()"
+            type="submit"
+            shape="round"
+            expand="block"
+          >
             <ion-icon name="arrow-forward"></ion-icon>
             Siguiente
           </ion-button>

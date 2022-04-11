@@ -24,7 +24,7 @@ export class Step5Page implements OnInit {
       this.handicap = user.profile.handicap;
       this.license = user.profile.license;
       this.avatarImage = user.profile.photo;
-      // this.imageAvatarDefault = user.profile.photo;
+      this.imageAvatarDefault = user.profile.photo;
       // console.log(user.profile.photo)
     });
   }
