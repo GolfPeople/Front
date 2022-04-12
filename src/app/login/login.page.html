@@ -3,66 +3,83 @@
     <ion-row>
       <div class="login-header">
         <ion-col size-sm="4" offset-sm="4" class="col-title">
-          <h2 class="title-text header-title">BIENVENIDO,</h2>
-          <p class="subtitle-text header-content">Es bueno tenerte de vuelta</p>
+          <div class="header-title">
+            <h2 class="title-text">Bienvenido,</h2>
+            <p class="subtitle-text header-content">
+              Es bueno tenerte de vuelta
+            </p>
+          </div>
         </ion-col>
       </div>
     </ion-row>
     <ion-row>
       <div>
-      <ion-col size-sm="4" offset-sm="4" class="col-content">
-        <form #f="ngForm" (ngSubmit)="onSubmit(f)">
-        <ion-list>
-          <ion-item class="item-neg">
-            <ion-label position="floating" class="signup-form-title"><ion-icon name="mail"></ion-icon> E-Mail</ion-label>
-            <ion-input
-              type="email"
-              ngModel
-              name="email"
-              required
-              email
-              #emailCtrl="ngModel"
-            ></ion-input>
-          </ion-item>
-          <ion-item
-            *ngIf="!emailCtrl.valid && emailCtrl.touched"
-            lines="none"
-          >
-            <ion-label class="validation-text">Email inválido</ion-label>
-          </ion-item>
-          <ion-item class="item-neg">
-            <ion-label position="floating" class="signup-form-title" ><ion-icon name="lock-open"></ion-icon> Contraseña</ion-label>
-            <ion-input
-              [type]="passwordType"
-              ngModel
-              name="password"
-              required
-              #passwordCtrl="ngModel"
-            ></ion-input>
-            <ion-icon [name]="eye" slot="end" (click)="togglePasswordMode()" class="show-password"></ion-icon>
-          </ion-item>
-          <ion-item
-            *ngIf="!passwordCtrl.valid && passwordCtrl.touched"
-            lines="none"
-          >
-            <ion-label text-wrap class="validation-text">
-              Contraseña inválida.
-            </ion-label>
-          </ion-item>
-        </ion-list>
-        <ion-button
-          type="submit"
-          shape="round"
-          expand="block"
-          class="login-btn"
-          [disabled]="!f.valid"
-        >
-          Siguiente
-        </ion-button>
-        </form>
-        <p class="text-center pos-link">¿No tienes cuenta? <a [routerLink]="['/signup']" class="pos-link">Regístrate</a><p>
-      </ion-col>
-    </div>
+        <ion-col size-sm="4" offset-sm="4" class="col-content">
+          <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+            <ion-list>
+              <ion-item class="item-neg">
+                <ion-label position="floating" class="signup-form-title"
+                  ><ion-icon name="mail"></ion-icon> E-Mail</ion-label
+                >
+                <ion-input
+                  type="email"
+                  ngModel
+                  name="email"
+                  required
+                  email
+                  #emailCtrl="ngModel"
+                ></ion-input>
+              </ion-item>
+              <ion-item
+                *ngIf="!emailCtrl.valid && emailCtrl.touched"
+                lines="none"
+              >
+                <ion-label class="validation-text">Email inválido</ion-label>
+              </ion-item>
+              <ion-item class="item-neg">
+                <ion-label position="floating" class="signup-form-title"
+                  ><ion-icon name="lock-open"></ion-icon> Contraseña</ion-label
+                >
+                <ion-input
+                  [type]="passwordType"
+                  ngModel
+                  name="password"
+                  required
+                  #passwordCtrl="ngModel"
+                ></ion-input>
+                <ion-icon
+                  [name]="eye"
+                  slot="end"
+                  (click)="togglePasswordMode()"
+                  class="show-password"
+                ></ion-icon>
+              </ion-item>
+              <ion-item
+                *ngIf="!passwordCtrl.valid && passwordCtrl.touched"
+                lines="none"
+              >
+                <ion-label text-wrap class="validation-text">
+                  Contraseña inválida.
+                </ion-label>
+              </ion-item>
+            </ion-list>
+            <ion-button
+              type="submit"
+              shape="round"
+              expand="block"
+              class="login-btn"
+              [disabled]="!f.valid"
+            >
+              Siguiente
+            </ion-button>
+          </form>
+          <p class="text-center pos-link">
+            ¿No tienes cuenta?
+            <a [routerLink]="['/signup']" class="pos-link">Regístrate</a>
+          </p>
+          <p></p
+        ></ion-col>
+      </div>
     </ion-row>
   </ion-grid>
 </ion-content>

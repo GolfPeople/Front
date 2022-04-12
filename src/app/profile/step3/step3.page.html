@@ -65,18 +65,20 @@
             shape="round"
             expand="block"
           >
-            <ion-icon name="arrow-forward"></ion-icon>
+            <span><img src="./../../../assets/icon/next.png" alt="" /> </span>
             Siguiente
           </ion-button>
-          <p class="text-center back-link">
-            <a [routerLink]="['/home']">Saltar</a>
-          </p>
           <!-- <p></p> -->
           <div class="progress text-center">
             <ion-icon name="ellipse" class="progress-icon-done"></ion-icon>
             <ion-icon name="ellipse" class="progress-icon-done"></ion-icon>
             <ion-icon name="ellipse" class="progress-icon"></ion-icon>
             <ion-icon name="ellipse-outline" class="progress-icon"></ion-icon>
+          </div>
+          <div class="ignore-container">
+            <p class="ignore-container__link">
+              <a [routerLink]="['/home']"> Omitir por ahora</a>
+            </p>
           </div>
         </div>
       </div>

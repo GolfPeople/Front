@@ -8,12 +8,32 @@ ion-content{
   position: relative;
 }
 
+.title-text,
+.subtitle-text {
+  margin: 0;
+}
+
 .header-title{
+  width: 100%;
+  height: auto;
   position: absolute;
   bottom: 0;
   left: 0;
   margin-left: 20px;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
+  // margin-bottom: 50px;
+  h2 {
+    font-size: 3rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+
+  }
+
+  p {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 0;
+  }
 }
 
 .header-content{

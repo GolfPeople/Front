@@ -20,6 +20,7 @@ export class Step2Page implements OnInit {
   handicapDecimal: string = '00';
   handicapValue: string = `${this.handicap}.${this.handicapDecimal}`;
   timePlaying: number = 0;
+  isDisabled: boolean = false;
 
   public handicapForm: FormGroup;
 
@@ -39,6 +40,11 @@ export class Step2Page implements OnInit {
     console.log(this.handicapForm);
   }
 
+  disabled() {
+    this.handicapForm.controls.handicap.disable();
+    this.isDisabled = true;
+  }
+
   getHandicapValue(e) {
     const element = e.target.value;
 
@@ -49,14 +55,12 @@ export class Step2Page implements OnInit {
 
   initForm(): FormGroup {
     return this.formBuilder.group({
-      handicap: [
-        '',
+      handicap: [{value: '', disabled: false},
         [
           MyValidations.handicap,
           Validators.required,
         ],
       ],
-      decimal: ['', [MyValidations.handicap]],
     });
   }
 

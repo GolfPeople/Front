@@ -18,51 +18,41 @@
             <p class="profile-license text-center">
               ¿Cúal es tu Handicap federativo?
             </p>
-            <ion-item lines="none">
-              <input
-                formControlName="handicap"
-                type="number"
-                class="handicapInput"
-                placeholder="00"
-                interface="popover"
-                (onchange)="getHandicapValue($event)"
-              />
-
-              <input
-                formControlName="decimal"
-                type="number"
-                class="handicapInput"
-                maxlength="2"
-                placeholder="00"
-                interface="popover"
-                (onchange)="getDecimalValue($event)"
-              />
+            <ion-item class="handicap-container" lines="none">
+              <div class="data-input" [ngClass]="{'is-disabled' : isDisabled}">
+                <input
+                  formControlName="handicap"
+                  type="number"
+                  step="2"
+                  [placeholder]="isDisabled ? '-----' : '00.00'"
+                  (onchange)="getHandicapValue($event)"
+                />
+              </div>
             </ion-item>
+
             <ion-row>
-              <!-- {{handicapForm.get('handicap').errors | json}} -->
               <ion-col>
-                <div
-                  class="error-message"
-                  *ngIf="handicapForm.get('handicap')?.errors?.isInvalid"
-                >
-                  valor máximo 54
-                </div>
-                <div
-                  class="error-message"
-                  *ngIf="handicapForm.get('handicap')?.touched && handicapForm.get('handicap')?.errors?.['required']"
-                >
-                  Este campo es obligatorio
-                </div>
-              </ion-col>
-              <ion-col>
-                <div
-                  class="error-message"
-                  *ngIf="handicapForm.get('decimal')?.errors?.isInvalid"
-                >
-                  Valor máximo 54
+                <div class="erros-container">
+                  <div
+                    class="error-message"
+                    *ngIf="handicapForm.get('handicap')?.errors?.isInvalid"
+                  >
+                    valor máximo 54.54
+                  </div>
+                  <div
+                    class="error-message"
+                    *ngIf="handicapForm.get('handicap')?.touched && handicapForm.get('handicap')?.errors?.['required']"
+                  >
+                    Este campo es obligatorio
+                  </div>
                 </div>
               </ion-col>
             </ion-row>
+            <ion-item lines="none" class="not-license">
+              <p (click)="disabled()" class="text-center back-link margin-auto">
+                <a class="have-not-link">No tengo handicap</a>
+              </p>
+            </ion-item>
             <div class="validation-errors"></div>
             <p class="profile-license text-center">
               ¿Cúanto tiempo llevas jugando?
@@ -115,18 +105,20 @@
             expand="block"
             [disabled]="handicapForm.invalid && !timePlaying"
           >
-            <ion-icon name="arrow-forward"></ion-icon>
+            <span><img src="./../../../assets/icon/next.png" alt="" /> </span>
             Siguiente
           </ion-button>
-          <p class="text-center back-link">
-            <a [routerLink]="['/home']">Saltar</a>
-          </p>
           <p></p>
           <div class="progress text-center">
             <ion-icon name="ellipse" class="progress-icon-done"></ion-icon>
             <ion-icon name="ellipse" class="progress-icon"></ion-icon>
             <ion-icon name="ellipse-outline" class="progress-icon"></ion-icon>
             <ion-icon name="ellipse-outline" class="progress-icon"></ion-icon>
+          </div>
+          <div class="ignore-container">
+            <p class="ignore-container__link">
+              <a [routerLink]="['/home']"> Omitir por ahora</a>
+            </p>
           </div>
         </div>
       </div>

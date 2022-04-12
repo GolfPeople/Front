@@ -50,6 +50,7 @@ export class Step1Page implements OnInit {
 
   imageAvatarDefault = 'assets/img/default-avatar.png';
   file: File;
+  isDisabled: boolean = false;
 
   constructor(
     private step1Service: Step1Service,
@@ -64,6 +65,10 @@ export class Step1Page implements OnInit {
     private http: HttpClient
   ) {}
 
+
+
+
+
   async ngOnInit() {
     // console.log(this.selectImage())
     this.userService.getUserInfo().subscribe((res) => {
@@ -77,6 +82,13 @@ export class Step1Page implements OnInit {
     });
     this.loadFiles();
     // this.imageAvatarDefault = this.images[this.images.length - 1].data
+  }
+
+
+
+  disabled() {
+    this.isDisabled = true;
+    this.license = '';
   }
 
   async loadFiles() {
