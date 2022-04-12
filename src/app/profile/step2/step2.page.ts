@@ -14,10 +14,6 @@ import { MyValidations } from '../../utils/my-validations';
   styleUrls: ['./step2.page.scss'],
 })
 export class Step2Page implements OnInit {
-  // novato: number = 1;
-  // medio: number= 2;
-  // escalado: number = 3;
-  // avanzado: number = 4;
   isLoading = false;
   nivelSelecionado: number = 4;
   handicap: string = '';
@@ -58,11 +54,9 @@ export class Step2Page implements OnInit {
         [
           MyValidations.handicap,
           Validators.required,
-          // Validators.maxLength(2),
-          // Validators.max(3),
         ],
       ],
-      decimal: ['', [MyValidations.decimal]],
+      decimal: ['', [MyValidations.handicap]],
     });
   }
 

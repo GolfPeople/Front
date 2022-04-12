@@ -57,9 +57,9 @@
               <ion-col>
                 <div
                   class="error-message"
-                  *ngIf="handicapForm.get('decimal')?.errors?.invalidDecimal"
+                  *ngIf="handicapForm.get('decimal')?.errors?.isInvalid"
                 >
-                  Valor máximo 99
+                  Valor máximo 54
                 </div>
               </ion-col>
             </ion-row>
@@ -113,6 +113,7 @@
             type="submit"
             shape="round"
             expand="block"
+            [disabled]="handicapForm.invalid && !timePlaying"
           >
             <ion-icon name="arrow-forward"></ion-icon>
             Siguiente
