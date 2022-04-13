@@ -57,6 +57,10 @@ html {
   margin: 0 auto;
 }
 
+.text-center {
+  text-align: center;
+}
+
 // .register-card__container {
 //   height: 90%;
 //   max-height: 634px;
@@ -86,14 +90,12 @@ html {
   color: #383838;
   border: none;
 
-
   input {
     width: 90%;
     background-color: transparent;
     outline: none;
     border: none;
     text-align: center;
-
   }
 
   img {
@@ -102,7 +104,6 @@ html {
 
   &.is-disabled {
     background: rgba(71, 71, 71, 0.616);
-
   }
 
   &:focus {
@@ -208,18 +209,17 @@ html {
     position: absolute;
     bottom: -60px;
     left: 0;
-  
-    .ignore-container__link{
+
+    .ignore-container__link {
       font-size: 1.6rem;
       font-weight: 600;
       line-height: 2rem;
       text-transform: uppercase;
-  
+
       a {
         color: #fff;
       }
     }
-  
   }
 }
 
@@ -234,7 +234,7 @@ html {
   bottom: -60px;
   left: 0;
 
-  .ignore-container__link{
+  .ignore-container__link {
     font-size: 1.6rem;
     font-weight: 600;
     line-height: 2rem;
@@ -244,23 +244,20 @@ html {
       color: #fff;
     }
   }
-
 }
 
 .not-license {
-
   p {
     margin: 0 auto;
-
   }
 }
 
 .have-not-link {
-  color: #009DD6;
+  color: #009dd6;
   cursor: pointer;
 
   &:active {
-    color: #2364d4
+    color: #2364d4;
   }
 }
 
@@ -312,7 +309,13 @@ html {
   margin-bottom: 20px;
   text-transform: capitalize;
 
-  span{
+  span {
     margin-right: 10px;
   }
+}
+
+a:link,
+a:visited,
+a:active {
+  text-decoration: none;
 }
