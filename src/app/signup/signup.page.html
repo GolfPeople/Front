@@ -1,10 +1,13 @@
 <ion-content>
-  <ion-grid>
-    <ion-row>
-      <div>
-        <ion-col size-sm="4" offset-sm="4">
-          <h2 class="title-text-pos">REGÍSTRATE</h2>
-          <p class="subtitle-text-pos">Ingresa tus credenciales</p>
+  <!-- <ion-grid> -->
+  <ion-row class="vertical-align-center">
+    <div>
+      <ion-col size-sm="4" offset-sm="4">
+        <div class="register-card">
+          <div>
+            <h2 class="title-text-pos">Regístrate</h2>
+            <p class="subtitle-text-pos">Ingresa tus credenciales</p>
+          </div>
           <form #f="ngForm" (ngSubmit)="onSubmit(f)">
             <ion-list>
               <ion-item>
@@ -21,12 +24,15 @@
                   class="input-text"
                 ></ion-input>
               </ion-item>
-              <ion-item
-                *ngIf="!emailCtrl.valid && emailCtrl.touched"
-                lines="none"
-              >
-                <ion-label class="validation-text">Email inválido</ion-label>
-              </ion-item>
+              <div class="error-container">
+                <ion-item
+                  *ngIf="!emailCtrl.valid && emailCtrl.touched"
+                  lines="none"
+                >
+                  <ion-label class="validation-text">Email inválido</ion-label>
+                </ion-item>
+              </div>
+
               <ion-item>
                 <ion-label position="floating" class="signup-form-title"
                   ><ion-icon name="person"></ion-icon>Nombre de
@@ -40,14 +46,17 @@
                   #nameCtrl="ngModel"
                 ></ion-input>
               </ion-item>
-              <ion-item
-                *ngIf="!nameCtrl.valid && nameCtrl.touched"
-                lines="none"
-              >
-                <ion-label class="validation-text"
-                  >Nombre de usuario inválido</ion-label
+              <div class="error-container">
+                <ion-item
+                  *ngIf="!nameCtrl.valid && nameCtrl.touched"
+                  lines="none"
                 >
-              </ion-item>
+                  <ion-label class="validation-text"
+                    >Nombre de usuario inválido</ion-label
+                  >
+                </ion-item>
+              </div>
+
               <ion-item>
                 <ion-label position="floating" class="signup-form-title"
                   ><ion-icon name="lock-open"></ion-icon> Contraseña</ion-label
@@ -68,16 +77,18 @@
                   class="show-password"
                 ></ion-icon>
               </ion-item>
-              <ion-item
-                *ngIf="!passwordCtrl.valid && passwordCtrl.touched"
-                lines="none"
-              >
-                <ion-label text-wrap class="validation-text">
-                  Contraseña inválida: debe contener al menos 8 caracteres, ser
-                  alfanumérica, incluir mayúsculas y minúsculas y al menos un
-                  caracter especial.
-                </ion-label>
-              </ion-item>
+              <div class="error-container-large">
+                <ion-item
+                  *ngIf="!passwordCtrl.valid && passwordCtrl.touched"
+                  lines="none"
+                >
+                  <ion-label text-wrap class="validation-text">
+                    Contraseña inválida: debe contener al menos 8 caracteres,
+                    ser alfanumérica, incluir mayúsculas y minúsculas y al menos
+                    un caracter especial.
+                  </ion-label>
+                </ion-item>
+              </div>
               <ion-item>
                 <ion-label position="floating" class="signup-form-title"
                   ><ion-icon name="lock-open"></ion-icon> Confirmar
@@ -109,7 +120,7 @@
               <ion-item lines="none">
                 <ion-checkbox required></ion-checkbox>
                 <ion-label text-wrap class="checkbox-text signup-form-checkbox"
-                  >Acepto los <a href="#">Términos y condiciones</a></ion-label
+                  >Acepto los <a href="#">términos y condiciones</a></ion-label
                 >
               </ion-item>
             </ion-list>
@@ -128,8 +139,9 @@
             ¿Ya tienes cuenta? <a [routerLink]="['/login']">Inicia Sesión</a>
           </p>
           <p></p>
-        </ion-col>
-      </div>
-    </ion-row>
-  </ion-grid>
+        </div>
+      </ion-col>
+    </div>
+  </ion-row>
+  <!-- </ion-grid> -->
 </ion-content>

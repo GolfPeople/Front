@@ -1,93 +1,113 @@
-ion-content{
-
-  --ion-background-color: linear-gradient(180deg, rgba(0, 56, 139, 0.8) 0%, rgba(0, 56, 139, 0.8) 68.23%), url(../../assets/img/golf-course.jpg), 0, 0/100%, 100%, no-repeat;
-
+ion-content {
+  --ion-background-color: linear-gradient(
+      180deg,
+      rgba(0, 56, 139, 0.8) 0%,
+      rgba(0, 56, 139, 0.8) 68.23%
+    ),
+    url(../../assets/img/golf-course.jpg), 0, 0/100%, 100%, no-repeat;
 }
 
-ion-col{
-  height: 90%;
-  width: 100% !important;
-  padding: 20px;
-  border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
-  position: fixed;
-  bottom:0;
-  left: 0;
-  background-color: #fff;
-}
+// ion-col {
+//   height: 90%;
+//   width: 100% !important;
+//   padding: 20px;
+//   border-top-left-radius: 25px;
+//   border-top-right-radius: 25px;
+//   position: fixed;
+//   // bottom: 0;
+//   // left: 0;
+//   background-color: #fff;
+// }
 
-.vertical-align-center > *
-{
-
-  display: flex!important;
-  align-content: center!important;
-  align-items: center!important;
+.vertical-align-center {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
   justify-content: center;
 }
 
-.text-center{
+.register-card {
+  margin-top: 65px;
+}
+
+// .vertical-align-center > * {
+//   display: flex !important;
+//   align-content: center !important;
+//   align-items: center !important;
+//   justify-content: center;
+// }
+
+.text-center {
   text-align: center;
 }
 
-.title-text-pos{
-  color: #00388B;
-  font-weight: 900;
-}
-.subtitle-text-pos{
-  color: #383838;
-  font-weight: 800;
+.title-text-pos {
+  margin-bottom: 0;
+  text-transform: capitalize;
 }
 
-.signup-form-title{
+.signup-form-title {
   font-size: 14px;
   font-weight: 500;
 }
 
-.signup-form-checkbox{
+.signup-form-checkbox {
   color: #383838;
   font-size: 12px;
   font-weight: 500;
 }
 
-.show-password{
-  font-size:16px !important;
+.show-password {
+  font-size: 16px !important;
   position: relative !important;
   top: 16px !important;
   margin: 0 auto !important;
-  color: #00388B;
+  color: #00388b;
 }
 
-ion-list{
+.error-container {
+  height: 30px;
+
+  &-large {
+    // width: 100%;
+    max-width: 250px;
+    height: 75px;
+    margin: o auto;
+  }
+}
+
+ion-list {
   --ion-item-background: transparent !important;
 }
 
-ion-label{
-  --color: #00388B !important;
+ion-label {
+  --color: #00388b !important;
 }
 
-ion-item.item-has-focus > ion-label{
-  color: #00388B !important;
+ion-item.item-has-focus > ion-label {
+  color: #00388b !important;
 }
 
-ion-input{
+ion-input {
   color: #383838 !important;
 }
 
-ion-checkbox{
+ion-checkbox {
   --background: transparent;
-  --background-checked:#00388B;
+  --background-checked: #00388b;
   --border-color: #383838;
-  --border-color-checked: #00388B;
-  margin-right: .5rem;
+  --border-color-checked: #00388b;
+  margin-right: 0.5rem;
 }
 
-
-.validation-text{
+.validation-text {
   font-size: 12px;
   color: red;
 }
 
-.login-btn{
+.login-btn {
   --background: transparent;
   --border-style: solid;
   --border-width: 1px;
@@ -96,10 +116,10 @@ ion-checkbox{
   margin-bottom: 20px;
 }
 
-.signup-btn{
-  --background: #009DD6;
+.signup-btn {
+  --background: #009dd6;
 }
 
-.link{
-  color: #009DD6;
+.link {
+  color: #009dd6;
 }
