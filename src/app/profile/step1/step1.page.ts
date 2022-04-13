@@ -65,17 +65,13 @@ export class Step1Page implements OnInit {
     private http: HttpClient
   ) {}
 
-
-
-
-
   async ngOnInit() {
     // console.log(this.selectImage())
     this.userService.getUserInfo().subscribe((res) => {
       this.userName = res.name;
-      res.profile.license
-        ? (this.license = res.profile.license)
-        : (this.license = '');
+      res.profile.license === null
+        ? (this.license = '')
+        : (this.license = res.profile.license);
       res.profile.photo
         ? (this.imageAvatarDefault = res.profile.photo)
         : (this.imageAvatarDefault = 'assets/img/default-avatar.png');
@@ -83,8 +79,6 @@ export class Step1Page implements OnInit {
     this.loadFiles();
     // this.imageAvatarDefault = this.images[this.images.length - 1].data
   }
-
-
 
   disabled() {
     this.isDisabled = true;
