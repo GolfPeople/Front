@@ -43,6 +43,8 @@ export class Step2Page implements OnInit {
   disabled() {
     this.handicapForm.controls.handicap.disable();
     this.isDisabled = true;
+    this.handicapForm.controls['handicap'].setValue(null);
+    console.log(this.handicapForm.value.handicap);
   }
 
   getHandicapValue(e) {
@@ -55,12 +57,7 @@ export class Step2Page implements OnInit {
 
   initForm(): FormGroup {
     return this.formBuilder.group({
-      handicap: [{value: '', disabled: false},
-        [
-          MyValidations.handicap,
-          Validators.required,
-        ],
-      ],
+      handicap: [{ value: '', disabled: false }, [MyValidations.handicap]],
     });
   }
 
@@ -80,31 +77,29 @@ export class Step2Page implements OnInit {
   async onSubmit() {
     const timePlaying = this.timePlaying;
     const handicap = this.handicapForm.value.handicap;
-    const decimal = this.handicapForm.value.decimal;
-    const value = handicap && decimal ? `${handicap}.${decimal}` : handicap;
     if (this.handicapForm.invalid) return;
     if (timePlaying === 0) window.alert('Debes selecionar una opción.');
-    if (handicap) {
-      this.step2Service.enviarHandicap(value, timePlaying).subscribe(
-        (rta) => {
-          console.log(rta);
-          this.isLoading = false;
-          this.router.navigate(['/step3']);
-        },
-        (error) => {
-          const code = error.message;
-          let message = 'Datos incorrectos, intenta de nuevo.';
-          if (code === 'Credenciales incorrectas') {
-            message = 'Datos incorrectos, intenta de nuevo.';
-          }
+    // if (handicap) {
+    this.step2Service.enviarHandicap(handicap, timePlaying).subscribe(
+      (rta) => {
+        console.log(rta);
+        this.isLoading = false;
+        this.router.navigate(['/step3']);
+      },
+      (error) => {
+        const code = error.message;
+        let message = 'Datos incorrectos, intenta de nuevo.';
+        if (code === 'Credenciales incorrectas') {
+          message = 'Datos incorrectos, intenta de nuevo.';
         }
-      );
-      setTimeout(() => {
-        this.userService.getUserInfo().subscribe((rta) => console.log(rta));
-      }, 3000);
-    } else {
-      return window.alert('Los campos son obligatorios!');
-    }
+      }
+    );
+    setTimeout(() => {
+      this.userService.getUserInfo().subscribe((rta) => console.log(rta));
+    }, 3000);
+    // } else {
+    //   return window.alert('Los campos son obligatorios!');
+    // }
 
     // const handicap = this.handicap;
     // const handicap = parseFloat(`${this.handicap}.${this.handicapDecimal}`);
