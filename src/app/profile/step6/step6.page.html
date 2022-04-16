@@ -9,31 +9,35 @@
             Vamos a completar tu perfil rellenando algunos campos.
           </p>
         </div>
-
         <ion-list>
           <p class="profile-license text-center">¿Cuándo es tu cumpleaños?</p>
-          <ion-item lines="none">
-            <input type="date" name="date" id="" />
-          </ion-item>
-          <!-- <div class="user-profile">
-            <h3 class="profile-name text-center">Nombre</h3>
-            <h5 class="profile-golfer text-center">Perfil Golfer</h5>
-          </div> -->
+          <!-- <ion-item lines="none"> -->
+          <div class="birthday">
+            <app-select-date (date)="getDate($event)"></app-select-date>
+          </div>
           <p class="profile-license text-center">¿Cuál es tu genero?</p>
           <ion-item lines="none">
             <div class="buttons-containers">
               <ion-row>
                 <ion-col class="ion-text-center">
-                  <button class="experience-button">Femenino</button>
+                  <button class="experience-button" (click)="gender = 1">
+                    Femenino
+                  </button>
                   <!-- <input type="button" value="Menos de un año" (click)="timePlaying = 1"> -->
                 </ion-col>
                 <ion-col class="ion-text-center">
-                  <button class="experience-button">Masculino</button>
+                  <button class="experience-button" (click)="gender = 2">
+                    Masculino
+                  </button>
                 </ion-col>
               </ion-row>
-              <ion-row class="top-10">
+              <ion-row>
                 <ion-col class="ion-text-center">
-                  <button class="experience-button" expand="block">
+                  <button
+                    class="experience-button button-large"
+                    (click)="gender = 3"
+                    expand="block"
+                  >
                     Prefiero no decirlo
                   </button>
                 </ion-col>
@@ -53,6 +57,7 @@
                 type="text"
                 name="license"
                 placeholder=" Ubicación Actual"
+                [(ngModel)]="address"
               />
               <img
                 class="cancel"
@@ -72,6 +77,7 @@
             type="submit"
             shape="round"
             expand="block"
+            (click)="onSubmit()"
             [routerLink]="['/step2']"
           >
             <span><img src="./../../../assets/icon/next.png" alt="" /> </span>

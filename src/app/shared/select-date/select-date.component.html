@@ -1,0 +1,27 @@
+<div class="date-picker--item day">{{ day }}</div>
+<div class="vertical-divider"></div>
+<div class="date-picker--item month">{{ month }}</div>
+<div class="vertical-divider"></div>
+<div class="date-picker--item year">{{ year }}</div>
+<div class="date-picker--item date-picker--button">
+  <input type="date" (change)="selectDate($event)" />
+  <span>
+    <img src="../../../assets/icon/date.png" alt="" />
+  </span>
+</div>
+
+<!-- <h2>CUSTOM<span>DATE</span>PICKER</h2>
+
+
+
+<div class="date-picker" (click)="toggleDatePicker($event)">
+  <div class="selected-date">30 / 07 / 2022</div>
+  <div class="dates" [ngClass]="{ active: isActive }">
+    <div class="month">
+      <div class="arrows prev-mth">&lt;</div>
+      <div class="mth">2016 July</div>
+      <div class="arrows next-mth">&gt;</div>
+    </div>
+    <div class="days"></div>
+  </div>
+</div> -->

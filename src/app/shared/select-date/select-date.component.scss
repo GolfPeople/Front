@@ -1,0 +1,124 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 300px;
+  height: 50px;
+  margin: 20px auto;
+  background: rgba(221, 221, 221, 0.2);
+  border-radius: 10px;
+
+  .date-picker--item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26.6%;
+    height: 100%;
+    padding: 0 12px;
+    font-size: 1.3rem;
+    font-weight: 500;
+    line-height: 1.7rem;
+    color: #000;
+
+    &.month {
+      margin: 0 10px;
+    }
+  }
+
+  .vertical-divider {
+    width: 1px;
+    height: 60%;
+    background-color: #dddddd;
+  }
+
+  .date-picker--button {
+    position: relative;
+    width: 20%;
+    min-width: 50px;
+    background-color: #009dd6;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: ointer;
+    transition: all 0.5s ease;
+
+    // &:hover {
+    //   background-color: #027daa;
+    // }
+
+    input {
+      position: absolute;
+      top: 0;
+      right: 0;
+      // min-width: 290px;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      font-size: 50px;
+
+      &.active {
+        background-color: #009dd6a1;
+      }
+    }
+  }
+}
+
+// :host {
+//   margin: 0 auto;
+//   color: #313131;
+// }
+
+// h2 {
+//   margin: 30px 0;
+//   font-size: 20px;
+//   font-weight: 700;
+//   text-align: center;
+// }
+
+// h2 span {
+//   font-weight: 300;
+// }
+
+// .date-picker {
+//   position: relative;
+//   width: 100%;
+//   max-width: 320px;
+//   height: 60px;
+//   margin: 30 px auto;
+//   background: rgba(145, 145, 145, 0.2);
+//   box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+//   cursor: pointer;
+//   user-select: none;
+
+//   &:hover {
+//     background: rgba(102, 102, 102, 0.2);
+//   }
+
+//   .selected-date {
+//     width: 100%;
+//     height: 100%;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     color: #313131;
+//     font-size: 1.8rem;
+//   }
+
+//   .dates {
+//     display: none;
+//     position: absolute;
+//     top: 100%;
+//     left: 0;
+//     right: 0;
+//     background-color: #fff;
+
+//     &.active {
+//       display: block;
+//     }
+
+//     .month {
+//       display: flex;
+//       justify-content: space-between;
+//     }
+//   }
+// }
