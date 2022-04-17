@@ -202,10 +202,10 @@ export class Step1Page implements OnInit {
   }
 
   async uploadData(formData: FormData) {
-    const loading = await this.loadingCtrl.create({
-      message: 'Subiendo imagen..',
-    });
-    await loading.present();
+    // const loading = await this.loadingCtrl.create({
+    //   message: 'Subiendo imagen..',
+    // });
+    // await loading.present();
 
     const url = 'https://www.api.app.golfpeople.com/api/auth/profile/1';
 
@@ -213,7 +213,7 @@ export class Step1Page implements OnInit {
       .post(url, formData)
       .pipe(
         finalize(() => {
-          loading.dismiss();
+          // loading.dismiss();
         })
       )
       .subscribe((res) => {
