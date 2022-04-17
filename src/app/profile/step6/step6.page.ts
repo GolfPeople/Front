@@ -21,7 +21,7 @@ export class Step6Page implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.printCurrentPosition();
+    // this.printCurrentPosition();
   }
 
   async printCurrentPosition() {
