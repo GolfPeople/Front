@@ -138,43 +138,8 @@ ion-item.item-has-focus > ion-label {
   color: #00388b !important;
 }
 
-
 @media screen and (min-height: 630px) {
   .image-container {
     display: block;
   }
 }
-
-// ion-input{
-//   --background: rgba(143, 143, 143, 0.3) !important;
-//   border-radius: 25px;
-//   color: #383838 !important;
-//   padding-left: 20px !important;
-//   // padding-right: 20px !important;
-// }
-
-// ion-checkbox{
-//   --background: transparent;
-//   --background-checked:#00388B;
-//   --border-color: #383838;
-//   --border-color-checked: #00388B;
-//   margin-right: .5rem;
-// }
-
-// .validation-text{
-//   font-size: 12px;
-//   color: red;
-// }
-
-// .login-btn{
-//   --background: transparent;
-//   --border-style: solid;
-//   --border-width: 1px;
-//   --border-color: #fff;
-//   margin-top: 20px;
-//   margin-bottom: 20px;
-// }
-
-// .signup-btn{
-//   --background: #009DD6;
-// }

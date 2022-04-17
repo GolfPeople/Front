@@ -89,7 +89,7 @@ export class Step1Page implements OnInit {
     this.images = [];
 
     const loading = await this.loadingCtrl.create({
-      message: 'Loading data...',
+      message: 'Cargando imagen...',
     });
     await loading.present();
 
@@ -198,6 +198,7 @@ export class Step1Page implements OnInit {
     formData.append('photo', blob, file.name);
     formData.append('license', this.license);
     this.uploadData(formData);
+    this.router.navigate(['/step6']);
   }
 
   async uploadData(formData: FormData) {

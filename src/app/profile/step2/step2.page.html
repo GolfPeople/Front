@@ -9,13 +9,13 @@
             src="assets/img/player1.png"
           ></ion-img>
         </div>
-        <h2 class="title-text-pos text-center">Analicemos tu nivel</h2>
-        <p class="subtitle-text-pos text-center">
+        <h2 class="card-title text-center">Analicemos tu nivel</h2>
+        <p class="card-text text-center">
           Responde estas preguntas para poder deducir tu nivel actual
         </p>
         <form [formGroup]="handicapForm">
           <ion-list>
-            <p class="profile-license text-center">
+            <p class="card-text text-center">
               ¿Cúal es tu Handicap federativo?
             </p>
             <ion-item class="handicap-container" lines="none">
@@ -54,9 +54,7 @@
               </p>
             </ion-item>
             <div class="validation-errors"></div>
-            <p class="profile-license text-center">
-              ¿Cúanto tiempo llevas jugando?
-            </p>
+            <p class="card-text text-center">¿Cúanto tiempo llevas jugando?</p>
             <ion-item lines="none">
               <div class="buttons-containers">
                 <ion-row>
@@ -110,6 +108,7 @@
           </ion-button>
           <p></p>
           <div class="progress text-center">
+            <ion-icon name="ellipse" class="progress-icon-done"></ion-icon>
             <ion-icon name="ellipse" class="progress-icon-done"></ion-icon>
             <ion-icon name="ellipse" class="progress-icon"></ion-icon>
             <ion-icon name="ellipse-outline" class="progress-icon"></ion-icon>

@@ -3,8 +3,8 @@
   <ion-row justify-content-center class="vertical-align-center">
     <ion-col class="pricipal-col">
       <div class="register-card">
-        <h2 class="title-text-pos text-center">¡COMENCEMOS!</h2>
-        <p class="subtitle-text-pos text-center">
+        <h2 class="card-title text-center">¡COMENCÉMOS!</h2>
+        <p class="card-text text-center">
           Vamos a completar tu perfil rellenando algunos campos.
         </p>
 
@@ -27,11 +27,8 @@
               <h3 class="profile-name text-center">{{userName}}</h3>
               <h5 class="profile-golfer text-center">Perfil Golfer</h5>
             </div>
-            <p class="profile-license text-center">Número de licencia</p>
+            <p class="card-text text-center">Número de licencia</p>
             <ion-item lines="none">
-              <!-- <ion-input type="text" [(ngModel)]="license" name="license"
-                ><ion-icon name="pencil" ></ion-icon
-              ></ion-input> -->
               <div class="data-input" [ngClass]="{'is-disabled' : isDisabled}">
                 <input
                   [disabled]="isDisabled"
@@ -57,7 +54,6 @@
             type="submit"
             shape="round"
             expand="block"
-            [routerLink]="['/step2']"
           >
             <span><img src="./../../../assets/icon/next.png" alt="" /> </span>
             Siguiente
@@ -65,6 +61,7 @@
 
           <div class="progress text-center">
             <ion-icon name="ellipse" class="progress-icon"></ion-icon>
+            <ion-icon name="ellipse-outline" class="progress-icon"></ion-icon>
             <ion-icon name="ellipse-outline" class="progress-icon"></ion-icon>
             <ion-icon name="ellipse-outline" class="progress-icon"></ion-icon>
             <ion-icon name="ellipse-outline" class="progress-icon"></ion-icon>

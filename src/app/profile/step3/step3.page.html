@@ -9,13 +9,13 @@
             src="assets/img/player2.png"
           ></ion-img>
         </div>
-        <h2 class="title-text-pos text-center">Analicemos tu nivel</h2>
-        <p class="subtitle-text-pos text-center">
+        <h2 class="card-title text-center">Analicemos tu nivel</h2>
+        <p class="card-text text-center">
           Responde estas preguntas para poder deducir tu nivel actual
         </p>
         <form>
           <ion-list>
-            <p class="profile-license text-center">Eres un jugador...</p>
+            <p class="card-text text-center">Eres un jugador...</p>
             <ion-item lines="none">
               <div class="buttons-containers">
                 <ion-row>
@@ -60,6 +60,7 @@
         </form>
         <div>
           <ion-button
+            class="next-button"
             (click)="onSubmit()"
             type="submit"
             shape="round"
@@ -70,6 +71,7 @@
           </ion-button>
           <!-- <p></p> -->
           <div class="progress text-center">
+            <ion-icon name="ellipse" class="progress-icon-done"></ion-icon>
             <ion-icon name="ellipse" class="progress-icon-done"></ion-icon>
             <ion-icon name="ellipse" class="progress-icon-done"></ion-icon>
             <ion-icon name="ellipse" class="progress-icon"></ion-icon>

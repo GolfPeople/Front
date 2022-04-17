@@ -149,13 +149,14 @@ html {
     }
   }
 
-  .title-text-pos {
+  .card-title {
     font-size: 1.8rem;
     font-weight: bold;
     color: $title-color;
     text-transform: uppercase;
   }
-  .subtitle-text-pos {
+
+  .card-text {
     font-size: 1.3rem;
     font-weight: 500;
     line-height: 1.7rem;
@@ -285,13 +286,6 @@ html {
   color: $text-color;
 }
 
-.profile-license {
-  font-size: 1.3rem;
-  font-weight: 500;
-  line-height: 1.7rem;
-  color: $text-color;
-}
-
 .erros-container {
   display: flex;
   align-items: center;
@@ -313,6 +307,18 @@ html {
   span {
     margin-right: 10px;
   }
+}
+
+.progress-icon {
+  margin-left: 10px;
+  margin-right: 10px;
+  color: #009dd6;
+}
+
+.progress-icon-done {
+  margin-left: 10px;
+  margin-right: 10px;
+  color: #009838;
 }
 
 a:link,

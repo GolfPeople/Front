@@ -4,18 +4,18 @@
     <ion-col class="pricipal-col">
       <div class="register-card">
         <div>
-          <h2 class="title-text-pos text-center">queremos conocerte más</h2>
-          <p class="subtitle-text-pos text-center">
+          <h2 class="card-title text-center">queremos conocerte más</h2>
+          <p class="card-text text-center">
             Vamos a completar tu perfil rellenando algunos campos.
           </p>
         </div>
         <ion-list>
-          <p class="profile-license text-center">¿Cuándo es tu cumpleaños?</p>
+          <p class="card-text text-center">¿Cuándo es tu cumpleaños?</p>
           <!-- <ion-item lines="none"> -->
           <div class="birthday">
             <app-select-date (date)="getDate($event)"></app-select-date>
           </div>
-          <p class="profile-license text-center">¿Cuál es tu genero?</p>
+          <p class="card-text text-center">¿Cuál es tu género?</p>
           <ion-item lines="none">
             <div class="buttons-containers">
               <ion-row>
@@ -45,7 +45,7 @@
             </div>
             <br />
           </ion-item>
-          <p class="profile-license text-center">¿Dónde vives?</p>
+          <p class="card-text text-center">¿Dónde vives?</p>
           <ion-item lines="none">
             <div class="data-input">
               <img
@@ -78,13 +78,13 @@
             shape="round"
             expand="block"
             (click)="onSubmit()"
-            [routerLink]="['/step2']"
           >
             <span><img src="./../../../assets/icon/next.png" alt="" /> </span>
             Siguiente
           </ion-button>
 
           <div class="progress text-center">
+            <ion-icon name="ellipse" class="progress-icon-done"></ion-icon>
             <ion-icon name="ellipse" class="progress-icon"></ion-icon>
             <ion-icon name="ellipse-outline" class="progress-icon"></ion-icon>
             <ion-icon name="ellipse-outline" class="progress-icon"></ion-icon>

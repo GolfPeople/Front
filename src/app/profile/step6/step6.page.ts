@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Geolocation } from '@capacitor/geolocation';
 import { UserService } from 'src/app/core/services/user.service';
 import { Step6Service } from './step6.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-step6',
@@ -15,7 +16,8 @@ export class Step6Page implements OnInit {
 
   constructor(
     private Step6Svc: Step6Service,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -40,6 +42,7 @@ export class Step6Page implements OnInit {
       this.address
     ).subscribe((res) => {
       console.log(res);
+      this.router.navigate(['/step2']);
     });
     setTimeout(() => {
       this.userService.getUserInfo().subscribe((rta) => console.log(rta));

@@ -59,11 +59,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./profile/step5/step5.module').then((m) => m.Step5PageModule),
     canLoad: [AuthGuard],
-  },  {
-    path: 'step6',
-    loadChildren: () => import('./profile/step6/step6.module').then( m => m.Step6PageModule)
   },
-
+  {
+    path: 'step6',
+    loadChildren: () =>
+      import('./profile/step6/step6.module').then((m) => m.Step6PageModule),
+    canLoad: [AuthGuard],
+  },
 ];
 
 @NgModule({
