@@ -14,6 +14,10 @@ export class Step6Page implements OnInit {
   birthday: string;
   address: string;
 
+  isActive1: boolean;
+  isActive2: boolean;
+  isActive3: boolean;
+
   constructor(
     private Step6Svc: Step6Service,
     private userService: UserService,
@@ -28,6 +32,31 @@ export class Step6Page implements OnInit {
     const coordinates = await Geolocation.getCurrentPosition();
 
     console.log('Current position:', coordinates);
+  }
+
+  chooseGender(event) {
+    const element = event.target;
+    if (element.value === '1') {
+      this.isActive1 = true;
+      this.isActive2 = false;
+      this.isActive3 = false;
+      this.gender = 1;
+      return;
+    }
+    if (element.value === '2') {
+      this.isActive1 = false;
+      this.isActive2 = true;
+      this.isActive3 = false;
+      this.gender = 2;
+      return;
+    }
+    if (element.value === '3') {
+      this.isActive1 = false;
+      this.isActive2 = false;
+      this.isActive3 = true;
+      this.gender = 3;
+      return;
+    }
   }
 
   getDate(date: string) {

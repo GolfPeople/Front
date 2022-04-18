@@ -12,6 +12,12 @@ import { UserService } from '../../core/services/user.service';
 export class Step3Page implements OnInit {
   type: number = 0;
 
+  isActive1: boolean;
+  isActive2: boolean;
+  isActive3: boolean;
+  isActive4: boolean;
+  isActive5: boolean;
+
   constructor(
     private step3Service: Step3Service,
     private userService: UserService,
@@ -19,6 +25,56 @@ export class Step3Page implements OnInit {
   ) {}
 
   ngOnInit() {}
+
+  chooseTypePlayer(event) {
+    const element = event.target;
+
+    if (element.value == '1') {
+      this.isActive1 = true;
+      this.isActive2 = false;
+      this.isActive3 = false;
+      this.isActive4 = false;
+      this.isActive5 = false;
+      this.type = 1;
+      return;
+    }
+    if (element.value == '2') {
+      this.isActive1 = false;
+      this.isActive2 = true;
+      this.isActive3 = false;
+      this.isActive4 = false;
+      this.isActive5 = false;
+      this.type = 2;
+      return;
+    }
+    if (element.value == '3') {
+      this.isActive1 = false;
+      this.isActive2 = false;
+      this.isActive3 = true;
+      this.isActive4 = false;
+      this.isActive5 = false;
+      this.type = 3;
+      return;
+    }
+    if (element.value == '4') {
+      this.isActive1 = false;
+      this.isActive2 = false;
+      this.isActive3 = false;
+      this.isActive4 = true;
+      this.isActive5 = false;
+      this.type = 4;
+      return;
+    }
+    if (element.value == '5') {
+      this.isActive1 = false;
+      this.isActive2 = false;
+      this.isActive3 = false;
+      this.isActive4 = false;
+      this.isActive5 = true;
+      this.type = 5;
+      return;
+    }
+  }
 
   onSubmit() {
     if (this.type === 0) {

@@ -20,13 +20,23 @@
             <div class="buttons-containers">
               <ion-row>
                 <ion-col class="ion-text-center">
-                  <button class="experience-button" (click)="gender = 1">
+                  <button
+                    class="experience-button"
+                    [ngClass]="{'isActive': isActive1}"
+                    value="1"
+                    (click)="chooseGender($event)"
+                  >
                     Femenino
                   </button>
                   <!-- <input type="button" value="Menos de un año" (click)="timePlaying = 1"> -->
                 </ion-col>
                 <ion-col class="ion-text-center">
-                  <button class="experience-button" (click)="gender = 2">
+                  <button
+                    class="experience-button"
+                    [ngClass]="{'isActive': isActive2}"
+                    value="2"
+                    (click)="chooseGender($event)"
+                  >
                     Masculino
                   </button>
                 </ion-col>
@@ -35,7 +45,9 @@
                 <ion-col class="ion-text-center">
                   <button
                     class="experience-button button-large"
-                    (click)="gender = 3"
+                    [ngClass]="{'isActive': isActive3}"
+                    value="3"
+                    (click)="chooseGender($event)"
                     expand="block"
                   >
                     Prefiero no decirlo

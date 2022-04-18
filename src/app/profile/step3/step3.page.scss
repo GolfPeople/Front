@@ -89,9 +89,13 @@ ion-content {
       border-radius: 17.5px;
       // text-transform: capitalize;
 
-      &:focus {
+      &.isActive {
         border: 1.2px solid #009dd6;
       }
+
+      // &:focus {
+      //   border: 1.2px solid #009dd6;
+      // }
     }
   }
 }

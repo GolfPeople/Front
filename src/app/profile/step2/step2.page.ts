@@ -22,6 +22,11 @@ export class Step2Page implements OnInit {
   timePlaying: number = 0;
   isDisabled: boolean = false;
 
+  isActive1: boolean;
+  isActive2: boolean;
+  isActive3: boolean;
+  isActive4: boolean;
+
   public handicapForm: FormGroup;
 
   public experience: any;
@@ -59,6 +64,43 @@ export class Step2Page implements OnInit {
     return this.formBuilder.group({
       handicap: [{ value: '', disabled: false }, [MyValidations.handicap]],
     });
+  }
+
+  chooseTimePlaying(event) {
+    const element = event.target;
+
+    if (element.value == '1') {
+      this.isActive1 = true;
+      this.isActive2 = false;
+      this.isActive3 = false;
+      this.isActive4 = false;
+      this.timePlaying = 1;
+      return;
+    }
+    if (element.value == '2') {
+      this.isActive1 = false;
+      this.isActive2 = true;
+      this.isActive3 = false;
+      this.isActive4 = false;
+      this.timePlaying = 2;
+      return;
+    }
+    if (element.value == '3') {
+      this.isActive1 = false;
+      this.isActive2 = false;
+      this.isActive3 = true;
+      this.isActive4 = false;
+      this.timePlaying = 3;
+      return;
+    }
+    if (element.value == '4') {
+      this.isActive1 = false;
+      this.isActive2 = false;
+      this.isActive3 = false;
+      this.isActive4 = true;
+      this.timePlaying = 4;
+      return;
+    }
   }
 
   getDecimalValue(e) {

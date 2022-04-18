@@ -59,13 +59,23 @@
               <div class="buttons-containers">
                 <ion-row>
                   <ion-col class="ion-text-center">
-                    <button class="experience-button" (click)="timePlaying = 1">
+                    <button
+                      class="experience-button"
+                      [ngClass]="{'isActive': isActive1}"
+                      value="1"
+                      (click)="chooseTimePlaying($event)"
+                    >
                       Menos de 1 año
                     </button>
                     <!-- <input type="button" value="Menos de un año" (click)="timePlaying = 1"> -->
                   </ion-col>
                   <ion-col class="ion-text-center">
-                    <button class="experience-button" (click)="timePlaying = 2">
+                    <button
+                      class="experience-button"
+                      [ngClass]="{'isActive': isActive2}"
+                      value="2"
+                      (click)="chooseTimePlaying($event)"
+                    >
                       De 3 a 5 años
                     </button>
                   </ion-col>
@@ -74,8 +84,9 @@
                   <ion-col class="ion-text-center">
                     <button
                       class="experience-button"
-                      (click)="timePlaying = 3"
-                      value
+                      [ngClass]="{'isActive': isActive3}"
+                      value="3"
+                      (click)="chooseTimePlaying($event)"
                     >
                       De 5 a 10 años
                     </button>
@@ -83,8 +94,9 @@
                   <ion-col class="ion-text-center">
                     <button
                       class="experience-button"
-                      (click)="timePlaying = 4"
-                      value
+                      [ngClass]="{'isActive': isActive4}"
+                      value="4"
+                      (click)="chooseTimePlaying($event)"
                     >
                       Más de 10 años
                     </button>

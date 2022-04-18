@@ -20,18 +20,33 @@
               <div class="buttons-containers">
                 <ion-row>
                   <ion-col class="ion-text-center">
-                    <button class="type-button" (click)="type = 1">
+                    <button
+                      class="type-button"
+                      (click)="chooseTypePlayer($event)"
+                      [ngClass]="{'isActive': isActive1}"
+                      value="1"
+                    >
                       Recurrente
                     </button>
                     <!-- <input type="button" value="Menos de un año" (click)="timePlaying = 1"> -->
                   </ion-col>
                   <ion-col class="ion-text-center">
-                    <button class="type-button" (click)="type = 2">
+                    <button
+                      class="type-button"
+                      (click)="chooseTypePlayer($event)"
+                      [ngClass]="{'isActive': isActive2}"
+                      value="2"
+                    >
                       Ocasional
                     </button>
                   </ion-col>
                   <ion-col class="ion-text-center">
-                    <button class="type-button" (click)="type = 3">
+                    <button
+                      class="type-button"
+                      (click)="chooseTypePlayer($event)"
+                      [ngClass]="{'isActive': isActive3}"
+                      value="3"
+                    >
                       Diario
                     </button>
                   </ion-col>
@@ -40,7 +55,9 @@
                   <ion-col class="ion-text-center">
                     <button
                       class="experience-button"
-                      (click)="type = 4"
+                      (click)="chooseTypePlayer($event)"
+                      [ngClass]="{'isActive': isActive4}"
+                      value="4"
                       expand="block"
                     >
                       Profesor/Entrenador de Golf
@@ -49,7 +66,12 @@
                 </ion-row>
                 <ion-row class="top-10">
                   <ion-col class="ion-text-center">
-                    <button class="experience-button" (click)="type = 5" value>
+                    <button
+                      class="experience-button"
+                      (click)="chooseTypePlayer($event)"
+                      [ngClass]="{'isActive': isActive5}"
+                      value="5"
+                    >
                       Profesional del Circuito de Golf
                     </button>
                   </ion-col>
