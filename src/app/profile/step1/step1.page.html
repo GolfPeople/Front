@@ -33,6 +33,7 @@
                 <input
                   [disabled]="isDisabled"
                   type="text"
+                  [placeholder]="isDisabled === true ? '-----' : ''"
                   [(ngModel)]="license"
                   name="license"
                 />
@@ -42,7 +43,12 @@
             </ion-item>
             <ion-item lines="none" class="not-license">
               <p (click)="disabled()" class="text-center back-link margin-auto">
-                <a class="have-not-link">No tengo Licencia</a>
+                <a *ngIf="isDisabled === false" class="have-not-link"
+                  >No tengo Licencia</a
+                >
+                <a *ngIf="isDisabled === true" class="have-not-link"
+                  >Sí tengo Licencia</a
+                >
               </p>
             </ion-item>
           </ion-list>

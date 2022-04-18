@@ -24,7 +24,24 @@ export class Step3Page implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.userService.getUserInfo().subscribe(({ profile }) => {
+      if (profile.type) {
+        this.type = profile.type;
+        profile.type === 1
+          ? (this.isActive1 = true)
+          : profile.type === 2
+          ? (this.isActive2 = true)
+          : profile.type === 3
+          ? (this.isActive3 = true)
+          : profile.type === 4
+          ? (this.isActive4 = true)
+          : profile.type === 5
+          ? (this.isActive5 = true)
+          : null;
+      }
+    });
+  }
 
   chooseTypePlayer(event) {
     const element = event.target;
@@ -77,9 +94,6 @@ export class Step3Page implements OnInit {
   }
 
   onSubmit() {
-    if (this.type === 0) {
-      return window.alert('Tienes que selecionar un tipo de jugador');
-    }
     this.step3Service.type(this.type).subscribe((rta) => {
       console.log(rta);
       this.router.navigate(['/step5']);

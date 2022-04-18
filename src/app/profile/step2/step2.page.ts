@@ -43,6 +43,23 @@ export class Step2Page implements OnInit {
   ngOnInit() {
     this.handicapForm = this.initForm();
     console.log(this.handicapForm);
+    this.userService.getUserInfo().subscribe(({ profile }) => {
+      if (profile.handicap) {
+        this.handicapForm.controls['handicap'].setValue(profile.handicap);
+      }
+      if (profile.time_playing) {
+        this.timePlaying = profile.time_playing;
+        profile.time_playing === 1
+          ? (this.isActive1 = true)
+          : profile.time_playing === 2
+          ? (this.isActive2 = true)
+          : profile.time_playing === 3
+          ? (this.isActive3 = true)
+          : profile.time_playing === 4
+          ? (this.isActive4 = true)
+          : null;
+      }
+    });
   }
 
   disabled() {

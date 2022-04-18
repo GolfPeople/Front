@@ -25,7 +25,27 @@ export class Step6Page implements OnInit {
   ) {}
 
   ngOnInit() {
-    // this.printCurrentPosition();
+    this.userService.getUserInfo().subscribe(({ profile }) => {
+      if (profile.gender) {
+        this.gender = profile.gender;
+        if (profile.gender === 1) {
+          this.isActive1 = true;
+          // return;
+        }
+        if (profile.gender === 2) {
+          this.isActive2 = true;
+          // return;
+        }
+        if (profile.gender === 3) {
+          this.isActive3 = true;
+          // return;
+        }
+      }
+      if (profile.birthday) {
+        this.birthday = profile.birthday;
+        console.log('TEST init -->', this.birthday);
+      }
+    });
   }
 
   async printCurrentPosition() {
@@ -60,11 +80,17 @@ export class Step6Page implements OnInit {
   }
 
   getDate(date: string) {
-    console.log(date);
-    this.birthday = date;
+    if (date === '0000-00-00') {
+      return;
+    } else {
+      this.birthday = date;
+    }
+    // console.log(date);
+    // this.birthday = date === '0000-00-00' ? this.birthday : date;
   }
 
   onSubmit() {
+    console.log('TEST -->', this.birthday);
     this.Step6Svc.dateAndLocation(
       this.birthday,
       this.gender,

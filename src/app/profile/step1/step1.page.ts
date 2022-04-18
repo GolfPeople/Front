@@ -81,7 +81,7 @@ export class Step1Page implements OnInit {
   }
 
   disabled() {
-    this.isDisabled = true;
+    this.isDisabled = !this.isDisabled;
     this.license = '';
   }
 
