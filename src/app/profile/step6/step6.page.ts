@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Geolocation } from '@capacitor/geolocation';
-import { UserService } from 'src/app/core/services/user.service';
-import { Step6Service } from './step6.service';
 import { Router } from '@angular/router';
+import { Geolocation } from '@capacitor/geolocation';
+
+import { UserService } from 'src/app/core/services/user.service';
+import { GeolocationService } from 'src/app/core/services/geolocation.service';
+import { Step6Service } from './step6.service';
+import { FormControl, Validators } from '@angular/forms';
+
+declare var google;
 
 @Component({
   selector: 'app-step6',
@@ -12,46 +17,67 @@ import { Router } from '@angular/router';
 export class Step6Page implements OnInit {
   gender;
   birthday: string;
-  address: string;
+  address: FormControl;
+  coords;
 
   isActive1: boolean;
   isActive2: boolean;
   isActive3: boolean;
 
+  geocoder = new google.maps.Geocoder();
+  // autocomplete = new google.maps.places.Autocomplete();
+
   constructor(
     private Step6Svc: Step6Service,
     private userService: UserService,
+    private geolocationService: GeolocationService,
     private router: Router
   ) {}
 
   ngOnInit() {
+    this.address = this.initFormcontrol();
+    this.printCurrentPosition();
+
+    console.log(this.address.value);
     this.userService.getUserInfo().subscribe(({ profile }) => {
       if (profile.gender) {
         this.gender = profile.gender;
         if (profile.gender === 1) {
           this.isActive1 = true;
-          // return;
         }
         if (profile.gender === 2) {
           this.isActive2 = true;
-          // return;
         }
         if (profile.gender === 3) {
           this.isActive3 = true;
-          // return;
         }
       }
       if (profile.birthday) {
         this.birthday = profile.birthday;
-        console.log('TEST init -->', this.birthday);
+      }
+      if (profile.address) {
+        this.address.setValue(profile.address);
       }
     });
   }
 
+  initFormcontrol() {
+    const control = new FormControl('', {});
+    return control;
+  }
+
   async printCurrentPosition() {
     const coordinates = await Geolocation.getCurrentPosition();
+    const { latitude, longitude } = coordinates.coords;
 
+    this.coords = {
+      latitude,
+      longitude,
+    };
+
+    console.log(this.coords);
     console.log('Current position:', coordinates);
+    return coordinates;
   }
 
   chooseGender(event) {
@@ -85,16 +111,14 @@ export class Step6Page implements OnInit {
     } else {
       this.birthday = date;
     }
-    // console.log(date);
-    // this.birthday = date === '0000-00-00' ? this.birthday : date;
   }
 
   onSubmit() {
-    console.log('TEST -->', this.birthday);
+    this.codeAddress();
     this.Step6Svc.dateAndLocation(
       this.birthday,
       this.gender,
-      this.address
+      this.address.value
     ).subscribe((res) => {
       console.log(res);
       this.router.navigate(['/step2']);
@@ -102,5 +126,35 @@ export class Step6Page implements OnInit {
     setTimeout(() => {
       this.userService.getUserInfo().subscribe((rta) => console.log(rta));
     }, 3000);
+
+    // this.geocode({ address: this.address });
+  }
+
+  codeAddress() {
+    // var input = document.getElementById("address");
+    // var autocomplete = new google.maps.places.Autocomplete(this.address.value);
+    // var address = document.getElementById("address").value;
+    var address = this.address.value;
+    this.geocoder.geocode({ address: address }, function (r, s) {
+      console.log(r);
+      alert(r[0].geometry.location);
+    });
+  }
+
+  geoCodeLatLong(latlng) {
+    // This is making the Geocode request
+    this.geocoder.geocode({ latLng: latlng }, function (results, status) {
+      console.log(results);
+      if (status !== google.maps.GeocoderStatus.OK) {
+        alert(status);
+      }
+      // This is checking to see if the Geoeode Status is OK before proceeding
+      if (status == google.maps.GeocoderStatus.OK) {
+        var address = results[0].formatted_address;
+
+        //This is placing the returned address in the 'Address' field on the HTML form
+        this.address.setSalue(results[0].formatted_address);
+      }
+    });
   }
 }
