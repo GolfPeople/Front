@@ -7,6 +7,7 @@ import {
   SignupService,
   SignupResponseData,
 } from '../core/services/signup.service';
+import { LoginService } from '../core/services/login.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -24,7 +25,8 @@ export class SignupPage implements OnInit {
     private signupService: SignupService,
     private router: Router,
     private loadingCtrl: LoadingController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private loginService: LoginService
   ) {}
 
   ngOnInit() {}
@@ -56,6 +58,9 @@ export class SignupPage implements OnInit {
         }
         authObs.subscribe(
           (resData) => {
+            this.loginService
+              .login(email, password)
+              .subscribe((res) => console.log(res));
             console.log(resData);
             this.isLoading = false;
             loadingEl.dismiss();
@@ -97,7 +102,7 @@ export class SignupPage implements OnInit {
           {
             text: 'Aceptar',
             handler: () => {
-              this.router.navigateByUrl('/login');
+              this.router.navigateByUrl('/complete-profile');
             },
           },
         ],

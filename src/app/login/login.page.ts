@@ -57,7 +57,7 @@ export class LoginPage implements OnInit {
             // this.loginService.isLogged$.subscribe((data) => console.log(data));
             this.isLoading = false;
             loadingEl.dismiss();
-            this.router.navigate(['/complete-profile']);
+            this.router.navigate(['/home']);
           },
           (errRes) => {
             loadingEl.dismiss();
