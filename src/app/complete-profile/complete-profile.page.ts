@@ -4,10 +4,10 @@ import { LoginService } from '../core/services/login.service';
 
 @Component({
   selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  templateUrl: 'complete-profile.page.html',
+  styleUrls: ['complete-profile.page.scss'],
 })
-export class HomePage {
+export class CompleteProfilePage {
   constructor(private loginService: LoginService, private router: Router) {}
 
   onlogout() {

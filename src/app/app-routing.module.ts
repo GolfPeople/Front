@@ -25,9 +25,11 @@ const routes: Routes = [
       import('./signup/signup.module').then((m) => m.SignupPageModule),
   },
   {
-    path: 'home',
+    path: 'complete-profile',
     loadChildren: () =>
-      import('./home/home.module').then((m) => m.HomePageModule),
+      import('./complete-profile/complete-profile.module').then(
+        (m) => m.CompleteProfilePageModule
+      ),
     canLoad: [AuthGuard],
   },
   {
@@ -65,15 +67,17 @@ const routes: Routes = [
     loadChildren: () =>
       import('./profile/step6/step6.module').then((m) => m.Step6PageModule),
     canLoad: [AuthGuard],
-  },  {
-    path: 'main',
-    loadChildren: () => import('./pages/home/main/main.module').then( m => m.MainPageModule)
+  },
+  {
+    path: 'home',
+    loadChildren: () =>
+      import('./pages/home/main/main.module').then((m) => m.MainPageModule),
   },
   {
     path: 'tabs',
-    loadChildren: () => import('./pages/tabs/tabs.module').then( m => m.TabsPageModule)
+    loadChildren: () =>
+      import('./pages/tabs/tabs.module').then((m) => m.TabsPageModule),
   },
-
 ];
 
 @NgModule({
