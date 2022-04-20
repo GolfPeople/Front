@@ -65,7 +65,15 @@ const routes: Routes = [
     loadChildren: () =>
       import('./profile/step6/step6.module').then((m) => m.Step6PageModule),
     canLoad: [AuthGuard],
+  },  {
+    path: 'main',
+    loadChildren: () => import('./pages/home/main/main.module').then( m => m.MainPageModule)
   },
+  {
+    path: 'tabs',
+    loadChildren: () => import('./pages/tabs/tabs.module').then( m => m.TabsPageModule)
+  },
+
 ];
 
 @NgModule({

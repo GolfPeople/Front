@@ -33,6 +33,11 @@
   src: url("/assets/fonts/Montserrat-VariableFont_wght.ttf");
 }
 
+// @import "swiper/scss";
+// @import "swiper/scss/navigation";
+// @import "swiper/scss/pagination";
+// @import "swiper/swiper-bundle";
+
 *:not(ion-icon) {
   font-family: "Montserrat" !important;
 }
@@ -45,6 +50,9 @@
 
 html {
   font-size: 62.5%;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 //Card global styles
@@ -80,6 +88,7 @@ html {
 
 .data-input {
   display: flex;
+  flex-direction: row;
   justify-content: space-evenly;
   width: 100%;
   height: 36px;
