@@ -1,0 +1,113 @@
+<nav class="nav">
+  <a [routerLink]="['/profile']"
+    ><img
+      class="create"
+      src="../../../../assets/icon/menu/create.png"
+      alt=""
+    />CREAR</a
+  >
+  <a
+    ><img
+      class="play"
+      src="../../../../assets/icon/menu/play.png"
+      alt=""
+    />JUGAR</a
+  >
+  <a
+    ><img
+      class="home"
+      src="../../../../assets/icon/menu/home.png"
+      alt=""
+    />HOME</a
+  >
+  <a
+    ><img
+      class="message"
+      src="../../../../assets/icon/menu/message.png"
+      alt=""
+    />MENSAJES</a
+  >
+  <a (click)="toggleMenu()"
+    ><img
+      class="burger"
+      src="../../../../assets/icon/menu/burger.png"
+      alt=""
+    />MENU</a
+  >
+</nav>
+<div class="side-menu" [ngClass]="{ activeMenu: activeMenu }">
+  <div class="profile">
+    <a class="link-profile">
+      <img
+        class="link-profile--img"
+        src="../../../../assets/img/profile-image.png"
+        alt=""
+      />
+    </a>
+    <div class="profile-info">
+      <h3 class="text">mi perfil</h3>
+      <h2 class="name">Nombre</h2>
+      <p class="text">Golfer</p>
+    </div>
+  </div>
+  <div class="qr"></div>
+  <div class="side-menu--list">
+    <div class="list-item">
+      <a>
+        <img
+          class="events"
+          src="../../../../assets/icon/side-menu/calendar.png"
+          alt=""
+        />
+        EVENTOS
+      </a>
+    </div>
+    <div class="list-item">
+      <a>
+        <img
+          class="classes"
+          src="../../../../assets/icon/side-menu/grado.png"
+          alt=""
+        />
+        CLASES
+      </a>
+    </div>
+    <div class="list-item">
+      <a>
+        <img
+          class="friends"
+          src="../../../../assets/icon/side-menu/friends.png"
+          alt=""
+        />
+        AMIGOS
+      </a>
+    </div>
+    <div class="list-item">
+      <a>
+        <img
+          class="save"
+          src="../../../../assets/icon/side-menu/save.png"
+          alt=""
+        />
+        GUARDADOS
+      </a>
+    </div>
+    <div class="list-item">
+      <a>
+        <img
+          class="club"
+          src="../../../../assets/icon/side-menu/favorite.png"
+          alt=""
+        />
+        MI CLUB
+      </a>
+    </div>
+  </div>
+  <ion-button class="next-button" expand="block">Admin panel</ion-button>
+
+  <a (click)="onLogout()" class="signup">Cerrar Sesión</a>
+  <div class=".side-menu--footer">
+    <p>Acerca de GolfPeople</p>
+    <p>GolfPeople® Versión 1.0</p>
+  </div>
+</div>
