@@ -127,8 +127,11 @@ ion-content {
       display: flex;
       overflow-y: auto;
 
-      li {
-        margin: 16px;
+      ul {
+        list-style-type: none;
+        li {
+          margin: 16px;
+        }
       }
     }
   }
