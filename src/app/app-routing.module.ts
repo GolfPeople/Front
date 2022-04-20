@@ -77,6 +77,7 @@ const routes: Routes = [
     path: 'website',
     loadChildren: () =>
       import('./website/website.module').then((m) => m.WebsiteModule),
+    canLoad: [AuthGuard],
   },
 ];
 
