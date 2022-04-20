@@ -78,10 +78,9 @@ ion-content {
 .main-section {
   position: relative;
   width: 100%;
-  height: auto;
+  height: auto - 75px;
   padding: 27.5px 0;
   top: -30px;
-  bottom: 0;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
   background-color: $color-white;
