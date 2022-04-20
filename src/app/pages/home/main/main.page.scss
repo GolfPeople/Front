@@ -126,12 +126,10 @@ ion-content {
     .stories-list {
       display: flex;
       overflow-y: auto;
+      list-style-type: none;
 
-      ul {
-        list-style-type: none;
-        li {
-          margin: 16px;
-        }
+      li {
+        margin: 16px;
       }
     }
   }
