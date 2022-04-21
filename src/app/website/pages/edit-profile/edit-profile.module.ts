@@ -11,8 +11,10 @@ import { EditProfilePageRoutingModule } from './edit-profile-routing.module';
 
 import { EditProfilePage } from './edit-profile.page';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { QrModalComponent } from './components/qr-modal/qr-modal.component';
 
 @NgModule({
+  entryComponents: [QrModalComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -23,6 +25,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     RouterModule,
     NgxQRCodeModule,
   ],
-  declarations: [EditProfilePage],
+  declarations: [EditProfilePage, QrModalComponent],
 })
 export class EditProfilePageModule {}

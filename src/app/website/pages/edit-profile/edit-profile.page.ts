@@ -6,6 +6,8 @@ import {
   NgxQrcodeElementTypes,
   NgxQrcodeErrorCorrectionLevels,
 } from '@techiediaries/ngx-qrcode';
+import { ModalController } from '@ionic/angular';
+import { QrModalComponent } from './components/qr-modal/qr-modal.component';
 
 @Component({
   selector: 'app-edit-profile',
@@ -15,12 +17,16 @@ import {
 export class EditProfilePage implements OnInit {
   userName: string;
   imageAvatarDefault: string = 'assets/img/default-avatar.png';
+  isOpen: boolean = false;
 
   elementType = NgxQrcodeElementTypes.URL;
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   value = 'https://www.youtube.com/';
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private modalCtrl: ModalController
+  ) {}
 
   ngOnInit() {
     this.userService.getUserInfo().subscribe((res) => {
@@ -46,6 +52,19 @@ export class EditProfilePage implements OnInit {
     //     .then(() => console.log('Successful share'))
     //     .catch((error) => console.log('Error sharing', error));
     // }
+  }
+
+  async openModal() {
+    this.isOpen = true;
+    // const modal = await this.modalCtrl.create({
+    //   component: QrModalComponent,
+    //   cssClass: 'my-custom-class',
+    //   componentProps: {
+    //     name: 'QR',
+    //   },
+    // });
+
+    // await modal.present();
   }
 
   async startScan() {
