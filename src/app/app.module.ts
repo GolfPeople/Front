@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
+import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
@@ -20,6 +21,7 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     HttpClientModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    NgxQRCodeModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable

@@ -1,5 +1,5 @@
 <nav class="nav">
-  <a [routerLink]="['/profile']"
+  <a
     ><img
       class="create"
       src="../../../../assets/icon/menu/create.png"
@@ -33,16 +33,13 @@
     </ion-menu-button>
     <p>MENU</p>
   </div>
-  <!-- <ion-buttons> -->
-  <!-- <ion-menu-button menu="main-menu">menu</ion-menu-button> -->
-  <!-- </ion-buttons> -->
 </nav>
 
 <ion-menu menuId="main-menu" contentId="main">
   <!-- <ion-content> -->
   <div class="side-menu" [ngClass]="{ activeMenu: activeMenu }">
     <div class="profile">
-      <a class="link-profile">
+      <a [routerLink]="['edit-profile']" class="link-profile">
         <img
           class="link-profile--img"
           src="../../../../assets/img/profile-image.png"
