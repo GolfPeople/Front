@@ -27,15 +27,19 @@
       alt=""
     />MENSAJES</a
   >
-  <a (click)="toggleMenu()">
-    <ion-menu-button menu="main-menu" icon="none"> </ion-menu-button>
-  </a>
+  <div class="menu-button" (click)="toggleMenu()">
+    <ion-menu-button menu="main-menu" icon="none">
+      <img src="../../../../assets/icon/menu/burger.png" alt="" />
+    </ion-menu-button>
+    <p>MENU</p>
+  </div>
   <!-- <ion-buttons> -->
   <!-- <ion-menu-button menu="main-menu">menu</ion-menu-button> -->
   <!-- </ion-buttons> -->
 </nav>
 
 <ion-menu menuId="main-menu" contentId="main">
+  <!-- <ion-content> -->
   <div class="side-menu" [ngClass]="{ activeMenu: activeMenu }">
     <div class="profile">
       <a class="link-profile">
@@ -47,13 +51,13 @@
       </a>
       <div class="profile-info">
         <h3 class="text">mi perfil</h3>
-        <h2 class="name">Nombre</h2>
+        <h2 class="name">{{ userName }}</h2>
         <p class="text">Golfer</p>
       </div>
     </div>
     <div class="qr"></div>
-    <div class="side-menu--list">
-      <div class="list-item">
+    <ion-list class="side-menu--list" lines="none">
+      <ion-item lines="none" class="list-item">
         <a>
           <img
             class="events"
@@ -62,8 +66,8 @@
           />
           EVENTOS
         </a>
-      </div>
-      <div class="list-item">
+      </ion-item>
+      <ion-item lines="none" class="list-item">
         <a>
           <img
             class="classes"
@@ -72,8 +76,8 @@
           />
           CLASES
         </a>
-      </div>
-      <div class="list-item">
+      </ion-item>
+      <ion-item lines="none" class="list-item">
         <a>
           <img
             class="friends"
@@ -82,8 +86,8 @@
           />
           AMIGOS
         </a>
-      </div>
-      <div class="list-item">
+      </ion-item>
+      <ion-item lines="none" class="list-item">
         <a>
           <img
             class="save"
@@ -92,8 +96,8 @@
           />
           GUARDADOS
         </a>
-      </div>
-      <div class="list-item">
+      </ion-item>
+      <ion-item lines="none" class="list-item">
         <a>
           <img
             class="club"
@@ -102,8 +106,8 @@
           />
           MI CLUB
         </a>
-      </div>
-    </div>
+      </ion-item>
+    </ion-list>
     <ion-button class="next-button" expand="block">Admin panel</ion-button>
 
     <a [routerLink]="['']" (click)="onLogout()" class="signup">Cerrar Sesión</a>
@@ -112,6 +116,7 @@
       <p>GolfPeople® Versión 1.0</p>
     </div>
   </div>
+  <!-- </ion-content> -->
 </ion-menu>
 
 <!-- <div class="side-menu" [ngClass]="{ activeMenu: activeMenu }">
