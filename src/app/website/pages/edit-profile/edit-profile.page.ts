@@ -8,7 +8,6 @@ import {
 } from '@techiediaries/ngx-qrcode';
 import { ModalController } from '@ionic/angular';
 import { QrModalComponent } from './components/qr-modal/qr-modal.component';
-import { QrService } from 'src/app/core/services/qr/qr.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -27,8 +26,7 @@ export class EditProfilePage implements OnInit {
 
   constructor(
     private userService: UserService,
-    private modalCtrl: ModalController,
-    private qrService: QrService
+    private modalCtrl: ModalController
   ) {}
 
   ngOnInit() {
@@ -36,7 +34,6 @@ export class EditProfilePage implements OnInit {
       this.userName = res.name;
       this.value = `${this.profileUrl}/${res.id}`;
     });
-    this.qrService.profileQR();
   }
 
   shareQR() {

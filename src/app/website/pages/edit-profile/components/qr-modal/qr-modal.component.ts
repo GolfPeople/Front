@@ -5,7 +5,6 @@ import {
   NgxQrcodeElementTypes,
   NgxQrcodeErrorCorrectionLevels,
 } from '@techiediaries/ngx-qrcode';
-import { QrService } from 'src/app/core/services/qr/qr.service';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
@@ -24,7 +23,6 @@ export class QrModalComponent implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
-    private qrService: QrService,
     private userService: UserService
   ) {}
 
