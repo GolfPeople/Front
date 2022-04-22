@@ -21,3 +21,26 @@
     <ion-content>Modal Content</ion-content>
   </ng-template>
 </ion-modal> -->
+
+<ion-header collapse="fade">
+  <ion-toolbar>
+    <ion-title>Código QR</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="primary" shape="round" (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
+        Cerrar
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="qr-container">
+    <ngx-qrcode
+      cssClass="qr-code"
+      [elementType]="elementType"
+      [errorCorrectionLevel]="correctionLevel"
+      [value]="value"
+      [width]="220"
+    ></ngx-qrcode>
+  </div>
+</ion-content>

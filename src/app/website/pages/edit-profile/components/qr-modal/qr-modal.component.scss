@@ -1,7 +1,23 @@
-:host {
-  background: rgba(115, 114, 114, 0.379);
+ion-title {
+  padding: 10px;
 }
 
-ion-modal {
-  --height: 150px;
+.qr-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+// ngx-qrcode {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   width: 100%;
+// }
+
+.qr-code {
+  width: 200px;
+  height: 200px;
 }

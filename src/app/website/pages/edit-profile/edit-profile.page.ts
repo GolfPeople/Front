@@ -55,16 +55,15 @@ export class EditProfilePage implements OnInit {
   }
 
   async openModal() {
-    this.isOpen = true;
-    // const modal = await this.modalCtrl.create({
-    //   component: QrModalComponent,
-    //   cssClass: 'my-custom-class',
-    //   componentProps: {
-    //     name: 'QR',
-    //   },
-    // });
+    // this.isOpen = true;
+    const modal = await this.modalCtrl.create({
+      component: QrModalComponent,
+      backdropDismiss: true,
+      cssClass: 'options_modal',
+      componentProps: {},
+    });
 
-    // await modal.present();
+    await modal.present();
   }
 
   async startScan() {

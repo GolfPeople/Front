@@ -20,7 +20,7 @@ export class QrModalComponent implements OnInit {
 
   ngOnInit() {}
 
-  leaveModal() {
+  closeModal() {
     this.modalCtrl.dismiss();
   }
 }
