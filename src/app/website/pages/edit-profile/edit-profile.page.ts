@@ -8,6 +8,7 @@ import {
 } from '@techiediaries/ngx-qrcode';
 import { ModalController } from '@ionic/angular';
 import { QrModalComponent } from './components/qr-modal/qr-modal.component';
+import { QrService } from 'src/app/core/services/qr/qr.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -18,20 +19,24 @@ export class EditProfilePage implements OnInit {
   userName: string;
   imageAvatarDefault: string = 'assets/img/default-avatar.png';
   isOpen: boolean = false;
+  profileUrl: string = 'https://api.app.golfpeople.com/api/profile';
 
   elementType = NgxQrcodeElementTypes.URL;
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
-  value = 'https://www.youtube.com/';
+  value: string;
 
   constructor(
     private userService: UserService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private qrService: QrService
   ) {}
 
   ngOnInit() {
     this.userService.getUserInfo().subscribe((res) => {
       this.userName = res.name;
+      this.value = `${this.profileUrl}/${res.id}`;
     });
+    this.qrService.profileQR();
   }
 
   shareQR() {
@@ -60,7 +65,9 @@ export class EditProfilePage implements OnInit {
       component: QrModalComponent,
       backdropDismiss: true,
       cssClass: 'options_modal',
-      componentProps: {},
+      componentProps: {
+        qr: this.value,
+      },
     });
 
     await modal.present();
