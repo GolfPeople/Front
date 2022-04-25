@@ -8,6 +8,7 @@ import {
 } from '@techiediaries/ngx-qrcode';
 import { ModalController } from '@ionic/angular';
 import { QrModalComponent } from './components/qr-modal/qr-modal.component';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-edit-profile',
@@ -19,6 +20,7 @@ export class EditProfilePage implements OnInit {
   imageAvatarDefault: string = 'assets/img/default-avatar.png';
   isOpen: boolean = false;
   profileUrl: string = 'https://api.app.golfpeople.com/api/profile';
+  levelPage: boolean = true;
 
   elementType = NgxQrcodeElementTypes.URL;
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
@@ -68,6 +70,10 @@ export class EditProfilePage implements OnInit {
     });
 
     await modal.present();
+  }
+
+  selectPage(event: Event) {
+    const element = event.target;
   }
 
   async startScan() {

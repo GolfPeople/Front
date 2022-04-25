@@ -39,7 +39,7 @@
 // @import "swiper/swiper-bundle";
 
 *:not(ion-icon) {
-  font-family: "Montserrat" !important;
+  font-family: "Montserrat";
 }
 
 * {
@@ -53,6 +53,18 @@ html {
   ::-webkit-scrollbar {
     display: none;
   }
+  font-family: "Montserrat", sans-serif !important;
+}
+
+.default-text {
+  font-weight: 600;
+  font-size: 1.6rem;
+  line-height: 2rem;
+  color: $text-color;
+}
+
+ion-content {
+  --background: #fff;
 }
 
 //Card global styles

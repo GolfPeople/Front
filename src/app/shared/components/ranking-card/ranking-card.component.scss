@@ -1,0 +1,119 @@
+@import "../../../scss/variables.scss";
+
+.ranking-card {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-width: 32rem;
+  max-width: 35rem;
+  height: 19.5rem;
+  margin-bottom: 1.7rem;
+  border-radius: 1rem;
+  background: #fff;
+
+  .border-card {
+    width: 1rem;
+    height: 100%;
+    background: #009838;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+  }
+
+  .ranking-card-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 1.2rem;
+    justify-content: space-evenly;
+
+    .ranking-card__header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+
+      .info {
+        display: flex;
+        flex-direction: column;
+        // justify-content: space-between;
+
+        .card-title {
+          display: flex;
+
+          .date {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 5rem;
+            margin-right: 1rem;
+            span {
+              font-weight: 700;
+              font-size: 1.8rem;
+              line-height: 121.9%;
+              text-align: center;
+              color: $text-color;
+            }
+            .divider {
+              width: 100%;
+              height: 1px;
+              background: $blue;
+            }
+          }
+          h3 {
+            max-width: 17rem;
+          }
+        }
+
+        p {
+          font-weight: 500;
+          font-size: 1.3rem;
+          line-height: 1.7rem;
+          color: $text-color;
+          margin-bottom: 0.5rem;
+        }
+      }
+      .image-container {
+        // margin-right: 1.5rem;
+        margin: 0 1.5rem;
+        img {
+          width: 50px;
+          object-fit: cover;
+        }
+      }
+    }
+
+    .results-list {
+      display: flex;
+      justify-content: space-between;
+
+      li {
+        width: 23.33%;
+
+        h4 {
+          font-weight: 600;
+          font-size: 1.4rem;
+          line-height: 2rem;
+          color: #000000;
+          padding-left: 1.2rem;
+          // text-align: center;
+        }
+
+        p {
+          font-weight: 500;
+          font-size: 1.3rem;
+          line-height: 1.7rem;
+          text-align: center;
+          border-right: 1px solid #ddd;
+          color: #000000;
+        }
+      }
+      .p-ranking {
+        width: 30%;
+        p {
+          border: none;
+        }
+      }
+    }
+  }
+}

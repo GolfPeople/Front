@@ -6,6 +6,7 @@ import { PeopleComponent } from './components/people/people.component';
 import { PostComponent } from './components/post/post.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { IonicModule } from '@ionic/angular';
+import { RankingCardComponent } from './components/ranking-card/ranking-card.component';
 
 const components = [
   SelectDateComponent,
@@ -13,6 +14,7 @@ const components = [
   PeopleComponent,
   PostComponent,
   AvatarComponent,
+  RankingCardComponent
 ];
 
 @NgModule({

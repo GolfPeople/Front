@@ -74,104 +74,115 @@ ngx-qrcode {
     color: $color-white;
   }
 }
-.edit-nav {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
+
+.edit-profile-card {
   position: absolute;
   left: 0px;
   top: 331px;
   width: 100%;
-  height: 123px;
-  padding-bottom: 2px;
-  background: $color-white;
-  border-radius: 30px 30px 0px 0px;
+  height: auto;
 
-  .qr-container {
-    width: 260px;
-    height: 87px;
+  .edit-nav {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    position: absolute;
-    top: -43.5px;
-    left: calc(50% - 130px);
-    padding: 10px 20px;
-    border-radius: 5px;
-    background: linear-gradient(
-      180deg,
-      rgba(0, 157, 214, 0.161) 0%,
-      rgba(0, 56, 139, 0.7) 100%
-    );
-    box-shadow: 0px 4px 14px rgba(0, 56, 139, 0.45);
-    backdrop-filter: blur(13px);
+    align-items: flex-end;
+    justify-content: center;
+    // position: absolute;
+    // left: 0px;
+    // top: 331px;
+    width: 100%;
+    height: 14rem;
+    padding-bottom: 2px;
+    background: $color-white;
+    border-radius: 30px 30px 0px 0px;
 
-    .qr-info {
+    .qr-container {
+      width: 260px;
+      height: 87px;
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      position: absolute;
+      top: -43.5px;
+      left: calc(50% - 130px);
+      padding: 10px 20px;
+      border-radius: 5px;
+      background: linear-gradient(
+        180deg,
+        rgba(0, 157, 214, 0.161) 0%,
+        rgba(0, 56, 139, 0.7) 100%
+      );
+      box-shadow: 0px 4px 14px rgba(0, 56, 139, 0.45);
+      backdrop-filter: blur(13px);
 
-      h3 {
-        margin: 0;
-        font-weight: 500;
-        font-size: 1.3rem;
-        line-height: 1.7rem;
-        /* or 131% */
+      .qr-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
 
-        color: $color-white;
+        h3 {
+          margin: 0;
+          font-weight: 500;
+          font-size: 1.3rem;
+          line-height: 1.7rem;
+          /* or 131% */
+
+          color: $color-white;
+        }
+
+        h4 {
+          margin: 0;
+          font-size: 1.2rem;
+          font-weight: 500;
+          line-height: 1.7rem;
+          /* identical to box height, or 142% */
+
+          color: $color-white;
+        }
+
+        p {
+          margin: 0;
+          font-weight: 500;
+          font-size: 1.3rem;
+          line-height: 1.7rem;
+          color: $color-white;
+        }
       }
 
-      h4 {
-        margin: 0;
-        font-size: 1.2rem;
-        font-weight: 500;
-        line-height: 1.7rem;
-        /* identical to box height, or 142% */
+      .qr {
+        width: 38px;
+        height: 38px;
 
-        color: $color-white;
-      }
-
-      p {
-        margin: 0;
-        font-weight: 500;
-        font-size: 1.3rem;
-        line-height: 1.7rem;
-        color: $color-white;
+        img {
+          width: 100%;
+          object-fit: cover;
+        }
       }
     }
 
-    .qr {
-      width: 38px;
-      height: 38px;
+    ul {
+      width: 90%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      list-style-type: none;
+      margin-bottom: 2.5rem;
 
-      img {
-        width: 100%;
-        object-fit: cover;
-      }
-    }
-  }
-  ul {
-    width: 80%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    list-style-type: none;
+      li {
+        margin-bottom: 5px;
 
-    li {
-      margin-bottom: 5px;
+        a {
+          width: 100%;
+          height: 100%;
+          padding: 10px;
+          font-weight: 500;
+          font-size: 13px;
+          line-height: 17px;
+          color: $text-color;
 
-      a {
-        width: 100%;
-        height: 100%;
-        padding: 10px;
-        font-weight: 500;
-        font-size: 13px;
-        line-height: 17px;
-        color: $text-color;
-
-        &.active {
-          border-bottom: 2px solid #009dd6;
+          &.active {
+            border-bottom: 2px solid #009dd6;
+          }
         }
       }
     }
@@ -180,6 +191,7 @@ ngx-qrcode {
 
 .button {
   background-color: red;
+
   &:hover {
     background-color: blue;
   }
