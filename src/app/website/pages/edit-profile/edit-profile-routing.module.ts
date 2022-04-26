@@ -8,19 +8,8 @@ const routes: Routes = [
   {
     path: '',
     component: EditProfilePage,
-    children: [
-      {
-        path: '',
-        redirectTo: 'level',
-        pathMatch: 'full'
-      }
-      ,
-      {
-        path: 'level',
-        component: LevelComponent
-      },
-    ]
-  }
+    children: [],
+  },
 ];
 
 @NgModule({

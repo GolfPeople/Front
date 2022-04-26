@@ -15,6 +15,8 @@ import {
   Color,
 } from 'chart.js';
 
+import {UserService} from '../../../../../core/services/user.service'
+
 @Component({
   selector: 'app-level',
   templateUrl: './level.component.html',
@@ -22,6 +24,8 @@ import {
 })
 export class LevelComponent implements OnInit, AfterViewInit {
   cards = [1,2,3]
+  name:string;
+  license:number;
   public doughnutChartLabels = [
     'Handicap',
     'In-Store Sales',
@@ -51,11 +55,21 @@ export class LevelComponent implements OnInit, AfterViewInit {
 
   public doughnutChartType: ChartType = 'doughnut';
 
-  constructor() {}
+  constructor(private userService:UserService) {
+
+  }
 
   ngOnInit() {}
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    this.userService.getUserInfo().subscribe(
+      (user) => {
+        this.name = user.name;
+        this.license = user.profile.license;
+        console.log('TEST -->', user)
+      }
+    )
+  }
 
   // events
   public chartClicked({
