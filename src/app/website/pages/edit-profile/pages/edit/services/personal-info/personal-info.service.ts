@@ -12,11 +12,10 @@ export class PersonalInfoService {
   private apiUrl = `${environment.golfpeopleAPI}/api/auth`;
 
   updateInfo(dto, id) {
-    // let id;
-    // this.userService.getUserInfo().subscribe((user) => {
-    //   id = user.profile.id;
-    //   console.log(user);
-    // });
     return this.http.post(`${this.apiUrl}/update/${id}`, dto);
+  }
+
+  updatePassword(dto, id) {
+    return this.http.post(`${this.apiUrl}/update/pasword/${id}`, dto);
   }
 }

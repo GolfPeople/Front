@@ -1,4 +1,4 @@
-<form>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
   <ion-list>
     <ion-item>
       <ion-label position="floating">
@@ -6,7 +6,7 @@
         <img src="../../../../../../assets/icon/forms/lock.png" alt="" />
         Contraseña actual
       </ion-label>
-      <ion-input></ion-input>
+      <ion-input formControlName="actualPassword"></ion-input>
     </ion-item>
     <h3>Cambiar contraseña</h3>
     <ion-item>
@@ -16,7 +16,7 @@
 
         Contraseña nueva
       </ion-label>
-      <ion-input></ion-input>
+      <ion-input formControlName="newPassword"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="floating">
@@ -25,7 +25,7 @@
 
         Contraseña nueva
       </ion-label>
-      <ion-input></ion-input>
+      <ion-input formControlName="repeatPasword"></ion-input>
     </ion-item>
   </ion-list>
 

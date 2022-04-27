@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { BehaviorSubject, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 import { UserResponse } from '../models/user.interface';
@@ -48,6 +48,11 @@ export class LoginService {
           this.tokenService.saveToken(response.access_token);
           this.isLogged.next(true);
           return response;
+        }),
+        catchError(({ error }) => {
+          console.log(error.message);
+          const message = error.message;
+          return throwError(message);
         })
       );
   }

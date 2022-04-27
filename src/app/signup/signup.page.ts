@@ -68,13 +68,13 @@ export class SignupPage implements OnInit {
             const message = 'El usuario se ha registrado satisfactoriamente.';
             this.showSuccessAlert(message);
           },
-          (errRes) => {
+          (error) => {
             loadingEl.dismiss();
-            const code = errRes.message;
-            let message = 'No se pudo resgistrar. Intenta de nuevo.';
-            if (code === 'Credenciales incorrectas') {
-              message = 'Datos incorrectos, intenta de nuevo.';
-            }
+            let message;
+            error === 'The email has already been taken.'
+              ? (message = 'El email ya ha sido registrado.')
+              : (message = 'Error de conexión');
+
             this.showAlert(message);
           }
         );

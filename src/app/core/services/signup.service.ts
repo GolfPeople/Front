@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 export interface SignupResponseData {
@@ -30,10 +32,19 @@ export class SignupService {
         'X-Requested-With': 'XMLHttpRequest',
       }),
     };
-    return this.http.post<SignupResponseData>(
-      `${this.apiUrl}/signup`,
-      { email, name, password, password_confirmation },
-      opts
-    );
+    return this.http
+      .post<SignupResponseData>(
+        `${this.apiUrl}/signup`,
+        { email, name, password, password_confirmation },
+        opts
+      )
+      .pipe(
+        catchError((error) => {
+          console.log(error);
+          const message = error.error.errors.email[0];
+          let errorMessage = message ? 'El email ya ha sido registrado.' : '';
+          return throwError(message);
+        })
+      );
   }
 }

@@ -61,11 +61,10 @@ export class LoginPage implements OnInit {
           },
           (errRes) => {
             loadingEl.dismiss();
-            const code = errRes.message;
-            let message = 'Datos incorrectos, intenta de nuevo.';
-            if (code === 'Credenciales incorrectas') {
-              message = 'Datos incorrectos, intenta de nuevo.';
-            }
+            let message;
+            errRes === 'Credenciales incorrectas'
+              ? (message = 'Datos incorrectos, intenta de nuevo.')
+              : (message = 'Error de conexión');
             this.showAlert(message);
           }
         );
