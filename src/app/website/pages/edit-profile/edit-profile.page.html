@@ -1,61 +1,7 @@
 <ion-content>
-  <!-- <div class="header">
-    <div class="header-links">
-      <a href=""
-        ><img
-          class="profile-icon"
-          src="../../../../assets/icon/perfil.png"
-          alt=""
-        />
-        Editar Cuenta</a
-      >
-      <a (click)="shareQR()">
-        <img
-          class="share-icon"
-          src="../../../../assets/icon/compartir.png"
-          alt=""
-      /></a>
-    </div>
-
-    <app-avatar></app-avatar>
-    <div class="user-profile">
-      <h3 class="profile-name text-center">{{userName}}</h3>
-      <h5 class="profile-golfer text-center">Perfil Golfer</h5>
-    </div>
-    <div class="qr"></div>
-  </div>
-  <div class="edit-nav">
-    <div class="qr-container">
-      <div class="qr-info">
-        <h3>MyGolfPass</h3>
-        <h4>5768 2948 4872 9692</h4>
-        <p>{{userName}}</p>
-      </div>
-      <div class="qr" (click)="openModal()">
-        <img src="../../../../assets/icon/qr.png" alt="" />
-      </div>
-    </div>
-    <ul>
-      <li>
-        <a routerLinkActive="active" [routerLink]="['level']">Nivel</a>
-      </li>
-      <li>
-        <a routerLinkActive="active">Bolsa</a>
-      </li>
-      <li><a routerLinkActive="active">Campos</a></li>
-      <li>
-        <a routerLinkActive="active">Publicaciones</a>
-      </li>
-    </ul>
-  </div>
-  <ng-template>
-    <app-level></app-level>
-  </ng-template> -->
-  <!-- <router-outlet></router-outlet> -->
-
   <div class="header">
     <div class="header-links">
-      <a href=""
+      <a [routerLink]="['edit']"
         ><img
           class="profile-icon"
           src="../../../../assets/icon/perfil.png"
