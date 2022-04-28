@@ -166,6 +166,7 @@ export class Step1Page implements OnInit {
   }
 
   async readAsBase64(photo: Photo) {
+    console.log('TEST image -->', photo);
     if (this.platform.is('hybrid')) {
       const file = await Filesystem.readFile({
         path: photo.path,
@@ -174,6 +175,7 @@ export class Step1Page implements OnInit {
     } else {
       const response = await fetch(photo.webPath);
       const blob = await response.blob();
+      console.log('BLOB TEST -->', blob);
 
       return (await this.convertBlobToBase64(blob)) as string;
     }

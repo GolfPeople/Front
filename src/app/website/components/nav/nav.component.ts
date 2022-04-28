@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { LoginService } from '../../../core/services/login.service';
 import { UserService } from '../../../core/services/user.service';
+import { CreatePostComponent } from '../create-post/create-post.component';
 
 @Component({
   selector: 'app-nav',
@@ -12,7 +14,8 @@ export class NavComponent implements OnInit {
   userName: string;
   constructor(
     private loginService: LoginService,
-    private userService: UserService
+    private userService: UserService,
+    private modalCtrl: ModalController
   ) {}
 
   ngOnInit() {
@@ -27,5 +30,17 @@ export class NavComponent implements OnInit {
 
   onLogout() {
     this.loginService.logout();
+  }
+
+  async openModal() {
+    // this.isOpen = true;
+    const modal = await this.modalCtrl.create({
+      component: CreatePostComponent,
+      backdropDismiss: true,
+      cssClass: 'create-post-modal',
+      componentProps: {},
+    });
+
+    await modal.present();
   }
 }

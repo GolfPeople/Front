@@ -1,0 +1,89 @@
+<ion-header class="ion-text-center">
+  <ion-toolbar>
+    <ion-title>
+      <h2>
+        <img src="../../../../assets/icon/create-post.png" alt="" /> crear
+        publicacion
+      </h2>
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-button color="primary" shape="round" (click)="closeModal()">
+        <img src="../../../../assets/icon/back-link.png" alt="" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="create-post-container">
+    <div class="choose-image-container">
+      <ion-button (click)="pickImages()">
+        <img *ngIf="imgs" src="../../../../assets/icon/camera.png" alt="" />
+      </ion-button>
+      <!-- <img *ngFor="let image of imgs" [src]="image" alt="" /> -->
+      <!-- <img [src]="imgs[0]" alt="" /> -->
+      <p class="text ion-text-center">
+        ¿Alguna foto/vídeo que quieras compartir con la comunidad?
+      </p>
+    </div>
+    <div class="footer">
+      <p class="text">Escribe un pie para tu foto</p>
+      <ion-textarea
+        type="text"
+        inputmode="text"
+        [maxlength]="2000"
+        class="text"
+      >
+      </ion-textarea>
+    </div>
+
+    <form>
+      <ion-list>
+        <ion-item>
+          <ion-label position="floating">
+            <img class="tag" src="../../../../assets/icon/tag.png" alt="" />
+            Etiqueta a tus amigos
+          </ion-label>
+          <ion-input></ion-input>
+        </ion-item>
+        <!-- <ion-item>
+          <ion-label position="floating">
+            <img
+              class="location"
+              src="../../../../assets/icon/geolocation.png"
+              alt=""
+            />
+
+            Añade tu ubicación
+          </ion-label>
+          <ion-input pattern="text" id="input"></ion-input>
+          <div class="data-input">
+            <input type="text" name="" id="input" />
+          </div>
+        </ion-item> -->
+
+        <p class="card-text text-center">¿Dónde vives?</p>
+        <ion-item lines="none">
+          <div class="data-input">
+            <img
+              class="geo"
+              src="../../../assets/icon/geolocation.png"
+              alt=""
+            />
+            <input
+              type="text"
+              name="license"
+              placeholder=" Ubicación Actual"
+              id="input"
+            />
+          </div>
+          <br />
+        </ion-item>
+      </ion-list>
+
+      <ion-button type="submit" class="next-button" shape="round">
+        PUBLICAR
+      </ion-button>
+    </form>
+  </div>
+</ion-content>
