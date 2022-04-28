@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { MyValidations } from '../../utils/my-validations';
 
+
 @Component({
   selector: 'app-step2',
   templateUrl: './step2.page.html',
@@ -83,6 +84,8 @@ export class Step2Page implements OnInit {
     });
   }
 
+  
+
   chooseTimePlaying(event) {
     const element = event.target;
 
@@ -136,14 +139,10 @@ export class Step2Page implements OnInit {
   async onSubmit() {
     const timePlaying = this.timePlaying;
     const handicap = this.handicapForm.value.handicap;
-    if (this.handicapForm.invalid) return;
-    if (timePlaying === 0) window.alert('Debes selecionar una opción.');
-    // if (handicap) {
     this.step2Service.enviarHandicap(handicap, timePlaying).subscribe(
       (rta) => {
         console.log(rta);
         this.isLoading = false;
-        this.router.navigate(['/step3']);
       },
       (error) => {
         const code = error.message;
@@ -156,21 +155,5 @@ export class Step2Page implements OnInit {
     setTimeout(() => {
       this.userService.getUserInfo().subscribe((rta) => console.log(rta));
     }, 3000);
-    // } else {
-    //   return window.alert('Los campos son obligatorios!');
-    // }
-
-    // const handicap = this.handicap;
-    // const handicap = parseFloat(`${this.handicap}.${this.handicapDecimal}`);
-    // console.log('el handicap es', handicap);
-    // if (handicap === 0 && timePlaying === 0) {
-    //   return window.alert('Los campos son abligatorios');
-    // }
-    // if (this.handicap.length > 2) {
-    //   return window.alert('El handicap no puede ser mayor de 54');
-    // }
-    // if (this.handicapDecimal.length > 2) {
-    //   return window.alert('El decimal no puede tener más e dos números');
-    // }
   }
 }

@@ -69,13 +69,17 @@
                 type="text"
                 name="license"
                 placeholder=" Ubicación Actual"
+                id="input-step6"
                 [formControl]="address"
               />
-              <img
-                class="cancel"
-                src="../../../assets/icon/cancel.png"
-                alt=""
-              />
+
+              <a (click)="resetInput()">
+                <img
+                  class="cancel"
+                  src="../../../assets/icon/cancel.png"
+                  alt=""
+                />
+              </a>
             </div>
             <br />
           </ion-item>
@@ -85,6 +89,7 @@
         </ion-list>
         <div>
           <ion-button
+            [routerLink]="['/step2']"
             class="next-button"
             type="submit"
             shape="round"

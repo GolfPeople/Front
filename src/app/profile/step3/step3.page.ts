@@ -96,7 +96,7 @@ export class Step3Page implements OnInit {
   onSubmit() {
     this.step3Service.type(this.type).subscribe((rta) => {
       console.log(rta);
-      this.router.navigate(['/step5']);
+      // this.router.navigate(['/step5']);
     });
     setTimeout(() => {
       this.userService.getUserInfo().subscribe((rta) => console.log(rta));

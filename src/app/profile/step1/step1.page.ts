@@ -200,7 +200,7 @@ export class Step1Page implements OnInit {
     formData.append('photo', blob, file.name);
     formData.append('license', this.license);
     this.uploadData(formData);
-    this.router.navigate(['/step6']);
+    // this.router.navigate(['/step6']);
   }
 
   async uploadData(formData: FormData) {

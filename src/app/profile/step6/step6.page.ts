@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Geolocation } from '@capacitor/geolocation';
 
@@ -14,11 +14,13 @@ declare var google;
   templateUrl: './step6.page.html',
   styleUrls: ['./step6.page.scss'],
 })
-export class Step6Page implements OnInit {
+export class Step6Page implements OnInit, AfterViewInit {
+  autocomplete: any;
+
   gender;
   birthday: string;
   address: FormControl;
-  coords;
+  coords = { lat: 40.731, lng: -73.997 };
 
   isActive1: boolean;
   isActive2: boolean;
@@ -34,9 +36,14 @@ export class Step6Page implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
+  ngAfterViewInit(): void {
+    this.initAutoComplete();
+  }
+
+  async ngOnInit() {
     this.address = this.initFormcontrol();
-    this.printCurrentPosition();
+    await this.printCurrentPosition();
+    this.geoCodeLatLong(this.coords);
 
     console.log(this.address.value);
     this.userService.getUserInfo().subscribe(({ profile }) => {
@@ -70,12 +77,9 @@ export class Step6Page implements OnInit {
     const coordinates = await Geolocation.getCurrentPosition();
     const { latitude, longitude } = coordinates.coords;
 
-    this.coords = {
-      latitude,
-      longitude,
-    };
+    this.coords = { lat: latitude, lng: longitude };
 
-    console.log(this.coords);
+    console.log('Coords', this.coords);
     console.log('Current position:', coordinates);
     return coordinates;
   }
@@ -113,21 +117,37 @@ export class Step6Page implements OnInit {
     }
   }
 
+  resetInput() {
+    this.address.reset();
+  }
+
   onSubmit() {
-    this.codeAddress();
+    this.geoCodeLatLong(this.coords);
+    // this.codeAddress();
     this.Step6Svc.dateAndLocation(
       this.birthday,
       this.gender,
       this.address.value
     ).subscribe((res) => {
       console.log(res);
-      this.router.navigate(['/step2']);
+      // this.router.navigate(['/step2']);
     });
     setTimeout(() => {
       this.userService.getUserInfo().subscribe((rta) => console.log(rta));
     }, 3000);
+  }
 
-    // this.geocode({ address: this.address });
+  initAutoComplete() {
+    this.autocomplete = new google.maps.places.Autocomplete(
+      document.getElementById('input-step6') as HTMLInputElement,
+      {
+        types: ['establishment'],
+        componentRestrictions: { country: ['ES'] },
+        fields: ['place_id', 'geometry', 'name'],
+      }
+    );
+
+    // this.autocomplete.addListener('place_changed', this.onPlaceChanged);
   }
 
   codeAddress() {
@@ -143,18 +163,23 @@ export class Step6Page implements OnInit {
 
   geoCodeLatLong(latlng) {
     // This is making the Geocode request
-    this.geocoder.geocode({ latLng: latlng }, function (results, status) {
-      console.log(results);
+    const address = this.address;
+    console.log('TEST LAt Long', latlng);
+    this.geocoder.geocode({ location: latlng }, function (results, status) {
+      console.log('TEST results', results);
       if (status !== google.maps.GeocoderStatus.OK) {
         alert(status);
       }
       // This is checking to see if the Geoeode Status is OK before proceeding
       if (status == google.maps.GeocoderStatus.OK) {
-        var address = results[0].formatted_address;
+        // var address = results[0].formatted_address;
 
         //This is placing the returned address in the 'Address' field on the HTML form
-        this.address.setSalue(results[0].formatted_address);
+
+        address.setValue(results[1].formatted_address);
+        console.log(address.value);
       }
     });
+    this.address.setValue(address.value);
   }
 }

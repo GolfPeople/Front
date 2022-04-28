@@ -37,7 +37,7 @@
                     class="error-message"
                     *ngIf="handicapForm.get('handicap')?.errors?.isInvalid"
                   >
-                    valor máximo 54.54
+                    valor máximo 54
                   </div>
                   <div
                     class="error-message"
@@ -108,6 +108,7 @@
         </form>
         <div>
           <ion-button
+            [routerLink]="['/step3']"
             class="next-button"
             (click)="onSubmit()"
             type="submit"
