@@ -14,13 +14,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { QrModalComponent } from './components/qr-modal/qr-modal.component';
 import { LevelComponent } from './pages/level/level.component';
 import { NgChartsModule } from 'ng2-charts';
-
-
-
-
+import { SaveInfoModalComponent } from './pages/edit/components/save-info-modal/save-info-modal.component';
 
 @NgModule({
-  entryComponents: [QrModalComponent],
+  entryComponents: [QrModalComponent, SaveInfoModalComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -32,9 +29,14 @@ import { NgChartsModule } from 'ng2-charts';
     NgxQRCodeModule,
     NgChartsModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
   ],
-    
-    declarations: [EditProfilePage, QrModalComponent, LevelComponent],
+
+  declarations: [
+    EditProfilePage,
+    QrModalComponent,
+    SaveInfoModalComponent,
+    LevelComponent,
+  ],
 })
 export class EditProfilePageModule {}

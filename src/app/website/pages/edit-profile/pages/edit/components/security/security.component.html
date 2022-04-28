@@ -6,8 +6,24 @@
         <img src="../../../../../../assets/icon/forms/lock.png" alt="" />
         Contraseña actual
       </ion-label>
-      <ion-input formControlName="actualPassword"></ion-input>
+      <ion-input [type]="passwordType" formControlName="currentPassword">
+      </ion-input>
+      <ion-icon
+        [name]="eye"
+        slot="end"
+        (click)="togglePasswordMode()"
+        class="show-password"
+      ></ion-icon>
     </ion-item>
+    <ion-row>
+      <ion-col>
+        <div class="erros-container">
+          <div class="error-message" *ngIf="currentPasswordError">
+            Contraseña inválida
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
     <h3>Cambiar contraseña</h3>
     <ion-item>
       <ion-label position="floating">
@@ -16,7 +32,13 @@
 
         Contraseña nueva
       </ion-label>
-      <ion-input formControlName="newPassword"></ion-input>
+      <ion-input [type]="passwordType2" formControlName="password"> </ion-input>
+      <ion-icon
+        [name]="eye2"
+        slot="end"
+        (click)="togglePasswordMode2()"
+        class="show-password"
+      ></ion-icon>
     </ion-item>
     <ion-item>
       <ion-label position="floating">
@@ -25,9 +47,46 @@
 
         Contraseña nueva
       </ion-label>
-      <ion-input formControlName="repeatPasword"></ion-input>
+      <ion-input [type]="passwordType3" formControlName="passwordConfirmation">
+      </ion-input>
+      <ion-icon
+        [name]="eye3"
+        slot="end"
+        (click)="togglePasswordMode3()"
+        class="show-password"
+      ></ion-icon>
     </ion-item>
+    <ion-row>
+      <ion-col>
+        <div class="erros-container">
+          <div
+            class="error-message"
+            *ngIf="
+              form.get('passwordConfirmation')?.touched &&
+              form.controls.passwordConfirmation.value !==
+                form.controls.password.value
+            "
+          >
+            La contraseña no coinside
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
   </ion-list>
 
-  <ion-button class="next-button" shape="round"> Guardar Cambios </ion-button>
+  <ion-button
+    [disabled]="
+      form.controls.passwordConfirmation.value !== form.controls.password.value
+    "
+    (click)="onSubmit()"
+    class="next-button"
+    shape="round"
+    [disabled]="
+      form.controls.passwordConfirmation.value === '' ||
+      form.controls.password.value === '' ||
+      form.controls.currentPassword.value === ''
+    "
+  >
+    Guardar Cambios
+  </ion-button>
 </form>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../../../../../core/services/user.service';
 
 @Component({
   selector: 'app-edit',
@@ -9,8 +10,9 @@ export class EditPage implements OnInit {
   personalInfo: boolean = true;
   security: boolean = false;
   privacy: boolean = false;
+  avatar;
 
-  constructor() {}
+  constructor(private userService: UserService) {}
 
   ngOnInit() {}
 

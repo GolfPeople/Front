@@ -4,6 +4,8 @@ import { PersonalInfoService } from '../../services/personal-info/personal-info.
 import { UserService } from '../../../../../../../core/services/user.service';
 import { MyValidations } from 'src/app/utils/my-validations';
 import { Country } from '../../../../../../../core/models/enums.interface';
+import { SaveInfoModalComponent } from '../save-info-modal/save-info-modal.component';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-personal-info',
@@ -16,34 +18,120 @@ export class PersonalInfoComponent implements OnInit {
   gender;
   countries = Object.keys(Country);
   birthday: string;
-  isActive1: boolean;
-  7;
-  isActive2: boolean;
-  isActive3: boolean;
 
-  timePlaying1;
-  timePlaying2;
-  timePlaying3;
-  timePlaying4;
-  timePlaying;
+  genders = [
+    {
+      value: 1,
+      text: 'Femenino',
+    },
+    {
+      value: 2,
+      text: 'Masculino',
+    },
+    {
+      value: 3,
+      text: 'Prefiero no decirlo',
+    },
+  ];
 
-  type1;
-  type2;
-  type3;
-  type4;
-  type5;
-  type;
+  timePlaying = [
+    {
+      value: 1,
+      text: 'Menos de 1 año',
+    },
+    {
+      value: 2,
+      text: 'De 3 a 5 años',
+    },
+    {
+      value: 3,
+      text: 'De 5 a 10 años',
+    },
+    {
+      value: 4,
+      text: 'Más de 10 años',
+    },
+  ];
+
+  typePlayer = [
+    {
+      value: 1,
+      text: 'Recurrente',
+    },
+    {
+      value: 2,
+      text: 'Ocasional',
+    },
+    {
+      value: 3,
+      text: 'Diario',
+    },
+    {
+      value: 4,
+      text: 'Profesor/Entrenador de Golf',
+    },
+    {
+      value: 5,
+      text: 'Profesional del Circuito de Golf',
+    },
+  ];
 
   constructor(
     private fb: FormBuilder,
     private personalSvg: PersonalInfoService,
-    private userService: UserService
+    private userService: UserService,
+    private modalCtrl: ModalController
   ) {}
 
   ngOnInit() {
     this.form = this.initForm();
-    console.log('TEST -->', this.form.value);
-    this.userService.getUserInfo().subscribe((res) => (this.id = res.id));
+    this.userService.getUserInfo().subscribe((res) => {
+      this.id = res.id;
+
+      if (res.name) {
+        this.form.controls['name'].setValue(res.name);
+      }
+      if (res.profile.license) {
+        this.form.controls['license'].setValue(res.profile.license);
+      }
+      if (res.email) {
+        this.form.controls['email'].setValue(res.email);
+      }
+      if (res.profile.phone) {
+        this.form.controls['phone'].setValue(res.profile.phone);
+      }
+      if (res.profile.address) {
+        this.form.controls['address'].setValue(res.profile.address);
+      }
+      if (res.profile.province) {
+        this.form.controls['province'].setValue(res.profile.province);
+      }
+      if (res.profile.cp) {
+        this.form.controls['cp'].setValue(res.profile.cp);
+      }
+      if (res.profile.country) {
+        this.form.controls['country'].setValue(res.profile.country);
+      }
+      if (res.profile.language) {
+        this.form.controls['language'].setValue(res.profile.language);
+      }
+      if (res.profile.gender) {
+        this.form.controls['gender'].setValue(res.profile.gender);
+      }
+      if (res.profile.birthday) {
+        this.form.controls['birthday'].setValue(res.profile.birthday);
+      }
+      if (res.profile.handicap) {
+        this.form.controls['handicap'].setValue(res.profile.handicap);
+      }
+      if (res.profile.time_playing) {
+        this.form.controls['timePlating'].setValue(res.profile.time_playing);
+      }
+      if (res.profile.type) {
+        this.form.controls['type'].setValue(res.profile.type);
+      }
+      return;
+    });
   }
 
   initForm(): FormGroup {
@@ -60,9 +148,21 @@ export class PersonalInfoComponent implements OnInit {
       gender: [this.gender, []],
       birthday: [''],
       handicap: [null, [MyValidations.handicap]],
-      timePlaying: [this.timePlaying, []],
+      timePlaying: ['', []],
       type: ['', []],
     });
+  }
+
+  async openModal() {
+    // this.isOpen = true;
+    const modal = await this.modalCtrl.create({
+      component: SaveInfoModalComponent,
+      backdropDismiss: true,
+      cssClass: 'request-modal',
+      componentProps: {},
+    });
+
+    await modal.present();
   }
 
   getDate(date) {
@@ -70,78 +170,22 @@ export class PersonalInfoComponent implements OnInit {
     this.form.controls['birthday'].setValue(date);
   }
 
-  chooseGender(event) {
-    const element = event.target;
-    if (element.value === '1') {
-      this.isActive1 = true;
-      this.isActive2 = false;
-      this.isActive3 = false;
-      this.gender = 1;
-      this.form.controls['gender'].setValue(1);
-      return;
-    }
-    if (element.value === '2') {
-      this.isActive1 = false;
-      this.isActive2 = true;
-      this.isActive3 = false;
-      this.gender = 2;
-      this.form.controls['gender'].setValue(2);
-
-      return;
-    }
-    if (element.value === '3') {
-      this.isActive1 = false;
-      this.isActive2 = false;
-      this.isActive3 = true;
-      this.gender = 3;
-      this.form.controls['gender'].setValue(3);
-
-      return;
-    }
+  selectGender(event) {
+    const element = event.target as HTMLInputElement;
+    const value = element.value;
+    this.form.controls['gender'].setValue(value);
   }
 
-  chooseTimePlaying(event) {
-    const element = event.target;
+  selectTimePlaying(event) {
+    const element = event.target as HTMLInputElement;
+    const value = element.value;
+    this.form.controls['timePlaying'].setValue(value);
+  }
 
-    if (element.value == '1') {
-      this.timePlaying1 = true;
-      this.timePlaying2 = false;
-      this.timePlaying3 = false;
-      this.timePlaying4 = false;
-      this.timePlaying = 1;
-      this.form.controls['timePlaying'].setValue(1);
-      return;
-    }
-    if (element.value == '2') {
-      this.timePlaying1 = false;
-      this.timePlaying2 = true;
-      this.timePlaying3 = false;
-      this.timePlaying4 = false;
-      this.timePlaying = 2;
-      this.form.controls['timePlaying'].setValue(2);
-
-      return;
-    }
-    if (element.value == '3') {
-      this.timePlaying1 = false;
-      this.timePlaying2 = false;
-      this.timePlaying3 = true;
-      this.timePlaying4 = false;
-      this.timePlaying = 3;
-      this.form.controls['timePlaying'].setValue(3);
-
-      return;
-    }
-    if (element.value == '4') {
-      this.timePlaying1 = false;
-      this.timePlaying2 = false;
-      this.timePlaying3 = false;
-      this.timePlaying4 = true;
-      this.timePlaying = 4;
-      this.form.controls['timePlaying'].setValue(4);
-
-      return;
-    }
+  selectTypeplayer(event) {
+    const element = event.target as HTMLInputElement;
+    const value = element.value;
+    this.form.controls['type'].setValue(value);
   }
 
   onSubmit() {
@@ -150,65 +194,6 @@ export class PersonalInfoComponent implements OnInit {
     this.personalSvg
       .updateInfo(dto, this.id)
       .subscribe((res) => console.log('RES -->', res));
-  }
-
-  chooseTypePlayer(event) {
-    const element = event.target;
-
-    if (element.value == '1') {
-      this.type1 = true;
-      this.type2 = false;
-      this.type3 = false;
-      this.type4 = false;
-      this.type5 = false;
-      this.type = 1;
-      this.form.controls['type'].setValue(this.type);
-
-      return;
-    }
-    if (element.value == '2') {
-      this.type1 = false;
-      this.type2 = true;
-      this.type3 = false;
-      this.type4 = false;
-      this.type5 = false;
-      this.type = 2;
-      this.form.controls['type'].setValue(this.type);
-
-      return;
-    }
-    if (element.value == '3') {
-      this.type1 = false;
-      this.type2 = false;
-      this.type3 = true;
-      this.type4 = false;
-      this.type5 = false;
-      this.type = 3;
-      this.form.controls['type'].setValue(this.type);
-
-      return;
-    }
-    if (element.value == '4') {
-      this.type1 = false;
-      this.type2 = false;
-      this.type3 = false;
-      this.type4 = true;
-      this.type5 = false;
-      this.type = 4;
-      this.form.controls['type'].setValue(this.type);
-
-      return;
-    }
-    if (element.value == '5') {
-      this.type1 = false;
-      this.type2 = false;
-      this.type3 = false;
-      this.type4 = false;
-      this.type5 = true;
-      this.type = 5;
-      this.form.controls['type'].setValue(this.type);
-
-      return;
-    }
+    this.openModal();
   }
 }

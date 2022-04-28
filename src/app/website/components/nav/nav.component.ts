@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { QrComponent } from 'src/app/website/components/qr/qr.component';
 import { LoginService } from '../../../core/services/login.service';
 import { UserService } from '../../../core/services/user.service';
 import { CreatePostComponent } from '../create-post/create-post.component';
@@ -38,6 +39,18 @@ export class NavComponent implements OnInit {
       component: CreatePostComponent,
       backdropDismiss: true,
       cssClass: 'create-post-modal',
+      componentProps: {},
+    });
+
+    await modal.present();
+  }
+
+  async openQR() {
+    // this.isOpen = true;
+    const modal = await this.modalCtrl.create({
+      component: QrComponent,
+      backdropDismiss: true,
+      cssClass: 'options_modal',
       componentProps: {},
     });
 

@@ -13,7 +13,7 @@ form {
     margin-right: 15px !important;
   }
 
-  .gender-text {
+  .input-text {
     font-size: 1.3rem;
     line-height: 1.7rem;
     font-weight: 500;
@@ -60,11 +60,23 @@ form {
   }
 }
 
+.validation-errors {
+  font-size: small;
+  color: #f1453d;
+}
+.error-message {
+  padding: 0 5px;
+  text-align: right;
+  font-size: 1.2rem;
+  color: #f1453d;
+}
+
 ion-list {
   --ion-item-background: transparent !important;
 }
 
 ion-label {
+  font-family: "Montserrat" !important;
   --color: #383838 !important;
   font-size: 13px !important;
   line-height: 17px !important;

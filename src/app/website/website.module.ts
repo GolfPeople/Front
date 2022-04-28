@@ -9,11 +9,18 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { NavComponent } from './components/nav/nav.component';
 import { SharedModule } from '../shared/shared.module';
 import { CreatePostComponent } from './components/create-post/create-post.component';
+import { QrComponent } from './components/qr/qr.component';
+import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 
-const myComponents = [LayoutComponent, NavComponent, CreatePostComponent];
+const myComponents = [
+  LayoutComponent,
+  NavComponent,
+  CreatePostComponent,
+  QrComponent,
+];
 
 @NgModule({
-  entryComponents: [CreatePostComponent],
+  entryComponents: [CreatePostComponent, QrComponent],
   declarations: myComponents,
   imports: [
     CommonModule,
@@ -21,6 +28,7 @@ const myComponents = [LayoutComponent, NavComponent, CreatePostComponent];
     RouterModule,
     IonicModule,
     SharedModule,
+    NgxQRCodeModule,
   ],
 })
 export class WebsiteModule {}

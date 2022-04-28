@@ -17,6 +17,16 @@
       </ion-label>
       <ion-input formControlName="email"></ion-input>
     </ion-item>
+    <ion-row>
+      <ion-col>
+        <div class="erros-container">
+          <div class="error-message" *ngIf="form.get('email')?.errors?.email">
+            Email inválido
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+
     <ion-item>
       <ion-label position="floating">
         <!-- <ion-icon name="document-outline"></ion-icon>  -->
@@ -81,164 +91,56 @@
     </ion-item>
     <ion-item>
       <ion-label position="floating"> Handicap </ion-label>
-      <ion-input formControlName="handicap"></ion-input>
+      <ion-input type="number" formControlName="handicap"></ion-input>
     </ion-item>
-    <p class="gender-text">¿Cuál es tu género?</p>
-    <div class="buttons-containers">
-      <ion-row>
-        <ion-col class="ion-text-center">
-          <button
-            class="experience-button"
-            [ngClass]="{ isActive: isActive1 }"
-            value="1"
-            (click)="chooseGender($event)"
+    <ion-row>
+      <ion-col>
+        <div class="erros-container">
+          <div
+            class="error-message"
+            *ngIf="form.get('handicap')?.errors?.isInvalid"
           >
-            Femenino
-          </button>
-          <!-- <input type="button" value="Menos de un año" (click)="timePlaying = 1"> -->
-        </ion-col>
-        <ion-col class="ion-text-center">
-          <button
-            class="experience-button"
-            [ngClass]="{ isActive: isActive2 }"
-            value="2"
-            (click)="chooseGender($event)"
-          >
-            Masculino
-          </button>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col class="ion-text-center">
-          <button
-            class="experience-button button-large"
-            [ngClass]="{ isActive: isActive3 }"
-            value="3"
-            (click)="chooseGender($event)"
-            expand="block"
-          >
-            Prefiero no decirlo
-          </button>
-        </ion-col>
-      </ion-row>
-    </div>
+            valor máximo 54
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-item>
+      <ion-label> Género </ion-label>
+      <ion-select (ionChange)="selectGender($event)" interface="popover">
+        <ion-select-option
+          *ngFor="let gender of genders"
+          [value]="gender.value"
+          >{{ gender.text }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+    <p class="input-text">¿Cuándo es tu cumpleaños?</p>
     <ion-item lines="none">
-      <ion-label position="floating">¿Cuándo es tu cumpleaños?</ion-label>
+      <!-- <ion-label position="floating">¿Cuándo es tu cumpleaños?</ion-label> -->
       <app-select-date (date)="getDate($event)"></app-select-date>
     </ion-item>
 
-    <p class="gender-text">¿Cuánto tiempo llevas jugando?</p>
-    <ion-item lines="none">
-      <div class="buttons-containers">
-        <ion-row>
-          <ion-col class="ion-text-center">
-            <button
-              class="experience-button"
-              [ngClass]="{ isActive: timePlaying1 }"
-              value="1"
-              (click)="chooseTimePlaying($event)"
-            >
-              Menos de 1 año
-            </button>
-            <!-- <input type="button" value="Menos de un año" (click)="timePlaying = 1"> -->
-          </ion-col>
-          <ion-col class="ion-text-center">
-            <button
-              class="experience-button"
-              [ngClass]="{ isActive: timePlaying2 }"
-              value="2"
-              (click)="chooseTimePlaying($event)"
-            >
-              De 3 a 5 años
-            </button>
-          </ion-col>
-        </ion-row>
-        <ion-row class="top-10">
-          <ion-col class="ion-text-center">
-            <button
-              class="experience-button"
-              [ngClass]="{ isActive: timePlaying3 }"
-              value="3"
-              (click)="chooseTimePlaying($event)"
-            >
-              De 5 a 10 años
-            </button>
-          </ion-col>
-          <ion-col class="ion-text-center">
-            <button
-              class="experience-button"
-              [ngClass]="{ isActive: timePlaying4 }"
-              value="4"
-              (click)="chooseTimePlaying($event)"
-            >
-              Más de 10 años
-            </button>
-          </ion-col>
-        </ion-row>
-      </div>
+    <ion-item>
+      <ion-label> Tiempo jugando </ion-label>
+      <ion-select (ionChange)="selectTimePlaying($event)" interface="popover">
+        <ion-select-option
+          *ngFor="let time of timePlaying"
+          [value]="time.value"
+          >{{ time.text }}</ion-select-option
+        >
+      </ion-select>
     </ion-item>
-    <p class="gender-text">Eres un jugador...</p>
-    <ion-item lines="none">
-      <div class="buttons-containers">
-        <ion-row>
-          <ion-col class="ion-text-center">
-            <button
-              class=""
-              (click)="chooseTypePlayer($event)"
-              [ngClass]="{ isActive: type1 }"
-              value="1"
-            >
-              Recurrente
-            </button>
-            <!-- <input type="button" value="Menos de un año" (click)="timePlaying = 1"> -->
-          </ion-col>
-          <ion-col class="ion-text-center">
-            <button
-              class=""
-              (click)="chooseTypePlayer($event)"
-              [ngClass]="{ isActive: type2 }"
-              value="2"
-            >
-              Ocasional
-            </button>
-          </ion-col>
-          <ion-col class="ion-text-center">
-            <button
-              class=""
-              (click)="chooseTypePlayer($event)"
-              [ngClass]="{ isActive: type3 }"
-              value="3"
-            >
-              Diario
-            </button>
-          </ion-col>
-        </ion-row>
-        <ion-row class="top-10">
-          <ion-col class="ion-text-center">
-            <button
-              class="experience-button"
-              (click)="chooseTypePlayer($event)"
-              [ngClass]="{ isActive: type4 }"
-              value="4"
-              expand="block"
-            >
-              Profesor/Entrenador de Golf
-            </button>
-          </ion-col>
-        </ion-row>
-        <ion-row class="top-10">
-          <ion-col class="ion-text-center">
-            <button
-              class="experience-button"
-              (click)="chooseTypePlayer($event)"
-              [ngClass]="{ isActive: type5 }"
-              value="5"
-            >
-              Profesional del Circuito de Golf
-            </button>
-          </ion-col>
-        </ion-row>
-      </div>
+
+    <ion-item>
+      <ion-label> Tipo de jugador </ion-label>
+      <ion-select (ionChange)="selectTypeplayer($event)" interface="popover">
+        <ion-select-option
+          *ngFor="let type of typePlayer"
+          [value]="type.value"
+          >{{ type.text }}</ion-select-option
+        >
+      </ion-select>
     </ion-item>
   </ion-list>
 

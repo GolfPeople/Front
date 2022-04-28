@@ -38,7 +38,7 @@ export class LoginPage implements OnInit {
 
   togglePasswordMode() {
     this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
-    this.eye = this.eye === 'eye-off' ? 'eye' : 'eye-off';
+    // this.eye = this.eye === 'eye-off' ? 'eye' : 'eye-off';
   }
 
   login(email: string, password: string) {
