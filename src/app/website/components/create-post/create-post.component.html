@@ -17,10 +17,17 @@
 <ion-content>
   <div class="create-post-container">
     <div class="choose-image-container">
-      <ion-button (click)="pickImages()">
-        <img *ngIf="imgs" src="../../../../assets/icon/camera.png" alt="" />
-      </ion-button>
-      <!-- <img *ngFor="let image of imgs" [src]="image" alt="" /> -->
+      <div class="button-container">
+        <ion-button (click)="selectImage()">
+          <img src="../../../../assets/icon/camera.png" alt="" />
+        </ion-button>
+        <div
+          *ngIf="selectedImage"
+          class="post-container"
+          [ngStyle]="{ 'background-image': 'url(' + selectedImage + ')' }"
+        ></div>
+      </div>
+
       <!-- <img [src]="imgs[0]" alt="" /> -->
       <p class="text ion-text-center">
         ¿Alguna foto/vídeo que quieras compartir con la comunidad?
@@ -33,6 +40,7 @@
         inputmode="text"
         [maxlength]="2000"
         class="text"
+        [(ngModel)]="textArea"
       >
       </ion-textarea>
     </div>
@@ -75,13 +83,19 @@
               name="license"
               placeholder=" Ubicación Actual"
               id="input"
+              [(ngModel)]="address"
             />
           </div>
           <br />
         </ion-item>
       </ion-list>
 
-      <ion-button type="submit" class="next-button" shape="round">
+      <ion-button
+        (click)="onSubmit(textArea, address, filesToSend[images.length - 1])"
+        type="submit"
+        class="next-button"
+        shape="round"
+      >
         PUBLICAR
       </ion-button>
     </form>

@@ -9,13 +9,16 @@ android {
 
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
+    implementation project(':capacitor-community-barcode-scanner')
     implementation project(':capacitor-app')
     implementation project(':capacitor-camera')
     implementation project(':capacitor-filesystem')
+    implementation project(':capacitor-geolocation')
     implementation project(':capacitor-haptics')
     implementation project(':capacitor-keyboard')
+    implementation project(':capacitor-share')
     implementation project(':capacitor-status-bar')
-
+    implementation "androidx.legacy:legacy-support-v4:1.0.0"
 }
 
 

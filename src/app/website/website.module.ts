@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -11,16 +12,18 @@ import { SharedModule } from '../shared/shared.module';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { QrComponent } from './components/qr/qr.component';
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
+import { SuccessComponent } from './components/success/success.component';
 
 const myComponents = [
   LayoutComponent,
   NavComponent,
   CreatePostComponent,
   QrComponent,
+  SuccessComponent,
 ];
 
 @NgModule({
-  entryComponents: [CreatePostComponent, QrComponent],
+  entryComponents: [CreatePostComponent, SuccessComponent, QrComponent],
   declarations: myComponents,
   imports: [
     CommonModule,
@@ -29,6 +32,7 @@ const myComponents = [
     IonicModule,
     SharedModule,
     NgxQRCodeModule,
+    FormsModule,
   ],
 })
 export class WebsiteModule {}
