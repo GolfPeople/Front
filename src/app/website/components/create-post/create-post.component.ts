@@ -76,12 +76,12 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit(description, chareacters, files) {
-    this.openModal();
-    this.closeModal();
     return this.http
       .post(`${this.apiUrl}/publish`, { description, chareacters, files })
       .subscribe((res) => {
         console.log('RESpuesta,', res);
+        this.openModal();
+        this.closeModal();
       });
     // this.openModal();
   }

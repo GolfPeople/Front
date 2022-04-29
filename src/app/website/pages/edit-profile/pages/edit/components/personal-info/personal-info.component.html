@@ -65,7 +65,7 @@
       <ion-col>
         <ion-item class="input-col">
           <ion-label position="floating">C.P</ion-label>
-          <ion-input formArrayName="cp"></ion-input>
+          <ion-input formControlName="cp"></ion-input>
         </ion-item>
       </ion-col>
       <!-- <ion-col>
@@ -74,7 +74,11 @@
     <ion-item>
       <!-- <ion-input formControlName="country"></ion-input> -->
       <ion-label>Country</ion-label>
-      <ion-select okText="Aceptar" cancelText="Cancelar">
+      <ion-select
+        formControlName="country"
+        okText="Aceptar"
+        cancelText="Cancelar"
+      >
         <ion-select-option *ngFor="let country of countries">{{
           country
         }}</ion-select-option>
@@ -107,7 +111,11 @@
     </ion-row>
     <ion-item>
       <ion-label> Género </ion-label>
-      <ion-select (ionChange)="selectGender($event)" interface="popover">
+      <ion-select
+        formControlName="gender"
+        (ionChange)="selectGender($event)"
+        interface="popover"
+      >
         <ion-select-option
           *ngFor="let gender of genders"
           [value]="gender.value"
@@ -123,7 +131,7 @@
 
     <ion-item>
       <ion-label> Tiempo jugando </ion-label>
-      <ion-select (ionChange)="selectTimePlaying($event)" interface="popover">
+      <ion-select formControlName="time_playing" interface="popover">
         <ion-select-option
           *ngFor="let time of timePlaying"
           [value]="time.value"
@@ -134,7 +142,11 @@
 
     <ion-item>
       <ion-label> Tipo de jugador </ion-label>
-      <ion-select (ionChange)="selectTypeplayer($event)" interface="popover">
+      <ion-select
+        formControlName="type"
+        (onChange)="selectTypeplayer($event)"
+        interface="popover"
+      >
         <ion-select-option
           *ngFor="let type of typePlayer"
           [value]="type.value"

@@ -118,7 +118,7 @@
                 >
               </ion-item>
               <ion-item lines="none">
-                <ion-checkbox required></ion-checkbox>
+                <ion-checkbox #checkboxCtrl required></ion-checkbox>
                 <ion-label text-wrap class="checkbox-text signup-form-checkbox"
                   >Acepto los <a href="#">términos y condiciones</a></ion-label
                 >
@@ -130,7 +130,7 @@
               shape="round"
               expand="block"
               class="signup-btn"
-              [disabled]="(!f.valid) || (passwordCtrl.value !== rePasswordCtrl.value)"
+              [disabled]="(!f.valid) || (passwordCtrl.value !== rePasswordCtrl.value || !checkboxCtrl.checked)"
             >
               Continuar
             </ion-button>

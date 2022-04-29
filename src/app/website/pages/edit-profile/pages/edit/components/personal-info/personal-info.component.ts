@@ -125,7 +125,7 @@ export class PersonalInfoComponent implements OnInit {
         this.form.controls['handicap'].setValue(res.profile.handicap);
       }
       if (res.profile.time_playing) {
-        this.form.controls['timePlating'].setValue(res.profile.time_playing);
+        this.form.controls['time_playing'].setValue(res.profile.time_playing);
       }
       if (res.profile.type) {
         this.form.controls['type'].setValue(res.profile.type);
@@ -148,7 +148,7 @@ export class PersonalInfoComponent implements OnInit {
       gender: [this.gender, []],
       birthday: [''],
       handicap: [null, [MyValidations.handicap]],
-      timePlaying: ['', []],
+      time_playing: ['', []],
       type: ['', []],
     });
   }
@@ -176,11 +176,11 @@ export class PersonalInfoComponent implements OnInit {
     this.form.controls['gender'].setValue(value);
   }
 
-  selectTimePlaying(event) {
-    const element = event.target as HTMLInputElement;
-    const value = element.value;
-    this.form.controls['timePlaying'].setValue(value);
-  }
+  // selectTimePlaying(event) {
+  //   const element = event.target as HTMLInputElement;
+  //   const value = element.value;
+  //   this.form.controls['timePlaying'].setValue(value);
+  // }
 
   selectTypeplayer(event) {
     const element = event.target as HTMLInputElement;
