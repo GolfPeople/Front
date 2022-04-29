@@ -15,6 +15,13 @@
     background: #fff;
     border-radius: 100%;
 
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 100%;
+      object-fit: cover;
+    }
+
     .edit-avatar {
       display: flex;
       justify-content: center;
@@ -26,6 +33,9 @@
       height: 29px;
       border-radius: 100%;
       background: #009dd6;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
 
       img {
         width: 15px;

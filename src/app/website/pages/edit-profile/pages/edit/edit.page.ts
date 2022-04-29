@@ -14,7 +14,13 @@ export class EditPage implements OnInit {
 
   constructor(private userService: UserService) {}
 
-  ngOnInit() {}
+  src;
+
+  ngOnInit() {
+    this.userService.getUserInfo().subscribe((res) => {
+      this.src = res.profile.photo;
+    });
+  }
 
   selectPage(event: Event) {
     const element = event.target as HTMLElement;

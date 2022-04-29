@@ -82,11 +82,19 @@
     class="next-button"
     shape="round"
     [disabled]="
-      form.controls.passwordConfirmation.value === '' ||
-      form.controls.password.value === '' ||
-      form.controls.currentPassword.value === ''
+      form.invalid ||
+      form.controls.passwordConfirmation.value !== form.controls.password.value
     "
   >
     Guardar Cambios
   </ion-button>
 </form>
+
+<!-- 
+
+
+   form.controls.passwordConfirmation.value === '' ||
+      form.controls.password.value === '' ||
+      form.controls.currentPassword.value === '' ||
+      form.invalid
+ -->

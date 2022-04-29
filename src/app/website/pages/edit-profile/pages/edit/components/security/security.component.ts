@@ -40,9 +40,12 @@ export class SecurityComponent implements OnInit {
 
   initForm(): FormGroup {
     return this.fb.group({
-      currentPassword: ['', []],
-      password: ['', []],
-      passwordConfirmation: ['', []],
+      currentPassword: ['', [Validators.minLength(8), Validators.required]],
+      password: ['', [Validators.minLength(8), Validators.required]],
+      passwordConfirmation: [
+        '',
+        [Validators.minLength(8), Validators.required],
+      ],
     });
   }
 
@@ -71,25 +74,30 @@ export class SecurityComponent implements OnInit {
     this.eye3 = this.eye3 === 'eye-off' ? 'eye' : 'eye-off';
   }
 
-  onSubmit() {
+  async onSubmit() {
     // const dto = this.form.value;
-    const dto = this.form;
+    const dto = await this.form;
     console.log(dto);
-    this.personalSvg
+    await this.personalSvg
       .updatePassword(
         dto.controls.currentPassword.value,
         dto.controls.password.value,
         dto.controls.passwordConfirmation.value,
         this.id
       )
-      .subscribe((res) => {
-        console.log('RES -->', res.message);
+      .subscribe(
+        (res) => {
+          console.log('RES -->', res.message);
 
-        if (res.message === 'Contraseña inválida') {
-          this.currentPasswordError = 'Contraseña inválida';
+          if (res.message === 'Contraseña inválida') {
+            this.currentPasswordError = 'Contraseña inválida';
+          }
+        },
+        (e) => {
+          console.log(e);
         }
-      });
-    if (this.currentPasswordError === 'Contraseña inválida' || null) return;
+      );
+    if (this.currentPasswordError === 'Contraseña inválida') return;
     this.openModal();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
@@ -7,7 +7,8 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./avatar.component.scss'],
 })
 export class AvatarComponent implements OnInit {
-  imageAvatarDefault = 'assets/img/default-avatar.png';
+  // @Input() src;
+  imageAvatarDefault;
 
   constructor(private userService: UserService) {}
 
