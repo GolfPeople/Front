@@ -9,6 +9,8 @@ import {
 } from '../core/services/login.service';
 import { Observable } from 'rxjs';
 
+import { LoadingService } from '../core/services/loading/loading.service';
+
 const TOKEN_DIR = 'session';
 
 interface LocalFile {
@@ -31,7 +33,8 @@ export class LoginPage implements OnInit {
     private loginService: LoginService,
     private router: Router,
     private loadingCtrl: LoadingController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private loadingSvc: LoadingService
   ) {}
 
   ngOnInit() {}
@@ -41,34 +44,55 @@ export class LoginPage implements OnInit {
     // this.eye = this.eye === 'eye-off' ? 'eye' : 'eye-off';
   }
 
-  login(email: string, password: string) {
-    this.isLoading = true;
-    this.loadingCtrl
-      .create({ keyboardClose: true, message: 'Iniciando sesión...' })
-      .then((loadingEl) => {
-        loadingEl.present();
-        // let authObs: Observable<LoginResponseData>;
-        // if (this.isLogin) {
-        //   authObs = this.loginService.login(email, password);
-        // }
-        // authObs.subscribe(
-        this.loginService.login(email, password).subscribe(
-          () => {
-            // this.loginService.isLogged$.subscribe((data) => console.log(data));
-            this.isLoading = false;
-            loadingEl.dismiss();
-            this.router.navigate(['/website']);
-          },
-          (errRes) => {
-            loadingEl.dismiss();
-            let message;
-            errRes === 'Credenciales incorrectas'
-              ? (message = 'Datos incorrectos, intenta de nuevo.')
-              : (message = 'Error de conexión');
-            this.showAlert(message);
-          }
-        );
-      });
+  // login(email: string, password: string) {
+  //   this.isLoading = true;
+  //   this.loadingCtrl
+  //     .create({ keyboardClose: true, message: 'Iniciando sesión...' })
+  //     .then((loadingEl) => {
+  //       loadingEl.present();
+  //       // let authObs: Observable<LoginResponseData>;
+  //       // if (this.isLogin) {
+  //       //   authObs = this.loginService.login(email, password);
+  //       // }
+  //       // authObs.subscribe(
+  //       this.loginService.login(email, password).subscribe(
+  //         () => {
+  //           // this.loginService.isLogged$.subscribe((data) => console.log(data));
+  //           this.isLoading = false;
+  //           loadingEl.dismiss();
+  //           this.router.navigate(['/website']);
+  //         },
+  //         (errRes) => {
+  //           loadingEl.dismiss();
+  //           let message;
+  //           errRes === 'Credenciales incorrectas'
+  //             ? (message = 'Datos incorrectos, intenta de nuevo.')
+  //             : (message = 'Error de conexión');
+  //           this.showAlert(message);
+  //         }
+  //       );
+  //     });
+  // }
+
+  login(email, password) {
+    this.loadingSvc.presentLoading();
+
+    this.loginService.login(email, password).subscribe(
+      () => {
+        // this.loginService.isLogged$.subscribe((data) => console.log(data));
+        this.isLoading = false;
+        this.loadingCtrl.dismiss();
+        this.router.navigate(['/website']);
+      },
+      (errRes) => {
+        this.loadingCtrl.dismiss();
+        let message;
+        errRes === 'Credenciales incorrectas'
+          ? (message = 'Datos incorrectos, intenta de nuevo.')
+          : (message = 'Error de conexión');
+        this.showAlert(message);
+      }
+    );
   }
 
   onSubmit(form: NgForm) {

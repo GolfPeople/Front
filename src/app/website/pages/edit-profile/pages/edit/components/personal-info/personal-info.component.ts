@@ -5,7 +5,8 @@ import { UserService } from '../../../../../../../core/services/user.service';
 import { MyValidations } from 'src/app/utils/my-validations';
 import { Country } from '../../../../../../../core/models/enums.interface';
 import { SaveInfoModalComponent } from '../save-info-modal/save-info-modal.component';
-import { ModalController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
+import { LoadingService } from 'src/app/core/services/loading/loading.service';
 
 @Component({
   selector: 'app-personal-info',
@@ -80,10 +81,13 @@ export class PersonalInfoComponent implements OnInit {
     private fb: FormBuilder,
     private personalSvg: PersonalInfoService,
     private userService: UserService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private loadingSvc: LoadingService,
+    private loadingCtrl: LoadingController
   ) {}
 
   ngOnInit() {
+    this.loadingSvc.presentLoading();
     this.form = this.initForm();
     this.userService.getUserInfo().subscribe((res) => {
       this.id = res.id;
@@ -130,7 +134,8 @@ export class PersonalInfoComponent implements OnInit {
       if (res.profile.type) {
         this.form.controls['type'].setValue(res.profile.type);
       }
-      return;
+
+      this.loadingSvc.dismissLoading();
     });
   }
 
