@@ -19,6 +19,6 @@ export class SaveInfoModalComponent implements OnInit {
 
   closeModal() {
     this.modalCtrl.dismiss();
-    this.router.navigate(['/website']);
+    this.router.navigate(['/website/profile']);
   }
 }

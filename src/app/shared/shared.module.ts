@@ -7,6 +7,8 @@ import { PostComponent } from './components/post/post.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { IonicModule } from '@ionic/angular';
 import { RankingCardComponent } from './components/ranking-card/ranking-card.component';
+import { SuccessComponent } from './alerts/success/success.component';
+import { ErrorComponent } from './alerts/error/error.component';
 
 const components = [
   SelectDateComponent,
@@ -14,7 +16,9 @@ const components = [
   PeopleComponent,
   PostComponent,
   AvatarComponent,
-  RankingCardComponent
+  RankingCardComponent,
+  SuccessComponent,
+  ErrorComponent,
 ];
 
 @NgModule({

@@ -11,6 +11,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { PersonalInfoComponent } from './components/personal-info/personal-info.component';
 import { SecurityComponent } from './components/security/security.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
+import { ErrorAlertComponent } from './components/error-alert/error-alert.component';
 
 @NgModule({
   imports: [

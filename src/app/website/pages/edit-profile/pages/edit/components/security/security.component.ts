@@ -4,6 +4,8 @@ import { ModalController } from '@ionic/angular';
 import { UserService } from 'src/app/core/services/user.service';
 import { PersonalInfoService } from '../../services/personal-info/personal-info.service';
 import { SaveInfoModalComponent } from '../save-info-modal/save-info-modal.component';
+import { LoadingService } from '../../../../../../../core/services/loading/loading.service';
+import { ErrorAlertComponent } from '../error-alert/error-alert.component';
 
 @Component({
   selector: 'app-security',
@@ -27,7 +29,8 @@ export class SecurityComponent implements OnInit {
     private fb: FormBuilder,
     private personalSvg: PersonalInfoService,
     private userService: UserService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private loadingSvc: LoadingService
   ) {}
 
   ngOnInit() {
@@ -60,6 +63,19 @@ export class SecurityComponent implements OnInit {
 
     await modal.present();
   }
+  async errorModal(error) {
+    // this.isOpen = true;
+    const modal = await this.modalCtrl.create({
+      component: ErrorAlertComponent,
+      backdropDismiss: true,
+      cssClass: 'error-modal',
+      componentProps: {
+        error,
+      },
+    });
+
+    await modal.present();
+  }
 
   togglePasswordMode() {
     this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
@@ -76,6 +92,7 @@ export class SecurityComponent implements OnInit {
 
   async onSubmit() {
     // const dto = this.form.value;
+    this.loadingSvc.presentLoading();
     const dto = await this.form;
     console.log(dto);
     await this.personalSvg
@@ -90,14 +107,20 @@ export class SecurityComponent implements OnInit {
           console.log('RES -->', res.message);
 
           if (res.message === 'Contraseña inválida') {
-            this.currentPasswordError = 'Contraseña inválida';
+            this.currentPasswordError = 'La contraseña actual es incorrecta';
+            console.log(this.currentPasswordError);
+            this.loadingSvc.dismissLoading();
+            this.errorModal(this.currentPasswordError);
+            return;
           }
+
+          this.openModal();
         },
-        (e) => {
-          console.log(e);
+        (err) => {
+          console.log(err);
         }
       );
-    if (this.currentPasswordError === 'Contraseña inválida') return;
-    this.openModal();
+    // if (this.currentPasswordError === 'Contraseña inválida') return;
+    // this.openModal();
   }
 }
