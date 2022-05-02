@@ -6,10 +6,10 @@ import {
   Platform,
 } from '@ionic/angular';
 import { UserService } from 'src/app/core/services/user.service';
-// import { Camera, GalleryImageOptions, Photo } from '@capacitor/camera';
+import { Camera, GalleryImageOptions, Photo } from '@capacitor/camera';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 
-import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+// import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 
 // import {
 //   Camera,
@@ -58,7 +58,8 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
     private userService: UserService,
     private modalCtrl: ModalController,
     private http: HttpClient,
-    private camera: Camera
+    // private camera: Camera,
+    private loader: LoadingController
   ) {
     this.initAutoComplete();
   }
@@ -125,66 +126,66 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
     this.modalCtrl.dismiss();
   }
 
-  photo() {
-    const options: CameraOptions = {
-      quality: 60,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      correctOrientation: true,
-      sourceType: this.camera.PictureSourceType.CAMERA,
-    };
+  // photo() {
+  //   const options: CameraOptions = {
+  //     quality: 60,
+  //     destinationType: this.camera.DestinationType.FILE_URI,
+  //     encodingType: this.camera.EncodingType.JPEG,
+  //     mediaType: this.camera.MediaType.PICTURE,
+  //     correctOrientation: true,
+  //     sourceType: this.camera.PictureSourceType.CAMERA,
+  //   };
 
-    this.camera.getPicture(options).then(
-      (imageData) => {
-        // imageData is either a base64 encoded string or a file URI
-        // If it's base64 (DATA_URL):
+  //   this.camera.getPicture(options).then(
+  //     (imageData) => {
+  //       // imageData is either a base64 encoded string or a file URI
+  //       // If it's base64 (DATA_URL):
 
-        const img = window.Ionic.WebView.convertFileSrc(imageData);
-        console.log(imageData);
+  //       const img = window.Ionic.WebView.convertFileSrc(imageData);
+  //       console.log(imageData);
 
-        this.tempImages.push(img);
+  //       this.tempImages.push(img);
 
-        //  let base64Image = 'data:image/jpeg;base64,' + imageData;
-      },
-      (err) => {
-        // Handle error
-      }
-    );
-  }
-
-  // async pickImages() {
-  //   this.loader
-  //     .create({
-  //       message: 'Cargando',
-  //     })
-  //     .then((ele) => {
-  //       ele.present();
-  //       const options: GalleryImageOptions = {
-  //         correctOrientation: true,
-  //       };
-  //       Camera.pickImages(options).then((val) => {
-  //         console.log('val pick images-->', val);
-  //         const images = val.photos;
-  //         this.imgs = [];
-  //         console.log(images);
-  //         this.imgs = val.photos.map((img) => img.webPath);
-
-  //         // console.log('IMAGES', this.images);
-  //         // for (let i = 0; 1 < images.length; i++) {
-  //         //   this.imgs.push(images[i].webPath);
-  //         // }
-  //         // for (let image of images) {
-  //         //   // console.log('TEST pictures');
-  //         //   this.readAsBase64(image.webPath).then((res) => {
-  //         //     console.log('RES-->', res);
-  //         //     this.imgs.push(res);
-  //         //   });
-  //         //   // this.imgs.push(image.webPath);
-  //         // }
-  //         console.log(this.imgs);
-  //         ele.dismiss();
-  //       });
-  //     });
+  //       //  let base64Image = 'data:image/jpeg;base64,' + imageData;
+  //     },
+  //     (err) => {
+  //       // Handle error
+  //     }
+  //   );
   // }
+
+  async pickImages() {
+    this.loader
+      .create({
+        message: 'Cargando',
+      })
+      .then((ele) => {
+        ele.present();
+        const options: GalleryImageOptions = {
+          correctOrientation: true,
+        };
+        Camera.pickImages(options).then((val) => {
+          console.log('val pick images-->', val);
+          const images = val.photos;
+          this.tempImages = [];
+          console.log(images);
+          this.tempImages = val.photos.map((img) => img.webPath);
+
+          // console.log('IMAGES', this.images);
+          // for (let i = 0; 1 < images.length; i++) {
+          //   this.imgs.push(images[i].webPath);
+          // }
+          // for (let image of images) {
+          //   // console.log('TEST pictures');
+          //   this.readAsBase64(image.webPath).then((res) => {
+          //     console.log('RES-->', res);
+          //     this.imgs.push(res);
+          //   });
+          //   // this.imgs.push(image.webPath);
+          // }
+          console.log(this.tempImages);
+          ele.dismiss();
+        });
+      });
+  }
 }

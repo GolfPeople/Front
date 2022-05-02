@@ -36,10 +36,6 @@ ion-header {
 }
 
 .data-input {
-  padding: 8px 30px 8px 20px;
-}
-
-.data-input {
   display: flex;
   align-items: center;
   padding: 8px 30px 8px 20px;
@@ -105,7 +101,7 @@ ion-content {
 
       p {
         height: 3.4rem;
-        width: 207pxrem;
+        width: 207px;
       }
     }
 
@@ -154,6 +150,14 @@ ion-content {
   height: 10.6rem;
   border-bottom: 1px solid #ddd;
   margin-bottom: 2.5rem;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.card {
+  width: 150px;
+  height: 150px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
