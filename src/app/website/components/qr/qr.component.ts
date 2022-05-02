@@ -12,6 +12,7 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./qr.component.scss'],
 })
 export class QrComponent implements OnInit {
+  @Input() qr;
 
   elementType = NgxQrcodeElementTypes.URL;
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;

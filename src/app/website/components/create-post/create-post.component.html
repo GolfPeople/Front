@@ -21,6 +21,11 @@
         <ion-button (click)="selectImage()">
           <img src="../../../../assets/icon/camera.png" alt="" />
         </ion-button>
+        <!-- <div
+          *ngFor="let img of imgs"
+          class="post-container"
+          [ngStyle]="{ 'background-image': 'url(' + img + ')' }"
+        ></div> -->
         <div
           *ngIf="selectedImage"
           class="post-container"

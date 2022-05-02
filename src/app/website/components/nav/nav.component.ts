@@ -12,9 +12,11 @@ import { CreatePostComponent } from '../create-post/create-post.component';
   styleUrls: ['./nav.component.scss'],
 })
 export class NavComponent implements OnInit {
-  activeMenu: boolean = false;
   userName: string;
   profileImage;
+  profileUrl: string = 'https://api.app.golfpeople.com/api/profile';
+
+  value;
   constructor(
     private loginService: LoginService,
     private userService: UserService,
@@ -26,6 +28,8 @@ export class NavComponent implements OnInit {
   ngOnInit() {
     this.userService.getUserInfo().subscribe((res) => {
       this.userName = res.name;
+      this.value = `${this.profileUrl}/${res.id}`;
+
       if (res.profile.photo) {
         this.profileImage = res.profile.photo;
       }
@@ -40,16 +44,11 @@ export class NavComponent implements OnInit {
     this.router.navigate(['/website'], { relativeTo: this.r });
   }
 
-  toggleMenu() {
-    this.activeMenu = !this.activeMenu;
-  }
-
   onLogout() {
     this.loginService.logout();
   }
 
   async openModal() {
-    // this.isOpen = true;
     const modal = await this.modalCtrl.create({
       component: CreatePostComponent,
       backdropDismiss: true,
@@ -61,12 +60,13 @@ export class NavComponent implements OnInit {
   }
 
   async openQR() {
-    // this.isOpen = true;
     const modal = await this.modalCtrl.create({
       component: QrComponent,
       backdropDismiss: true,
       cssClass: 'options_modal',
-      componentProps: {},
+      componentProps: {
+        qr: this.value,
+      },
     });
 
     await modal.present();

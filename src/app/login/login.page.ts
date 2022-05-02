@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Directory, Filesystem } from '@capacitor/filesystem';
-import { LoadingController, AlertController } from '@ionic/angular';
+import {
+  LoadingController,
+  AlertController,
+  ModalController,
+} from '@ionic/angular';
 import {
   LoginService,
   LoginResponseData,
@@ -10,6 +14,7 @@ import {
 import { Observable } from 'rxjs';
 
 import { LoadingService } from '../core/services/loading/loading.service';
+import { ErrorComponent } from '../shared/alerts/error/error.component';
 
 const TOKEN_DIR = 'session';
 
@@ -34,7 +39,8 @@ export class LoginPage implements OnInit {
     private router: Router,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
-    private loadingSvc: LoadingService
+    private loadingSvc: LoadingService,
+    private modalCtrl: ModalController
   ) {}
 
   ngOnInit() {}
@@ -90,7 +96,8 @@ export class LoginPage implements OnInit {
         errRes === 'Credenciales incorrectas'
           ? (message = 'Datos incorrectos, intenta de nuevo.')
           : (message = 'Error de conexión');
-        this.showAlert(message);
+        // this.showAlert(message);
+        this.errorAlert(message);
       }
     );
   }
@@ -103,6 +110,21 @@ export class LoginPage implements OnInit {
     const password = form.value.password;
 
     this.login(email, password);
+  }
+
+  async errorAlert(message) {
+    // this.loading.dismissLoading();
+
+    const modal = await this.modalCtrl.create({
+      component: ErrorComponent,
+      backdropDismiss: true,
+      cssClass: 'error-alert',
+      componentProps: {
+        message,
+      },
+    });
+
+    await modal.present();
   }
 
   private showAlert(message: string) {
