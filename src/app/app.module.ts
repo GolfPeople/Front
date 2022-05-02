@@ -5,6 +5,8 @@ import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
+import { Camera } from '@awesome-cordova-plugins/camera/ngx';
+
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -12,8 +14,6 @@ import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptors/token.interceptor';
-
-
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,6 +32,7 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     }),
   ],
   providers: [
+    Camera,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],

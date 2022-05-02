@@ -18,20 +18,31 @@
   <div class="create-post-container">
     <div class="choose-image-container">
       <div class="button-container">
-        <ion-button (click)="selectImage()">
+        <ion-button (click)="photo()">
           <img src="../../../../assets/icon/camera.png" alt="" />
         </ion-button>
+        <!-- <ion-button (click)="selectImage()">
+          <img src="../../../../assets/icon/camera.png" alt="" />
+        </ion-button> -->
         <!-- <div
           *ngFor="let img of imgs"
           class="post-container"
           [ngStyle]="{ 'background-image': 'url(' + img + ')' }"
         ></div> -->
-        <div
+        <!-- <div
           *ngIf="selectedImage"
           class="post-container"
           [ngStyle]="{ 'background-image': 'url(' + selectedImage + ')' }"
-        ></div>
+        ></div> -->
       </div>
+
+      <ion-row>
+        <ion-col size="3" *ngFor="let image of tempImages">
+          <ion-card>
+            <img [src]="image" alt="" />
+          </ion-card>
+        </ion-col>
+      </ion-row>
 
       <!-- <img [src]="imgs[0]" alt="" /> -->
       <p class="text ion-text-center">
@@ -95,12 +106,7 @@
         </ion-item>
       </ion-list>
 
-      <ion-button
-        (click)="onSubmit(textArea, address, filesToSend[images.length - 1])"
-        type="submit"
-        class="next-button"
-        shape="round"
-      >
+      <ion-button type="submit" class="next-button" shape="round">
         PUBLICAR
       </ion-button>
     </form>

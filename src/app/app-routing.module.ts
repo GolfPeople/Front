@@ -69,11 +69,6 @@ const routes: Routes = [
     canLoad: [AuthGuard],
   },
   {
-    path: 'tabs',
-    loadChildren: () =>
-      import('./pages/tabs/tabs.module').then((m) => m.TabsPageModule),
-  },
-  {
     path: 'website',
     loadChildren: () =>
       import('./website/website.module').then((m) => m.WebsiteModule),
