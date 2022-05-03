@@ -9,6 +9,7 @@ import {
 import { ModalController } from '@ionic/angular';
 import { QrModalComponent } from './components/qr-modal/qr-modal.component';
 import { element } from 'protractor';
+import { LoadingService } from 'src/app/core/services/loading/loading.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -28,13 +29,16 @@ export class EditProfilePage implements OnInit {
 
   constructor(
     private userService: UserService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private loadingSvc: LoadingService
   ) {}
 
   ngOnInit() {
+    this.loadingSvc.presentLoading();
     this.userService.getUserInfo().subscribe((res) => {
       this.userName = res.name;
       this.value = `${this.profileUrl}/${res.id}`;
+      this.loadingSvc.dismissLoading();
     });
   }
 

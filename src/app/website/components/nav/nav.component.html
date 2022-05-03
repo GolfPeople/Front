@@ -13,7 +13,7 @@
       alt=""
     />JUGAR</a
   >
-  <a (click)="toHome()"
+  <a routerLink="/website"
     ><img
       class="home"
       src="../../../../assets/icon/menu/home.png"
@@ -40,7 +40,7 @@
     <ion-row class="ion-justify-content-center">
       <ion-menu-toggle>
         <div class="profile">
-          <a (click)="toProfile()" class="link-profile">
+          <a routerLink="profile" class="link-profile">
             <img class="link-profile--img" [src]="profileImage" alt="" />
           </a>
           <div class="profile-info">
