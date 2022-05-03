@@ -46,10 +46,7 @@
         <a routerLinkActive="active">Publicaciones</a>
       </li> -->
         <li>
-          <a
-            (click)="selectPage($event)"
-            value="1"
-            [ngClass]="{'active': levelPage}"
+          <a (click)="selectPage($event)" id="1" [ngClass]="{'active': level}"
             >Nivel</a
           >
         </li>
@@ -58,10 +55,13 @@
         </li>
         <li><a>Campos</a></li>
         <li>
-          <a>Publicaciones</a>
+          <a (click)="selectPage($event)" id="4" [ngClass]="{'active': posts}"
+            >Publicaciones</a
+          >
         </li>
       </ul>
     </div>
-    <app-level></app-level>
+    <app-level *ngIf="level"></app-level>
+    <app-posts *ngIf="posts"></app-posts>
   </div>
 </ion-content>

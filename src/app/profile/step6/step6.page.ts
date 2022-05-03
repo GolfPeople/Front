@@ -42,7 +42,11 @@ export class Step6Page implements OnInit, AfterViewInit {
 
   async ngOnInit() {
     this.address = this.initFormcontrol();
-    await this.printCurrentPosition();
+    // await this.printCurrentPosition();
+    const coordinates = await this.geolocationService.currentPosition();
+    const { latitude, longitude } = await coordinates.coords;
+    this.coords = { lat: latitude, lng: longitude };
+
     this.geoCodeLatLong(this.coords);
 
     console.log(this.address.value);
@@ -73,16 +77,16 @@ export class Step6Page implements OnInit, AfterViewInit {
     return control;
   }
 
-  async printCurrentPosition() {
-    const coordinates = await Geolocation.getCurrentPosition();
-    const { latitude, longitude } = coordinates.coords;
+  // async printCurrentPosition() {
+  //   const coordinates = await Geolocation.getCurrentPosition();
+  //   const { latitude, longitude } = coordinates.coords;
 
-    this.coords = { lat: latitude, lng: longitude };
+  //   this.coords = { lat: latitude, lng: longitude };
 
-    console.log('Coords', this.coords);
-    console.log('Current position:', coordinates);
-    return coordinates;
-  }
+  //   console.log('Coords', this.coords);
+  //   console.log('Current position:', coordinates);
+  //   return coordinates;
+  // }
 
   chooseGender(event) {
     const element = event.target;
@@ -141,8 +145,8 @@ export class Step6Page implements OnInit, AfterViewInit {
     this.autocomplete = new google.maps.places.Autocomplete(
       document.getElementById('input-step6') as HTMLInputElement,
       {
-        types: ['establishment'],
-        componentRestrictions: { country: ['ES'] },
+        // types: ['establishment'],
+        // componentRestrictions: { country: ['ES'] },
         fields: ['place_id', 'geometry', 'name'],
       }
     );
@@ -176,7 +180,9 @@ export class Step6Page implements OnInit, AfterViewInit {
 
         //This is placing the returned address in the 'Address' field on the HTML form
 
-        address.setValue(results[1].formatted_address);
+        address.setValue(
+          `${results[0].address_components[3].long_name} ${results[0].address_components[6].long_name}`
+        );
         console.log(address.value);
       }
     });

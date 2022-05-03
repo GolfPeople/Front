@@ -10,6 +10,9 @@ import { RankingCardComponent } from './components/ranking-card/ranking-card.com
 import { SuccessComponent } from './alerts/success/success.component';
 import { ErrorComponent } from './alerts/error/error.component';
 
+import { SwiperModule } from 'swiper/angular';
+
+
 const components = [
   SelectDateComponent,
   StoryCardComponent,
@@ -23,7 +26,7 @@ const components = [
 
 @NgModule({
   declarations: [components],
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, IonicModule, SwiperModule],
   exports: [components],
 })
 export class SharedModule {}

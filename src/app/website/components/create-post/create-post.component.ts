@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import {
   AlertController,
+  IonSearchbar,
   LoadingController,
   ModalController,
   Platform,
@@ -21,6 +22,7 @@ import { environment } from 'src/environments/environment';
 import { SuccessComponent } from '../success/success.component';
 import { SwiperComponent } from 'swiper/angular';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { GeolocationService } from 'src/app/core/services/geolocation.service';
 
 declare var google: any;
 declare var window: any;
@@ -35,7 +37,11 @@ export class CreatePostComponent
   implements OnInit, AfterViewInit, AfterContentChecked
 {
   @ViewChild('swiper') swiper: SwiperComponent;
-  autocomplete;
+  @ViewChild('searchbar', { read: IonSearchbar }) searchbar: IonSearchbar;
+
+  autocomplete: any;
+  geocoder = new google.maps.Geocoder();
+  coords;
 
   latitud: any;
   longitude: any;
@@ -54,29 +60,23 @@ export class CreatePostComponent
     private http: HttpClient,
     // private camera: Camera,
     private loader: LoadingController,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private geolocationService: GeolocationService
   ) {
-    this.initAutoComplete();
-  }
-
-  ngOnInit() {
     // this.initAutoComplete();
-    const { description, location } = this.initFormControls();
-    this.textArea = description;
-    this.address = location;
   }
 
   ngAfterViewInit(): void {
-    this.autocomplete = new google.maps.places.Autocomplete(
-      document.getElementById('input') as HTMLInputElement,
-      {
-        types: ['establishment'],
-        componentRestrictions: { country: ['ES'] },
-
-        // componentRestrictions: { country: ['AU'] },
-        // fields: ['place_id', 'geometry', 'name'],
-      }
-    );
+    this.initAutoComplete();
+  }
+  async ngOnInit() {
+    const { description, location } = this.initFormControls();
+    this.textArea = description;
+    this.address = location;
+    const coordinates = await this.geolocationService.currentPosition();
+    const { latitude, longitude } = await coordinates.coords;
+    this.coords = { lat: latitude, lng: longitude };
+    this.geoCodeLatLong(this.coords);
   }
 
   ngAfterContentChecked(): void {
@@ -116,9 +116,29 @@ export class CreatePostComponent
     // this.autocomplete.addListener('place_changed', this.onPlaceChanged);
   }
 
-  // onPlaceChanged() {
+  geoCodeLatLong(latlng) {
+    // This is making the Geocode request
+    const address = this.address;
+    console.log('TEST LAt Long', latlng);
+    this.geocoder.geocode({ location: latlng }, function (results, status) {
+      console.log('TEST results', results);
+      if (status !== google.maps.GeocoderStatus.OK) {
+        alert(status);
+      }
+      // This is checking to see if the Geoeode Status is OK before proceeding
+      if (status == google.maps.GeocoderStatus.OK) {
+        // var address = results[0].formatted_address;
 
-  // }
+        //This is placing the returned address in the 'Address' field on the HTML form
+
+        address.setValue(
+          `${results[0].address_components[3].long_name} ${results[0].address_components[6].long_name}`
+        );
+        console.log(address.value);
+      }
+    });
+    this.address.setValue(address.value);
+  }
 
   async openModal() {
     const modal = await this.modalCtrl.create({
@@ -180,8 +200,8 @@ export class CreatePostComponent
           const images = val.photos;
           this.tempImages = [];
           console.log(images);
-          // this.tempImages = val.photos.map((img) => img.webPath);
-          this.tempImages = [...images];
+          this.tempImages = val.photos.map((img) => img.webPath);
+          // this.tempImages = [...images];
 
           // console.log('IMAGES', this.images);
           // for (let i = 0; 1 < images.length; i++) {

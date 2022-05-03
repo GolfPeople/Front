@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { PostsResponse } from '../interfaces/interfaces';
 
 const URL = `${environment.golfpeopleAPI}/api`;
 
@@ -25,5 +26,9 @@ export class PostsService {
       }),
     };
     return this.http.post(`${URL}/publish`, dto, headers);
+  }
+
+  getPosts() {
+    return this.http.get<PostsResponse[]>(`${URL}/publish/my_publish`);
   }
 }

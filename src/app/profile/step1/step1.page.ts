@@ -18,6 +18,7 @@ import {
   CameraResultType,
   CameraSource,
   Photo,
+  CameraOptions,
 } from '@capacitor/camera';
 import { finalize } from 'rxjs/operators';
 
@@ -77,6 +78,7 @@ export class Step1Page implements OnInit {
         : (this.imageAvatarDefault = 'assets/img/default-avatar.png');
     });
     this.loadFiles();
+    console.log('Array de imágenes -->', this.images);
     // this.imageAvatarDefault = this.images[this.images.length - 1].data
   }
 
@@ -99,7 +101,7 @@ export class Step1Page implements OnInit {
     })
       .then(
         (result) => {
-          console.log('HERE: ', result);
+          console.log('loadFileData', result);
           this.loadFilesData(result.files);
           // this.imageAvatarDefault = result.files[result.files.length - 1]
         },
@@ -141,7 +143,7 @@ export class Step1Page implements OnInit {
       resultType: CameraResultType.Uri,
       source: CameraSource.Photos,
     });
-    console.log(image);
+    console.log('Images seleccionada', image);
 
     if (image) {
       const imageUrl = image.webPath;
@@ -152,7 +154,9 @@ export class Step1Page implements OnInit {
   }
 
   async saveImage(photo: Photo) {
+    console.log('saveImage', photo);
     const base64Data = await this.readAsBase64(photo);
+    console.log('Base 64', base64Data);
     console.log(base64Data);
 
     const fileName = new Date().getTime() + '.jpeg';
@@ -192,10 +196,12 @@ export class Step1Page implements OnInit {
     });
 
   async startUpload(file: LocalFile) {
+    console.log('Esta es la imagen que vas a enviar', file);
     const response = await fetch(file.data);
+    console.log('startUpload response', response);
     console.log(response);
     const blob = await response.blob();
-    console.log(blob);
+    console.log('blob a enviar', blob);
     const formData = new FormData();
     formData.append('photo', blob, file.name);
     formData.append('license', this.license);

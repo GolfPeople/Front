@@ -6,7 +6,7 @@ import {
   NgxQrcodeElementTypes,
   NgxQrcodeErrorCorrectionLevels,
 } from '@techiediaries/ngx-qrcode';
-import { ModalController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { QrModalComponent } from './components/qr-modal/qr-modal.component';
 import { element } from 'protractor';
 import { LoadingService } from 'src/app/core/services/loading/loading.service';
@@ -21,7 +21,10 @@ export class EditProfilePage implements OnInit {
   imageAvatarDefault: string = 'assets/img/default-avatar.png';
   isOpen: boolean = false;
   profileUrl: string = 'https://api.app.golfpeople.com/api/profile';
-  levelPage: boolean = true;
+  level: boolean;
+  bolsa: boolean;
+  campos: boolean;
+  posts: boolean = true;
 
   elementType = NgxQrcodeElementTypes.URL;
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
@@ -30,15 +33,22 @@ export class EditProfilePage implements OnInit {
   constructor(
     private userService: UserService,
     private modalCtrl: ModalController,
-    private loadingSvc: LoadingService
+    private loadingSvc: LoadingService,
+    private loadingCtrl: LoadingController
   ) {}
 
-  ngOnInit() {
-    this.loadingSvc.presentLoading();
+  async ngOnInit() {
+    // this.loadingSvc.presentLoading();
+    const loading = await this.loadingCtrl.create({
+      cssClass: 'laoding-ctrl',
+      spinner: 'crescent',
+    });
+    await loading.present();
     this.userService.getUserInfo().subscribe((res) => {
       this.userName = res.name;
       this.value = `${this.profileUrl}/${res.id}`;
-      this.loadingSvc.dismissLoading();
+      // this.loadingSvc.dismissLoading();
+      loading.dismiss();
     });
   }
 
@@ -77,7 +87,40 @@ export class EditProfilePage implements OnInit {
   }
 
   selectPage(event: Event) {
-    const element = event.target;
+    const element = event.target as HTMLElement;
+    const value = element.id;
+    if (value === '1') {
+      this.level = true;
+      this.bolsa = false;
+      this.campos = false;
+      this.posts = false;
+      console.log(value);
+      return;
+    }
+    if (value === '2') {
+      this.level = false;
+      this.bolsa = true;
+      this.campos = false;
+      this.posts = false;
+      console.log(value);
+      return;
+    }
+    if (value === '3') {
+      this.level = false;
+      this.bolsa = false;
+      this.campos = true;
+      this.posts = false;
+      console.log(value);
+      return;
+    }
+    if (value === '4') {
+      this.level = false;
+      this.bolsa = false;
+      this.campos = false;
+      this.posts = true;
+      console.log(value);
+      return;
+    }
   }
 
   async startScan() {
