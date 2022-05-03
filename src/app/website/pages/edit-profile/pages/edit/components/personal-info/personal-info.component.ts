@@ -86,9 +86,14 @@ export class PersonalInfoComponent implements OnInit {
     private loadingCtrl: LoadingController
   ) {}
 
-  ngOnInit() {
-    this.loadingSvc.presentLoading();
+  async ngOnInit() {
+    // this.loadingSvc.presentLoading();
     this.form = this.initForm();
+    const loading = await this.loadingCtrl.create({
+      cssClass: 'laoding-ctrl',
+      spinner: 'crescent',
+    });
+    await loading.present();
     this.userService.getUserInfo().subscribe((res) => {
       this.id = res.id;
 
@@ -135,7 +140,8 @@ export class PersonalInfoComponent implements OnInit {
         this.form.controls['type'].setValue(res.profile.type);
       }
 
-      this.loadingSvc.dismissLoading();
+      // this.loadingSvc.dismissLoading();
+      loading.dismiss();
     });
   }
 
