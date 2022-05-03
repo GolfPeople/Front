@@ -14,43 +14,27 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div class="create-post-container">
-    <div class="choose-image-container">
-      <div class="button-container">
+<ion-content class="content">
+  <ion-row class="ion-justify-content-center ion-align-items-center">
+    <div class="pick-image-container">
+      <div *ngIf="tempImages.length === 0" class="button-container">
         <ion-button (click)="pickImages()">
           <img src="../../../../assets/icon/camera.png" alt="" />
         </ion-button>
-        <!-- <ion-button (click)="selectImage()">
-          <img src="../../../../assets/icon/camera.png" alt="" />
-        </ion-button> -->
-        <!-- <div
-          *ngFor="let img of imgs"
-          class="post-container"
-          [ngStyle]="{ 'background-image': 'url(' + img + ')' }"
-        ></div> -->
-        <!-- <div
-          *ngIf="selectedImage"
-          class="post-container"
-          [ngStyle]="{ 'background-image': 'url(' + selectedImage + ')' }"
-        ></div> -->
       </div>
-
-      <ion-row>
-        <ion-col *ngFor="let image of tempImages">
-          <ion-card
-            class="card"
-            [ngStyle]="{ 'background-image': 'url(' + image + ')' }"
-          >
-          </ion-card>
-        </ion-col>
-      </ion-row>
-
-      <!-- <img [src]="imgs[0]" alt="" /> -->
-      <p class="text ion-text-center">
+      <p *ngIf="tempImages.length === 0" class="text ion-text-center">
         ¿Alguna foto/vídeo que quieras compartir con la comunidad?
       </p>
+      <swiper *ngIf="tempImages.length > 0" #swiper>
+        <ng-template *ngFor="let image of tempImages" swiperSlide>
+          <div
+            [ngStyle]="{ 'background-image': 'url(' + image.webPath + ')' }"
+            class="picture"
+          ></div>
+        </ng-template>
+      </swiper>
     </div>
+
     <div class="footer">
       <p class="text">Escribe un pie para tu foto</p>
       <ion-textarea
@@ -58,7 +42,7 @@
         inputmode="text"
         [maxlength]="2000"
         class="text"
-        [(ngModel)]="textArea"
+        [formControl]="textArea"
       >
       </ion-textarea>
     </div>
@@ -97,11 +81,11 @@
               alt=""
             />
             <input
+              id="input-post"
               type="text"
               name="license"
               placeholder=" Ubicación Actual"
-              id="input"
-              [(ngModel)]="address"
+              [formControl]="address"
             />
           </div>
           <br />
@@ -109,7 +93,7 @@
       </ion-list>
 
       <ion-button
-        (click)="onSubmit(textArea, address, tempImages)"
+        (click)="onSubmit(textArea.value, address.value, tempImages)"
         type="submit"
         class="next-button"
         shape="round"
@@ -117,5 +101,6 @@
         PUBLICAR
       </ion-button>
     </form>
-  </div>
+    <!-- </div> -->
+  </ion-row>
 </ion-content>

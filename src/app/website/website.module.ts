@@ -5,6 +5,8 @@ import { RouterModule } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
+import { SwiperModule } from 'swiper/angular';
+
 import { WebsiteRoutingModule } from './website-routing.module';
 import { LayoutComponent } from './components/layout/layout.component';
 import { NavComponent } from './components/nav/nav.component';
@@ -34,6 +36,7 @@ const myComponents = [
     NgxQRCodeModule,
     FormsModule,
     ReactiveFormsModule,
+    SwiperModule,
   ],
 })
 export class WebsiteModule {}

@@ -1,4 +1,11 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  AfterContentChecked,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import {
   AlertController,
   LoadingController,
@@ -7,47 +14,34 @@ import {
 } from '@ionic/angular';
 import { UserService } from 'src/app/core/services/user.service';
 import { Camera, GalleryImageOptions, Photo } from '@capacitor/camera';
-import { Directory, Filesystem } from '@capacitor/filesystem';
 
-// import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
-
-// import {
-//   Camera,
-//   CameraResultType,
-//   CameraSource,
-//   Photo,
-// } from '@capacitor/camera';
-import { finalize } from 'rxjs/operators';
-import { DomSanitizer } from '@angular/platform-browser';
-import { FilesService } from 'src/app/core/services/files.service';
-import { LoginService } from 'src/app/core/services/login.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { SuccessComponent } from '../success/success.component';
+import { SwiperComponent } from 'swiper/angular';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 declare var google: any;
 declare var window: any;
-
-interface LocalFile {
-  name: string;
-  path: string;
-  data: string;
-}
 
 @Component({
   selector: 'app-create-post',
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
-export class CreatePostComponent implements OnInit, AfterViewInit {
+export class CreatePostComponent
+  implements OnInit, AfterViewInit, AfterContentChecked
+{
+  @ViewChild('swiper') swiper: SwiperComponent;
   autocomplete;
 
   latitud: any;
   longitude: any;
 
-  textArea;
-  address;
+  textArea: FormControl;
+  address: FormControl;
   filesToSend;
 
   tempImages = [];
@@ -59,24 +53,17 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
     private modalCtrl: ModalController,
     private http: HttpClient,
     // private camera: Camera,
-    private loader: LoadingController
+    private loader: LoadingController,
+    private fb: FormBuilder
   ) {
     this.initAutoComplete();
   }
 
   ngOnInit() {
     // this.initAutoComplete();
-  }
-
-  onSubmit(description, chareacters, files) {
-    return this.http
-      .post(`${this.apiUrl}/publish`, { description, chareacters, files })
-      .subscribe((res) => {
-        console.log('RESpuesta,', res);
-        this.openModal();
-        this.closeModal();
-      });
-    // this.openModal();
+    const { description, location } = this.initFormControls();
+    this.textArea = description;
+    this.address = location;
   }
 
   ngAfterViewInit(): void {
@@ -92,9 +79,33 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
     );
   }
 
+  ngAfterContentChecked(): void {
+    if (this.swiper) {
+      this.swiper.updateSwiper({});
+    }
+  }
+
+  initFormControls() {
+    const description = new FormControl('', {});
+    const location = new FormControl('', {});
+
+    return { description, location };
+  }
+
+  onSubmit(description, ubication, files) {
+    return this.http
+      .post(`${this.apiUrl}/publish`, { description, ubication, files })
+      .subscribe((res) => {
+        console.log('RESpuesta,', res);
+        this.openModal();
+        this.closeModal();
+      });
+    // this.openModal();
+  }
+
   initAutoComplete() {
     this.autocomplete = new google.maps.places.Autocomplete(
-      document.getElementById('input') as HTMLInputElement,
+      document.getElementById('input-post') as HTMLInputElement,
       {
         types: ['establishment'],
         componentRestrictions: { country: ['ES'] },
@@ -169,7 +180,8 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
           const images = val.photos;
           this.tempImages = [];
           console.log(images);
-          this.tempImages = val.photos.map((img) => img.webPath);
+          // this.tempImages = val.photos.map((img) => img.webPath);
+          this.tempImages = [...images];
 
           // console.log('IMAGES', this.images);
           // for (let i = 0; 1 < images.length; i++) {
@@ -184,8 +196,8 @@ export class CreatePostComponent implements OnInit, AfterViewInit {
           //   // this.imgs.push(image.webPath);
           // }
           console.log(this.tempImages);
-          ele.dismiss();
         });
+        ele.dismiss();
       });
   }
 }
