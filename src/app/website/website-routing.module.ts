@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './components/layout/layout.component';
+import { PublicPostComponent } from './components/public-post/public-post.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,10 @@ const routes: Routes = [
           ),
       },
     ],
+  },
+  {
+    path: 'post/:id',
+    component: PublicPostComponent,
   },
 ];
 

@@ -22,10 +22,16 @@ const myComponents = [
   CreatePostComponent,
   QrComponent,
   SuccessComponent,
+  CreatePostComponent,
 ];
 
 @NgModule({
-  entryComponents: [CreatePostComponent, SuccessComponent, QrComponent],
+  entryComponents: [
+    CreatePostComponent,
+    SuccessComponent,
+    QrComponent,
+    CreatePostComponent,
+  ],
   declarations: myComponents,
   imports: [
     CommonModule,

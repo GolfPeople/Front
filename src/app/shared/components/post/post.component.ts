@@ -5,8 +5,16 @@ import {
   AfterContentChecked,
   ViewChild,
 } from '@angular/core';
-import { ActionSheetController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import {
+  ActionSheetController,
+  AlertController,
+  ModalController,
+} from '@ionic/angular';
+import { CreatePostComponent } from 'src/app/website/components/create-post/create-post.component';
 import { SwiperComponent } from 'swiper/angular';
+
+import { PostsService } from '../../../core/services/posts.service';
 
 @Component({
   selector: 'app-post',
@@ -21,8 +29,15 @@ export class PostComponent implements OnInit, AfterContentChecked {
   @Input() description: string;
   @Input() location: string;
   @Input() images;
+  @Input() id;
 
-  constructor(private actionSheetCtrl: ActionSheetController) {}
+  constructor(
+    private actionSheetCtrl: ActionSheetController,
+    private modalCtrl: ModalController,
+    private alertCtrl: AlertController,
+    private postsSvc: PostsService,
+    private router: Router
+  ) {}
 
   ngOnInit() {}
 
@@ -50,7 +65,24 @@ export class PostComponent implements OnInit, AfterContentChecked {
           data: {
             type: 'delete',
           },
-          handler: () => {
+          handler: async () => {
+            const alert = await this.alertCtrl.create({
+              cssClass: 'alert-confirmation',
+              header: 'Eliminar publicación',
+              message: 'Estás seguro de eliminar esta publicación',
+              buttons: [
+                {
+                  text: 'cancelar',
+                  role: 'cancel',
+                  handler: () => {
+                    this.postsSvc.deletePost(this.id);
+                  },
+                },
+                {
+                  text: 'aceptar',
+                },
+              ],
+            });
             console.log('Delete clicked');
           },
         },
@@ -60,23 +92,32 @@ export class PostComponent implements OnInit, AfterContentChecked {
           data: 10,
           handler: () => {
             console.log('Share clicked');
+            this.router.navigate([`/website/post/${this.id}`]);
           },
         },
         {
           text: 'Editar',
           icon: 'pencil',
           data: 10,
-          handler: () => {
+          handler: async () => {
+            const modal = await this.modalCtrl.create({
+              component: CreatePostComponent,
+              backdropDismiss: true,
+              cssClass: 'create-post-modal',
+              componentProps: {
+                postId: this.id,
+                type: 2,
+                postDescription: this.description,
+                postFiles: this.images,
+                postLocation: this.location,
+              },
+            });
+
+            await modal.present();
             console.log('Share clicked');
           },
         },
-        {
-          text: 'Favorite',
-          icon: 'heart',
-          handler: () => {
-            console.log('Favorite clicked');
-          },
-        },
+
         {
           text: 'Cancel',
           icon: 'close',
@@ -90,6 +131,6 @@ export class PostComponent implements OnInit, AfterContentChecked {
     await actionSheet.present();
 
     const { role, data } = await actionSheet.onDidDismiss();
-    console.log('onDidDismiss resolved with role and data', role, data);
+    // console.log('onDidDismiss resolved with role and data', role, data);
   }
 }

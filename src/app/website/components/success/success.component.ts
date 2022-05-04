@@ -22,6 +22,6 @@ export class SuccessComponent implements OnInit {
 
   closeModal() {
     this.modalCtrl.dismiss();
-    this.router.navigate(['/website']);
+    // this.router.navigate(['/website']);
   }
 }

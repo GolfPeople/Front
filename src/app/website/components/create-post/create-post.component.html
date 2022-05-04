@@ -18,9 +18,22 @@
   <ion-row class="ion-justify-content-center ion-align-items-center">
     <div class="pick-image-container">
       <div *ngIf="tempImages.length === 0" class="button-container">
-        <ion-button (click)="pickImages()">
-          <img src="../../../../assets/icon/camera.png" alt="" />
+        <input
+          type="file"
+          #fileInput
+          (change)="uploadFile($event)"
+          accept="image/*,video/*"
+          hidden="true"
+          multiple="true"
+        />
+        <ion-button (click)="selectImageSource()">
+          <!-- <img src="../../../../assets/icon/camera.png" alt="" /> -->
+          <ion-icon name="camera"></ion-icon>
         </ion-button>
+        <!-- <ion-button (click)="pickImages()">
+          <img src="../../../../assets/icon/camera.png" alt="" />
+          <ion-icon name="camera"></ion-icon>
+        </ion-button> -->
       </div>
       <p *ngIf="tempImages.length === 0" class="text ion-text-center">
         ¿Alguna foto/vídeo que quieras compartir con la comunidad?
@@ -73,33 +86,39 @@
         </ion-item> -->
 
         <p class="card-text text-center">¿Dónde vives?</p>
-        <ion-item lines="none">
-          <div class="data-input">
-            <img
-              class="geo"
-              src="../../../assets/icon/geolocation.png"
-              alt=""
-            />
-            <input
-              type="text"
-              name="license"
-              placeholder=" Ubicación Actual"
-              id="input-post"
-              [formControl]="address"
-            />
-          </div>
-          <br />
-          <!-- <ion-searchbar #searchbar></ion-searchbar> -->
-        </ion-item>
+        <!-- <ion-item lines="none"> -->
+        <div class="data-input">
+          <img class="geo" src="../../../assets/icon/geolocation.png" alt="" />
+          <input
+            type="text"
+            name="license"
+            placeholder=" Ubicación Actual"
+            id="location"
+            [formControl]="address"
+          />
+        </div>
+        <br />
+        <!-- <ion-searchbar #searchbar></ion-searchbar> -->
+        <!-- </ion-item> -->
       </ion-list>
 
       <ion-button
+        *ngIf="editPost === false"
         (click)="onSubmit(textArea.value, address.value, tempImages)"
         type="submit"
         class="next-button"
         shape="round"
       >
         PUBLICAR
+      </ion-button>
+      <ion-button
+        *ngIf="editPost === true"
+        (click)="edit(textArea.value, postFiles, address.value)"
+        type="submit"
+        class="next-button"
+        shape="round"
+      >
+        EDITAR
       </ion-button>
     </form>
     <!-- </div> -->
