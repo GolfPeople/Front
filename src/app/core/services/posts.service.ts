@@ -48,7 +48,7 @@ export class PostsService {
 
   getPosts() {
     return this.http
-      .get<Post[]>(`${URL}/publish/my_publish`)
+      .get<PostsResponse[]>(`${URL}/publish/my_publish`)
       .subscribe((posts) => {
         console.log(posts);
         this.posts.next(posts);
