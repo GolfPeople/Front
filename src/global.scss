@@ -74,6 +74,12 @@ body {
   --background: #fff;
 }
 
+// action-sheet destructive button red
+.red,
+.red .sc-ion-action-sheet-md {
+  color: #ff4961;
+}
+
 // Loading control
 
 .laoding-ctrl {

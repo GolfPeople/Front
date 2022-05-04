@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { PostsResponse } from '../interfaces/interfaces';
+import { Post, PostsResponse } from '../interfaces/interfaces';
 
 const URL = `${environment.golfpeopleAPI}/api`;
 
@@ -25,10 +25,19 @@ export class PostsService {
         'X-Requested-With': 'XMLHttpRequest',
       }),
     };
-    return this.http.post(`${URL}/publish`, dto, headers);
+    return this.http.post<Post>(`${URL}/publish`, dto, headers);
+  }
+
+  createPostWithImageFile(description, files: File[], ubication) {
+    const formData: any = new FormData();
+    formData.append('description', description);
+    formData.append('files', files);
+    formData.append('ubication', ubication);
+
+    return this.http.post<Post>(`${URL}/publish`, formData);
   }
 
   getPosts() {
-    return this.http.get<PostsResponse[]>(`${URL}/publish/my_publish`);
+    return this.http.get<Post[]>(`${URL}/publish/my_publish`);
   }
 }

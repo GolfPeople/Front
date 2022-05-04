@@ -49,6 +49,9 @@
       <h3>{{ userName }}</h3>
       <p>{{ location }}</p>
     </ion-label>
+    <a (click)="onClick()" slot="end">
+      <ion-icon color="light" name="ellipsis-horizontal"></ion-icon>
+    </a>
   </ion-item>
   <swiper #swiper>
     <ng-template *ngFor="let image of images" swiperSlide>
