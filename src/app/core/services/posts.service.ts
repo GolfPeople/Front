@@ -10,7 +10,7 @@ const URL = `${environment.golfpeopleAPI}/api`;
   providedIn: 'root',
 })
 export class PostsService {
-  private posts = new BehaviorSubject<Post[]>([]);
+  private posts = new BehaviorSubject<PostsResponse[]>([]);
   posts$ = this.posts.asObservable();
 
   constructor(private http: HttpClient) {}

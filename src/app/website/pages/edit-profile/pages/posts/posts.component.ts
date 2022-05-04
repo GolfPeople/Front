@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 export class PostsComponent implements OnInit {
   avatarImage: string;
   userName: string;
-  posts: Post[];
+  posts: PostsResponse[];
   location: string;
   des;
 
