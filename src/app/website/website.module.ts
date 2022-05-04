@@ -15,6 +15,7 @@ import { CreatePostComponent } from './components/create-post/create-post.compon
 import { QrComponent } from './components/qr/qr.component';
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 import { SuccessComponent } from './components/success/success.component';
+import { PublicPostComponent } from './components/public-post/public-post.component';
 
 const myComponents = [
   LayoutComponent,
@@ -23,6 +24,7 @@ const myComponents = [
   QrComponent,
   SuccessComponent,
   CreatePostComponent,
+  PublicPostComponent,
 ];
 
 @NgModule({
