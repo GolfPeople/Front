@@ -22,6 +22,7 @@ import {
   GalleryImageOptions,
   Photo,
   CameraSource,
+  CameraResultType,
 } from '@capacitor/camera';
 
 import { HttpClient } from '@angular/common/http';
@@ -36,6 +37,8 @@ import { Post } from 'src/app/core/interfaces/interfaces';
 
 declare var google: any;
 declare var window: any;
+
+const URL = `${environment.golfpeopleAPI}/api`;
 
 @Component({
   selector: 'app-create-post',
@@ -73,6 +76,10 @@ export class CreatePostComponent
   postImages = [];
 
   editPost: boolean = false;
+
+  // Simon Grimm method
+  selectedFiles: FileList;
+  blobArrayData;
 
   private apiUrl = `${environment.golfpeopleAPI}/api`;
 
@@ -124,7 +131,57 @@ export class CreatePostComponent
     return { description, location };
   }
 
-  async onSubmit(description, files, ubication) {
+  async pickImages() {
+    this.loader
+      .create({
+        message: 'Cargando',
+      })
+      .then((ele) => {
+        ele.present();
+        const options: GalleryImageOptions = {
+          correctOrientation: true,
+        };
+        Camera.pickImages(options).then((val) => {
+          console.log('val pick images-->', val);
+          const images = val.photos;
+          this.tempImages = [];
+          console.log(images);
+          this.tempImages = val.photos.map((img) => img);
+          // this.tempImages = [...images];
+
+          // console.log('IMAGES', this.images);
+          // for (let i = 0; 1 < images.length; i++) {
+          //   this.imgs.push(images[i].webPath);
+          // }
+          // for (let image of images) {
+          //   // console.log('TEST pictures');
+          //   this.readAsBase64(image.webPath).then((res) => {
+          //     console.log('RES-->', res);
+          //     this.imgs.push(res);
+          //   });
+          //   // this.imgs.push(image.webPath);
+          // }
+          console.log(this.tempImages);
+        });
+        ele.dismiss();
+      });
+  }
+
+  async onSubmit(description, files: FileList, ubication) {
+    console.log('files -->', files);
+    if (!this.platform.is('hybrid')) {
+      const dto = {
+        description,
+        files,
+        ubication,
+      };
+      return this.postsSvc.createPostWithImageFile(
+        description,
+        files,
+        ubication
+      );
+    }
+
     const loading = await this.loadingCtrl.create({
       cssClass: 'laoding-ctrl',
       spinner: 'crescent',
@@ -137,16 +194,19 @@ export class CreatePostComponent
     this.closeModal();
   }
 
+  // Simon Grimm method
+
   uploadFile(event: Event) {
     const target: HTMLInputElement = event.target as HTMLInputElement;
-    const files = target.files;
-    console.log('files', files);
+    const files: FileList = target.files;
+    this.selectedFiles = files;
+    console.log('selected files -->', this.selectedFiles);
 
-    this.postsSvc.createPostWithImageFile(
-      this.textArea.value,
-      files,
-      this.address.value
-    );
+    // this.postsSvc.createPostWithImageFile(
+    //   this.textArea.value,
+    //   files,
+    //   this.address.value
+    // );
   }
 
   async selectImageSource() {
@@ -184,7 +244,44 @@ export class CreatePostComponent
     await actionSheet.present();
   }
 
-  addImage(source: CameraSource) {}
+  async addImage(source: CameraSource) {
+    this.blobArrayData = [];
+    const image = await Camera.getPhoto({
+      quality: 60,
+      allowEditing: true,
+      resultType: CameraResultType.Base64,
+      source,
+    });
+
+    console.log('image', image);
+    const blobData = this.b64toBlob(
+      image.base64String,
+      `image/${image.format}`
+    );
+    console.log('blobData', blobData);
+    // this.blobArrayData.push(blobData);
+    // console.log('Blob array', this.blobArrayData);
+  }
+
+  b64toBlob(base64, contentType = '', sliceSize = 512) {
+    const byteCharacters = atob(base64);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, { type: contentType });
+    return blob;
+  }
 
   async edit(description, ubication, files) {
     const loading = await this.loadingCtrl.create({
@@ -210,42 +307,6 @@ export class CreatePostComponent
     );
 
     // this.autocomplete.addListener('place_changed', this.onPlaceChanged);
-  }
-
-  async pickImages() {
-    this.loader
-      .create({
-        message: 'Cargando',
-      })
-      .then((ele) => {
-        ele.present();
-        const options: GalleryImageOptions = {
-          correctOrientation: true,
-        };
-        Camera.pickImages(options).then((val) => {
-          console.log('val pick images-->', val);
-          const images = val.photos;
-          this.tempImages = [];
-          console.log(images);
-          this.tempImages = val.photos.map((img) => img);
-          // this.tempImages = [...images];
-
-          // console.log('IMAGES', this.images);
-          // for (let i = 0; 1 < images.length; i++) {
-          //   this.imgs.push(images[i].webPath);
-          // }
-          // for (let image of images) {
-          //   // console.log('TEST pictures');
-          //   this.readAsBase64(image.webPath).then((res) => {
-          //     console.log('RES-->', res);
-          //     this.imgs.push(res);
-          //   });
-          //   // this.imgs.push(image.webPath);
-          // }
-          console.log(this.tempImages);
-        });
-        ele.dismiss();
-      });
   }
 
   geoCodeLatLong(latlng) {

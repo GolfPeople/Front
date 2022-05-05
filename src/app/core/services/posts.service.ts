@@ -36,20 +36,30 @@ export class PostsService {
   }
 
   createPostWithImageFile(description, files, ubication) {
-    // const formData: any = new FormData();
+    const headers = {
+      headers: new HttpHeaders({
+        'Content-Type': 'multipart/form-data',
+        'X-Requested-With': 'XMLHttpRequest',
+      }),
+    };
+    // const formData: FormData = new FormData();
     // formData.append('description', description);
     // formData.append('files', files);
     // formData.append('ubication', ubication);
+    // console.log(formData);
     const dto = {
       description,
-      files: FileList,
+      files,
       ubication,
     };
+    console.log('dto -->', dto);
 
-    return this.http.post<Post>(`${URL}/publish`, dto).subscribe((res) => {
-      console.log(res);
-      this.getPosts();
-    });
+    return this.http
+      .post<Post>(`${URL}/publish`, dto, headers)
+      .subscribe((res) => {
+        console.log(res);
+        this.getPosts();
+      });
   }
 
   getPosts() {

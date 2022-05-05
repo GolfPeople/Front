@@ -18,7 +18,7 @@
   <ion-row class="ion-justify-content-center ion-align-items-center">
     <div class="pick-image-container">
       <div *ngIf="tempImages.length === 0" class="button-container">
-        <!-- <input
+        <input
           type="file"
           #fileInput
           (change)="uploadFile($event)"
@@ -28,11 +28,11 @@
         />
         <ion-button (click)="selectImageSource()">
           <img src="../../../../assets/icon/camera.png" alt="" />
-        </ion-button> -->
-        <ion-button (click)="pickImages()">
+        </ion-button>
+        <!-- <ion-button (click)="pickImages()">
           <img src="../../../../assets/icon/camera.png" alt="" />
           <ion-icon name="camera"></ion-icon>
-        </ion-button>
+        </ion-button> -->
       </div>
       <p *ngIf="tempImages.length === 0" class="text ion-text-center">
         ¿Alguna foto/vídeo que quieras compartir con la comunidad?
@@ -103,13 +103,22 @@
 
       <ion-button
         *ngIf="editPost === false"
-        (click)="onSubmit(textArea.value, tempImages, address.value)"
+        (click)="onSubmit(textArea.value, blobArrayData, address.value)"
         type="submit"
         class="next-button"
         shape="round"
       >
         PUBLICAR
       </ion-button>
+      <!-- <ion-button
+        *ngIf="editPost === false"
+        (click)="onSubmit(textArea.value, tempImages, address.value)"
+        type="submit"
+        class="next-button"
+        shape="round"
+      >
+        PUBLICAR
+      </ion-button> -->
       <ion-button
         *ngIf="editPost === true"
         (click)="edit(textArea.value, postFiles, address.value)"
