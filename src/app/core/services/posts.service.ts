@@ -29,7 +29,10 @@ export class PostsService {
         'X-Requested-With': 'XMLHttpRequest',
       }),
     };
-    return this.http.post<Post>(`${URL}/publish`, dto, headers);
+    return this.http.post(`${URL}/publish`, dto, headers).subscribe((res) => {
+      console.log(res);
+      this.getPosts();
+    });
   }
 
   createPostWithImageFile(description, files, ubication) {
@@ -43,7 +46,10 @@ export class PostsService {
       ubication,
     };
 
-    return this.http.post<Post>(`${URL}/publish`, dto);
+    return this.http.post<Post>(`${URL}/publish`, dto).subscribe((res) => {
+      console.log(res);
+      this.getPosts();
+    });
   }
 
   getPosts() {
@@ -76,12 +82,20 @@ export class PostsService {
   }
 
   deletePost(id) {
+    const formData: any = new FormData();
+    const option = 0;
     const headers = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'X-Requested-With': 'XMLHttpRequest',
       }),
     };
-    return this.http.delete<Post>(`${URL}/publish/my_publish/${id}`, headers);
+    formData.append('option', option);
+    return this.http
+      .post(`${URL}/publish/my_publish/toogle/${id}`, formData, headers)
+      .subscribe((res) => {
+        console.log(res);
+        this.getPosts();
+      });
   }
 }

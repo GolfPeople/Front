@@ -74,15 +74,16 @@ export class PostComponent implements OnInit, AfterContentChecked {
                 {
                   text: 'cancelar',
                   role: 'cancel',
+                },
+                {
+                  text: 'aceptar',
                   handler: () => {
                     this.postsSvc.deletePost(this.id);
                   },
                 },
-                {
-                  text: 'aceptar',
-                },
               ],
             });
+            await alert.present();
             console.log('Delete clicked');
           },
         },

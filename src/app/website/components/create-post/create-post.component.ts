@@ -124,15 +124,17 @@ export class CreatePostComponent
     return { description, location };
   }
 
-  onSubmit(description, ubication, files) {
-    return this.http
-      .post(`${this.apiUrl}/publish`, { description, ubication, files })
-      .subscribe((res) => {
-        console.log('RESpuesta,', res);
-        this.openModal('Su publicación ha sido creada exitosamente');
-        this.closeModal();
-      });
-    // this.openModal();
+  async onSubmit(description, files, ubication) {
+    const loading = await this.loadingCtrl.create({
+      cssClass: 'laoding-ctrl',
+      spinner: 'crescent',
+    });
+    await loading.present();
+    await this.postsSvc.createPost(description, files, ubication);
+    loading.dismiss();
+
+    this.openModal('Su publicación ha sido creada exitosamente');
+    this.closeModal();
   }
 
   uploadFile(event: Event) {
@@ -140,11 +142,11 @@ export class CreatePostComponent
     const files = target.files;
     console.log('files', files);
 
-    this.postsSvc
-      .createPostWithImageFile(this.textArea.value, files, this.address.value)
-      .subscribe((res) => {
-        console.log('Response -->', res);
-      });
+    this.postsSvc.createPostWithImageFile(
+      this.textArea.value,
+      files,
+      this.address.value
+    );
   }
 
   async selectImageSource() {
