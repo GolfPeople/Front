@@ -30,6 +30,7 @@ export class PostComponent implements OnInit, AfterContentChecked {
   @Input() location: string;
   @Input() images;
   @Input() id;
+  @Input() type;
 
   constructor(
     private actionSheetCtrl: ActionSheetController,
@@ -55,6 +56,7 @@ export class PostComponent implements OnInit, AfterContentChecked {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Publicación',
       cssClass: 'my-custom-class',
+
       buttons: [
         {
           text: 'Eliminar',
@@ -92,9 +94,16 @@ export class PostComponent implements OnInit, AfterContentChecked {
           icon: 'share',
           data: 10,
           handler: () => {
-            console.log('Share clicked');
-            this.router.navigate([`/website/post/${this.id}`]);
+            navigator.share({
+              title: 'public-post',
+              text: 'Mira este post',
+              url: `https://golf-people.web.app/post/${this.userName}/${this.id}'`,
+            });
           },
+          // handler: () => {
+          //   console.log('Share clicked');
+          //   this.router.navigate([`/website/post/${this.userName}/${this.id}`]);
+          // },
         },
         {
           text: 'Editar',

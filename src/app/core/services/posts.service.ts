@@ -61,6 +61,10 @@ export class PostsService {
       });
   }
 
+  getPost(id) {
+    return this.http.get<PostsResponse>(`${URL}/publish/show/${id}`);
+  }
+
   editPost(description, files, ubication, id) {
     const dto = {
       description,

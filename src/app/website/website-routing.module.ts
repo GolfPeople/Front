@@ -28,7 +28,7 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'post/:id',
+    path: 'post/:user/:id',
     component: PublicPostComponent,
   },
 ];

@@ -7,7 +7,14 @@
 <ion-content>
   <ion-row>
     <ion-col size="12">
-      <app-post> </app-post>
+      <app-post
+        [userName]="user"
+        [id]="productId"
+        [description]="description"
+        [location]="ubication"
+        [images]="files"
+      >
+      </app-post>
     </ion-col>
   </ion-row>
 </ion-content>
