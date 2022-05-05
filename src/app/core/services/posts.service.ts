@@ -40,7 +40,9 @@ export class PostsService {
     formData.append('files[]', files);
     formData.append('description', description);
     formData.append('ubication', ubication);
-    console.log('Archivos del formData -->', formData.get('files[]'), files);
+    console.log('Archivos del formData -->', formData.get('files[]'), files, {
+      'Content-type': 'blob.type',
+    });
     console.log('file', files);
 
     return this.http.post<Post>(`${URL}/publish`, formData).subscribe((res) => {
@@ -54,8 +56,8 @@ export class PostsService {
     return this.http
       .get<PostsResponse[]>(`${URL}/publish/my_publish`)
       .subscribe((posts) => {
-        console.log(posts);
         this.posts.next(posts);
+        console.log(posts);
       });
   }
 
@@ -85,7 +87,7 @@ export class PostsService {
 
   deletePost(id) {
     const formData: any = new FormData();
-    const option = 0;
+    const option = '0';
     const headers = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -94,7 +96,7 @@ export class PostsService {
     };
     formData.append('option', option);
     return this.http
-      .post(`${URL}/publish/my_publish/toogle/${id}`, option, headers)
+      .post(`${URL}/publish/my_publish/toogle/${id}`, formData, headers)
       .subscribe((res) => {
         console.log(res);
         this.getPosts();

@@ -79,7 +79,7 @@ export class CreatePostComponent
 
   // Simon Grimm method
   selectedFiles: FileList;
-  blobArrayData = [];
+  blobArrayData: Blob[] = [];
 
   private apiUrl = `${environment.golfpeopleAPI}/api`;
 
@@ -115,7 +115,8 @@ export class CreatePostComponent
       this.editPost = true;
       this.textArea.setValue(this.postDescription);
       this.address.setValue(this.postLocation);
-      this.tempImages = this.postFiles;
+      // this.tempImages = this.postFiles;
+      this.blobArrayData = this.postFiles;
     }
   }
 
@@ -183,6 +184,9 @@ export class CreatePostComponent
         ubication
       );
       loading.dismiss();
+      await this.openModal('Su publicación ha sido creada exitosamente');
+      this.closeModal();
+      return;
     }
 
     const loading = await this.loadingCtrl.create({
@@ -193,7 +197,9 @@ export class CreatePostComponent
     await this.postsSvc.createPost(description, files, ubication);
     loading.dismiss();
 
-    this.openModal('Su publicación ha sido creada exitosamente');
+    this.openModal('Su publicación ha sido creada exitosamente').then((res) => {
+      console.log(res);
+    });
     this.closeModal();
   }
 

@@ -5,5 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class SearchService {
-  constructor() {}
+  constructor(private http: HttpClient) {}
+
+  search(q) {}
 }

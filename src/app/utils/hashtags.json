@@ -1,0 +1,177 @@
+[
+  {
+    "palabra" :   "saltar", 
+    "tags"    :   ["saltar", "jump"], 
+    "pista"   :   "Elevarse del suelo u otra superficie con impulso para caer en el mismo lugar o en otro"
+  },
+  {
+    "palabra":"PEZ",
+    "tags":["PEZ"],
+    "pista":"Animal acuático vertebrado"
+  },
+  {
+    "palabra":"ZAR",
+    "tags":["ZAR"],
+    "pista":"Antiguo soberano de Rusia y Bulgaria"
+  },
+  {
+    "palabra":"JET",
+    "tags":["JET"],
+    "pista":"Avión de reacción"
+  },
+  {
+    "palabra":"OLAS",
+    "tags":["OLAS"],
+    "pista":"Agua de mar o río, agitada"
+  },
+  {
+    "palabra":"ASNO",
+    "tags":["ASNO"],
+    "pista":"Animal solípedo, doméstico"
+  },
+  {
+    "palabra":"TIZA",
+    "tags":["TIZA"],
+    "pista":"Arcilla blanca terrosa"
+  },
+  {
+    "palabra":"PATO",
+    "tags":["PATO"],
+    "pista":"Ave acuática, palmípeda y lamelirrostra"
+  },
+  {
+    "palabra":"SPRAY",
+    "tags":["SPRAY"],
+    "pista":"Aerosol (palabra inglesa)"
+  },
+  {
+    "palabra":"BALIN",
+    "tags":["BALIN"],
+    "pista":"Bala de pequeño calibre - Enano"
+  },
+  {
+    "palabra":"RULOS",
+    "tags":["RULOS"],
+    "pista":"Bolas, cilindros en el cabello, ruedas"
+  },
+  {
+    "palabra":"REMAR",
+    "tags":["REMAR"],
+    "pista":"Mover los remos de una embarcación para hacerla avanzar"
+  },
+  {
+    "palabra":"BOZAL",
+    "tags":["BOZAL"],
+    "pista":"Aparato que se pone en la boca de ciertos animales, especialmente de los perros, para que no muerdan"
+  },
+  {
+    "palabra":"LLAMA",
+    "tags":["LLAMA"],
+    "pista":"Camélido de los Andes"
+  },
+  {
+    "palabra":"DIODO",
+    "tags":["DIODO"],
+    "pista":"Lámpara de dos electrodos"
+  },
+  {
+    "palabra":"ORUGA",
+    "tags":["ORUGA"],
+    "pista":"Larva de los insectos lepidópteros"
+  },
+  {
+    "palabra":"MISAL",
+    "tags":["MISAL"],
+    "pista":"Libro que contiene las oraciones de misa"
+  },
+  {
+    "palabra":"FRENO",
+    "tags":["FRENO"],
+    "pista":"Lo que detiene"
+  },
+  {
+    "palabra":"ARENA",
+    "tags":["ARENA"],
+    "pista":"Lugar de combate"
+  },
+  {
+    "palabra":"LEMUR",
+    "tags":["LEMUR"],
+    "pista":"Mamífero de Madagascar"
+  },
+  {
+    "palabra":"DRAGA",
+    "tags":["DRAGA"],
+    "pista":"Máquina excavadora"
+  },
+  {
+    "palabra":"CROMO",
+    "tags":["CROMO"],
+    "pista":"Metal cuyas combinaciones cambia el color de las pinturas"
+  },
+  {
+    "palabra":"BOCETO",
+    "tags":["BOCETO"],
+    "pista":"Apunte, bosquejo"
+  },
+  {
+    "palabra":"TOCINO",
+    "tags":["TOCINO"],
+    "pista":"Carne gorda de los cerdos"
+  },
+  {
+    "palabra":"NAVAJA",
+    "tags":["NAVAJA"],
+    "pista":"Cortaplumas"
+  },
+  {
+    "palabra":"ADEREZO",
+    "tags":["ADEREZO"],
+    "pista":"Adobo, condimento"
+  },
+  {
+    "palabra":"RASURAR",
+    "tags":["RASURAR"],
+    "pista":"Afeitarse"
+  },
+  {
+    "palabra":"SORTIJA",
+    "tags":["SORTIJA"],
+    "pista":"Anillo de bodas"
+  },
+  {
+    "palabra":"ANDAMIO",
+    "tags":["ANDAMIO"],
+    "pista":"Armazón de tablas, en construcción"
+  },
+  {
+    "palabra":"BIPLANO",
+    "tags":["BIPLANO"],
+    "pista":"Avión de cuatro alas"
+  },
+  {
+    "palabra":"FRAGATA",
+    "tags":["FRAGATA"],
+    "pista":"Buque de tres palos"
+  },
+  {
+    "palabra":"COLADOR",
+    "tags":["COLADOR"],
+    "pista":"Sirve para colar"
+  },
+  {
+    "palabra":"ESCRITO",
+    "tags":["ESCRITO"],
+    "pista":"Cualquier papel manuscrito"
+  },
+  {
+    "palabra":"NUPCIAL",
+    "tags":["NUPCIAL"],
+    "pista":"De las bodas"
+  },
+  {
+    "palabra":"FLORIDO",
+    "tags":["FLORIDO"],
+    "pista":"Dícese del estilo elegante"
+  }
+]

@@ -55,7 +55,8 @@
   </ion-item>
   <swiper #swiper>
     <ng-template *ngFor="let image of images" swiperSlide>
-      <div [ngStyle]="{ 'background-image': 'url(' + image + ')' }"></div>
+      <!-- <div [ngStyle]="{ 'background-image': 'url(' + image.url + ')' }"></div> -->
+      <img [src]="image.url" alt="" />
     </ng-template>
   </swiper>
   <ion-item lines="none">

@@ -16,6 +16,8 @@ export class AvatarComponent implements OnInit {
     this.userService.getUserInfo().subscribe(({ profile }) => {
       if (profile.photo) {
         this.imageAvatarDefault = profile.photo;
+        console.log(profile.photo);
+        console.log(profile);
       }
     });
   }

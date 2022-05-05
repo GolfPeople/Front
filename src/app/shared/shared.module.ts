@@ -11,7 +11,7 @@ import { SuccessComponent } from './alerts/success/success.component';
 import { ErrorComponent } from './alerts/error/error.component';
 
 import { SwiperModule } from 'swiper/angular';
-
+import { SearchComponent } from './components/search/search.component';
 
 const components = [
   SelectDateComponent,
@@ -22,6 +22,7 @@ const components = [
   RankingCardComponent,
   SuccessComponent,
   ErrorComponent,
+  SearchComponent,
 ];
 
 @NgModule({

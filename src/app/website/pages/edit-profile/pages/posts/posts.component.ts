@@ -21,18 +21,12 @@ export class PostsComponent implements OnInit {
   ngOnInit() {
     this.userSvc.getUserInfo().subscribe((user) => {
       this.avatarImage = user.profile.photo;
+      console.log(user.profile.photo);
       this.userName = user.name;
     });
-    // console.log(this.postsSvc.posts$);
     this.postsSvc.getPosts();
     this.postsSvc.posts$.subscribe((posts) => {
-      console.log(posts);
       this.posts = posts.reverse();
     });
-    // this.postsSvc.getPosts().subscribe((res) => {
-    //   console.log('REST -->', res);
-    //   this.posts = res.reverse();
-    //   console.log('REST -->', this.posts);
-    // });
   }
 }
