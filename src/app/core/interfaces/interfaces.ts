@@ -4,4 +4,6 @@ export interface Post {
   ubication: string;
 }
 
-export interface PostsResponse extends Post {}
+export interface PostsResponse extends Post {
+  id: number;
+}

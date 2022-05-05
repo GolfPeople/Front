@@ -10,7 +10,7 @@ const URL = `${environment.golfpeopleAPI}/api`;
   providedIn: 'root',
 })
 export class PostsService {
-  private posts = new BehaviorSubject<Post[]>([]);
+  private posts = new BehaviorSubject<PostsResponse[]>([]);
   posts$ = this.posts.asObservable();
 
   constructor(private http: HttpClient) {}
@@ -54,7 +54,7 @@ export class PostsService {
 
   getPosts() {
     return this.http
-      .get<Post[]>(`${URL}/publish/my_publish`)
+      .get<PostsResponse[]>(`${URL}/publish/my_publish`)
       .subscribe((posts) => {
         console.log(posts);
         this.posts.next(posts);
