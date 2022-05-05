@@ -37,14 +37,23 @@
       <p *ngIf="tempImages.length === 0" class="text ion-text-center">
         ¿Alguna foto/vídeo que quieras compartir con la comunidad?
       </p>
-      <swiper *ngIf="tempImages.length > 0" #swiper>
+      <swiper *ngIf="backgroundImages.length > 0" #swiper>
+        <ng-template *ngFor="let image of backgroundImages" swiperSlide>
+          <!-- <div
+            [ngStyle]="{ 'background-image': 'url(' + image + ')' }"
+            class="picture"
+          ></div> -->
+          <img [src]="image" class="picture" alt="" />
+        </ng-template>
+      </swiper>
+      <!-- <swiper *ngIf="tempImages.length > 0" #swiper>
         <ng-template *ngFor="let image of tempImages" swiperSlide>
           <div
             [ngStyle]="{ 'background-image': 'url(' + image.webPath + ')' }"
             class="picture"
           ></div>
         </ng-template>
-      </swiper>
+      </swiper> -->
     </div>
 
     <div class="footer">

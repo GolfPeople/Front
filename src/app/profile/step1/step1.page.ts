@@ -67,7 +67,6 @@ export class Step1Page implements OnInit {
   ) {}
 
   async ngOnInit() {
-    // console.log(this.selectImage())
     this.userService.getUserInfo().subscribe((res) => {
       this.userName = res.name;
       res.profile.license === null
@@ -78,8 +77,6 @@ export class Step1Page implements OnInit {
         : (this.imageAvatarDefault = 'assets/img/default-avatar.png');
     });
     this.loadFiles();
-    console.log('Array de imágenes -->', this.images);
-    // this.imageAvatarDefault = this.images[this.images.length - 1].data
   }
 
   disabled() {
@@ -125,14 +122,11 @@ export class Step1Page implements OnInit {
         directory: Directory.Data,
         path: filePath,
       });
-      // console.log('READ: ', readFile)
       this.images.push({
         name: f,
         path: filePath,
         data: `data:image/jpeg;base64,${readFile.data}`,
       });
-      // this.previsualizacion = this.images[this.images.length - 1].data;
-      // this.imageAvatarDefault = this.images[this.images.length - 1].data;
     }
   }
 
@@ -143,8 +137,6 @@ export class Step1Page implements OnInit {
       resultType: CameraResultType.Uri,
       source: CameraSource.Photos,
     });
-    console.log('Images seleccionada', image);
-
     if (image) {
       const imageUrl = image.webPath;
       this.imageAvatarDefault = imageUrl;
@@ -154,10 +146,7 @@ export class Step1Page implements OnInit {
   }
 
   async saveImage(photo: Photo) {
-    console.log('saveImage', photo);
     const base64Data = await this.readAsBase64(photo);
-    console.log('Base 64', base64Data);
-    console.log(base64Data);
 
     const fileName = new Date().getTime() + '.jpeg';
     const savedFile = await Filesystem.writeFile({
@@ -165,12 +154,10 @@ export class Step1Page implements OnInit {
       path: `${IMAGE_DIR}/${fileName}`,
       data: base64Data,
     });
-    console.log('Saved: ', savedFile);
     this.loadFiles();
   }
 
   async readAsBase64(photo: Photo) {
-    console.log('TEST image -->', photo);
     if (this.platform.is('hybrid')) {
       const file = await Filesystem.readFile({
         path: photo.path,
@@ -179,7 +166,6 @@ export class Step1Page implements OnInit {
     } else {
       const response = await fetch(photo.webPath);
       const blob = await response.blob();
-      console.log('BLOB TEST -->', blob);
 
       return (await this.convertBlobToBase64(blob)) as string;
     }
@@ -196,25 +182,17 @@ export class Step1Page implements OnInit {
     });
 
   async startUpload(file: LocalFile) {
-    console.log('Esta es la imagen que vas a enviar', file);
     const response = await fetch(file.data);
-    console.log('startUpload response', response);
-    console.log(response);
     const blob = await response.blob();
-    console.log('blob a enviar', blob);
     const formData = new FormData();
     formData.append('photo', blob, file.name);
     formData.append('license', this.license);
+    console.log('blob a enviar -->', blob);
+    console.log('blob del formData -->', formData.get('photo'));
     this.uploadData(formData);
-    // this.router.navigate(['/step6']);
   }
 
   async uploadData(formData: FormData) {
-    // const loading = await this.loadingCtrl.create({
-    //   message: 'Subiendo imagen..',
-    // });
-    // await loading.present();
-
     const url = 'https://www.api.app.golfpeople.com/api/auth/profile/1';
 
     this.http
@@ -225,10 +203,7 @@ export class Step1Page implements OnInit {
         })
       )
       .subscribe((res) => {
-        console.log(res);
-        this.userService.getUserInfo().subscribe((rta) => {
-          console.log('User info -->', rta);
-        });
+        this.userService.getUserInfo().subscribe((rta) => {});
       });
   }
 }

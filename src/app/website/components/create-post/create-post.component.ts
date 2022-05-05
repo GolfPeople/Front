@@ -34,6 +34,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { GeolocationService } from 'src/app/core/services/geolocation.service';
 import { PostsService } from 'src/app/core/services/posts.service';
 import { Post } from 'src/app/core/interfaces/interfaces';
+import { DomSanitizer } from '@angular/platform-browser';
 
 declare var google: any;
 declare var window: any;
@@ -59,7 +60,7 @@ export class CreatePostComponent
   @Input() postDescription: string;
   @Input() postFiles;
   @Input() postLocation: string;
-
+  // google maps
   autocomplete: any;
   geocoder = new google.maps.Geocoder();
   coords;
@@ -72,14 +73,13 @@ export class CreatePostComponent
   filesToSend;
 
   tempImages = [];
-
   postImages = [];
-
   editPost: boolean = false;
+  backgroundImages = [];
 
   // Simon Grimm method
   selectedFiles: FileList;
-  blobArrayData;
+  blobArrayData = [];
 
   private apiUrl = `${environment.golfpeopleAPI}/api`;
 
@@ -94,7 +94,8 @@ export class CreatePostComponent
     private postsSvc: PostsService,
     private loadingCtrl: LoadingController,
     private actionSheetCtrl: ActionSheetController,
-    private platform: Platform
+    private platform: Platform,
+    private domSanitizer: DomSanitizer
   ) {
     // this.initAutoComplete();
   }
@@ -167,19 +168,21 @@ export class CreatePostComponent
       });
   }
 
-  async onSubmit(description, files: FileList, ubication) {
+  async onSubmit(description, files, ubication) {
     console.log('files -->', files);
     if (!this.platform.is('hybrid')) {
-      const dto = {
-        description,
-        files,
-        ubication,
-      };
-      return this.postsSvc.createPostWithImageFile(
+      const loading = await this.loadingCtrl.create({
+        cssClass: 'laoding-ctrl',
+        spinner: 'crescent',
+      });
+      await loading.present();
+
+      await this.postsSvc.createPostWithImageFile(
         description,
         files,
         ubication
       );
+      loading.dismiss();
     }
 
     const loading = await this.loadingCtrl.create({
@@ -202,11 +205,10 @@ export class CreatePostComponent
     this.selectedFiles = files;
     console.log('selected files -->', this.selectedFiles);
 
-    // this.postsSvc.createPostWithImageFile(
-    //   this.textArea.value,
-    //   files,
-    //   this.address.value
-    // );
+    for (let index = 0; index < files.length; index++) {
+      this.blobArrayData.push(files[index]);
+      console.log('Archivos seleccionados desde en input', this.blobArrayData);
+    }
   }
 
   async selectImageSource() {
@@ -223,6 +225,13 @@ export class CreatePostComponent
         icon: 'image',
         handler: () => {
           this.addImage(CameraSource.Photos);
+        },
+      },
+      {
+        text: 'Escoger multiples fotos',
+        icon: 'image',
+        handler: () => {
+          this.pickImages();
         },
       },
     ];
@@ -245,22 +254,29 @@ export class CreatePostComponent
   }
 
   async addImage(source: CameraSource) {
-    this.blobArrayData = [];
+    // this.blobArrayData = [];
     const image = await Camera.getPhoto({
       quality: 60,
       allowEditing: true,
       resultType: CameraResultType.Base64,
       source,
     });
-
     console.log('image', image);
     const blobData = this.b64toBlob(
       image.base64String,
       `image/${image.format}`
     );
-    console.log('blobData', blobData);
-    // this.blobArrayData.push(blobData);
-    // console.log('Blob array', this.blobArrayData);
+    const base64Image = this.domSanitizer.bypassSecurityTrustUrl(
+      `data:image/${image.format};base64,${image.base64String}`
+    );
+    console.log(base64Image);
+    this.backgroundImages.push(base64Image);
+    this.convertBlobToBase64(blobData).then((res) =>
+      console.log('TEST base64', res as string)
+    );
+    console.log('Blob a enviar 2', blobData);
+    // this.backgroundImages.push(image);
+    this.blobArrayData.push(blobData);
   }
 
   b64toBlob(base64, contentType = '', sliceSize = 512) {
@@ -282,6 +298,16 @@ export class CreatePostComponent
     const blob = new Blob(byteArrays, { type: contentType });
     return blob;
   }
+
+  convertBlobToBase64 = (blob: Blob) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = reject;
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+      reader.readAsDataURL(blob);
+    });
 
   async edit(description, ubication, files) {
     const loading = await this.loadingCtrl.create({

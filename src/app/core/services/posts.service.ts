@@ -35,31 +35,19 @@ export class PostsService {
     });
   }
 
-  createPostWithImageFile(description, files, ubication) {
-    const headers = {
-      headers: new HttpHeaders({
-        'Content-Type': 'multipart/form-data',
-        'X-Requested-With': 'XMLHttpRequest',
-      }),
-    };
-    // const formData: FormData = new FormData();
-    // formData.append('description', description);
-    // formData.append('files', files);
-    // formData.append('ubication', ubication);
-    // console.log(formData);
-    const dto = {
-      description,
-      files,
-      ubication,
-    };
-    console.log('dto -->', dto);
+  createPostWithImageFile(description, files: FileList, ubication) {
+    const formData: any = new FormData();
+    formData.append('files[]', files);
+    formData.append('description', description);
+    formData.append('ubication', ubication);
+    console.log('Archivos del formData -->', formData.get('files[]'), files);
+    console.log('file', files);
 
-    return this.http
-      .post<Post>(`${URL}/publish`, dto, headers)
-      .subscribe((res) => {
-        console.log(res);
-        this.getPosts();
-      });
+    return this.http.post<Post>(`${URL}/publish`, formData).subscribe((res) => {
+      console.log(res);
+      console.log(files);
+      this.getPosts();
+    });
   }
 
   getPosts() {
@@ -106,7 +94,7 @@ export class PostsService {
     };
     formData.append('option', option);
     return this.http
-      .post(`${URL}/publish/my_publish/toogle/${id}`, formData, headers)
+      .post(`${URL}/publish/my_publish/toogle/${id}`, option, headers)
       .subscribe((res) => {
         console.log(res);
         this.getPosts();
