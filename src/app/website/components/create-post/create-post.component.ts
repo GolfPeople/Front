@@ -53,6 +53,7 @@ export class CreatePostComponent
   @ViewChild('swiper') swiper: SwiperComponent;
   @ViewChild('searchbar', { read: IonSearchbar }) searchbar: IonSearchbar;
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
+  @ViewChild('fileInputVideo', { static: false }) fileInputVideo: ElementRef;
   @Input() type: number;
   @Input() postId: number;
 
@@ -60,6 +61,7 @@ export class CreatePostComponent
   @Input() postDescription: string;
   @Input() postFiles;
   @Input() postLocation: string;
+  @Input() postHashtags = [];
   // google maps
   autocomplete: any;
   geocoder = new google.maps.Geocoder();
@@ -76,10 +78,18 @@ export class CreatePostComponent
   postImages = [];
   editPost: boolean = false;
   backgroundImages = [];
+  backgroundImagesEdit = [];
 
   // Simon Grimm method
   selectedFiles: FileList;
   blobArrayData: Blob[] = [];
+
+  //hashtags
+  hashtagsInput: FormControl;
+  inputValue: string;
+  inputHashtagsValue = [];
+  hashtags = [];
+  hashtagsString: string;
 
   private apiUrl = `${environment.golfpeopleAPI}/api`;
 
@@ -104,9 +114,10 @@ export class CreatePostComponent
     this.initAutoCom();
   }
   async ngOnInit() {
-    const { description, location } = this.initFormControls();
+    const { description, location, hashtags } = this.initFormControls();
     this.textArea = description;
     this.address = location;
+    this.hashtagsInput = hashtags;
     const coordinates = await this.geolocationService.currentPosition();
     const { latitude, longitude } = await coordinates.coords;
     this.coords = { lat: latitude, lng: longitude };
@@ -117,6 +128,8 @@ export class CreatePostComponent
       this.address.setValue(this.postLocation);
       // this.tempImages = this.postFiles;
       this.blobArrayData = this.postFiles;
+      this.backgroundImagesEdit = this.postFiles;
+      console.log(this.postFiles);
     }
   }
 
@@ -129,8 +142,9 @@ export class CreatePostComponent
   initFormControls() {
     const description = new FormControl('', {});
     const location = new FormControl('', {});
+    const hashtags = new FormControl('', {});
 
-    return { description, location };
+    return { description, location, hashtags };
   }
 
   async pickImages() {
@@ -169,7 +183,50 @@ export class CreatePostComponent
       });
   }
 
+  hashtag(event: Event) {
+    const element = event.target as HTMLInputElement;
+    const value = element.value;
+    this.inputValue = value;
+  }
+
+  addHashtags() {
+    this.hashtagsInput.reset();
+    console.log(this.inputValue);
+    const data = [...this.hashtags, ...this.inputValue.split(' ')];
+    this.hashtags = data.filter((item, index) => {
+      return data.indexOf(item) === index;
+    });
+    this.hashtagsString = this.hashtags
+      .join(' ')
+      .split(' ')
+      .map((item) => {
+        if (item.includes('#')) {
+          return item;
+        }
+
+        return `#${item}`;
+      })
+      .join(' ');
+    console.log(this.hashtags);
+    console.log(this.hashtagsString);
+  }
+
+  removeHashtag(hashtag: string) {
+    if (this.type === 2) {
+      const newHashtags = this.postHashtags.filter((item) => item !== hashtag);
+      this.postHashtags = [...newHashtags];
+      console.log(hashtag, newHashtags, this.postHashtags);
+      return;
+    }
+
+    const newHashtags = this.hashtags.filter((item) => item !== hashtag);
+    this.hashtags = [...newHashtags];
+    console.log(hashtag, newHashtags, this.hashtags);
+  }
+
   async onSubmit(description, files, ubication) {
+    const descriptionConcat = description.concat(` ${this.hashtagsString}`);
+    console.log('description -->', descriptionConcat);
     console.log('files -->', files);
     if (!this.platform.is('hybrid')) {
       const loading = await this.loadingCtrl.create({
@@ -179,7 +236,7 @@ export class CreatePostComponent
       await loading.present();
 
       await this.postsSvc.createPostWithImageFile(
-        description,
+        descriptionConcat,
         files,
         ubication
       );
@@ -233,13 +290,13 @@ export class CreatePostComponent
           this.addImage(CameraSource.Photos);
         },
       },
-      {
-        text: 'Escoger multiples fotos',
-        icon: 'image',
-        handler: () => {
-          this.pickImages();
-        },
-      },
+      // {
+      //   text: 'Escoger multiples fotos',
+      //   icon: 'image',
+      //   handler: () => {
+      //     this.pickImages();
+      //   },
+      // },
     ];
 
     if (!this.platform.is('hybrid')) {
@@ -248,6 +305,13 @@ export class CreatePostComponent
         icon: 'attach',
         handler: () => {
           this.fileInput.nativeElement.click();
+        },
+      });
+      buttons.push({
+        text: 'Subir video',
+        icon: 'attach',
+        handler: () => {
+          this.fileInputVideo.nativeElement.click();
         },
       });
     }
@@ -276,12 +340,25 @@ export class CreatePostComponent
       `data:image/${image.format};base64,${image.base64String}`
     );
     console.log(base64Image);
+
+    if (this.type === 2) {
+      this.backgroundImagesEdit.push(base64Image);
+
+      this.convertBlobToBase64(blobData).then((res) =>
+        console.log('TEST base64', res as string)
+      );
+      console.log('Blob a enviar 2', blobData);
+      // this.backgroundImages.push(image);
+      return;
+    }
+
     this.backgroundImages.push(base64Image);
     this.convertBlobToBase64(blobData).then((res) =>
       console.log('TEST base64', res as string)
     );
     console.log('Blob a enviar 2', blobData);
     // this.backgroundImages.push(image);
+
     this.blobArrayData.push(blobData);
   }
 
@@ -316,12 +393,15 @@ export class CreatePostComponent
     });
 
   async edit(description, ubication, files) {
+    const descriptionConcat = description.concat(` ${this.hashtagsString}`);
+    console.log('description -->', descriptionConcat);
+    console.log('edit files -->', files);
     const loading = await this.loadingCtrl.create({
       cssClass: 'laoding-ctrl',
       spinner: 'crescent',
     });
     await loading.present();
-    await this.postsSvc.editPost(description, ubication, files, this.postId);
+    await this.postsSvc.editPost(descriptionConcat, [], ubication, this.postId);
     loading.dismiss();
 
     this.openModal('Su publicación ha sido editada exitosamente');

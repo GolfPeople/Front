@@ -8,6 +8,8 @@
       [images]="post.files"
       [description]="post.description"
       [id]="post.id"
+      [userId]="post.user_id"
+      [hashtags]="post.hashtags | jsonToData"
     ></app-post>
   </ion-col>
 </ion-row>

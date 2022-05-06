@@ -35,14 +35,18 @@ export class PostsService {
     });
   }
 
-  createPostWithImageFile(description, files: FileList, ubication) {
+  createPostWithImageFile(description, files, ubication) {
     const formData: any = new FormData();
-    formData.append('files[]', files);
+
+    files.forEach((file, index) => {
+      const fileName = `${file.size}${index}`;
+      formData.append('files[]', file, fileName);
+    });
+
+    // formData.append('files[]', files);
     formData.append('description', description);
     formData.append('ubication', ubication);
-    console.log('Archivos del formData -->', formData.get('files[]'), files, {
-      'Content-type': 'blob.type',
-    });
+
     console.log('file', files);
 
     return this.http.post<Post>(`${URL}/publish`, formData).subscribe((res) => {
@@ -66,11 +70,17 @@ export class PostsService {
   }
 
   editPost(description, files, ubication, id) {
-    const dto = {
-      description,
-      files,
-      ubication,
-    };
+    const formData: any = new FormData();
+    formData.append('description', description);
+
+    files.forEach((file, index) => {
+      const fileName = `${file.size}${index}`;
+      formData.append('files[]', file, fileName);
+    });
+
+    // formData.append('files[]', files);
+    formData.append('ubication', ubication);
+    console.log('file', files);
     const headers = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -78,7 +88,7 @@ export class PostsService {
       }),
     };
     return this.http
-      .post<Post>(`${URL}/publish/my_publish/${id}`, dto, headers)
+      .post<Post>(`${URL}/publish/my_publish/${id}`, formData, headers)
       .subscribe((res) => {
         console.log(res);
         this.getPosts();
@@ -87,7 +97,7 @@ export class PostsService {
 
   deletePost(id) {
     const formData: any = new FormData();
-    const option = '0';
+    const option = 3;
     const headers = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -96,7 +106,7 @@ export class PostsService {
     };
     formData.append('option', option);
     return this.http
-      .post(`${URL}/publish/my_publish/toogle/${id}`, formData, headers)
+      .post(`${URL}/publish/my_publish/toogle/${id}`, option, headers)
       .subscribe((res) => {
         console.log(res);
         this.getPosts();

@@ -55,7 +55,7 @@
   </ion-item>
   <swiper #swiper>
     <ng-template *ngFor="let image of images" swiperSlide>
-      <!-- <div [ngStyle]="{ 'background-image': 'url(' + image.url + ')' }"></div> -->
+      <!-- <div [style]="{ background: 'url(' + image.url + ')' }"></div> -->
       <img [src]="image.url" alt="" />
     </ng-template>
   </swiper>
@@ -81,6 +81,9 @@
     <ion-label text-wrap>
       <p>
         <strong>{{ userName }}</strong> {{ description }}
+        <a *ngFor="let hashtag of hashtags" [routerLink]="['/posts', hashtag]"
+          >#{{ hashtag }}</a
+        >
       </p>
     </ion-label>
   </ion-item>

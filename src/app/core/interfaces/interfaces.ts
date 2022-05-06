@@ -6,4 +6,6 @@ export interface Post {
 
 export interface PostsResponse extends Post {
   id: number;
+  user_id: number;
+  hashtags: any;
 }

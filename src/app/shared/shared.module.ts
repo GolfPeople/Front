@@ -12,6 +12,9 @@ import { ErrorComponent } from './alerts/error/error.component';
 
 import { SwiperModule } from 'swiper/angular';
 import { SearchComponent } from './components/search/search.component';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { JsonToDataPipe } from './pipes/json-to-data.pipe';
 
 const components = [
   SelectDateComponent,
@@ -26,8 +29,9 @@ const components = [
 ];
 
 @NgModule({
-  declarations: [components],
-  imports: [CommonModule, IonicModule, SwiperModule],
-  exports: [components],
+  declarations: [components, JsonToDataPipe],
+
+  imports: [CommonModule, IonicModule, SwiperModule, FormsModule, RouterModule],
+  exports: [components, JsonToDataPipe],
 })
 export class SharedModule {}
