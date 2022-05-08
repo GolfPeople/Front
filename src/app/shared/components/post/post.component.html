@@ -1,45 +1,54 @@
-<!-- <div class="post">
+<div class="post">
   <div class="post-header">
-    <img class="perfil-image" src="../../../../assets/post/club.png" alt="" />
+    <ion-avatar slot="start">
+      <img [src]="avatar" />
+    </ion-avatar>
     <div class="header-text">
-      <h3>Marbella Club Hotel</h3>
-      <p>Promocionado</p>
+      <h3>{{ userName }}</h3>
+      <p>{{ location }}</p>
     </div>
-    <span><img src="../../../../assets/post/points.png" alt="" /></span>
+    <a (click)="onClick()" slot="end">
+      <ion-icon name="ellipsis-horizontal"></ion-icon>
+    </a>
+    <!-- <span><img src="../../../../assets/post/points.png" alt="" /></span> -->
   </div>
-  <img class="post-image" src="../../../../assets/post/image-post.png" alt="" />
+  <swiper #swiper>
+    <ng-template *ngFor="let image of images" swiperSlide>
+      <!-- <div [style]="{ background: 'url(' + image.url + ')' }"></div> -->
+      <img class="picture" [src]="image.url" alt="" />
+    </ng-template>
+  </swiper>
   <div class="likes">
     <div>
-      <a
-        ><img class="heart" src="../../../../assets/post/heart.png" alt=""
-      /></a>
-      <a
-        ><img class="comment" src="../../../../assets/post/comment.png" alt=""
-      /></a>
-      <a
-        ><img class="share" src="../../../../assets/post/share.png" alt=""
-      /></a>
+      <ion-icon
+        class="icon-start ion-margin-end"
+        color="light"
+        name="heart-outline"
+        slot="start"
+      ></ion-icon>
+      <ion-icon
+        class="icon-start ion-margin-end"
+        color="light"
+        name="chatbubble-outline"
+      ></ion-icon>
+      <ion-icon
+        class="icon-start ion-margin-end"
+        color="light"
+        name="paper-plane-outline"
+      ></ion-icon>
     </div>
-    <img src="../../../../assets/post/bookmark.png" alt="" />
   </div>
   <div class="description">
-    <h3>Marbella Club Hotel</h3>
-
-    <div class="description-text">
-      <p>
-        Un paraíso Mediterraneo frente a la playa con un auténtico espíritu
-        andaluz.
-      </p>
-      <br />
-
-      <p>Ven y visitanos.</p>
-      <p>www.marbellaclub.com</p>
-      <p class="hashtag">#Marbella #Golf #Spa</p>
-    </div>
+    <p>
+      <strong>{{ userName }}</strong> {{ description }}
+      <a *ngFor="let hashtag of hashtags" [routerLink]="['/posts', hashtag]"
+        >#{{ hashtag }}</a
+      >
+    </p>
   </div>
-</div> -->
+</div>
 
-<div class="post">
+<!-- <div class="post">
   <ion-item class="post-header" lines="none">
     <ion-avatar slot="start">
       <img [src]="avatar" />
@@ -55,7 +64,6 @@
   </ion-item>
   <swiper #swiper>
     <ng-template *ngFor="let image of images" swiperSlide>
-      <!-- <div [style]="{ background: 'url(' + image.url + ')' }"></div> -->
       <img [src]="image.url" alt="" />
     </ng-template>
   </swiper>
@@ -87,4 +95,4 @@
       </p>
     </ion-label>
   </ion-item>
-</div>
+</div> -->

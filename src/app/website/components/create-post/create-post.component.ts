@@ -358,8 +358,6 @@ export class CreatePostComponent
     this.autocomplete = new google.maps.places.Autocomplete(
       document.getElementById('location') as HTMLInputElement,
       {
-        types: ['establishment'],
-        componentRestrictions: { country: ['ES'] },
         fields: ['place_id', 'geometry', 'name'],
       }
     );
