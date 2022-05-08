@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import {
   AlertController,
-  IonSearchbar,
   LoadingController,
   ModalController,
   Platform,
@@ -51,7 +50,6 @@ export class CreatePostComponent
   implements OnInit, AfterViewInit, AfterContentChecked
 {
   @ViewChild('swiper') swiper: SwiperComponent;
-  @ViewChild('searchbar', { read: IonSearchbar }) searchbar: IonSearchbar;
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
   @ViewChild('fileInputVideo', { static: false }) fileInputVideo: ElementRef;
   @Input() type: number;
@@ -125,11 +123,13 @@ export class CreatePostComponent
     if (this.type === 2) {
       this.editPost = true;
       this.textArea.setValue(this.postDescription);
+
       this.address.setValue(this.postLocation);
       // this.tempImages = this.postFiles;
       this.blobArrayData = this.postFiles;
       this.backgroundImagesEdit = this.postFiles;
       console.log(this.postFiles);
+      this.hashtags = this.postHashtags;
     }
   }
 
@@ -143,7 +143,6 @@ export class CreatePostComponent
     const description = new FormControl('', {});
     const location = new FormControl('', {});
     const hashtags = new FormControl('', {});
-
     return { description, location, hashtags };
   }
 
@@ -193,6 +192,7 @@ export class CreatePostComponent
     this.hashtagsInput.reset();
     console.log(this.inputValue);
     const data = [...this.hashtags, ...this.inputValue.split(' ')];
+    console.log(data);
     this.hashtags = data.filter((item, index) => {
       return data.indexOf(item) === index;
     });
@@ -212,52 +212,14 @@ export class CreatePostComponent
   }
 
   removeHashtag(hashtag: string) {
-    if (this.type === 2) {
-      const newHashtags = this.postHashtags.filter((item) => item !== hashtag);
-      this.postHashtags = [...newHashtags];
-      console.log(hashtag, newHashtags, this.postHashtags);
-      return;
-    }
-
+    // if (this.type === 2) {
+    //   const newHashtags = this.postHashtags.filter((item) => item !== hashtag);
+    //   this.postHashtags = [...newHashtags];
+    //   console.log(hashtag, newHashtags, this.postHashtags);
+    //   return;
+    // }
     const newHashtags = this.hashtags.filter((item) => item !== hashtag);
     this.hashtags = [...newHashtags];
-    console.log(hashtag, newHashtags, this.hashtags);
-  }
-
-  async onSubmit(description, files, ubication) {
-    const descriptionConcat = description.concat(` ${this.hashtagsString}`);
-    console.log('description -->', descriptionConcat);
-    console.log('files -->', files);
-    if (!this.platform.is('hybrid')) {
-      const loading = await this.loadingCtrl.create({
-        cssClass: 'laoding-ctrl',
-        spinner: 'crescent',
-      });
-      await loading.present();
-
-      await this.postsSvc.createPostWithImageFile(
-        descriptionConcat,
-        files,
-        ubication
-      );
-      loading.dismiss();
-      await this.openModal('Su publicación ha sido creada exitosamente');
-      this.closeModal();
-      return;
-    }
-
-    const loading = await this.loadingCtrl.create({
-      cssClass: 'laoding-ctrl',
-      spinner: 'crescent',
-    });
-    await loading.present();
-    await this.postsSvc.createPost(description, files, ubication);
-    loading.dismiss();
-
-    this.openModal('Su publicación ha sido creada exitosamente').then((res) => {
-      console.log(res);
-    });
-    this.closeModal();
   }
 
   // Simon Grimm method
@@ -392,22 +354,6 @@ export class CreatePostComponent
       reader.readAsDataURL(blob);
     });
 
-  async edit(description, ubication, files) {
-    const descriptionConcat = description.concat(` ${this.hashtagsString}`);
-    console.log('description -->', descriptionConcat);
-    console.log('edit files -->', files);
-    const loading = await this.loadingCtrl.create({
-      cssClass: 'laoding-ctrl',
-      spinner: 'crescent',
-    });
-    await loading.present();
-    await this.postsSvc.editPost(descriptionConcat, [], ubication, this.postId);
-    loading.dismiss();
-
-    this.openModal('Su publicación ha sido editada exitosamente');
-    this.closeModal();
-  }
-
   initAutoCom() {
     this.autocomplete = new google.maps.places.Autocomplete(
       document.getElementById('location') as HTMLInputElement,
@@ -460,5 +406,61 @@ export class CreatePostComponent
 
   closeModal() {
     this.modalCtrl.dismiss();
+  }
+
+  async onSubmit(description, files, ubication) {
+    let descriptionConcat;
+    this.hashtagsString === undefined
+      ? (descriptionConcat = description)
+      : (descriptionConcat = description.concat(` ${this.hashtagsString}`));
+
+    console.log('description -->', descriptionConcat);
+
+    if (!this.platform.is('hybrid')) {
+      const loading = await this.loadingCtrl.create({
+        cssClass: 'laoding-ctrl',
+        spinner: 'crescent',
+      });
+      await loading.present();
+      await this.postsSvc.createPostWithImageFile(
+        descriptionConcat,
+        files,
+        ubication
+      );
+      await loading.dismiss();
+      this.openModal('Su publicación ha sido creada exitosamente');
+      this.closeModal();
+      return;
+    }
+
+    const loading = await this.loadingCtrl.create({
+      cssClass: 'laoding-ctrl',
+      spinner: 'crescent',
+    });
+    await loading.present();
+    await this.postsSvc.createPost(descriptionConcat, files, ubication);
+    loading.dismiss();
+
+    this.openModal('Su publicación ha sido creada exitosamente').then((res) => {
+      console.log(res);
+    });
+    console.log('se cerró');
+    this.closeModal();
+  }
+
+  async edit(description, ubication, files) {
+    const descriptionConcat = description.concat(` ${this.hashtagsString}`);
+    console.log('description -->', descriptionConcat);
+    console.log('edit files -->', files);
+    const loading = await this.loadingCtrl.create({
+      cssClass: 'laoding-ctrl',
+      spinner: 'crescent',
+    });
+    await loading.present();
+    await this.postsSvc.editPost(descriptionConcat, [], ubication, this.postId);
+    await loading.dismiss();
+
+    this.openModal('Su publicación ha sido editada exitosamente');
+    this.closeModal();
   }
 }

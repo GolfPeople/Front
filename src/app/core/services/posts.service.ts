@@ -71,7 +71,6 @@ export class PostsService {
 
   editPost(description, files, ubication, id) {
     const formData: any = new FormData();
-    formData.append('description', description);
 
     files.forEach((file, index) => {
       const fileName = `${file.size}${index}`;
@@ -79,6 +78,7 @@ export class PostsService {
     });
 
     // formData.append('files[]', files);
+    formData.append('description', description);
     formData.append('ubication', ubication);
     console.log('file', files);
     const headers = {
@@ -88,7 +88,11 @@ export class PostsService {
       }),
     };
     return this.http
-      .post<Post>(`${URL}/publish/my_publish/${id}`, formData, headers)
+      .post<Post>(
+        `${URL}/publish/my_publish/${id}`,
+        { description, files, ubication },
+        headers
+      )
       .subscribe((res) => {
         console.log(res);
         this.getPosts();
@@ -96,17 +100,17 @@ export class PostsService {
   }
 
   deletePost(id) {
-    const formData: any = new FormData();
-    const option = 3;
+    const formData = new FormData();
+    const options = '2';
     const headers = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
         'X-Requested-With': 'XMLHttpRequest',
       }),
     };
-    formData.append('option', option);
+    formData.append('options', options);
     return this.http
-      .post(`${URL}/publish/my_publish/toogle/${id}`, option, headers)
+      .post(`${URL}/publish/my_publish/toogle/${id}`, formData, headers)
       .subscribe((res) => {
         console.log(res);
         this.getPosts();
