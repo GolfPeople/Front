@@ -1,5 +1,15 @@
-ion-title {
-  padding: 10px;
+ion-toolbar {
+  // --background: #ffffff;
+  // --border-color: #3880ff;
+  --border-style: solid;
+  --border-width: 8px;
+  // --color: #3880ff;
+  --min-height: 56px;
+  --opacity: 1;
+  --padding-bottom: 4px;
+  --padding-end: 4px;
+  --padding-start: 4px;
+  --padding-top: 4px;
 }
 
 .qr-container {
