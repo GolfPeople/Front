@@ -80,6 +80,15 @@
     width: 100%;
     height: 100%;
   }
+
+  .swiper-pagination-bullet-active {
+    background: #007aff;
+  }
+
+  .swiper-pagination-bullet-active-prev,
+  .swiper-pagination-bullet-active-next {
+    background: #ddd;
+  }
   .picture {
     width: 100%;
     height: 100%;

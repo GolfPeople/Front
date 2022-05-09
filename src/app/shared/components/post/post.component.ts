@@ -4,6 +4,7 @@ import {
   Input,
   AfterContentChecked,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import {
@@ -13,14 +14,19 @@ import {
 } from '@ionic/angular';
 import { UserService } from 'src/app/core/services/user.service';
 import { CreatePostComponent } from 'src/app/website/components/create-post/create-post.component';
+import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
+import SwiperCore, { Pagination } from 'swiper';
 
 import { PostsService } from '../../../core/services/posts.service';
+
+SwiperCore.use([Pagination]);
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class PostComponent implements OnInit, AfterContentChecked {
   @ViewChild('swiper') swiper: SwiperComponent;
@@ -35,6 +41,10 @@ export class PostComponent implements OnInit, AfterContentChecked {
   @Input() type;
   @Input() hashtags;
   user;
+
+  swiperConfig: SwiperOptions = {
+    pagination: { clickable: true },
+  };
 
   constructor(
     private actionSheetCtrl: ActionSheetController,

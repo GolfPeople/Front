@@ -31,6 +31,12 @@ const routes: Routes = [
     path: 'post/:user/:id',
     component: PublicPostComponent,
   },
+
+  {
+    path: 'posts/:hashtag',
+    loadChildren: () =>
+      import('./pages/posts/posts.module').then((m) => m.PostsPageModule),
+  },
 ];
 
 @NgModule({

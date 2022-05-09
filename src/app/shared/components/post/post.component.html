@@ -12,7 +12,12 @@
     </a>
     <!-- <span><img src="../../../../assets/post/points.png" alt="" /></span> -->
   </div>
-  <swiper #swiper>
+  <swiper
+    [pagination]="{
+      dynamicBullets: true
+    }"
+    #swiper
+  >
     <ng-template *ngFor="let image of images" swiperSlide>
       <!-- <div [style]="{ background: 'url(' + image.url + ')' }"></div> -->
       <img class="picture" [src]="image.url" alt="" />
