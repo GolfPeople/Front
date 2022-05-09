@@ -34,6 +34,7 @@ import { GeolocationService } from 'src/app/core/services/geolocation.service';
 import { PostsService } from 'src/app/core/services/posts.service';
 import { Post } from 'src/app/core/interfaces/interfaces';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ImageCropperPage } from '../image-cropper/image-cropper.page';
 
 declare var google: any;
 declare var window: any;
@@ -72,7 +73,9 @@ export class CreatePostComponent
   address: FormControl;
   filesToSend;
 
-  tempImages = [];
+  //Crop image
+  imageDAtaUrl: any;
+
   postImages = [];
   editPost: boolean = false;
   backgroundImages = [];
@@ -146,42 +149,6 @@ export class CreatePostComponent
     return { description, location, hashtags };
   }
 
-  async pickImages() {
-    this.loader
-      .create({
-        message: 'Cargando',
-      })
-      .then((ele) => {
-        ele.present();
-        const options: GalleryImageOptions = {
-          correctOrientation: true,
-        };
-        Camera.pickImages(options).then((val) => {
-          console.log('val pick images-->', val);
-          const images = val.photos;
-          this.tempImages = [];
-          console.log(images);
-          this.tempImages = val.photos.map((img) => img);
-          // this.tempImages = [...images];
-
-          // console.log('IMAGES', this.images);
-          // for (let i = 0; 1 < images.length; i++) {
-          //   this.imgs.push(images[i].webPath);
-          // }
-          // for (let image of images) {
-          //   // console.log('TEST pictures');
-          //   this.readAsBase64(image.webPath).then((res) => {
-          //     console.log('RES-->', res);
-          //     this.imgs.push(res);
-          //   });
-          //   // this.imgs.push(image.webPath);
-          // }
-          console.log(this.tempImages);
-        });
-        ele.dismiss();
-      });
-  }
-
   hashtag(event: Event) {
     const element = event.target as HTMLInputElement;
     const value = element.value;
@@ -224,11 +191,28 @@ export class CreatePostComponent
 
   // Simon Grimm method
 
-  uploadFile(event: Event) {
+  async uploadFile(event: Event) {
     const target: HTMLInputElement = event.target as HTMLInputElement;
     const files: FileList = target.files;
     this.selectedFiles = files;
     console.log('selected files -->', this.selectedFiles);
+    const filesTobase64 = [];
+
+    for (let index = 0; index < files.length; index++) {
+      const file = files[index];
+      const base64 = await this.getBase64(file).then();
+      filesTobase64.push(base64);
+    }
+
+    for (let index = 0; index < filesTobase64.length; index++) {
+      const fileBase64 = filesTobase64[index];
+
+      // const base64Image = this.domSanitizer.bypassSecurityTrustUrl(
+      //   `data:${file.type};base64,${base64}`
+      // );
+      console.log('base64Image', fileBase64);
+      this.backgroundImages.push(fileBase64);
+    }
 
     for (let index = 0; index < files.length; index++) {
       this.blobArrayData.push(files[index]);
@@ -287,41 +271,53 @@ export class CreatePostComponent
 
   async addImage(source: CameraSource) {
     // this.blobArrayData = [];
+    // const image = await Camera.getPhoto({
+    //   quality: 60,
+    //   allowEditing: true,
+    //   resultType: CameraResultType.Base64,
+    //   source,
+    // });
+    // console.log('image', image);
+    // const blobData = this.b64toBlob(
+    //   image.base64String,
+    //   `image/${image.format}`
+    // );
+    // const base64Image = this.domSanitizer.bypassSecurityTrustUrl(
+    //   `data:image/${image.format};base64,${image.base64String}`
+    // );
+    // console.log(base64Image);
+    // console.log(image.base64String);
+    // this.imageDAtaUrl = base64Image;
     const image = await Camera.getPhoto({
       quality: 60,
       allowEditing: true,
-      resultType: CameraResultType.Base64,
+      resultType: CameraResultType.DataUrl,
       source,
     });
-    console.log('image', image);
-    const blobData = this.b64toBlob(
-      image.base64String,
-      `image/${image.format}`
-    );
-    const base64Image = this.domSanitizer.bypassSecurityTrustUrl(
-      `data:image/${image.format};base64,${image.base64String}`
-    );
-    console.log(base64Image);
+    const imageDataUrl = image.dataUrl;
+    this.imageDAtaUrl = imageDataUrl;
+
+    this.presentModal();
 
     if (this.type === 2) {
-      this.backgroundImagesEdit.push(base64Image);
+      // this.backgroundImagesEdit.push(base64Image);
 
-      this.convertBlobToBase64(blobData).then((res) =>
-        console.log('TEST base64', res as string)
-      );
-      console.log('Blob a enviar 2', blobData);
-      // this.backgroundImages.push(image);
+      // this.convertBlobToBase64(blobData).then((res) =>
+      //   console.log('TEST base64', res as string)
+      // );
+      // console.log('Blob a enviar 2', blobData);
+      // // this.backgroundImages.push(image);
       return;
     }
 
-    this.backgroundImages.push(base64Image);
-    this.convertBlobToBase64(blobData).then((res) =>
-      console.log('TEST base64', res as string)
-    );
-    console.log('Blob a enviar 2', blobData);
-    // this.backgroundImages.push(image);
+    // this.backgroundImages.push(base64Image);
+    // this.convertBlobToBase64(blobData).then((res) =>
+    //   console.log('TEST base64', res as string)
+    // );
+    // console.log('Blob a enviar 2', blobData);
+    // // this.backgroundImages.push(image);
 
-    this.blobArrayData.push(blobData);
+    // this.blobArrayData.push(blobData);
   }
 
   b64toBlob(base64, contentType = '', sliceSize = 512) {
@@ -353,6 +349,26 @@ export class CreatePostComponent
       };
       reader.readAsDataURL(blob);
     });
+
+  getBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  }
+
+  async presentModal() {
+    const modal = await this.modalCtrl.create({
+      component: ImageCropperPage,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        image: this.imageDAtaUrl,
+      },
+    });
+    return await modal.present();
+  }
 
   initAutoCom() {
     this.autocomplete = new google.maps.places.Autocomplete(

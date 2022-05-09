@@ -101,19 +101,14 @@ export class PostsService {
 
   deletePost(id) {
     const formData = new FormData();
-    const options = '2';
-    const headers = {
-      headers: new HttpHeaders({
-        'Content-Type': 'multipart/form-data',
-        'X-Requested-With': 'XMLHttpRequest',
-      }),
-    };
-    formData.append('options', options);
-    return this.http
-      .post(`${URL}/publish/my_publish/toogle/${id}`, formData, headers)
-      .subscribe((res) => {
-        console.log(res);
-        this.getPosts();
-      });
+    const option = '3';
+
+    formData.append('option', option);
+    return this.http.post(`${URL}/publish/my_publish/toogle/${id}`, formData);
+    //     .subscribe((res) => {
+    //       console.log(res);
+    //       this.getPosts();
+    //     });
+    // }
   }
 }

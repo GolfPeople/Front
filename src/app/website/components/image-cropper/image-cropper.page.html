@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>image-cropper</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <image-cropper
+    [imageBase64]="myImage"
+    [maintainAspectRatio]="true"
+    [aspectRatio]="4 / 3"
+    format="png"
+    (imageCropped)="imageCropped($event)"
+    outputType="base64"
+  ></image-cropper>
+
+  <img [src]="croppedImage" />
+</ion-content>

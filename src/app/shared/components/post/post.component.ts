@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import {
   ActionSheetController,
   AlertController,
+  LoadingController,
   ModalController,
 } from '@ionic/angular';
 import { UserService } from 'src/app/core/services/user.service';
@@ -19,6 +20,7 @@ import { SwiperComponent } from 'swiper/angular';
 import SwiperCore, { Pagination } from 'swiper';
 
 import { PostsService } from '../../../core/services/posts.service';
+import { switchMap } from 'rxjs/operators';
 
 SwiperCore.use([Pagination]);
 
@@ -52,7 +54,8 @@ export class PostComponent implements OnInit, AfterContentChecked {
     private alertCtrl: AlertController,
     private postsSvc: PostsService,
     private router: Router,
-    private userSvc: UserService
+    private userSvc: UserService,
+    private loadingCtrl: LoadingController
   ) {}
 
   ngOnInit() {
@@ -97,8 +100,18 @@ export class PostComponent implements OnInit, AfterContentChecked {
                   },
                   {
                     text: 'aceptar',
-                    handler: () => {
-                      this.postsSvc.deletePost(this.id);
+                    handler: async () => {
+                      const loading = await this.loadingCtrl.create({
+                        cssClass: 'laoding-ctrl',
+                      });
+                      await loading.present();
+                      await this.postsSvc
+                        .deletePost(this.id)
+                        .subscribe((res) => {
+                          console.log('delete -->', res);
+                          this.postsSvc.getPosts();
+                        });
+                      loading.dismiss();
                     },
                   },
                 ],

@@ -17,7 +17,7 @@
 <ion-content class="content">
   <ion-row class="ion-justify-content-center ion-align-items-center">
     <div class="pick-image-container">
-      <div *ngIf="tempImages.length === 0" class="button-container">
+      <div class="button-container">
         <input
           type="file"
           #fileInput
@@ -38,7 +38,7 @@
           <img src="../../../../assets/icon/camera.png" alt="" />
         </ion-button>
       </div>
-      <p *ngIf="tempImages.length === 0" class="text ion-text-center">
+      <p class="text ion-text-center">
         ¿Alguna foto/vídeo que quieras compartir con la comunidad?
       </p>
       <swiper *ngIf="backgroundImages.length > 0" #swiper>
