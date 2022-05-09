@@ -4,7 +4,7 @@
 <div class="vertical-divider"></div>
 <div class="date-picker--item year">{{ year }}</div>
 <div class="date-picker--item date-picker--button">
-  <input type="date" (change)="selectDate($event)" />
+  <input type="date" (change)="selectDate($event)" max="2022-12-31" />
   <span>
     <img src="../../../assets/icon/date.png" alt="" />
   </span>

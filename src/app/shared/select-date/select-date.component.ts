@@ -18,10 +18,16 @@ export class SelectDateComponent implements OnInit {
   day: string;
   month: string;
   year: string;
+  limitDate: string = new Date()
+    .toLocaleDateString()
+    .split('/')
+    .reverse()
+    .join('-');
 
   constructor(private userService: UserService) {}
 
   ngOnInit() {
+    console.log(this.limitDate);
     this.userService.getUserInfo().subscribe((res) => {
       console.log(res);
       if (res.profile.birthday) {
