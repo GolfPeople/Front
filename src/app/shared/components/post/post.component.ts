@@ -73,144 +73,143 @@ export class PostComponent implements OnInit, AfterContentChecked {
   }
 
   async presentActionSheet() {
-    if (this.user === this.userId) {
-      const actionSheet = await this.actionSheetCtrl.create({
-        header: 'Publicación',
-        cssClass: 'my-custom-class',
+    // if (this.user == this.userId) {
+    console.log(this.user, this.userId);
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Publicación',
+      cssClass: 'my-custom-class',
 
-        buttons: [
-          {
-            text: 'Eliminar',
-            role: 'destructive',
-            icon: 'trash',
-            id: 'delete-button',
-            cssClass: 'red',
-            data: {
-              type: 'delete',
-            },
-            handler: async () => {
-              const alert = await this.alertCtrl.create({
-                cssClass: 'alert-confirmation',
-                header: 'Eliminar publicación',
-                message: 'Estás seguro de eliminar esta publicación',
-                buttons: [
-                  {
-                    text: 'cancelar',
-                    role: 'cancel',
-                  },
-                  {
-                    text: 'aceptar',
-                    handler: async () => {
-                      const loading = await this.loadingCtrl.create({
-                        cssClass: 'laoding-ctrl',
-                      });
-                      await loading.present();
-                      await this.postsSvc
-                        .deletePost(this.id)
-                        .subscribe((res) => {
-                          console.log('delete -->', res);
-                          this.postsSvc.getPosts();
-                        });
-                      loading.dismiss();
-                    },
-                  },
-                ],
-              });
-              await alert.present();
-              console.log('Delete clicked');
-            },
+      buttons: [
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          icon: 'trash',
+          id: 'delete-button',
+          cssClass: 'red',
+          data: {
+            type: 'delete',
           },
-          {
-            text: 'Compartir',
-            icon: 'share',
-            data: 10,
-            handler: () => {
-              navigator.share({
-                title: 'public-post',
-                text: 'Mira este post',
-                url: `https://golf-people.web.app/post/${this.userName}/${this.id}'`,
-              });
-            },
-            // handler: () => {
-            //   console.log('Share clicked');
-            //   this.router.navigate([`/website/post/${this.userName}/${this.id}`]);
-            // },
-          },
-          {
-            text: 'Editar',
-            icon: 'pencil',
-            data: 10,
-            handler: async () => {
-              const modal = await this.modalCtrl.create({
-                component: CreatePostComponent,
-                backdropDismiss: true,
-                cssClass: 'create-post-modal',
-                componentProps: {
-                  postId: this.id,
-                  type: 2,
-                  postDescription: this.description,
-                  postFiles: this.images,
-                  postLocation: this.location,
-                  postHashtags: this.hashtags,
+          handler: async () => {
+            const alert = await this.alertCtrl.create({
+              cssClass: 'alert-confirmation',
+              header: 'Eliminar publicación',
+              message: 'Estás seguro de eliminar esta publicación',
+              buttons: [
+                {
+                  text: 'cancelar',
+                  role: 'cancel',
                 },
-              });
-
-              await modal.present();
-              console.log('Share clicked');
-            },
+                {
+                  text: 'aceptar',
+                  handler: async () => {
+                    const loading = await this.loadingCtrl.create({
+                      cssClass: 'laoding-ctrl',
+                    });
+                    await loading.present();
+                    await this.postsSvc.deletePost(this.id).subscribe((res) => {
+                      console.log('delete -->', res);
+                      this.postsSvc.getPosts();
+                    });
+                    loading.dismiss();
+                  },
+                },
+              ],
+            });
+            await alert.present();
+            console.log('Delete clicked');
           },
-
-          {
-            text: 'Cancel',
-            icon: 'close',
-            role: 'cancel',
-            handler: () => {
-              console.log('Cancel clicked');
-            },
+        },
+        {
+          text: 'Compartir',
+          icon: 'share',
+          data: 10,
+          handler: () => {
+            navigator.share({
+              title: 'public-post',
+              text: 'Mira este post',
+              url: `https://golf-people.web.app/post/${this.userName}/${this.id}'`,
+            });
           },
-        ],
-      });
-      await actionSheet.present();
+          // handler: () => {
+          //   console.log('Share clicked');
+          //   this.router.navigate([`/website/post/${this.userName}/${this.id}`]);
+          // },
+        },
+        {
+          text: 'Editar',
+          icon: 'pencil',
+          data: 10,
+          handler: async () => {
+            const modal = await this.modalCtrl.create({
+              component: CreatePostComponent,
+              backdropDismiss: true,
+              cssClass: 'create-post-modal',
+              componentProps: {
+                postId: this.id,
+                type: 2,
+                postDescription: this.description,
+                postFiles: this.images,
+                postLocation: this.location,
+                postHashtags: this.hashtags,
+              },
+            });
 
-      const { role, data } = await actionSheet.onDidDismiss();
-    } else {
-      const actionSheet = await this.actionSheetCtrl.create({
-        header: 'Publicación',
-        cssClass: 'my-custom-class',
-
-        buttons: [
-          {
-            text: 'Compartir',
-            icon: 'share',
-            data: 10,
-            handler: () => {
-              navigator.share({
-                title: 'public-post',
-                text: 'Mira este post',
-                url: `https://golf-people.web.app/post/${this.userName}/${this.id}'`,
-              });
-            },
+            await modal.present();
+            console.log('Share clicked');
           },
-          {
-            text: 'Reportar',
-            icon: 'pencil',
-            data: 10,
-          },
+        },
 
-          {
-            text: 'Cancel',
-            icon: 'close',
-            role: 'cancel',
-            handler: () => {
-              console.log('Cancel clicked');
-            },
+        {
+          text: 'Cancel',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
           },
-        ],
-      });
-      await actionSheet.present();
+        },
+      ],
+    });
+    await actionSheet.present();
 
-      const { role, data } = await actionSheet.onDidDismiss();
-    }
+    const { role, data } = await actionSheet.onDidDismiss();
+    // } else {
+    //   const actionSheet = await this.actionSheetCtrl.create({
+    //     header: 'Publicación',
+    //     cssClass: 'my-custom-class',
+
+    //     buttons: [
+    //       {
+    //         text: 'Compartir',
+    //         icon: 'share',
+    //         data: 10,
+    //         handler: () => {
+    //           navigator.share({
+    //             title: 'public-post',
+    //             text: 'Mira este post',
+    //             url: `https://golf-people.web.app/post/${this.userName}/${this.id}'`,
+    //           });
+    //         },
+    //       },
+    //       {
+    //         text: 'Reportar',
+    //         icon: 'pencil',
+    //         data: 10,
+    //       },
+
+    //       {
+    //         text: 'Cancel',
+    //         icon: 'close',
+    //         role: 'cancel',
+    //         handler: () => {
+    //           console.log('Cancel clicked');
+    //         },
+    //       },
+    //     ],
+    //   });
+    //   await actionSheet.present();
+
+    //   const { role, data } = await actionSheet.onDidDismiss();
+    // }
 
     // console.log('onDidDismiss resolved with role and data', role, data);
   }

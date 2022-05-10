@@ -49,7 +49,9 @@
   <div class="description">
     <p>
       <strong>{{ userName }}</strong> {{ description }}
-      <a *ngFor="let hashtag of hashtags" [routerLink]="['/posts', hashtag]"
+      <a
+        *ngFor="let hashtag of hashtags"
+        [routerLink]="['/website/posts/', hashtag]"
         >#{{ hashtag }}</a
       >
     </p>
