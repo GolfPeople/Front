@@ -35,8 +35,6 @@ import { GeolocationService } from 'src/app/core/services/geolocation.service';
 import { PostsService } from 'src/app/core/services/posts.service';
 import { Post } from 'src/app/core/interfaces/interfaces';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ImageCropperPage } from '../../components/image-cropper/image-cropper.page';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { Location } from '@angular/common';
 import { CropperComponent } from './components/cropper/cropper.component';
 
