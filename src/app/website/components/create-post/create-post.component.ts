@@ -34,8 +34,6 @@ import { GeolocationService } from 'src/app/core/services/geolocation.service';
 import { PostsService } from 'src/app/core/services/posts.service';
 import { Post } from 'src/app/core/interfaces/interfaces';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ImageCropperPage } from '../image-cropper/image-cropper.page';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 declare var google: any;
 declare var window: any;
@@ -359,17 +357,6 @@ export class CreatePostComponent
     });
   }
 
-  async presentModal() {
-    const modal = await this.modalCtrl.create({
-      component: ImageCropperPage,
-      cssClass: 'my-custom-class',
-      componentProps: {
-        image: this.imageDAtaUrl,
-      },
-    });
-    return await modal.present();
-  }
-
   initAutoCom() {
     this.autocomplete = new google.maps.places.Autocomplete(
       document.getElementById('location') as HTMLInputElement,
@@ -476,10 +463,5 @@ export class CreatePostComponent
 
     this.openModal('Su publicación ha sido editada exitosamente');
     this.closeModal();
-  }
-
-  imageCropped(event: ImageCroppedEvent) {
-    this.croppedImage = event.base64;
-    console.log(this.croppedImage);
   }
 }
