@@ -7,7 +7,7 @@
       </h2>
     </ion-title>
     <ion-buttons slot="start">
-      <ion-button color="primary" shape="round" (click)="closeModal()">
+      <ion-button color="primary" shape="round" (click)="goBack()">
         <img src="../../../../assets/icon/back-link.png" alt="" />
       </ion-button>
     </ion-buttons>
@@ -52,7 +52,7 @@
         </ng-template>
       </swiper>
 
-      <image-cropper
+      <!-- <image-cropper
         #imageCropper
         [imageBase64]="imageDAtaUrl"
         [maintainAspectRatio]="true"
@@ -61,7 +61,7 @@
         format="png"
         (imageCropped)="imageCropped($event)"
       >
-      </image-cropper>
+      </image-cropper> -->
     </div>
 
     <div class="footer">

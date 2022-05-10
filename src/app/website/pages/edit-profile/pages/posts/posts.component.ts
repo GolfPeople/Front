@@ -21,7 +21,6 @@ export class PostsComponent implements OnInit {
   ngOnInit() {
     this.userSvc.getUserInfo().subscribe((user) => {
       this.avatarImage = user.profile.photo;
-      console.log(user.profile.photo);
       this.userName = user.name;
     });
     this.postsSvc.getPosts();

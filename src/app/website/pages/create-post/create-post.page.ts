@@ -27,28 +27,28 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { SuccessComponent } from '../success/success.component';
+// import { SuccessComponent } from '../success/success.component';
+import { SuccessModalComponent } from './components/success-modal/success-modal.component';
 import { SwiperComponent } from 'swiper/angular';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { GeolocationService } from 'src/app/core/services/geolocation.service';
 import { PostsService } from 'src/app/core/services/posts.service';
 import { Post } from 'src/app/core/interfaces/interfaces';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ImageCropperPage } from '../image-cropper/image-cropper.page';
+import { ImageCropperPage } from '../../components/image-cropper/image-cropper.page';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { Location } from '@angular/common';
+import { CropperComponent } from './components/cropper/cropper.component';
 
 declare var google: any;
 declare var window: any;
 
 @Component({
   selector: 'app-create-post',
-  templateUrl: './create-post.component.html',
-  styleUrls: ['./create-post.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  templateUrl: './create-post.page.html',
+  styleUrls: ['./create-post.page.scss'],
 })
-export class CreatePostComponent
-  implements OnInit, AfterViewInit, AfterContentChecked
-{
+export class CreatePostPage implements OnInit {
   @ViewChild('swiper') swiper: SwiperComponent;
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
   @ViewChild('fileInputVideo', { static: false }) fileInputVideo: ElementRef;
@@ -106,7 +106,9 @@ export class CreatePostComponent
     private loadingCtrl: LoadingController,
     private actionSheetCtrl: ActionSheetController,
     private platform: Platform,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private router: Router,
+    private _location: Location
   ) {
     // this.initAutoComplete();
   }
@@ -236,13 +238,6 @@ export class CreatePostComponent
           this.addImage(CameraSource.Photos);
         },
       },
-      // {
-      //   text: 'Escoger multiples fotos',
-      //   icon: 'image',
-      //   handler: () => {
-      //     this.pickImages();
-      //   },
-      // },
     ];
 
     if (!this.platform.is('hybrid')) {
@@ -270,58 +265,51 @@ export class CreatePostComponent
   }
 
   async addImage(source: CameraSource) {
-    // this.blobArrayData = [];
-    // const image = await Camera.getPhoto({
-    //   quality: 60,
-    //   allowEditing: true,
-    //   resultType: CameraResultType.Base64,
-    //   source,
-    // });
-    // console.log('image', image);
-    // const blobData = this.b64toBlob(
-    //   image.base64String,
-    //   `image/${image.format}`
-    // );
-    // const base64Image = this.domSanitizer.bypassSecurityTrustUrl(
-    //   `data:image/${image.format};base64,${image.base64String}`
-    // );
-    // console.log(base64Image);
-    // console.log(image.base64String);
-    // this.imageDAtaUrl = base64Image;
     const image = await Camera.getPhoto({
       quality: 60,
       allowEditing: true,
       resultType: CameraResultType.DataUrl,
       source,
     });
-    const imageDataUrl = image.dataUrl;
-    this.imageDAtaUrl = imageDataUrl;
+    const imageDataUrl = await image.dataUrl;
+    this.imageDAtaUrl = await imageDataUrl;
 
-    // this.presentModal();
+    const croppperModal = await this.modalCtrl.create({
+      component: CropperComponent,
+      componentProps: {
+        imageBase64: imageDataUrl,
+      },
+    });
+    croppperModal.onDidDismiss().then((data) => {
+      this.croppedImage = data.data;
+      this.backgroundImages.push(this.croppedImage);
+      console.log(this.backgroundImages);
+      const blobData = this.b64toBlob(
+        this.croppedImage,
+        `image/${image.format}`
+      );
+      this.blobArrayData.push(blobData);
+    });
+    await croppperModal.present();
+  }
 
-    if (this.type === 2) {
-      // this.backgroundImagesEdit.push(base64Image);
-
-      // this.convertBlobToBase64(blobData).then((res) =>
-      //   console.log('TEST base64', res as string)
-      // );
-      // console.log('Blob a enviar 2', blobData);
-      // // this.backgroundImages.push(image);
-      return;
-    }
-
-    // this.backgroundImages.push(base64Image);
-    // this.convertBlobToBase64(blobData).then((res) =>
-    //   console.log('TEST base64', res as string)
-    // );
-    // console.log('Blob a enviar 2', blobData);
-    // // this.backgroundImages.push(image);
-
-    // this.blobArrayData.push(blobData);
+  async presentCropper(imageBase64) {
+    const modal = await this.modalCtrl.create({
+      component: CropperComponent,
+      componentProps: {
+        imageBase64,
+      },
+    });
+    modal.onDidDismiss().then((data) => {
+      this.croppedImage = data.data;
+      console.log('image cropped', this.croppedImage);
+    });
+    return await modal.present();
   }
 
   b64toBlob(base64, contentType = '', sliceSize = 512) {
-    const byteCharacters = atob(base64);
+    const base64String = base64.replace('data:image/png;base64,', '');
+    const byteCharacters = atob(base64String);
     const byteArrays = [];
 
     for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
@@ -357,17 +345,6 @@ export class CreatePostComponent
       reader.onload = () => resolve(reader.result);
       reader.onerror = (error) => reject(error);
     });
-  }
-
-  async presentModal() {
-    const modal = await this.modalCtrl.create({
-      component: ImageCropperPage,
-      cssClass: 'my-custom-class',
-      componentProps: {
-        image: this.imageDAtaUrl,
-      },
-    });
-    return await modal.present();
   }
 
   initAutoCom() {
@@ -407,19 +384,21 @@ export class CreatePostComponent
 
   async openModal(message) {
     const modal = await this.modalCtrl.create({
-      component: SuccessComponent,
+      component: SuccessModalComponent,
       backdropDismiss: true,
       cssClass: 'request-modal',
       componentProps: {
         message,
+        route: '/website/profile',
       },
     });
 
     await modal.present();
   }
 
-  closeModal() {
-    this.modalCtrl.dismiss();
+  goBack() {
+    // this.router.navigate(['..']);
+    this._location.back();
   }
 
   async onSubmit(description, files, ubication) {
@@ -443,7 +422,7 @@ export class CreatePostComponent
       );
       await loading.dismiss();
       this.openModal('Su publicación ha sido creada exitosamente');
-      this.closeModal();
+      // this.closeModal();
       return;
     }
 
@@ -459,7 +438,7 @@ export class CreatePostComponent
       console.log(res);
     });
     console.log('se cerró');
-    this.closeModal();
+    // this.closeModal();
   }
 
   async edit(description, ubication, files) {
@@ -475,11 +454,6 @@ export class CreatePostComponent
     await loading.dismiss();
 
     this.openModal('Su publicación ha sido editada exitosamente');
-    this.closeModal();
-  }
-
-  imageCropped(event: ImageCroppedEvent) {
-    this.croppedImage = event.base64;
-    console.log(this.croppedImage);
+    // this.closeModal();
   }
 }

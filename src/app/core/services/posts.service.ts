@@ -61,7 +61,6 @@ export class PostsService {
       .get<PostsResponse[]>(`${URL}/publish/my_publish`)
       .subscribe((posts) => {
         this.posts.next(posts);
-        console.log(posts);
       });
   }
 
@@ -80,7 +79,6 @@ export class PostsService {
     // formData.append('files[]', files);
     formData.append('description', description);
     formData.append('ubication', ubication);
-    console.log('file', files);
     const headers = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -94,7 +92,6 @@ export class PostsService {
         headers
       )
       .subscribe((res) => {
-        console.log(res);
         this.getPosts();
       });
   }
@@ -105,10 +102,5 @@ export class PostsService {
 
     formData.append('option', option);
     return this.http.post(`${URL}/publish/my_publish/toogle/${id}`, formData);
-    //     .subscribe((res) => {
-    //       console.log(res);
-    //       this.getPosts();
-    //     });
-    // }
   }
 }

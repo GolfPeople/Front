@@ -19,11 +19,11 @@
     #swiper
   >
     <ng-template *ngFor="let image of images" swiperSlide>
-      <div
+      <!-- <div
         class="image-post"
         [style]="{ background: 'url(' + image.url + ')' }"
-      ></div>
-      <!-- <img class="picture" [src]="image.url" alt="" /> -->
+      ></div> -->
+      <img class="picture" [src]="image.url" alt="" />
     </ng-template>
   </swiper>
   <div class="likes">

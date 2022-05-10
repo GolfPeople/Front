@@ -11,6 +11,7 @@ import { ImageCropperPage } from './image-cropper.page';
 import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
+  entryComponents: [ImageCropperPage],
   imports: [
     CommonModule,
     FormsModule,
