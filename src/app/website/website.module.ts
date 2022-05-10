@@ -17,8 +17,6 @@ import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 import { SuccessComponent } from './components/success/success.component';
 import { PublicPostComponent } from './components/public-post/public-post.component';
 
-import { ImageCropperModule } from 'ngx-image-cropper';
-
 const myComponents = [
   LayoutComponent,
   NavComponent,
@@ -47,7 +45,6 @@ const myComponents = [
     FormsModule,
     ReactiveFormsModule,
     SwiperModule,
-    ImageCropperModule,
   ],
 })
 export class WebsiteModule {}
