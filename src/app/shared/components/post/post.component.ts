@@ -23,6 +23,8 @@ import { PostsService } from '../../../core/services/posts.service';
 import { switchMap } from 'rxjs/operators';
 import { ReactionsService } from 'src/app/core/services/reactions.service';
 import { Like } from 'src/app/core/interfaces/interfaces';
+import { EditPostComponent } from 'src/app/website/components/edit-post/edit-post.component';
+import { LikesComponent } from '../likes/likes.component';
 
 SwiperCore.use([Pagination]);
 
@@ -68,10 +70,12 @@ export class PostComponent implements OnInit, AfterContentChecked {
   async ngOnInit() {
     await this.userSvc.id$.subscribe((id) => (this.user = id));
     if (this.likes.length > 0) {
+      console.log(this.likes);
       this.count = this.likes.length;
       this.likes.forEach((item) => {
         if (item.user_id === this.user) {
           this.liked = true;
+          console.log(this.liked);
         }
       });
       // console.log(this.liked);
@@ -143,7 +147,7 @@ export class PostComponent implements OnInit, AfterContentChecked {
             navigator.share({
               title: 'public-post',
               text: 'Mira este post',
-              url: `https://golf-people.web.app/post/${this.userName}/${this.id}'`,
+              url: `https://golf-people.web.app/website/post/${this.userName}/${this.id}'`,
             });
           },
           // handler: () => {
@@ -157,7 +161,7 @@ export class PostComponent implements OnInit, AfterContentChecked {
           data: 10,
           handler: async () => {
             const modal = await this.modalCtrl.create({
-              component: CreatePostComponent,
+              component: EditPostComponent,
               backdropDismiss: true,
               cssClass: 'create-post-modal',
               componentProps: {
@@ -228,6 +232,20 @@ export class PostComponent implements OnInit, AfterContentChecked {
     // }
 
     // console.log('onDidDismiss resolved with role and data', role, data);
+  }
+  async showLikes() {
+    const usersLiked = this.likes.map((item) => item.user.name);
+    console.log(usersLiked);
+    const modal = await this.modalCtrl.create({
+      component: LikesComponent,
+      backdropDismiss: true,
+      componentProps: {
+        userList: usersLiked,
+      },
+    });
+
+    await modal.present();
+    console.log('Share clicked');
   }
 
   like() {

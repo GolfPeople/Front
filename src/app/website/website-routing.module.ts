@@ -44,6 +44,13 @@ const routes: Routes = [
         (m) => m.CreatePostPageModule
       ),
   },
+  {
+    path: 'edit-post/:post',
+    loadChildren: () =>
+      import('./pages/edit-post/edit-post.module').then(
+        (m) => m.EditPostPageModule
+      ),
+  },
 ];
 
 @NgModule({

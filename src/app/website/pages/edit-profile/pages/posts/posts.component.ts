@@ -3,6 +3,7 @@ import { PostsService } from 'src/app/core/services/posts.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { Post, PostsResponse } from 'src/app/core/interfaces/interfaces';
 import { Observable } from 'rxjs';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-posts',
@@ -15,9 +16,18 @@ export class PostsComponent implements OnInit {
   posts: PostsResponse[];
   location: string;
 
-  constructor(private postsSvc: PostsService, private userSvc: UserService) {}
+  constructor(
+    private postsSvc: PostsService,
+    private userSvc: UserService,
+    private loadingCtrl: LoadingController
+  ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    const loading = await this.loadingCtrl.create({
+      cssClass: 'laoding-ctrl',
+      spinner: 'crescent',
+    });
+    await loading.present();
     this.userSvc.getUserInfo().subscribe((user) => {
       this.avatarImage = user.profile.photo;
       this.userName = user.name;
@@ -25,6 +35,7 @@ export class PostsComponent implements OnInit {
     this.postsSvc.getPosts();
     this.postsSvc.posts$.subscribe((posts) => {
       this.posts = posts.reverse();
+      loading.dismiss();
       // console.log(this.posts);
     });
   }

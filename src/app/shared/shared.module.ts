@@ -15,6 +15,7 @@ import { SearchComponent } from './components/search/search.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { JsonToDataPipe } from './pipes/json-to-data.pipe';
+import { LikesComponent } from './components/likes/likes.component';
 
 const components = [
   SelectDateComponent,
@@ -26,6 +27,7 @@ const components = [
   SuccessComponent,
   ErrorComponent,
   SearchComponent,
+  LikesComponent,
 ];
 
 @NgModule({

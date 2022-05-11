@@ -1,3 +1,5 @@
+import { PostComponent } from 'src/app/shared/components/post/post.component';
+
 export interface Post {
   description: string;
   files: [];
@@ -22,3 +24,5 @@ interface User {
   name: string;
   email: string;
 }
+
+export interface PostToEdit extends Omit<Post, 'files'> {}

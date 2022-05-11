@@ -7,7 +7,7 @@
       </h2>
     </ion-title>
     <ion-buttons slot="start">
-      <ion-button color="primary" shape="round" (click)="closeModal()">
+      <ion-button color="primary" shape="round">
         <img src="../../../../assets/icon/back-link.png" alt="" />
       </ion-button>
     </ion-buttons>
@@ -24,7 +24,6 @@
         [maxlength]="2000"
         class="text"
         [formControl]="textArea"
-        (ngModelChange)="descriptionValue()"
       >
       </ion-textarea>
     </div>
@@ -76,7 +75,6 @@
         <br />
       </ion-list>
       <ion-button
-        *ngIf="editPost === true"
         (click)="edit(textArea.value, address.value, blobArrayData)"
         type="submit"
         class="next-button"

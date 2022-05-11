@@ -25,14 +25,14 @@ import {
 } from '@capacitor/camera';
 
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { SuccessComponent } from '../success/success.component';
+import { SuccessComponent } from '../../components/success/success.component';
 import { SwiperComponent } from 'swiper/angular';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { GeolocationService } from 'src/app/core/services/geolocation.service';
 import { PostsService } from 'src/app/core/services/posts.service';
-import { Post } from 'src/app/core/interfaces/interfaces';
+import { Post, PostToEdit } from 'src/app/core/interfaces/interfaces';
 import { DomSanitizer } from '@angular/platform-browser';
 
 declare var google: any;
@@ -40,13 +40,10 @@ declare var window: any;
 
 @Component({
   selector: 'app-edit-post',
-  templateUrl: './edit-post.component.html',
-  styleUrls: ['./edit-post.component.scss'],
+  templateUrl: './edit-post.page.html',
+  styleUrls: ['./edit-post.page.scss'],
 })
-export class EditPostComponent implements OnInit {
-  @ViewChild('swiper') swiper: SwiperComponent;
-  @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
-  @ViewChild('fileInputVideo', { static: false }) fileInputVideo: ElementRef;
+export class EditPostPage implements OnInit {
   @Input() type: number;
   @Input() postId: number;
 
@@ -72,7 +69,7 @@ export class EditPostComponent implements OnInit {
   croppedImage: any;
 
   postImages = [];
-  editPost: boolean = false;
+  editPost: PostToEdit;
   backgroundImagesEdit = [];
 
   // Simon Grimm method
@@ -89,18 +86,11 @@ export class EditPostComponent implements OnInit {
   private apiUrl = `${environment.golfpeopleAPI}/api`;
 
   constructor(
-    private userService: UserService,
     private modalCtrl: ModalController,
-    private http: HttpClient,
-    // private camera: Camera,
-    private loader: LoadingController,
-    private fb: FormBuilder,
     private geolocationService: GeolocationService,
     private postsSvc: PostsService,
     private loadingCtrl: LoadingController,
-    private actionSheetCtrl: ActionSheetController,
-    private platform: Platform,
-    private domSanitizer: DomSanitizer
+    private actRoute: ActivatedRoute
   ) {
     // this.initAutoComplete();
   }
@@ -116,9 +106,11 @@ export class EditPostComponent implements OnInit {
     const coordinates = await this.geolocationService.currentPosition();
     const { latitude, longitude } = await coordinates.coords;
     this.coords = { lat: latitude, lng: longitude };
-    // this.geoCodeLatLong(this.coords);
-    // if (this.type === 2) {
-    this.editPost = true;
+
+    // this.actRoute.paramMap.subscribe(param => {
+    //   this.editPost = param.get('post')
+    // })
+
     this.textArea.setValue(this.postDescription);
 
     this.address.setValue(this.postLocation);
@@ -128,12 +120,6 @@ export class EditPostComponent implements OnInit {
     console.log(this.postFiles);
     this.hashtags = this.postHashtags;
     // }
-  }
-
-  ngAfterContentChecked(): void {
-    if (this.swiper) {
-      this.swiper.updateSwiper({});
-    }
   }
 
   initFormControls() {
@@ -203,12 +189,7 @@ export class EditPostComponent implements OnInit {
       if (status !== google.maps.GeocoderStatus.OK) {
         alert(status);
       }
-      // This is checking to see if the Geoeode Status is OK before proceeding
       if (status == google.maps.GeocoderStatus.OK) {
-        // var address = results[0].formatted_address;
-
-        //This is placing the returned address in the 'Address' field on the HTML form
-
         address.setValue(
           `${results[0].address_components[3].long_name} ${results[0].address_components[6].long_name}`
         );
@@ -231,14 +212,6 @@ export class EditPostComponent implements OnInit {
     await modal.present();
   }
 
-  closeModal() {
-    this.modalCtrl.dismiss();
-  }
-
-  descriptionValue() {
-    console.log(this.textArea.value);
-  }
-
   async edit(description, ubication, files) {
     const descriptionConcat = description.concat(` ${this.hashtagsString}`);
     console.log('description -->', descriptionConcat);
@@ -252,6 +225,5 @@ export class EditPostComponent implements OnInit {
     await loading.dismiss();
 
     this.openModal('Su publicación ha sido editada exitosamente');
-    this.closeModal();
   }
 }

@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Likes</ion-title>
+    <ion-buttons class="ion-margin" slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let user of userList">
+      <ion-label>{{ user }}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

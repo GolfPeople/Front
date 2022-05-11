@@ -18,7 +18,8 @@
                 >
                   <div class="input-file-container">
                     <ion-icon name="camera" classs="camera-icon"></ion-icon>
-                    <button (click)="selectImage()"></button>
+                    <!-- <button (click)="selectImage()"></button> -->
+                    <button (click)="selectImageSource()"></button>
                   </div>
                 </div>
               </div>
@@ -56,7 +57,7 @@
         <div>
           <ion-button
             [routerLink]="['/step6']"
-            (click)="startUpload(images[images.length - 1])"
+            (click)="onSubmit()"
             class="next-button"
             type="submit"
             shape="round"

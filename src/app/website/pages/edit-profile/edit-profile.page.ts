@@ -39,16 +39,16 @@ export class EditProfilePage implements OnInit {
 
   async ngOnInit() {
     // this.loadingSvc.presentLoading();
-    const loading = await this.loadingCtrl.create({
-      cssClass: 'laoding-ctrl',
-      spinner: 'crescent',
-    });
-    await loading.present();
+    // const loading = await this.loadingCtrl.create({
+    //   cssClass: 'laoding-ctrl',
+    //   spinner: 'crescent',
+    // });
+    // await loading.present();
     this.userService.getUserInfo().subscribe((res) => {
       this.userName = res.name;
       this.value = `${this.profileUrl}/${res.id}`;
       // this.loadingSvc.dismissLoading();
-      loading.dismiss();
+      // loading.dismiss();
     });
   }
 
