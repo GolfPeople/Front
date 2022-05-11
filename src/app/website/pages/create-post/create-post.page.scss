@@ -1,5 +1,9 @@
 @import "../../../scss/variables.scss";
 
+ion-content {
+  --padding-bottom: 55px;
+}
+
 ion-header {
   ion-toolbar {
     --background: #00388b !important;
@@ -73,7 +77,7 @@ ion-header {
   --padding-start: 18px;
   --padding-end: 18px;
   --padding-top: 18px;
-  --padding-bottom: 18px;
+  // --padding-bottom: 18px;
 
   // .create-post-container {
   //   display: flex;

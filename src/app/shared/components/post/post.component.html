@@ -26,7 +26,7 @@
       <img class="picture" [src]="image.url" alt="" />
     </ng-template>
   </swiper>
-  <div class="likes">
+  <!-- <div class="likes">
     <div>
       <ion-icon
         class="icon-start ion-margin-end"
@@ -45,8 +45,29 @@
         name="paper-plane-outline"
       ></ion-icon>
     </div>
-  </div>
+  </div> -->
+  <ion-item class="reactions" lines="none">
+    <ion-buttons slot="start">
+      <ion-button *ngIf="liked === false" (click)="like()">
+        <ion-icon name="heart-outline" slot="start"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="liked === true" class="liked" (click)="like()">
+        <ion-icon class="liked" name="heart" slot="start"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
   <div class="description">
+    <p *ngIf="count > 0">{{ count }} {{ count > 1 ? "likes" : "like" }}</p>
     <p>
       <strong>{{ userName }}</strong> {{ description }}
       <a

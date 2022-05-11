@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Post, PostsResponse } from '../interfaces/interfaces';
 import { BehaviorSubject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 const URL = `${environment.golfpeopleAPI}/api`;
 
@@ -63,6 +64,13 @@ export class PostsService {
         this.posts.next(posts);
       });
   }
+
+  getPostsByHashtag(){
+    return this.http
+    .get<PostsResponse[]>(`${URL}/publish/my_publish`)
+  }
+
+
 
   getPost(id) {
     return this.http.get<PostsResponse>(`${URL}/publish/show/${id}`);

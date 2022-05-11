@@ -1,6 +1,7 @@
 @import "../../../scss/variables.scss";
 
 .post {
+  background: #fff;
   width: 100%;
   // max-width: 500px;
   margin: 10px auto;
@@ -103,18 +104,24 @@
     object-fit: cover;
   }
 
-  .likes {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 90%;
-    margin: 1.5rem 0 1.2rem;
-    padding: 0 10px;
+  .reactions {
+    --background: #fff;
+    // display: flex;
+    // align-items: center;
+    // justify-content: space-between;
+    // width: 90%;
+    // margin: 1.5rem 0 1.2rem;
+    // padding: 0 10px;
 
     ion-icon {
-      color: #333;
+      color: #333 !important ;
       font-size: 2.4rem;
+      margin: 0;
       // transform: rotate(90deg);
+    }
+
+    .liked {
+      color: #ed4956 !important;
     }
   }
 

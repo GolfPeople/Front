@@ -21,6 +21,8 @@ import SwiperCore, { Pagination } from 'swiper';
 
 import { PostsService } from '../../../core/services/posts.service';
 import { switchMap } from 'rxjs/operators';
+import { ReactionsService } from 'src/app/core/services/reactions.service';
+import { Like } from 'src/app/core/interfaces/interfaces';
 
 SwiperCore.use([Pagination]);
 
@@ -42,7 +44,11 @@ export class PostComponent implements OnInit, AfterContentChecked {
   @Input() userId;
   @Input() type;
   @Input() hashtags;
+  @Input() likes: Like[];
   user;
+  count;
+
+  liked: boolean = false;
 
   swiperConfig: SwiperOptions = {
     pagination: { clickable: true },
@@ -55,11 +61,21 @@ export class PostComponent implements OnInit, AfterContentChecked {
     private postsSvc: PostsService,
     private router: Router,
     private userSvc: UserService,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private reactionsSvc: ReactionsService
   ) {}
 
-  ngOnInit() {
-    this.userSvc.id$.subscribe((id) => (this.user = id));
+  async ngOnInit() {
+    await this.userSvc.id$.subscribe((id) => (this.user = id));
+    if (this.likes.length > 0) {
+      this.count = this.likes.length;
+      this.likes.forEach((item) => {
+        if (item.user_id === this.user) {
+          this.liked = true;
+        }
+      });
+      // console.log(this.liked);
+    }
   }
 
   ngAfterContentChecked(): void {
@@ -212,5 +228,16 @@ export class PostComponent implements OnInit, AfterContentChecked {
     // }
 
     // console.log('onDidDismiss resolved with role and data', role, data);
+  }
+
+  like() {
+    this.liked = !this.liked;
+    this.liked === true
+      ? (this.count = this.count + 1)
+      : (this.count = this.count - 1);
+    this.reactionsSvc.like(this.id).subscribe((res: any) => {
+      this.count = res.count;
+      console.log(res);
+    });
   }
 }

@@ -14,7 +14,6 @@ export class PostsComponent implements OnInit {
   userName: string;
   posts: PostsResponse[];
   location: string;
-  des;
 
   constructor(private postsSvc: PostsService, private userSvc: UserService) {}
 
@@ -26,6 +25,7 @@ export class PostsComponent implements OnInit {
     this.postsSvc.getPosts();
     this.postsSvc.posts$.subscribe((posts) => {
       this.posts = posts.reverse();
+      // console.log(this.posts);
     });
   }
 }

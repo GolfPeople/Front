@@ -1,9 +1,25 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>posts</ion-title>
+    <ion-buttons class="ion-margin" slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <app-post
+    *ngFor="let post of hashtagsPosts"
+    [userName]="userName"
+    [avatar]="avatarImage"
+    [location]="post.ubication"
+    [images]="post.files"
+    [description]="post.description"
+    [id]="post.id"
+    [userId]="post.user_id"
+    [hashtags]="post.hashtags"
+    [likes]="post.likes"
+  ></app-post>
 </ion-content>
