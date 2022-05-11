@@ -8,7 +8,7 @@ export interface PostsResponse extends Post {
   id: number;
   user_id: number;
   hashtags: any;
-  likes: Like[] | void[];
+  likes: Like[];
 }
 export interface Like {
   id: number;
