@@ -15,6 +15,7 @@
   "dependencies": {
     "@angular/common": "~13.2.2",
     "@angular/core": "~13.2.2",
+    "@angular/fire": "^7.3.0",
     "@angular/forms": "~13.2.2",
     "@angular/platform-browser": "~13.2.2",
     "@angular/platform-browser-dynamic": "~13.2.2",
@@ -40,6 +41,7 @@
     "chart.js": "^3.7.1",
     "cordova-plugin-camera": "^6.0.0",
     "cordova-plugin-x-socialsharing": "^6.0.3",
+    "firebase": "^9.8.1",
     "ng2-charts": "^3.0.9",
     "ngx-image-cropper": "^6.1.0",
     "rxjs": "~6.6.0",

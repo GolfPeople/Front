@@ -15,6 +15,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+
+// firebase
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -24,6 +29,8 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     IonicModule.forRoot(),
     AppRoutingModule,
     NgxQRCodeModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
