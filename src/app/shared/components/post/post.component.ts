@@ -79,7 +79,8 @@ export class PostComponent implements OnInit, AfterContentChecked {
           console.log(this.liked);
         }
       });
-      // console.log(this.liked);
+      console.log(this.liked);
+      console.log('User ID TEST -->', this.userId, this.user);
     }
   }
 
