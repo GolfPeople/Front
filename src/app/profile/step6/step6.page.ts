@@ -29,6 +29,11 @@ export class Step6Page implements OnInit, AfterViewInit {
   geocoder = new google.maps.Geocoder();
   // autocomplete = new google.maps.places.Autocomplete();
 
+  title = 'google-places-autocomplete';
+  userAddress: string = '';
+  userLatitude: string = '';
+  userLongitude: string = '';
+
   constructor(
     private Step6Svc: Step6Service,
     private userService: UserService,
@@ -131,7 +136,7 @@ export class Step6Page implements OnInit, AfterViewInit {
     this.Step6Svc.dateAndLocation(
       this.birthday,
       this.gender,
-      this.address.value
+      this.userAddress
     ).subscribe((res) => {
       console.log(res);
       // this.router.navigate(['/step2']);
@@ -139,6 +144,10 @@ export class Step6Page implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.userService.getUserInfo().subscribe((rta) => console.log(rta));
     }, 3000);
+  }
+
+  showValue() {
+    console.log(this.address.value);
   }
 
   initAutoComplete() {
@@ -152,6 +161,15 @@ export class Step6Page implements OnInit, AfterViewInit {
     );
 
     // this.autocomplete.addListener('place_changed', this.onPlaceChanged);
+  }
+
+  handleAddressChange(address: any) {
+    this.userAddress = address.formatted_address;
+    this.userLatitude = address.geometry.location.lat();
+    this.userLongitude = address.geometry.location.lng();
+    console.log(this.userAddress);
+    console.log(this.userLatitude);
+    console.log(this.userLongitude);
   }
 
   codeAddress() {

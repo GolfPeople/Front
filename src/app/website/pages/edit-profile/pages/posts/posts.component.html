@@ -2,8 +2,8 @@
   <ion-col size="12">
     <app-post
       *ngFor="let post of posts"
-      [userName]="userName"
-      [avatar]="avatarImage"
+      [userName]="post.user.name"
+      [avatar]="post.user.profile.photo"
       [location]="post.ubication"
       [images]="post.files"
       [description]="post.description"

@@ -28,15 +28,21 @@ export class PostsComponent implements OnInit {
       spinner: 'crescent',
     });
     await loading.present();
-    this.userSvc.getUserInfo().subscribe((user) => {
-      this.avatarImage = user.profile.photo;
-      this.userName = user.name;
-    });
-    this.postsSvc.getPosts();
-    this.postsSvc.posts$.subscribe((posts) => {
-      this.posts = posts.reverse();
+    // this.userSvc.getUserInfo().subscribe((user) => {
+    //   this.avatarImage = user.profile.photo;
+    //   this.userName = user.name;
+    // });
+    this.postsSvc.getPosts().subscribe((data) => {
+      this.posts = data.reverse();
+      if (this.posts.length === 0) {
+        return;
+      }
       loading.dismiss();
-      // console.log(this.posts);
     });
+    // this.postsSvc.posts$.subscribe((posts) => {
+    //   this.posts = posts.reverse();
+    //   loading.dismiss();
+    //   console.log(this.posts);
+    // });
   }
 }

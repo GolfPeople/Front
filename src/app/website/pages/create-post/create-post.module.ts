@@ -11,6 +11,7 @@ import { SwiperModule } from 'swiper/angular';
 import { SuccessModalComponent } from './components/success-modal/success-modal.component';
 import { CropperComponent } from './components/cropper/cropper.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 @NgModule({
   entryComponents: [SuccessModalComponent, CropperComponent],
@@ -22,6 +23,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     ReactiveFormsModule,
     SwiperModule,
     ImageCropperModule,
+    GooglePlaceModule,
   ],
   declarations: [CreatePostPage, SuccessModalComponent, CropperComponent],
 })

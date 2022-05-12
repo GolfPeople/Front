@@ -66,6 +66,12 @@ export class CreatePostPage implements OnInit {
   latitud: any;
   longitude: any;
 
+  //ngx autocomplete
+  title = 'google-places-autocomplete';
+  userAddress: string = '';
+  userLatitude: string = '';
+  userLongitude: string = '';
+
   textArea: FormControl;
   address: FormControl;
   filesToSend;
@@ -90,22 +96,18 @@ export class CreatePostPage implements OnInit {
   hashtags = [];
   hashtagsString: string;
 
-  private apiUrl = `${environment.golfpeopleAPI}/api`;
-
   constructor(
     private userService: UserService,
     private modalCtrl: ModalController,
     private http: HttpClient,
     // private camera: Camera,
     private loader: LoadingController,
-    private fb: FormBuilder,
     private geolocationService: GeolocationService,
     private postsSvc: PostsService,
     private loadingCtrl: LoadingController,
     private actionSheetCtrl: ActionSheetController,
     private platform: Platform,
-    private domSanitizer: DomSanitizer,
-    private router: Router,
+
     private _location: Location
   ) {
     // this.initAutoComplete();
@@ -144,9 +146,18 @@ export class CreatePostPage implements OnInit {
 
   initFormControls() {
     const description = new FormControl('', {});
-    const location = new FormControl('', {});
+    const location = new FormControl(this.userAddress, {});
     const hashtags = new FormControl('', {});
     return { description, location, hashtags };
+  }
+
+  handleAddressChange(address: any) {
+    this.userAddress = address.formatted_address;
+    this.userLatitude = address.geometry.location.lat();
+    this.userLongitude = address.geometry.location.lng();
+    console.log(this.userAddress);
+    console.log(this.userLatitude);
+    console.log(this.userLongitude);
   }
 
   hashtag(event: Event) {
@@ -416,7 +427,7 @@ export class CreatePostPage implements OnInit {
       await this.postsSvc.createPostWithImageFile(
         descriptionConcat,
         files,
-        ubication
+        this.userAddress
       );
       await loading.dismiss();
       this.openModal('Su publicación ha sido creada exitosamente');

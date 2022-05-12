@@ -45,15 +45,26 @@
       </ion-label>
       <ion-input formControlName="phone"></ion-input>
     </ion-item>
-    <ion-item>
+    <!-- <ion-item>
       <ion-label position="floating">
-        <!-- <ion-icon name="home-outline"></ion-icon>  -->
         <img src="../../../../../../assets/icon/forms/home.png" alt="" />
 
         Dirección
       </ion-label>
-      <ion-input formControlName="address"></ion-input>
-    </ion-item>
+      <input
+        (ngModel)="(userAddress)"
+        ngx-google-places-autocomplete
+        (onAddressChange)="handleAddressChange($event)"
+      />
+    </ion-item> -->
+    <div class="address-input">
+      <input
+        placeholder="Dirección"
+        (ngModel)="(userAddress)"
+        ngx-google-places-autocomplete
+        (onAddressChange)="handleAddressChange($event)"
+      />
+    </div>
 
     <ion-row>
       <ion-col>

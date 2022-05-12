@@ -18,6 +18,8 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+
 // firebase
 
 @NgModule({
@@ -28,6 +30,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
     HttpClientModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    GooglePlaceModule,
     NgxQRCodeModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,

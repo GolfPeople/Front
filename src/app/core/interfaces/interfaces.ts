@@ -11,6 +11,7 @@ export interface PostsResponse extends Post {
   user_id: number;
   hashtags: any;
   likes: Like[];
+  user: UserPublicData;
 }
 export interface Like {
   id: number;
@@ -26,3 +27,31 @@ interface User {
 }
 
 export interface PostToEdit extends Omit<Post, 'files'> {}
+
+export interface UserPublicData {
+  email: string;
+  id: number;
+  name: string;
+  profile: UserProfileData;
+}
+
+export interface UserProfileData {
+  address?: string;
+  birthday?: string;
+  country?: string;
+  cp?: number;
+  created_at?: string;
+  gender?: number;
+  handicap?: string;
+  id?: number;
+  language?: string;
+  license?: string;
+  phone?: number;
+  photo?: string;
+  province?: string;
+  time_playing?: number;
+  type?: number;
+  updated_at?: string;
+  user_id?: number;
+  username?: string;
+}

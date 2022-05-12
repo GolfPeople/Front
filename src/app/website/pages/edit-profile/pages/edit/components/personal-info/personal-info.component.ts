@@ -20,6 +20,12 @@ export class PersonalInfoComponent implements OnInit {
   countries = Object.keys(Country);
   birthday: string;
 
+  //ngx autocomplete
+  title = 'google-places-autocomplete';
+  userAddress: string = '';
+  userLatitude: string = '';
+  userLongitude: string = '';
+
   genders = [
     {
       value: 1,
@@ -110,7 +116,8 @@ export class PersonalInfoComponent implements OnInit {
         this.form.controls['phone'].setValue(res.profile.phone);
       }
       if (res.profile.address) {
-        this.form.controls['address'].setValue(res.profile.address);
+        // this.form.controls['address'].setValue(res.profile.address);
+        this.userAddress = res.profile.address;
       }
       if (res.profile.province) {
         this.form.controls['province'].setValue(res.profile.province);
@@ -164,6 +171,15 @@ export class PersonalInfoComponent implements OnInit {
     });
   }
 
+  handleAddressChange(address: any) {
+    this.userAddress = address.formatted_address;
+    this.userLatitude = address.geometry.location.lat();
+    this.userLongitude = address.geometry.location.lng();
+    console.log(this.userAddress);
+    console.log(this.userLatitude);
+    console.log(this.userLongitude);
+  }
+
   async openModal() {
     // this.isOpen = true;
     const modal = await this.modalCtrl.create({
@@ -199,12 +215,15 @@ export class PersonalInfoComponent implements OnInit {
     this.form.controls['type'].setValue(value);
   }
 
-  onSubmit() {
-    const dto = this.form.value;
-    console.log(dto);
-    this.personalSvg
-      .updateInfo(dto, this.id)
-      .subscribe((res) => console.log('RES -->', res));
-    this.openModal();
+  async onSubmit() {
+    try {
+      this.form.controls['address'].setValue(this.userAddress);
+      const dto = this.form.value;
+      console.log(dto);
+      this.personalSvg
+        .updateInfo(dto, this.id)
+        .subscribe((res) => console.log('RES -->', res));
+      this.openModal();
+    } catch (error) {}
   }
 }

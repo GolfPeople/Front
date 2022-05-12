@@ -65,10 +65,11 @@ export class PostComponent implements OnInit, AfterContentChecked {
     private userSvc: UserService,
     private loadingCtrl: LoadingController,
     private reactionsSvc: ReactionsService
-  ) {}
+  ) {
+    this.userSvc.id$.subscribe((id) => (this.user = id));
+  }
 
   async ngOnInit() {
-    await this.userSvc.id$.subscribe((id) => (this.user = id));
     if (this.likes.length > 0) {
       console.log(this.likes);
       this.count = this.likes.length;
@@ -93,143 +94,145 @@ export class PostComponent implements OnInit, AfterContentChecked {
   }
 
   async presentActionSheet() {
-    // if (this.user == this.userId) {
-    console.log(this.user, this.userId);
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Publicación',
-      cssClass: 'my-custom-class',
+    if (this.user == this.userId) {
+      console.log(this.user, this.userId);
+      const actionSheet = await this.actionSheetCtrl.create({
+        header: 'Publicación',
+        cssClass: 'my-custom-class',
 
-      buttons: [
-        {
-          text: 'Eliminar',
-          role: 'destructive',
-          icon: 'trash',
-          id: 'delete-button',
-          cssClass: 'red',
-          data: {
-            type: 'delete',
-          },
-          handler: async () => {
-            const alert = await this.alertCtrl.create({
-              cssClass: 'alert-confirmation',
-              header: 'Eliminar publicación',
-              message: 'Estás seguro de eliminar esta publicación',
-              buttons: [
-                {
-                  text: 'cancelar',
-                  role: 'cancel',
-                },
-                {
-                  text: 'aceptar',
-                  handler: async () => {
-                    const loading = await this.loadingCtrl.create({
-                      cssClass: 'laoding-ctrl',
-                    });
-                    await loading.present();
-                    await this.postsSvc.deletePost(this.id).subscribe((res) => {
-                      console.log('delete -->', res);
-                      this.postsSvc.getPosts();
-                    });
-                    loading.dismiss();
+        buttons: [
+          {
+            text: 'Eliminar',
+            role: 'destructive',
+            icon: 'trash',
+            id: 'delete-button',
+            cssClass: 'red',
+            data: {
+              type: 'delete',
+            },
+            handler: async () => {
+              const alert = await this.alertCtrl.create({
+                cssClass: 'alert-confirmation',
+                header: 'Eliminar publicación',
+                message: 'Estás seguro de eliminar esta publicación',
+                buttons: [
+                  {
+                    text: 'cancelar',
+                    role: 'cancel',
                   },
+                  {
+                    text: 'aceptar',
+                    handler: async () => {
+                      const loading = await this.loadingCtrl.create({
+                        cssClass: 'laoding-ctrl',
+                      });
+                      await loading.present();
+                      await this.postsSvc
+                        .deletePost(this.id)
+                        .subscribe((res) => {
+                          console.log('delete -->', res);
+                          this.postsSvc.getPosts();
+                        });
+                      loading.dismiss();
+                    },
+                  },
+                ],
+              });
+              await alert.present();
+              console.log('Delete clicked');
+            },
+          },
+          {
+            text: 'Compartir',
+            icon: 'share',
+            data: 10,
+            handler: () => {
+              navigator.share({
+                title: 'public-post',
+                text: 'Mira este post',
+                url: `https://golf-people.web.app/website/post/${this.userName}/${this.id}'`,
+              });
+            },
+            // handler: () => {
+            //   console.log('Share clicked');
+            //   this.router.navigate([`/website/post/${this.userName}/${this.id}`]);
+            // },
+          },
+          {
+            text: 'Editar',
+            icon: 'pencil',
+            data: 10,
+            handler: async () => {
+              const modal = await this.modalCtrl.create({
+                component: EditPostComponent,
+                backdropDismiss: true,
+                cssClass: 'create-post-modal',
+                componentProps: {
+                  postId: this.id,
+                  type: 2,
+                  postDescription: this.description,
+                  postFiles: this.images,
+                  postLocation: this.location,
+                  postHashtags: this.hashtags,
                 },
-              ],
-            });
-            await alert.present();
-            console.log('Delete clicked');
+              });
+
+              await modal.present();
+              console.log('Share clicked');
+            },
           },
-        },
-        {
-          text: 'Compartir',
-          icon: 'share',
-          data: 10,
-          handler: () => {
-            navigator.share({
-              title: 'public-post',
-              text: 'Mira este post',
-              url: `https://golf-people.web.app/website/post/${this.userName}/${this.id}'`,
-            });
+
+          {
+            text: 'Cancel',
+            icon: 'close',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            },
           },
-          // handler: () => {
-          //   console.log('Share clicked');
-          //   this.router.navigate([`/website/post/${this.userName}/${this.id}`]);
-          // },
-        },
-        {
-          text: 'Editar',
-          icon: 'pencil',
-          data: 10,
-          handler: async () => {
-            const modal = await this.modalCtrl.create({
-              component: EditPostComponent,
-              backdropDismiss: true,
-              cssClass: 'create-post-modal',
-              componentProps: {
-                postId: this.id,
-                type: 2,
-                postDescription: this.description,
-                postFiles: this.images,
-                postLocation: this.location,
-                postHashtags: this.hashtags,
-              },
-            });
+        ],
+      });
+      await actionSheet.present();
 
-            await modal.present();
-            console.log('Share clicked');
+      const { role, data } = await actionSheet.onDidDismiss();
+    } else {
+      const actionSheet = await this.actionSheetCtrl.create({
+        header: 'Publicación',
+        cssClass: 'my-custom-class',
+
+        buttons: [
+          {
+            text: 'Compartir',
+            icon: 'share',
+            data: 10,
+            handler: () => {
+              navigator.share({
+                title: 'public-post',
+                text: 'Mira este post',
+                url: `https://golf-people.web.app/post/${this.userName}/${this.id}'`,
+              });
+            },
           },
-        },
-
-        {
-          text: 'Cancel',
-          icon: 'close',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
+          {
+            text: 'Reportar',
+            icon: 'pencil',
+            data: 10,
           },
-        },
-      ],
-    });
-    await actionSheet.present();
 
-    const { role, data } = await actionSheet.onDidDismiss();
-    // } else {
-    //   const actionSheet = await this.actionSheetCtrl.create({
-    //     header: 'Publicación',
-    //     cssClass: 'my-custom-class',
+          {
+            text: 'Cancel',
+            icon: 'close',
+            role: 'cancel',
+            handler: () => {
+              console.log('Cancel clicked');
+            },
+          },
+        ],
+      });
+      await actionSheet.present();
 
-    //     buttons: [
-    //       {
-    //         text: 'Compartir',
-    //         icon: 'share',
-    //         data: 10,
-    //         handler: () => {
-    //           navigator.share({
-    //             title: 'public-post',
-    //             text: 'Mira este post',
-    //             url: `https://golf-people.web.app/post/${this.userName}/${this.id}'`,
-    //           });
-    //         },
-    //       },
-    //       {
-    //         text: 'Reportar',
-    //         icon: 'pencil',
-    //         data: 10,
-    //       },
-
-    //       {
-    //         text: 'Cancel',
-    //         icon: 'close',
-    //         role: 'cancel',
-    //         handler: () => {
-    //           console.log('Cancel clicked');
-    //         },
-    //       },
-    //     ],
-    //   });
-    //   await actionSheet.present();
-
-    //   const { role, data } = await actionSheet.onDidDismiss();
-    // }
+      const { role, data } = await actionSheet.onDidDismiss();
+    }
 
     // console.log('onDidDismiss resolved with role and data', role, data);
   }
@@ -249,10 +252,26 @@ export class PostComponent implements OnInit, AfterContentChecked {
   }
 
   like() {
-    this.liked = !this.liked;
-    this.liked === true
-      ? (this.count = this.count + 1)
-      : (this.count = this.count - 1);
+    // this.liked = !this.liked;
+    // this.liked === true
+    //   ? (this.count = this.count + 1)
+    //   : (this.count = this.count - 1);
+    this.liked = true;
+    this.count += 1;
+    this.reactionsSvc.like(this.id).subscribe((res: any) => {
+      this.count = res.count;
+      console.log(res);
+    });
+  }
+
+  dislike() {
+    // this.liked = !this.liked;
+    // this.liked === true
+    //   ? (this.count = this.count + 1)
+    //   : (this.count = this.count - 1);
+    this.liked = false;
+
+    this.count -= 1;
     this.reactionsSvc.like(this.id).subscribe((res: any) => {
       this.count = res.count;
       console.log(res);

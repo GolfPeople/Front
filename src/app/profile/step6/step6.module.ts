@@ -9,6 +9,8 @@ import { Step6PageRoutingModule } from './step6-routing.module';
 
 import { Step6Page } from './step6.page';
 
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -17,6 +19,7 @@ import { Step6Page } from './step6.page';
     ReactiveFormsModule,
     Step6PageRoutingModule,
     SharedModule,
+    GooglePlaceModule,
   ],
   declarations: [Step6Page],
 })

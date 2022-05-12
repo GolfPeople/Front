@@ -9,6 +9,7 @@ import { BehaviorSubject } from 'rxjs';
 export class UserService {
   private id = new BehaviorSubject<number>(0);
   id$ = this.id.asObservable();
+  userName: string;
   private apiUrl = `${environment.golfpeopleAPI}/api/auth`;
 
   constructor(private http: HttpClient) {}

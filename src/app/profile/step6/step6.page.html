@@ -59,6 +59,28 @@
           </ion-item>
           <p class="card-text text-center">¿Dónde vives?</p>
           <ion-item lines="none">
+            <!-- <div class="data-input">
+              <img
+                class="geo"
+                src="../../../assets/icon/geolocation.png"
+                alt=""
+              />
+              <input
+                type="text"
+                placeholder=" Ubicación Actual"
+                id="input-step6"
+                [formControl]="address"
+                (ngModelChange)="showValue()"
+              />
+
+              <a (click)="resetInput()">
+                <img
+                  class="cancel"
+                  src="../../../assets/icon/cancel.png"
+                  alt=""
+                />
+              </a>
+            </div> -->
             <div class="data-input">
               <img
                 class="geo"
@@ -67,10 +89,11 @@
               />
               <input
                 type="text"
-                name="license"
                 placeholder=" Ubicación Actual"
-                id="input-step6"
-                [formControl]="address"
+                (ngModel)="userAddress"
+                placeholder=" Ubicación Actual"
+                ngx-google-places-autocomplete
+                (onAddressChange)="handleAddressChange($event)"
               />
 
               <a (click)="resetInput()">

@@ -1,5 +1,5 @@
 <div class="post">
-  <div class="post-header">
+  <!-- <div class="post-header">
     <ion-avatar slot="start">
       <img [src]="avatar" />
     </ion-avatar>
@@ -10,7 +10,21 @@
     <a (click)="onClick()" slot="end">
       <ion-icon name="ellipsis-horizontal"></ion-icon>
     </a>
-    <!-- <span><img src="../../../../assets/post/points.png" alt="" /></span> -->
+  </div> -->
+
+  <div class="post-header" lines="none">
+    <div
+      class="avatar"
+      [ngStyle]="{ 'background-image': 'url(' + avatar + ')' }"
+    ></div>
+
+    <div class="header-text">
+      <h3>{{ userName }}</h3>
+      <p>{{ location }}</p>
+    </div>
+    <a (click)="onClick()" class="three-dots">
+      <img src="../../../../assets/post/points.png" alt="" />
+    </a>
   </div>
   <swiper
     [pagination]="{
@@ -46,12 +60,12 @@
       ></ion-icon>
     </div>
   </div> -->
-  <ion-item class="reactions" lines="none">
+  <!-- <ion-item class="reactions" lines="none">
     <ion-buttons slot="start">
       <ion-button *ngIf="liked === false" (click)="like()">
         <ion-icon name="heart-outline" slot="start"></ion-icon>
       </ion-button>
-      <ion-button *ngIf="liked === true" class="liked" (click)="like()">
+      <ion-button *ngIf="liked === true" class="liked" (click)="dislike()">
         <ion-icon class="liked" name="heart" slot="start"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -65,7 +79,29 @@
         <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
       </ion-button>
     </ion-buttons>
-  </ion-item>
+  </ion-item> -->
+
+  <div class="reactions">
+    <div class="reactions-items">
+      <a *ngIf="liked === false" (click)="like()">
+        <!-- <img class="heart" src="../../../../assets/post/heart.png" alt="" /> -->
+        <ion-icon name="heart-outline"></ion-icon>
+      </a>
+      <a *ngIf="liked === true" class="liked" (click)="dislike()">
+        <!-- <img class="heart" src="../../../../assets/post/liked.png" alt="" /> -->
+        <ion-icon name="heart" class="liked"></ion-icon>
+      </a>
+      <a href="">
+        <!-- <img class="comment" src="../../../../assets/post/comment.png" alt="" /> -->
+        <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+      </a>
+      <a>
+        <!-- <img class="share" src="../../../../assets/post/share.png" alt="" /> -->
+        <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
+      </a>
+    </div>
+  </div>
+
   <div class="description">
     <a (click)="showLikes()" class="likes" *ngIf="count > 0"
       >{{ count }} {{ count > 1 ? "likes" : "like" }}</a
