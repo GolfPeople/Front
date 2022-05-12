@@ -8,9 +8,12 @@ export interface Post {
 
 export interface PostsResponse extends Post {
   id: number;
+  description: string;
   user_id: number;
   hashtags: any;
   likes: Like[];
+  files: any;
+  ubication: string;
   user: UserPublicData;
 }
 export interface Like {

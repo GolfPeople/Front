@@ -16,6 +16,8 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { JsonToDataPipe } from './pipes/json-to-data.pipe';
 import { LikesComponent } from './components/likes/likes.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { CropperComponent } from './components/cropper/cropper.component';
 
 const components = [
   SelectDateComponent,
@@ -28,12 +30,21 @@ const components = [
   ErrorComponent,
   SearchComponent,
   LikesComponent,
+  CropperComponent,
 ];
 
 @NgModule({
+  entryComponents: [CropperComponent],
   declarations: [components, JsonToDataPipe],
 
-  imports: [CommonModule, IonicModule, SwiperModule, FormsModule, RouterModule],
+  imports: [
+    CommonModule,
+    IonicModule,
+    SwiperModule,
+    FormsModule,
+    RouterModule,
+    ImageCropperModule,
+  ],
   exports: [components, JsonToDataPipe],
 })
 export class SharedModule {}

@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar class="ion-padding">
+    <ion-title>image-cropper</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()"> Recortar </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-row class="ion-justify-content-center">
+    <!-- <ion-col class="ion-justify-content-center"> -->
+    <image-cropper
+      #imageCropper
+      [imageBase64]="imageBase64"
+      [maintainAspectRatio]="true"
+      [aspectRatio]="4 / 4"
+      [resizeToWidth]="0"
+      format="png"
+      (imageCropped)="imageCropped($event)"
+    >
+    </image-cropper>
+    <img [src]="croppedImage" />
+
+    <!-- </ion-col> -->
+  </ion-row>
+  <ion-row>
+    <ion-col></ion-col>
+  </ion-row>
+</ion-content>

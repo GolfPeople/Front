@@ -10,16 +10,15 @@
 </ion-header>
 
 <ion-content>
-  <app-post
-    *ngFor="let post of hashtagsPosts"
-    [userName]="userName"
-    [avatar]="avatarImage"
-    [location]="post.ubication"
-    [images]="post.files"
-    [description]="post.description"
-    [id]="post.id"
-    [userId]="post.user_id"
-    [hashtags]="post.hashtags"
-    [likes]="post.likes"
-  ></app-post>
+  <app-post *ngFor="let post of hashtagsPosts" [post]="post"></app-post>
 </ion-content>
+
+<!-- [userName]="userName"
+[avatar]="avatarImage"
+[location]="post.ubication"
+[images]="post.files"
+[description]="post.description"
+[id]="post.id"
+[userId]="post.user_id"
+[hashtags]="post.hashtags"
+[likes]="post.likes" -->

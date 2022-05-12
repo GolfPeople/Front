@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'jsonToData',
 })
 export class JsonToDataPipe implements PipeTransform {
-  transform(value: string, ...args: unknown[]): unknown {
+  transform(value: any, ...args: unknown[]): any {
     const data = JSON.parse(value);
 
     return data;

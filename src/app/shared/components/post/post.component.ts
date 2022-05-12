@@ -22,7 +22,7 @@ import SwiperCore, { Pagination } from 'swiper';
 import { PostsService } from '../../../core/services/posts.service';
 import { switchMap } from 'rxjs/operators';
 import { ReactionsService } from 'src/app/core/services/reactions.service';
-import { Like } from 'src/app/core/interfaces/interfaces';
+import { Like, PostsResponse } from 'src/app/core/interfaces/interfaces';
 import { EditPostComponent } from 'src/app/website/components/edit-post/edit-post.component';
 import { LikesComponent } from '../likes/likes.component';
 
@@ -36,6 +36,8 @@ SwiperCore.use([Pagination]);
 })
 export class PostComponent implements OnInit, AfterContentChecked {
   @ViewChild('swiper') swiper: SwiperComponent;
+
+  @Input() post: PostsResponse;
 
   @Input() userName: string;
   @Input() avatar: string;
@@ -70,10 +72,10 @@ export class PostComponent implements OnInit, AfterContentChecked {
   }
 
   async ngOnInit() {
-    if (this.likes.length > 0) {
-      console.log(this.likes);
-      this.count = this.likes.length;
-      this.likes.forEach((item) => {
+    if (this.post.likes.length > 0) {
+      console.log(this.post.likes);
+      this.count = this.post.likes.length;
+      this.post.likes.forEach((item) => {
         if (item.user_id === this.user) {
           this.liked = true;
           console.log(this.liked);
@@ -238,7 +240,7 @@ export class PostComponent implements OnInit, AfterContentChecked {
     // console.log('onDidDismiss resolved with role and data', role, data);
   }
   async showLikes() {
-    const usersLiked = this.likes.map((item) => item.user.name);
+    const usersLiked = this.post.likes.map((item) => item.user.name);
     console.log(usersLiked);
     const modal = await this.modalCtrl.create({
       component: LikesComponent,

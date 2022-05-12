@@ -1,6 +1,17 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UserService } from 'src/app/core/services/user.service';
 
+// importaciones para la captura, guardar y subir la imagen
+import {
+  Camera,
+  CameraResultType,
+  CameraSource,
+  Photo,
+} from '@capacitor/camera';
+import { ActionSheetController, ModalController } from '@ionic/angular';
+import { Step1Service } from 'src/app/profile/step1/step1.service';
+import { CropperComponent } from '../cropper/cropper.component';
+
 @Component({
   selector: 'app-avatar',
   templateUrl: './avatar.component.html',
@@ -10,7 +21,18 @@ export class AvatarComponent implements OnInit {
   // @Input() src;
   imageAvatarDefault;
 
-  constructor(private userService: UserService) {}
+  //Crop image
+  imageDAtaUrl: any;
+  croppedImage: any;
+  backgroundImages = [];
+  blobArrayData: Blob[] = [];
+
+  constructor(
+    private userService: UserService,
+    private actionSheetCtrl: ActionSheetController,
+    private modalCtrl: ModalController,
+    private step1Service: Step1Service
+  ) {}
 
   ngOnInit() {
     this.userService.getUserInfo().subscribe(({ profile }) => {
@@ -18,5 +40,87 @@ export class AvatarComponent implements OnInit {
         this.imageAvatarDefault = profile.photo;
       }
     });
+  }
+
+  async selectImageSource() {
+    const buttons = [
+      {
+        text: 'Tomar foto',
+        icon: 'camera',
+        handler: () => {
+          this.addImage(CameraSource.Camera);
+        },
+      },
+      {
+        text: 'Escoger fotos',
+        icon: 'image',
+        handler: () => {
+          this.addImage(CameraSource.Photos);
+        },
+      },
+    ];
+
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Seleciona la fuente',
+      buttons,
+    });
+    await actionSheet.present();
+  }
+
+  async addImage(source: CameraSource) {
+    const image = await Camera.getPhoto({
+      quality: 60,
+      allowEditing: true,
+      resultType: CameraResultType.DataUrl,
+      source,
+    });
+    const imageDataUrl = await image.dataUrl;
+    this.imageDAtaUrl = await imageDataUrl;
+
+    const croppperModal = await this.modalCtrl.create({
+      component: CropperComponent,
+      componentProps: {
+        imageBase64: imageDataUrl,
+      },
+    });
+    croppperModal.onDidDismiss().then((data) => {
+      this.croppedImage = data.data;
+      this.backgroundImages.push(this.croppedImage);
+      this.imageAvatarDefault = this.croppedImage;
+      console.log(this.backgroundImages);
+      const blobData = this.b64toBlob(
+        this.croppedImage,
+        `image/${image.format}`
+      );
+      this.blobArrayData.push(blobData);
+    });
+    await croppperModal.present();
+  }
+
+  b64toBlob(base64, contentType = '', sliceSize = 512) {
+    const base64String = base64.replace('data:image/png;base64,', '');
+    const byteCharacters = atob(base64String);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, { type: contentType });
+    return blob;
+  }
+
+  onSubmit() {
+    this.step1Service
+      .uploadDataS1(this.blobArrayData[this.blobArrayData.length - 1], '')
+      .subscribe((res) => console.log('TEST -->', res));
   }
 }

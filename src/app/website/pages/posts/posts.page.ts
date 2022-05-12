@@ -45,7 +45,7 @@ export class PostsPage implements OnInit {
         this.posts = res.filter((item) => item.hashtags !== null);
         console.log(this.posts);
         const data = this.posts.map((item) => {
-          const hashtags = JSON.parse(item.hashtags);
+          const hashtags = item.hashtags;
           if (item.hashtags) {
             return { ...item, hashtags: hashtags };
           }
