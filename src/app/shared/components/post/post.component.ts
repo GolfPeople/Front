@@ -95,7 +95,7 @@ export class PostComponent implements OnInit, AfterContentChecked {
     }
 
     if (this.post.likes.length > 0) {
-      console.log(this.post.likes);
+      // console.log(this.post.likes);
       this.count = this.post.likes.length;
       this.post.likes.forEach((item) => {
         if (item.user_id === this.user) {
@@ -103,8 +103,8 @@ export class PostComponent implements OnInit, AfterContentChecked {
           // console.log(this.liked);
         }
       });
-      console.log(this.liked);
-      console.log('User ID TEST -->', this.post.user_id, this.user);
+      // console.log(this.liked);
+      // console.log('User ID TEST -->', this.post.user_id, this.user);
     }
   }
 
@@ -257,6 +257,7 @@ export class PostComponent implements OnInit, AfterContentChecked {
   }
   async showLikes() {
     const usersLiked = this.post.likes.map((item) => item.user.name);
+    console.log(usersLiked, this.post.likes);
     console.log(usersLiked);
     const modal = await this.modalCtrl.create({
       component: LikesComponent,
