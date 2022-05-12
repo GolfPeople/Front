@@ -32,7 +32,7 @@ export class PostsService {
         retry(3),
         finalize(() => console.log('Secuencia completada'))
       )
-      .subscribe((data) => this.posts.next(data));
+      .subscribe((data) => this.posts.next(data.reverse()));
   }
 
   getPostsByHashtag() {

@@ -70,7 +70,7 @@ export class PostComponent implements OnInit, AfterContentChecked {
   ) {
     this.userSvc.id$.subscribe((id) => {
       this.user = id;
-      console.log(this.user, id);
+      // console.log(this.user, id);
     });
   }
 
