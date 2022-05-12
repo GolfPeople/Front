@@ -26,10 +26,13 @@ export class PostsService {
   //     });
   // }
   getPosts() {
-    return this.http.get<PostsResponse[]>(`${URL}/publish/my_publish`).pipe(
-      retry(3),
-      finalize(() => console.log('Secuencia completada'))
-    );
+    return this.http
+      .get<PostsResponse[]>(`${URL}/publish/my_publish`)
+      .pipe(
+        retry(3),
+        finalize(() => console.log('Secuencia completada'))
+      )
+      .subscribe((data) => this.posts.next(data));
   }
 
   getPostsByHashtag() {

@@ -20,7 +20,9 @@ export class PostsComponent implements OnInit {
     private postsSvc: PostsService,
     private userSvc: UserService,
     private loadingCtrl: LoadingController
-  ) {}
+  ) {
+    this.postsSvc.posts$.subscribe((data) => (this.posts = data));
+  }
 
   async ngOnInit() {
     const loading = await this.loadingCtrl.create({
@@ -28,19 +30,21 @@ export class PostsComponent implements OnInit {
       spinner: 'crescent',
     });
     await loading.present();
-    // this.userSvc.getUserInfo().subscribe((user) => {
-    //   this.avatarImage = user.profile.photo;
-    //   this.userName = user.name;
-    // });
-    this.postsSvc.getPosts().subscribe((data) => {
-      this.posts = data.reverse();
-      if (this.posts.length === 0) {
-        return;
-      }
-      // console.log(this.posts);
+    await this.postsSvc.getPosts();
 
+    setTimeout(() => {
       loading.dismiss();
-    });
+    }, 1500);
+
+    // this.postsSvc.getPosts().subscribe((data) => {
+    //   this.posts = data.reverse();
+    //   if (this.posts.length === 0) {
+    //     return;
+    //   }
+    //   // console.log(this.posts);
+
+    //   loading.dismiss();
+    // });
     // this.postsSvc.posts$.subscribe((posts) => {
     //   this.posts = posts.reverse();
     //   loading.dismiss();

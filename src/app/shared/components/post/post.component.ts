@@ -68,7 +68,10 @@ export class PostComponent implements OnInit, AfterContentChecked {
     private loadingCtrl: LoadingController,
     private reactionsSvc: ReactionsService
   ) {
-    this.userSvc.id$.subscribe((id) => (this.user = id));
+    this.userSvc.id$.subscribe((id) => {
+      this.user = id;
+      console.log(this.user, id);
+    });
   }
 
   async ngOnInit() {
@@ -78,11 +81,11 @@ export class PostComponent implements OnInit, AfterContentChecked {
       this.post.likes.forEach((item) => {
         if (item.user_id === this.user) {
           this.liked = true;
-          console.log(this.liked);
+          // console.log(this.liked);
         }
       });
       console.log(this.liked);
-      console.log('User ID TEST -->', this.userId, this.user);
+      console.log('User ID TEST -->', this.post.user_id, this.user);
     }
   }
 
@@ -97,8 +100,8 @@ export class PostComponent implements OnInit, AfterContentChecked {
   }
 
   async presentActionSheet() {
-    if (this.user == this.userId) {
-      console.log(this.user, this.userId);
+    if (this.user == this.post.user_id) {
+      console.log(this.user, this.post.user_id);
       const actionSheet = await this.actionSheetCtrl.create({
         header: 'Publicación',
         cssClass: 'my-custom-class',
