@@ -37,7 +37,7 @@ export class PostsComponent implements OnInit {
       if (this.posts.length === 0) {
         return;
       }
-      console.log(this.posts);
+      // console.log(this.posts);
 
       loading.dismiss();
     });

@@ -5,6 +5,7 @@ import { filter, map, switchMap } from 'rxjs/operators';
 import { PostsResponse } from 'src/app/core/interfaces/interfaces';
 import { PostsService } from 'src/app/core/services/posts.service';
 import { UserService } from 'src/app/core/services/user.service';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-posts',
@@ -25,10 +26,17 @@ export class PostsPage implements OnInit {
     private userSvc: UserService,
     private postsSvc: PostsService,
     private _location: Location,
-    private actRoute: ActivatedRoute
+    private actRoute: ActivatedRoute,
+    private loadingCtrl: LoadingController
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    const loading = await this.loadingCtrl.create({
+      cssClass: 'laoding-ctrl',
+      spinner: 'crescent',
+    });
+    await loading.present();
+
     this.actRoute.paramMap
       .pipe(
         switchMap((param) => {
@@ -53,13 +61,15 @@ export class PostsPage implements OnInit {
         this.hashtagsPosts = data.filter((item) =>
           item.hashtags.includes(this.hashtag)
         );
+
         console.log(this.hashtagsPosts);
+        loading.dismiss();
       });
 
-    this.userSvc.getUserInfo().subscribe((user) => {
-      this.avatarImage = user.profile.photo;
-      this.userName = user.name;
-    });
+    // this.userSvc.getUserInfo().subscribe((user) => {
+    //   this.avatarImage = user.profile.photo;
+    //   this.userName = user.name;
+    // });
   }
 
   goBack() {
