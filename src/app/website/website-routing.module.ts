@@ -50,7 +50,11 @@ const routes: Routes = [
       import('./pages/edit-post/edit-post.module').then(
         (m) => m.EditPostPageModule
       ),
+  },  {
+    path: 'my-posts',
+    loadChildren: () => import('./pages/my-posts/my-posts.module').then( m => m.MyPostsPageModule)
   },
+
 ];
 
 @NgModule({

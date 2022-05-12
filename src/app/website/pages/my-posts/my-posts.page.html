@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button class="ion-margin" [routerLink]="['/website']">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>my-posts</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-post *ngFor="let post of posts" [post]="post"></app-post>
+</ion-content>
