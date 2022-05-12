@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UserService } from 'src/app/core/services/user.service';
+import { HttpClient } from '@angular/common/http';
 
 // importaciones para la captura, guardar y subir la imagen
 import {
@@ -11,6 +12,9 @@ import {
 import { ActionSheetController, ModalController } from '@ionic/angular';
 import { Step1Service } from 'src/app/profile/step1/step1.service';
 import { CropperComponent } from '../cropper/cropper.component';
+import { environment } from '../../../../environments/environment';
+
+const URL = `${environment.golfpeopleAPI}/api/auth/photo`;
 
 @Component({
   selector: 'app-avatar',
@@ -31,7 +35,8 @@ export class AvatarComponent implements OnInit {
     private userService: UserService,
     private actionSheetCtrl: ActionSheetController,
     private modalCtrl: ModalController,
-    private step1Service: Step1Service
+    private step1Service: Step1Service,
+    private http: HttpClient
   ) {}
 
   ngOnInit() {
@@ -83,7 +88,7 @@ export class AvatarComponent implements OnInit {
         imageBase64: imageDataUrl,
       },
     });
-    croppperModal.onDidDismiss().then((data) => {
+    croppperModal.onDidDismiss().then(async (data) => {
       this.croppedImage = data.data;
       this.backgroundImages.push(this.croppedImage);
       this.imageAvatarDefault = this.croppedImage;
@@ -92,7 +97,8 @@ export class AvatarComponent implements OnInit {
         this.croppedImage,
         `image/${image.format}`
       );
-      this.blobArrayData.push(blobData);
+      await this.blobArrayData.push(blobData);
+      this.onSubmit();
     });
     await croppperModal.present();
   }
@@ -119,8 +125,10 @@ export class AvatarComponent implements OnInit {
   }
 
   onSubmit() {
-    this.step1Service
-      .uploadDataS1(this.blobArrayData[this.blobArrayData.length - 1], '')
-      .subscribe((res) => console.log('TEST -->', res));
+    const formData = new FormData();
+    formData.append('photo', this.blobArrayData[this.blobArrayData.length - 1]);
+    this.http.post(URL, formData).subscribe((res) => res);
+    // this.step1Service.uploadDataS1(this.blobArrayData[this.blobArrayData.length-1], '').
+    // subscribe(res => res)
   }
 }
