@@ -75,6 +75,25 @@ export class PostComponent implements OnInit, AfterContentChecked {
   }
 
   async ngOnInit() {
+    // if (this.post.likes.length > 0) {
+    //   console.log(this.post.likes);
+    //   this.count = this.post.likes.length;
+    //   this.post.likes.forEach((item) => {
+    //     if (item.user_id === this.user) {
+    //       this.liked = true;
+    //       // console.log(this.liked);
+    //     }
+    //   });
+    //   console.log(this.liked);
+    //   console.log('User ID TEST -->', this.post.user_id, this.user);
+    // }
+  }
+
+  ngAfterContentChecked(): void {
+    if (this.swiper) {
+      this.swiper.updateSwiper({});
+    }
+
     if (this.post.likes.length > 0) {
       console.log(this.post.likes);
       this.count = this.post.likes.length;
@@ -86,12 +105,6 @@ export class PostComponent implements OnInit, AfterContentChecked {
       });
       console.log(this.liked);
       console.log('User ID TEST -->', this.post.user_id, this.user);
-    }
-  }
-
-  ngAfterContentChecked(): void {
-    if (this.swiper) {
-      this.swiper.updateSwiper({});
     }
   }
 
@@ -156,7 +169,7 @@ export class PostComponent implements OnInit, AfterContentChecked {
               navigator.share({
                 title: 'public-post',
                 text: 'Mira este post',
-                url: `https://golf-people.web.app/website/post/${this.userName}/${this.id}'`,
+                url: `https://golf-people.web.app/website/post/${this.post.user.name}/${this.post.id}'`,
               });
             },
             // handler: () => {
@@ -263,7 +276,7 @@ export class PostComponent implements OnInit, AfterContentChecked {
     //   ? (this.count = this.count + 1)
     //   : (this.count = this.count - 1);
     this.liked = true;
-    this.count += 1;
+    this.count = this.count + 1;
     this.reactionsSvc.like(this.id).subscribe((res: any) => {
       this.count = res.count;
       console.log(res);
@@ -277,7 +290,7 @@ export class PostComponent implements OnInit, AfterContentChecked {
     //   : (this.count = this.count - 1);
     this.liked = false;
 
-    this.count -= 1;
+    this.count = this.count - 1;
     this.reactionsSvc.like(this.id).subscribe((res: any) => {
       this.count = res.count;
       console.log(res);

@@ -13,6 +13,7 @@ import { ActionSheetController, ModalController } from '@ionic/angular';
 import { Step1Service } from 'src/app/profile/step1/step1.service';
 import { CropperComponent } from '../cropper/cropper.component';
 import { environment } from '../../../../environments/environment';
+import { PostsService } from 'src/app/core/services/posts.service';
 
 const URL = `${environment.golfpeopleAPI}/api/auth/photo`;
 
@@ -36,7 +37,8 @@ export class AvatarComponent implements OnInit {
     private actionSheetCtrl: ActionSheetController,
     private modalCtrl: ModalController,
     private step1Service: Step1Service,
-    private http: HttpClient
+    private http: HttpClient,
+    private postsSvc: PostsService
   ) {}
 
   ngOnInit() {
@@ -128,6 +130,7 @@ export class AvatarComponent implements OnInit {
     const formData = new FormData();
     formData.append('photo', this.blobArrayData[this.blobArrayData.length - 1]);
     this.http.post(URL, formData).subscribe((res) => res);
+    this.postsSvc.getPosts();
     // this.step1Service.uploadDataS1(this.blobArrayData[this.blobArrayData.length-1], '').
     // subscribe(res => res)
   }
