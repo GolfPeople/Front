@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Post, PostsResponse } from '../interfaces/interfaces';
 import { BehaviorSubject } from 'rxjs';
-import { filter, finalize, retry } from 'rxjs/operators';
+import { filter, finalize, map, retry } from 'rxjs/operators';
 
 const URL = `${environment.golfpeopleAPI}/api`;
 
@@ -26,13 +26,15 @@ export class PostsService {
   //     });
   // }
   getPosts() {
-    return this.http
-      .get<PostsResponse[]>(`${URL}/publish/my_publish`)
-      .pipe(
-        retry(3),
-        finalize(() => console.log('Secuencia completada'))
-      )
-      .subscribe((data) => this.posts.next(data.reverse()));
+    return (
+      this.http
+        .get<PostsResponse[]>(`${URL}/publish/my_publish`)
+        // .pipe(map((data) => data.filter((item) => item.files.lenth > 0)))
+        .subscribe((data) => {
+          this.posts.next(data.reverse());
+          console.log(data);
+        })
+    );
   }
 
   getPostsByHashtag() {

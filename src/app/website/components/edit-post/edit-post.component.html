@@ -69,8 +69,10 @@
             type="text"
             name="license"
             placeholder=" Ubicación Actual"
-            id="location"
+            (ngModel)="(userAddress)"
             [formControl]="address"
+            ngx-google-places-autocomplete
+            (onAddressChange)="handleAddressChange($event)"
           />
         </div>
         <br />

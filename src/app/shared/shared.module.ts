@@ -18,6 +18,7 @@ import { JsonToDataPipe } from './pipes/json-to-data.pipe';
 import { LikesComponent } from './components/likes/likes.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CropperComponent } from './components/cropper/cropper.component';
+import { CommentsComponent } from './components/comments/comments.component';
 
 const components = [
   SelectDateComponent,
@@ -31,6 +32,7 @@ const components = [
   SearchComponent,
   LikesComponent,
   CropperComponent,
+  CommentsComponent,
 ];
 
 @NgModule({

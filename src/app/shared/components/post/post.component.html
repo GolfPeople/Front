@@ -1,17 +1,4 @@
 <div class="post">
-  <!-- <div class="post-header">
-    <ion-avatar slot="start">
-      <img [src]="avatar" />
-    </ion-avatar>
-    <div class="header-text">
-      <h3>{{ userName }}</h3>
-      <p>{{ location }}</p>
-    </div>
-    <a (click)="onClick()" slot="end">
-      <ion-icon name="ellipsis-horizontal"></ion-icon>
-    </a>
-  </div> -->
-
   <div class="post-header" lines="none">
     <div
       class="avatar"
@@ -33,70 +20,22 @@
     #swiper
   >
     <ng-template *ngFor="let image of post.files" swiperSlide>
-      <!-- <div
-        class="image-post"
-        [style]="{ background: 'url(' + image.url + ')' }"
-      ></div> -->
       <img class="picture" [src]="image.url" alt="" />
     </ng-template>
   </swiper>
-  <!-- <div class="likes">
-    <div>
-      <ion-icon
-        class="icon-start ion-margin-end"
-        color="light"
-        name="heart-outline"
-        slot="start"
-      ></ion-icon>
-      <ion-icon
-        class="icon-start ion-margin-end"
-        color="light"
-        name="chatbubble-outline"
-      ></ion-icon>
-      <ion-icon
-        class="icon-start ion-margin-end"
-        color="light"
-        name="paper-plane-outline"
-      ></ion-icon>
-    </div>
-  </div> -->
-  <!-- <ion-item class="reactions" lines="none">
-    <ion-buttons slot="start">
-      <ion-button *ngIf="liked === false" (click)="like()">
-        <ion-icon name="heart-outline" slot="start"></ion-icon>
-      </ion-button>
-      <ion-button *ngIf="liked === true" class="liked" (click)="dislike()">
-        <ion-icon class="liked" name="heart" slot="start"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-buttons slot="start">
-      <ion-button>
-        <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-buttons slot="start">
-      <ion-button>
-        <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-item> -->
 
   <div class="reactions">
     <div class="reactions-items">
       <a *ngIf="liked === false" (click)="like()">
-        <!-- <img class="heart" src="../../../../assets/post/heart.png" alt="" /> -->
         <ion-icon name="heart-outline"></ion-icon>
       </a>
-      <a *ngIf="liked === true" class="liked" (click)="dislike()">
-        <!-- <img class="heart" src="../../../../assets/post/liked.png" alt="" /> -->
+      <a *ngIf="liked === true" class="liked" (click)="like()">
         <ion-icon name="heart" class="liked"></ion-icon>
       </a>
-      <a href="">
-        <!-- <img class="comment" src="../../../../assets/post/comment.png" alt="" /> -->
+      <a (click)="presentModal()">
         <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
       </a>
       <a>
-        <!-- <img class="share" src="../../../../assets/post/share.png" alt="" /> -->
         <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
       </a>
     </div>
@@ -115,53 +54,8 @@
       >
     </p>
   </div>
+  <p class="comments" (click)="presentModal()">
+    Comentarios
+    <ion-icon slot="start" name="chatbubble-outline" slot="end"></ion-icon>
+  </p>
 </div>
-
-<!-- <div class="post">
-  <ion-item class="post-header" lines="none">
-    <ion-avatar slot="start">
-      <img [src]="avatar" />
-    </ion-avatar>
-
-    <ion-label>
-      <h3>{{ userName }}</h3>
-      <p>{{ location }}</p>
-    </ion-label>
-    <a (click)="onClick()" slot="end">
-      <ion-icon color="light" name="ellipsis-horizontal"></ion-icon>
-    </a>
-  </ion-item>
-  <swiper #swiper>
-    <ng-template *ngFor="let image of images" swiperSlide>
-      <img [src]="image.url" alt="" />
-    </ng-template>
-  </swiper>
-  <ion-item lines="none">
-    <ion-icon
-      class="icon-start ion-margin-end"
-      color="light"
-      name="heart-outline"
-      slot="start"
-    ></ion-icon>
-    <ion-icon
-      class="icon-start ion-margin-end"
-      color="light"
-      name="chatbubble-outline"
-    ></ion-icon>
-    <ion-icon
-      class="icon-start ion-margin-end"
-      color="light"
-      name="paper-plane-outline"
-    ></ion-icon>
-  </ion-item>
-  <ion-item class="post-description" lines="none">
-    <ion-label text-wrap>
-      <p>
-        <strong>{{ userName }}</strong> {{ description }}
-        <a *ngFor="let hashtag of hashtags" [routerLink]="['/posts', hashtag]"
-          >#{{ hashtag }}</a
-        >
-      </p>
-    </ion-label>
-  </ion-item>
-</div> -->

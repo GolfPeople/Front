@@ -17,6 +17,7 @@ import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 import { SuccessComponent } from './components/success/success.component';
 import { PublicPostComponent } from './components/public-post/public-post.component';
 import { EditPostComponent } from './components/edit-post/edit-post.component';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 
 const myComponents = [
   LayoutComponent,
@@ -48,6 +49,7 @@ const myComponents = [
     FormsModule,
     ReactiveFormsModule,
     SwiperModule,
+    GooglePlaceModule,
   ],
 })
 export class WebsiteModule {}

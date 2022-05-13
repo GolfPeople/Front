@@ -21,7 +21,9 @@ export class PostsComponent implements OnInit {
     private userSvc: UserService,
     private loadingCtrl: LoadingController
   ) {
-    this.postsSvc.posts$.subscribe((data) => (this.posts = data));
+    this.postsSvc.posts$.subscribe(
+      (data) => (this.posts = data.filter((item) => item.files.length > 0))
+    );
   }
 
   async ngOnInit() {
@@ -32,9 +34,7 @@ export class PostsComponent implements OnInit {
     await loading.present();
     await this.postsSvc.getPosts();
 
-    setTimeout(() => {
-      loading.dismiss();
-    }, 1500);
+    loading.dismiss();
 
     // this.postsSvc.getPosts().subscribe((data) => {
     //   this.posts = data.reverse();

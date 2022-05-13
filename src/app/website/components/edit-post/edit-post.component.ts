@@ -32,7 +32,7 @@ import { SwiperComponent } from 'swiper/angular';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { GeolocationService } from 'src/app/core/services/geolocation.service';
 import { PostsService } from 'src/app/core/services/posts.service';
-import { Post } from 'src/app/core/interfaces/interfaces';
+import { Post, PostsResponse } from 'src/app/core/interfaces/interfaces';
 import { DomSanitizer } from '@angular/platform-browser';
 
 declare var google: any;
@@ -55,6 +55,7 @@ export class EditPostComponent implements OnInit {
   @Input() postFiles;
   @Input() postLocation: string;
   @Input() postHashtags = [];
+  @Input() post: PostsResponse;
   // google maps
   autocomplete: any;
   geocoder = new google.maps.Geocoder();
@@ -86,6 +87,12 @@ export class EditPostComponent implements OnInit {
   hashtags = [];
   hashtagsString: string;
 
+  //ngx autocomplete
+  title = 'google-places-autocomplete';
+  userAddress: string = '';
+  userLatitude: string = '';
+  userLongitude: string = '';
+
   private apiUrl = `${environment.golfpeopleAPI}/api`;
 
   constructor(
@@ -106,9 +113,10 @@ export class EditPostComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    this.initAutoCom();
+    // this.initAutoCom();
   }
   async ngOnInit() {
+    console.log(this.post);
     const { description, location, hashtags } = this.initFormControls();
     this.textArea = description;
     this.address = location;
@@ -119,14 +127,15 @@ export class EditPostComponent implements OnInit {
     // this.geoCodeLatLong(this.coords);
     // if (this.type === 2) {
     this.editPost = true;
-    this.textArea.setValue(this.postDescription);
-
-    this.address.setValue(this.postLocation);
+    this.textArea.setValue(this.post.description);
+    this.userAddress = this.address.value;
+    this.address.setValue(this.post.ubication);
     // this.tempImages = this.postFiles;
-    this.blobArrayData = this.postFiles;
-    this.backgroundImagesEdit = this.postFiles;
-    console.log(this.postFiles);
-    this.hashtags = this.postHashtags;
+    this.blobArrayData = this.post.files;
+    this.backgroundImagesEdit = this.post.files;
+    console.log(this.post.files);
+    this.hashtags = JSON.parse(this.post.hashtags);
+    console.log(this.hashtags);
     // }
   }
 
@@ -183,40 +192,49 @@ export class EditPostComponent implements OnInit {
     this.hashtags = [...newHashtags];
   }
 
-  initAutoCom() {
-    this.autocomplete = new google.maps.places.Autocomplete(
-      document.getElementById('location') as HTMLInputElement,
-      {
-        fields: ['place_id', 'geometry', 'name'],
-      }
-    );
-
-    // this.autocomplete.addListener('place_changed', this.onPlaceChanged);
+  handleAddressChange(address: any) {
+    this.userAddress = address.formatted_address;
+    this.userLatitude = address.geometry.location.lat();
+    this.userLongitude = address.geometry.location.lng();
+    console.log(this.userAddress);
+    console.log(this.userLatitude);
+    console.log(this.userLongitude);
   }
 
-  geoCodeLatLong(latlng) {
-    // This is making the Geocode request
-    const address = this.address;
-    console.log('TEST LAt Long', latlng);
-    this.geocoder.geocode({ location: latlng }, function (results, status) {
-      console.log('TEST results', results);
-      if (status !== google.maps.GeocoderStatus.OK) {
-        alert(status);
-      }
-      // This is checking to see if the Geoeode Status is OK before proceeding
-      if (status == google.maps.GeocoderStatus.OK) {
-        // var address = results[0].formatted_address;
+  // initAutoCom() {
+  //   this.autocomplete = new google.maps.places.Autocomplete(
+  //     document.getElementById('location') as HTMLInputElement,
+  //     {
+  //       fields: ['place_id', 'geometry', 'name'],
+  //     }
+  //   );
 
-        //This is placing the returned address in the 'Address' field on the HTML form
+  //   // this.autocomplete.addListener('place_changed', this.onPlaceChanged);
+  // }
 
-        address.setValue(
-          `${results[0].address_components[3].long_name} ${results[0].address_components[6].long_name}`
-        );
-        console.log(address.value);
-      }
-    });
-    this.address.setValue(address.value);
-  }
+  // geoCodeLatLong(latlng) {
+  //   // This is making the Geocode request
+  //   const address = this.address;
+  //   console.log('TEST LAt Long', latlng);
+  //   this.geocoder.geocode({ location: latlng }, function (results, status) {
+  //     console.log('TEST results', results);
+  //     if (status !== google.maps.GeocoderStatus.OK) {
+  //       alert(status);
+  //     }
+  //     // This is checking to see if the Geoeode Status is OK before proceeding
+  //     if (status == google.maps.GeocoderStatus.OK) {
+  //       // var address = results[0].formatted_address;
+
+  //       //This is placing the returned address in the 'Address' field on the HTML form
+
+  //       address.setValue(
+  //         `${results[0].address_components[3].long_name} ${results[0].address_components[6].long_name}`
+  //       );
+  //       console.log(address.value);
+  //     }
+  //   });
+  //   this.address.setValue(address.value);
+  // }
 
   async openModal(message) {
     const modal = await this.modalCtrl.create({
@@ -248,7 +266,12 @@ export class EditPostComponent implements OnInit {
       spinner: 'crescent',
     });
     await loading.present();
-    await this.postsSvc.editPost(descriptionConcat, [], ubication, this.postId);
+    await this.postsSvc.editPost(
+      descriptionConcat,
+      [],
+      this.userAddress,
+      this.postId
+    );
     await loading.dismiss();
 
     this.openModal('Su publicación ha sido editada exitosamente');

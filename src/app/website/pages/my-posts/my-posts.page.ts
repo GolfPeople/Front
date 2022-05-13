@@ -11,7 +11,9 @@ export class MyPostsPage implements OnInit {
   posts: PostsResponse[];
 
   constructor(private postsSvc: PostsService) {
-    this.postsSvc.posts$.subscribe((data) => (this.posts = data));
+    this.postsSvc.posts$.subscribe(
+      (data) => (this.posts = data.filter((item) => item.files.length > 0))
+    );
   }
 
   ngOnInit() {

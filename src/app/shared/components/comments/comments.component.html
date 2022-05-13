@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button class="ion-margin" (click)="onClick()">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Comentarios</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-footer>
+  <ion-item>
+    <ion-label>
+      <ion-textarea
+        placeholder="Escribe algo"
+        (ngModel)="(commentary)"
+      ></ion-textarea>
+      <ion-icon slot="end" name="send-sharp"></ion-icon>
+    </ion-label>
+  </ion-item>
+</ion-footer>

@@ -25,6 +25,7 @@ import { ReactionsService } from 'src/app/core/services/reactions.service';
 import { Like, PostsResponse } from 'src/app/core/interfaces/interfaces';
 import { EditPostComponent } from 'src/app/website/components/edit-post/edit-post.component';
 import { LikesComponent } from '../likes/likes.component';
+import { CommentsComponent } from '../comments/comments.component';
 
 SwiperCore.use([Pagination]);
 
@@ -75,27 +76,8 @@ export class PostComponent implements OnInit, AfterContentChecked {
   }
 
   async ngOnInit() {
-    // if (this.post.likes.length > 0) {
-    //   console.log(this.post.likes);
-    //   this.count = this.post.likes.length;
-    //   this.post.likes.forEach((item) => {
-    //     if (item.user_id === this.user) {
-    //       this.liked = true;
-    //       // console.log(this.liked);
-    //     }
-    //   });
-    //   console.log(this.liked);
-    //   console.log('User ID TEST -->', this.post.user_id, this.user);
-    // }
-  }
-
-  ngAfterContentChecked(): void {
-    if (this.swiper) {
-      this.swiper.updateSwiper({});
-    }
-
     if (this.post.likes.length > 0) {
-      // console.log(this.post.likes);
+      console.log(this.post.likes);
       this.count = this.post.likes.length;
       this.post.likes.forEach((item) => {
         if (item.user_id === this.user) {
@@ -103,9 +85,27 @@ export class PostComponent implements OnInit, AfterContentChecked {
           // console.log(this.liked);
         }
       });
-      // console.log(this.liked);
-      // console.log('User ID TEST -->', this.post.user_id, this.user);
+      console.log(this.liked);
+      console.log('User ID TEST -->', this.post.user_id, this.user);
     }
+  }
+
+  ngAfterContentChecked(): void {
+    // if (this.swiper) {
+    //   this.swiper.updateSwiper({});
+    // }
+    // if (this.post.likes.length > 0) {
+    //   // console.log(this.post.likes);
+    //   this.count = this.post.likes.length;
+    //   this.post.likes.forEach((item) => {
+    //     if (item.user_id === this.user) {
+    //       this.liked = true;
+    //       // console.log(this.liked);
+    //     }
+    //   });
+    //   // console.log(this.liked);
+    //   // console.log('User ID TEST -->', this.post.user_id, this.user);
+    // }
   }
 
   onClick() {
@@ -147,7 +147,7 @@ export class PostComponent implements OnInit, AfterContentChecked {
                       });
                       await loading.present();
                       await this.postsSvc
-                        .deletePost(this.id)
+                        .deletePost(this.post.id)
                         .subscribe((res) => {
                           console.log('delete -->', res);
                           this.postsSvc.getPosts();
@@ -187,12 +187,13 @@ export class PostComponent implements OnInit, AfterContentChecked {
                 backdropDismiss: true,
                 cssClass: 'create-post-modal',
                 componentProps: {
-                  postId: this.id,
+                  postId: this.post.id,
                   type: 2,
                   postDescription: this.description,
                   postFiles: this.images,
                   postLocation: this.location,
                   postHashtags: this.hashtags,
+                  post: this.post,
                 },
               });
 
@@ -228,7 +229,7 @@ export class PostComponent implements OnInit, AfterContentChecked {
               navigator.share({
                 title: 'public-post',
                 text: 'Mira este post',
-                url: `https://golf-people.web.app/post/${this.userName}/${this.id}'`,
+                url: `https://golf-people.web.app/post/${this.userName}/${this.post.id}'`,
               });
             },
           },
@@ -272,13 +273,13 @@ export class PostComponent implements OnInit, AfterContentChecked {
   }
 
   like() {
-    // this.liked = !this.liked;
-    // this.liked === true
-    //   ? (this.count = this.count + 1)
-    //   : (this.count = this.count - 1);
-    this.liked = true;
-    this.count = this.count + 1;
-    this.reactionsSvc.like(this.id).subscribe((res: any) => {
+    this.liked = !this.liked;
+    this.liked === true
+      ? (this.count = this.count + 1)
+      : (this.count = this.count - 1);
+    // this.liked = true;
+    // this.count = this.count + 1;
+    this.reactionsSvc.like(this.post.id).subscribe((res: any) => {
       this.count = res.count;
       console.log(res);
     });
@@ -292,9 +293,20 @@ export class PostComponent implements OnInit, AfterContentChecked {
     this.liked = false;
 
     this.count = this.count - 1;
-    this.reactionsSvc.like(this.id).subscribe((res: any) => {
+    this.reactionsSvc.like(this.post.id).subscribe((res: any) => {
       this.count = res.count;
       console.log(res);
     });
+  }
+
+  async presentModal() {
+    const modal = await this.modalCtrl.create({
+      component: CommentsComponent,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        post: this.post,
+      },
+    });
+    return await modal.present();
   }
 }
