@@ -42,7 +42,9 @@ export class CommentsComponent implements OnInit {
         this.comments = res;
         console.log(res);
         loading.dismiss();
+        return;
       }
+      loading.dismiss();
     });
   }
 
