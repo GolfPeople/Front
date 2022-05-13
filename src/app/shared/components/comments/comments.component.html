@@ -8,6 +8,18 @@
     <ion-title>Comentarios</ion-title>
   </ion-toolbar>
 </ion-header>
+<ion-content>
+  <ion-item class="comment" lines="none" *ngFor="let comment of comments">
+    <ion-avatar class="ion-margin-end">
+      <img [src]="comment.user.profile.photo" />
+    </ion-avatar>
+    <ion-label class="normal">
+      {{ comment.user.name }}
+      <p class="normal">{{ comment.description }}</p>
+      <p class="date-text">{{ comment.created_at | date }}</p>
+    </ion-label>
+  </ion-item>
+</ion-content>
 <ion-footer>
   <ion-item>
     <ion-label>

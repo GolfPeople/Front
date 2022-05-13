@@ -215,15 +215,18 @@
   }
 
   .comments {
-    display: flex;
-    align-items: center;
-    width: 150px;
-    height: 2.5rem;
-    background-color: #ddd;
-    border: 0.6rem;
-    font-size: 1.6rem;
-    color: rgb(89, 89, 89);
-    text-align: center;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    // width: 150px;
+    // height: 2.5rem;
+    // background-color: #ddd;
+    // border: 0.6rem;
+    // font-size: 1.6rem;
+    // color: rgb(89, 89, 89);
+    // text-align: center;
+    padding: 8px;
+    color: #000;
   }
 }
 

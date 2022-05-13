@@ -15,6 +15,7 @@ export interface PostsResponse extends Post {
   files: any;
   ubication: string;
   user: UserPublicData;
+  comments:any
 }
 export interface Like {
   id: number;
@@ -23,7 +24,7 @@ export interface Like {
   user_id: number;
 }
 
-interface User {
+export interface User {
   id: number;
   name: string;
   email: string;
