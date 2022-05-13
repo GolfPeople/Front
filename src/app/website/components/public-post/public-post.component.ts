@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { PostsService } from 'src/app/core/services/posts.service';
 import { switchMap } from 'rxjs/operators';
+import { PostsResponse } from 'src/app/core/interfaces/interfaces';
 
 @Component({
   selector: 'app-public-post',
@@ -13,11 +14,13 @@ export class PublicPostComponent implements OnInit {
   user: string;
   productId: string | null;
   description: string;
-  ubication;
-  files;
+  // ubication;
+  // files;
+  post: PostsResponse;
   constructor(
     private postsSvc: PostsService,
-    private actRoute: ActivatedRoute
+    private actRoute: ActivatedRoute,
+    private _location: Location
   ) {}
 
   ngOnInit() {
@@ -34,9 +37,15 @@ export class PublicPostComponent implements OnInit {
       )
       .subscribe((res) => {
         console.log(res);
+        this.post = res;
+        console.log(this.post);
         this.description = res.description;
-        this.ubication = res.ubication;
-        this.files = res.files;
+        // this.ubication = res.ubication;
+        // this.files = res.files;
       });
+  }
+
+  onClick() {
+    this._location.back();
   }
 }
