@@ -13,9 +13,13 @@
     <ion-label>
       <ion-textarea
         placeholder="Escribe algo"
-        (ngModel)="(commentary)"
+        [(ngModel)]="commentary"
       ></ion-textarea>
-      <ion-icon slot="end" name="send-sharp"></ion-icon>
     </ion-label>
+    <ion-buttons slot="end">
+      <ion-button (click)="comment()">
+        <ion-icon color="success" slot="icon-only" name="send-sharp"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-item>
 </ion-footer>

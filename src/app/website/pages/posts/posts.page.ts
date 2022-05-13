@@ -43,24 +43,25 @@ export class PostsPage implements OnInit {
           this.hashtag = param.get('hashtag');
 
           if (this.hashtag) {
-            return this.postsSvc.getPostsByHashtag();
+            return this.postsSvc.getPostsByHashtag(this.hashtag);
           }
           return null;
         })
       )
       .subscribe((res) => {
         console.log(res);
-        this.posts = res.filter((item) => item.hashtags !== null);
-        console.log(this.posts);
-        const data = this.posts.map((item) => {
-          const hashtags = item.hashtags;
-          if (item.hashtags) {
-            return { ...item, hashtags: hashtags };
-          }
-        });
-        this.hashtagsPosts = data.filter((item) =>
-          item.hashtags.includes(this.hashtag)
-        );
+        this.posts = res.filter((post) => post.files.length > 0).reverse();
+        // this.posts = res.filter((item) => item.hashtags !== null);
+        // console.log(this.posts);
+        // const data = this.posts.map((item) => {
+        //   const hashtags = item.hashtags;
+        //   if (item.hashtags) {
+        //     return { ...item, hashtags: hashtags };
+        //   }
+        // });
+        // this.hashtagsPosts = data.filter((item) =>
+        //   item.hashtags.includes(this.hashtag)
+        // );
 
         console.log(this.hashtagsPosts);
         loading.dismiss();

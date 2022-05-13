@@ -38,7 +38,7 @@ export class PostsService {
 
     this.http
       .get<PostsResponse[]>(`${URL}/publish/my_publish`)
-      // .pipe(map((data) => data.filter((item) => item.files.lenth > 0)))
+      .pipe(retry(3))
       .subscribe((data) => {
         this.posts.next(data.reverse());
         console.log(data);
@@ -46,8 +46,12 @@ export class PostsService {
       });
   }
 
-  getPostsByHashtag() {
-    return this.http.get<PostsResponse[]>(`${URL}/publish/my_publish`);
+  getPostsByHashtag(hashtag) {
+    return this.http.get<PostsResponse[]>(`${URL}/publish/hashtag/${hashtag}`);
+  }
+
+  getPost(id) {
+    return this.http.get<PostsResponse>(`${URL}/publish/show/${id}`);
   }
 
   createPost(description, files, ubication) {
@@ -87,10 +91,6 @@ export class PostsService {
       console.log(files);
       this.getPosts();
     });
-  }
-
-  getPost(id) {
-    return this.http.get<PostsResponse>(`${URL}/publish/show/${id}`);
   }
 
   editPost(description, files, ubication, id) {

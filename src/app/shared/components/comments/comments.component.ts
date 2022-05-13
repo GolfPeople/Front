@@ -23,5 +23,9 @@ export class CommentsComponent implements OnInit {
   }
 
   loadComments() {}
-  comment() {}
+  comment() {
+    const commentary = this.commentary;
+    console.log(commentary);
+    this.commentary = '';
+  }
 }
