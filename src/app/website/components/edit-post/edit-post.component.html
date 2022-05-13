@@ -42,7 +42,12 @@
             [formControl]="hashtagsInput"
           >
           </ion-input>
-          <ion-button slot="end" color="primary" (click)="addHashtags()">
+          <ion-button
+            [disabled]="!hashtagsInput.value"
+            slot="end"
+            color="primary"
+            (click)="addHashtags()"
+          >
             <ion-icon name="add"></ion-icon>
           </ion-button>
         </ion-item>

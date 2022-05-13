@@ -17,7 +17,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import { CreatePostComponent } from 'src/app/website/components/create-post/create-post.component';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
-import SwiperCore, { Pagination } from 'swiper';
+import SwiperCore, { Pagination, Lazy } from 'swiper';
 
 import { PostsService } from '../../../core/services/posts.service';
 import { switchMap } from 'rxjs/operators';
@@ -27,7 +27,7 @@ import { EditPostComponent } from 'src/app/website/components/edit-post/edit-pos
 import { LikesComponent } from '../likes/likes.component';
 import { CommentsComponent } from '../comments/comments.component';
 
-SwiperCore.use([Pagination]);
+SwiperCore.use([Lazy, Pagination]);
 
 @Component({
   selector: 'app-post',
@@ -46,17 +46,18 @@ export class PostComponent implements OnInit, AfterContentChecked {
   @Input() location: string;
   @Input() images;
   @Input() id;
-  @Input() userId;
+  // @Input() userId;
   @Input() type;
   @Input() hashtags;
   @Input() likes: Like[];
-  user;
+  userID;
   count;
 
   liked: boolean = false;
 
   swiperConfig: SwiperOptions = {
     pagination: { clickable: true },
+    lazy: { loadPrevNext: true },
   };
 
   constructor(
@@ -69,10 +70,7 @@ export class PostComponent implements OnInit, AfterContentChecked {
     private loadingCtrl: LoadingController,
     private reactionsSvc: ReactionsService
   ) {
-    this.userSvc.id$.subscribe((id) => {
-      this.user = id;
-      // console.log(this.user, id);
-    });
+    this.userID = localStorage.getItem('user_id');
   }
 
   async ngOnInit() {
@@ -80,41 +78,25 @@ export class PostComponent implements OnInit, AfterContentChecked {
       console.log(this.post.likes);
       this.count = this.post.likes.length;
       this.post.likes.forEach((item) => {
-        if (item.user_id === this.user) {
+        if (item.user_id == this.userID) {
           this.liked = true;
           // console.log(this.liked);
         }
       });
       console.log(this.liked);
-      console.log('User ID TEST -->', this.post.user_id, this.user);
+      console.log('User ID TEST -->', this.post.user_id, this.userID);
     }
   }
 
-  ngAfterContentChecked(): void {
-    // if (this.swiper) {
-    //   this.swiper.updateSwiper({});
-    // }
-    // if (this.post.likes.length > 0) {
-    //   // console.log(this.post.likes);
-    //   this.count = this.post.likes.length;
-    //   this.post.likes.forEach((item) => {
-    //     if (item.user_id === this.user) {
-    //       this.liked = true;
-    //       // console.log(this.liked);
-    //     }
-    //   });
-    //   // console.log(this.liked);
-    //   // console.log('User ID TEST -->', this.post.user_id, this.user);
-    // }
-  }
+  ngAfterContentChecked(): void {}
 
   onClick() {
     this.presentActionSheet();
   }
 
   async presentActionSheet() {
-    if (this.user == this.post.user_id) {
-      console.log(this.user, this.post.user_id);
+    if (this.userID == this.post.user_id) {
+      console.log(this.userID, this.post.user_id);
       const actionSheet = await this.actionSheetCtrl.create({
         header: 'Publicación',
         cssClass: 'my-custom-class',
@@ -141,18 +123,8 @@ export class PostComponent implements OnInit, AfterContentChecked {
                   },
                   {
                     text: 'aceptar',
-                    handler: async () => {
-                      const loading = await this.loadingCtrl.create({
-                        cssClass: 'laoding-ctrl',
-                      });
-                      await loading.present();
-                      await this.postsSvc
-                        .deletePost(this.post.id)
-                        .subscribe((res) => {
-                          console.log('delete -->', res);
-                          this.postsSvc.getPosts();
-                        });
-                      loading.dismiss();
+                    handler: () => {
+                      this.postsSvc.deletePost(this.post.id);
                     },
                   },
                 ],
@@ -165,13 +137,14 @@ export class PostComponent implements OnInit, AfterContentChecked {
             text: 'Compartir',
             icon: 'share',
             data: 10,
-            handler: () => {
-              navigator.share({
-                title: 'public-post',
-                text: 'Mira este post',
-                url: `https://golf-people.web.app/website/post/${this.post.user.name}/${this.post.id}'`,
-              });
-            },
+            handler: () => this.sharePost(),
+            // handler: () => {
+            //   navigator.share({
+            //     title: 'public-post',
+            //     text: 'Mira este post',
+            //     url: `https://golf-people.web.app/website/post/${this.post.user.name}/${this.post.id}'`,
+            //   });
+            // },
             // handler: () => {
             //   console.log('Share clicked');
             //   this.router.navigate([`/website/post/${this.userName}/${this.id}`]);
@@ -256,6 +229,15 @@ export class PostComponent implements OnInit, AfterContentChecked {
 
     // console.log('onDidDismiss resolved with role and data', role, data);
   }
+
+  sharePost() {
+    navigator.share({
+      title: 'public-post',
+      text: 'Mira este post',
+      url: `https://golf-people.web.app/website/post/${this.post.user.name}/${this.post.id}'`,
+    });
+  }
+
   async showLikes() {
     const usersLiked = this.post.likes.map((item) => item.user.name);
     console.log(usersLiked, this.post.likes);
@@ -277,22 +259,6 @@ export class PostComponent implements OnInit, AfterContentChecked {
     this.liked === true
       ? (this.count = this.count + 1)
       : (this.count = this.count - 1);
-    // this.liked = true;
-    // this.count = this.count + 1;
-    this.reactionsSvc.like(this.post.id).subscribe((res: any) => {
-      this.count = res.count;
-      console.log(res);
-    });
-  }
-
-  dislike() {
-    // this.liked = !this.liked;
-    // this.liked === true
-    //   ? (this.count = this.count + 1)
-    //   : (this.count = this.count - 1);
-    this.liked = false;
-
-    this.count = this.count - 1;
     this.reactionsSvc.like(this.post.id).subscribe((res: any) => {
       this.count = res.count;
       console.log(res);

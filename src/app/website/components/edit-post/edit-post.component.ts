@@ -121,21 +121,15 @@ export class EditPostComponent implements OnInit {
     this.textArea = description;
     this.address = location;
     this.hashtagsInput = hashtags;
-    const coordinates = await this.geolocationService.currentPosition();
-    const { latitude, longitude } = await coordinates.coords;
-    this.coords = { lat: latitude, lng: longitude };
-    // this.geoCodeLatLong(this.coords);
-    // if (this.type === 2) {
     this.editPost = true;
     this.textArea.setValue(this.post.description);
-    this.userAddress = this.address.value;
     this.address.setValue(this.post.ubication);
-    // this.tempImages = this.postFiles;
     this.blobArrayData = this.post.files;
     this.backgroundImagesEdit = this.post.files;
     console.log(this.post.files);
     this.hashtags = JSON.parse(this.post.hashtags);
     console.log(this.hashtags);
+    this.userAddress = this.address.value;
     // }
   }
 
@@ -178,7 +172,7 @@ export class EditPostComponent implements OnInit {
       })
       .join(' ');
     console.log(this.hashtags);
-    console.log(this.hashtagsString);
+    console.log('hashtagsString', this.hashtagsString);
   }
 
   removeHashtag(hashtag: string) {
@@ -258,7 +252,9 @@ export class EditPostComponent implements OnInit {
   }
 
   async edit(description, ubication, files) {
-    const descriptionConcat = description.concat(` ${this.hashtagsString}`);
+    const descriptionConcat = description.concat(
+      ` ${this.hashtagsString ? this.hashtagsString : ''}`
+    );
     console.log('description -->', descriptionConcat);
     console.log('edit files -->', files);
     const loading = await this.loadingCtrl.create({

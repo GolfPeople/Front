@@ -14,13 +14,15 @@
     </a>
   </div>
   <swiper
+    [lazy]="true"
     [pagination]="{
       dynamicBullets: true
     }"
     #swiper
   >
     <ng-template *ngFor="let image of post.files" swiperSlide>
-      <img class="picture" [src]="image.url" alt="" />
+      <img class="picture swiper-lazy" data-src="{{ image.url }}" alt="" />
+      <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
     </ng-template>
   </swiper>
 

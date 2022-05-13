@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Post, PostsResponse } from '../interfaces/interfaces';
 import { BehaviorSubject } from 'rxjs';
 import { filter, finalize, map, retry } from 'rxjs/operators';
+import { LoadingController } from '@ionic/angular';
 
 const URL = `${environment.golfpeopleAPI}/api`;
 
@@ -14,7 +15,10 @@ export class PostsService {
   private posts = new BehaviorSubject<PostsResponse[]>([]);
   posts$ = this.posts.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private loadingCtrl: LoadingController
+  ) {}
 
   // getPosts(){}
 
@@ -25,16 +29,21 @@ export class PostsService {
   //       this.posts.next(posts);
   //     });
   // }
-  getPosts() {
-    return (
-      this.http
-        .get<PostsResponse[]>(`${URL}/publish/my_publish`)
-        // .pipe(map((data) => data.filter((item) => item.files.lenth > 0)))
-        .subscribe((data) => {
-          this.posts.next(data.reverse());
-          console.log(data);
-        })
-    );
+  async getPosts() {
+    const loading = await this.loadingCtrl.create({
+      cssClass: 'laoding-ctrl',
+    });
+
+    await loading.present();
+
+    this.http
+      .get<PostsResponse[]>(`${URL}/publish/my_publish`)
+      // .pipe(map((data) => data.filter((item) => item.files.lenth > 0)))
+      .subscribe((data) => {
+        this.posts.next(data.reverse());
+        console.log(data);
+        loading.dismiss();
+      });
   }
 
   getPostsByHashtag() {
@@ -107,7 +116,7 @@ export class PostsService {
         { description, files, ubication },
         headers
       )
-      .subscribe((res) => {
+      .subscribe(() => {
         this.getPosts();
       });
   }
@@ -117,6 +126,11 @@ export class PostsService {
     const option = '3';
 
     formData.append('option', option);
-    return this.http.post(`${URL}/publish/my_publish/toogle/${id}`, formData);
+    this.http
+      .post(`${URL}/publish/my_publish/toogle/${id}`, formData)
+      .subscribe((res) => {
+        console.log('delete -->', res);
+        this.getPosts();
+      });
   }
 }

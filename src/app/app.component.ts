@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userSvc.getUserID();
+    // this.userSvc.getUserID();
     this.loginService.isLogged$.subscribe((res) => {
       console.log('El usuario está logueado: ', res);
       this.isLogged = res;
