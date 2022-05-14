@@ -24,6 +24,10 @@
       <p class="normal">{{ comment.description }}</p>
       <div class="footer-comment">
         <p class="date-text">{{ comment.created_at | date }}</p>
+        <a *ngIf="comment.responses.length > 0"
+          >{{ comment.responses.length }}
+          {{ comment.responses.length > 1 ? "respuestas" : "respuesta" }}
+        </a>
         <a>Responder</a>
       </div>
     </ion-label>

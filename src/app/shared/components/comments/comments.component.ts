@@ -1,11 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { LoadingController, ModalController } from '@ionic/angular';
-import { PostsResponse } from 'src/app/core/interfaces/interfaces';
+import {
+  PostsResponse,
+  UserPublicData,
+} from 'src/app/core/interfaces/interfaces';
 import { CommentService } from 'src/app/core/services/comment.service';
 import { PostsService } from 'src/app/core/services/posts.service';
-
-interface Comment {}
+import { UserService } from 'src/app/core/services/user.service';
+import { CommentResponseComponent } from '../comment-response/comment-response.component';
 
 @Component({
   selector: 'app-comments',
@@ -18,12 +21,17 @@ export class CommentsComponent implements OnInit {
   commentary: string = '';
   comments = [];
 
+  user: UserPublicData;
+  userPhoto;
+  createdAt = new Date();
+
   constructor(
     private modalCtrl: ModalController,
     private FirebaseStorage: AngularFirestore,
     private commentSvc: CommentService,
     private loadingCtrl: LoadingController,
-    private postsSvc: PostsService
+    private postsSvc: PostsService,
+    private userSvc: UserService
   ) {}
 
   async ngOnInit() {
@@ -51,6 +59,13 @@ export class CommentsComponent implements OnInit {
   }
 
   async comment() {
+    // const comment = {
+    //   user: this.user,
+    //   description: this.commentary,
+    //   created_at: this.createdAt,
+    //   responses: [],
+    // };
+    // this.comments.push(comment);
     const commentary = this.commentary;
     console.log(commentary);
     this.commentary = '';
@@ -60,5 +75,18 @@ export class CommentsComponent implements OnInit {
       this.postsSvc.getPostsAction();
       this.loadComments();
     });
+  }
+
+  async presentModal(commentId, user, description) {
+    const modal = await this.modalCtrl.create({
+      component: CommentResponseComponent,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        commentId,
+        user,
+        description,
+      },
+    });
+    return await modal.present();
   }
 }

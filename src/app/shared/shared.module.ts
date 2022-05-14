@@ -19,6 +19,7 @@ import { LikesComponent } from './components/likes/likes.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CropperComponent } from './components/cropper/cropper.component';
 import { CommentsComponent } from './components/comments/comments.component';
+import { CommentResponseComponent } from './components/comment-response/comment-response.component';
 
 const components = [
   SelectDateComponent,
@@ -33,6 +34,7 @@ const components = [
   LikesComponent,
   CropperComponent,
   CommentsComponent,
+  CommentResponseComponent,
 ];
 
 @NgModule({

@@ -16,4 +16,5 @@ export interface Comment {
   description: string;
   created_at: string;
   user: UserPublicData;
+  responses: any;
 }
