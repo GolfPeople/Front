@@ -54,6 +54,7 @@ export class CommentsComponent implements OnInit {
     const commentary = this.commentary;
     console.log(commentary);
     this.commentary = '';
+    if (commentary === '') return;
     this.commentSvc.comment(commentary, this.post.id).subscribe((res) => {
       console.log(res);
       this.postsSvc.getPostsAction();
