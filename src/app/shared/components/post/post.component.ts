@@ -232,7 +232,7 @@ export class PostComponent implements OnInit, AfterContentChecked {
 
   sharePost() {
     navigator.share({
-      title: 'public-post',
+      title: 'Publicación',
       text: 'Mira este post',
       url: `https://golf-people.web.app/website/post/${this.post.user.name}/${this.post.id}'`,
     });

@@ -45,6 +45,15 @@ export class PostsService {
         loading.dismiss();
       });
   }
+  getPostsAction() {
+    this.http
+      .get<PostsResponse[]>(`${URL}/publish/my_publish`)
+      .pipe(retry(3))
+      .subscribe((data) => {
+        this.posts.next(data.reverse());
+        console.log(data);
+      });
+  }
 
   getPostsByHashtag(hashtag) {
     return this.http.get<PostsResponse[]>(`${URL}/publish/hashtag/${hashtag}`);

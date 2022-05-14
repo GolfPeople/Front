@@ -16,7 +16,10 @@
     <ion-label class="normal">
       {{ comment.user.name }}
       <p class="normal">{{ comment.description }}</p>
-      <p class="date-text">{{ comment.created_at | date }}</p>
+      <div class="footer-comment">
+        <p class="date-text">{{ comment.created_at | date }}</p>
+        <a>Responder</a>
+      </div>
     </ion-label>
   </ion-item>
 </ion-content>

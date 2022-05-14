@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { PostsResponse } from 'src/app/core/interfaces/interfaces';
 import { CommentService } from 'src/app/core/services/comment.service';
+import { PostsService } from 'src/app/core/services/posts.service';
 
 interface Comment {}
 
@@ -21,7 +22,8 @@ export class CommentsComponent implements OnInit {
     private modalCtrl: ModalController,
     private FirebaseStorage: AngularFirestore,
     private commentSvc: CommentService,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private postsSvc: PostsService
   ) {}
 
   async ngOnInit() {
@@ -54,6 +56,7 @@ export class CommentsComponent implements OnInit {
     this.commentary = '';
     this.commentSvc.comment(commentary, this.post.id).subscribe((res) => {
       console.log(res);
+      this.postsSvc.getPostsAction();
       this.loadComments();
     });
   }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { LoginService } from './core/services/login.service';
+import { PostsService } from './core/services/posts.service';
 import { UserService } from './core/services/user.service';
 
 @Component({
@@ -14,7 +15,8 @@ export class AppComponent implements OnInit {
   constructor(
     private loginService: LoginService,
     private router: Router,
-    private userSvc: UserService
+    private userSvc: UserService,
+    private postsSvc: PostsService
   ) {}
 
   ngOnInit(): void {
@@ -26,5 +28,6 @@ export class AppComponent implements OnInit {
     if (this.isLogged === true) {
       // this.router.navigate(['/website']);
     }
+    this.postsSvc.getPostsAction();
   }
 }

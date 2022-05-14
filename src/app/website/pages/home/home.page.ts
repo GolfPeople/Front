@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { take, takeLast } from 'rxjs/operators';
+import { PostsResponse } from 'src/app/core/interfaces/interfaces';
+import { PostsService } from 'src/app/core/services/posts.service';
 import { UserService } from '../../../core/services/user.service';
 
 @Component({
@@ -9,8 +12,17 @@ import { UserService } from '../../../core/services/user.service';
 export class HomePage implements OnInit {
   userName: string = '';
   cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  posts: PostsResponse[];
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private postsSvc: PostsService
+  ) {
+    this.postsSvc.posts$.subscribe((data) => {
+      this.posts = data.slice(0, 3);
+    });
+    console.log(this.posts);
+  }
 
   ngOnInit() {
     this.userService.getUserInfo().subscribe((res) => {

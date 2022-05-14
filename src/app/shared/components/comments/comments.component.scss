@@ -7,4 +7,18 @@
   --padding-end: 8px;
   --padding-start: 8px;
   --padding-top: 8px;
+
+  .footer-comment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    p {
+      color: #ddd;
+      margin: 0;
+    }
+    a {
+      font-size: 1.1rem;
+      color: #ddd;
+    }
+  }
 }
