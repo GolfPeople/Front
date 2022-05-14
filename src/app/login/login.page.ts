@@ -15,6 +15,7 @@ import { Observable } from 'rxjs';
 
 import { LoadingService } from '../core/services/loading/loading.service';
 import { ErrorComponent } from '../shared/alerts/error/error.component';
+import { UserService } from '../core/services/user.service';
 
 const TOKEN_DIR = 'session';
 
@@ -40,7 +41,8 @@ export class LoginPage implements OnInit {
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     private loadingSvc: LoadingService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private userService: UserService
   ) {}
 
   ngOnInit() {}
@@ -87,6 +89,7 @@ export class LoginPage implements OnInit {
       () => {
         // this.loginService.isLogged$.subscribe((data) => console.log(data));
         this.isLoading = false;
+        this.userService.getUserInfoToSave();
         this.loadingCtrl.dismiss();
         this.router.navigate(['/website']);
       },

@@ -51,26 +51,10 @@ export class PostsPage implements OnInit {
       .subscribe((res) => {
         console.log(res);
         this.posts = res.filter((post) => post.files.length > 0).reverse();
-        // this.posts = res.filter((item) => item.hashtags !== null);
-        // console.log(this.posts);
-        // const data = this.posts.map((item) => {
-        //   const hashtags = item.hashtags;
-        //   if (item.hashtags) {
-        //     return { ...item, hashtags: hashtags };
-        //   }
-        // });
-        // this.hashtagsPosts = data.filter((item) =>
-        //   item.hashtags.includes(this.hashtag)
-        // );
 
         console.log(this.hashtagsPosts);
         loading.dismiss();
       });
-
-    // this.userSvc.getUserInfo().subscribe((user) => {
-    //   this.avatarImage = user.profile.photo;
-    //   this.userName = user.name;
-    // });
   }
 
   goBack() {

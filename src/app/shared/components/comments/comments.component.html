@@ -7,14 +7,14 @@
     </ion-buttons>
     <ion-title>Comentarios</ion-title>
   </ion-toolbar>
-</ion-header>
-<ion-content>
   <ion-item>
     <ion-label
       >{{ post.user.name }}
       <p>{{ post.description }}</p>
     </ion-label>
   </ion-item>
+</ion-header>
+<ion-content>
   <ion-item class="comment" lines="none" *ngFor="let comment of comments">
     <ion-avatar class="ion-margin-end">
       <img [src]="comment.user.profile.photo" />

@@ -131,6 +131,7 @@ export class AvatarComponent implements OnInit {
     formData.append('photo', this.blobArrayData[this.blobArrayData.length - 1]);
     this.http.post(URL, formData).subscribe((res) => res);
     this.postsSvc.getPosts();
+    this.userService.updatePhoto(this.imageAvatarDefault);
     // this.step1Service.uploadDataS1(this.blobArrayData[this.blobArrayData.length-1], '').
     // subscribe(res => res)
   }

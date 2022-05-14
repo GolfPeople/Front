@@ -35,10 +35,11 @@ SwiperCore.use([Lazy, Pagination]);
   styleUrls: ['./post.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class PostComponent implements OnInit, AfterContentChecked {
+export class PostComponent implements OnInit {
   @ViewChild('swiper') swiper: SwiperComponent;
 
   @Input() post: PostsResponse;
+  userPhoto: string = '';
 
   @Input() userName: string;
   @Input() avatar: string;
@@ -71,11 +72,13 @@ export class PostComponent implements OnInit, AfterContentChecked {
     private reactionsSvc: ReactionsService
   ) {
     this.userID = localStorage.getItem('user_id');
+    this.userSvc.userPhoto$.subscribe((photo) => {
+      if (photo) this.userPhoto = photo;
+    });
   }
 
   async ngOnInit() {
     if (this.post.likes.length > 0) {
-      console.log(this.post.likes);
       this.count = this.post.likes.length;
       this.post.likes.forEach((item) => {
         if (item.user_id == this.userID) {
@@ -83,12 +86,8 @@ export class PostComponent implements OnInit, AfterContentChecked {
           // console.log(this.liked);
         }
       });
-      console.log(this.liked);
-      console.log('User ID TEST -->', this.post.user_id, this.userID);
     }
   }
-
-  ngAfterContentChecked(): void {}
 
   onClick() {
     this.presentActionSheet();
@@ -96,7 +95,6 @@ export class PostComponent implements OnInit, AfterContentChecked {
 
   async presentActionSheet() {
     if (this.userID == this.post.user_id) {
-      console.log(this.userID, this.post.user_id);
       const actionSheet = await this.actionSheetCtrl.create({
         header: 'Publicación',
         cssClass: 'my-custom-class',
@@ -130,7 +128,6 @@ export class PostComponent implements OnInit, AfterContentChecked {
                 ],
               });
               await alert.present();
-              console.log('Delete clicked');
             },
           },
           {

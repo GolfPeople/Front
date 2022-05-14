@@ -20,15 +20,7 @@ export class PostsService {
     private loadingCtrl: LoadingController
   ) {}
 
-  // getPosts(){}
-
-  // getPosts() {
-  //   return this.http
-  //     .get<PostsResponse[]>(`${URL}/publish/my_publish`)
-  //     .subscribe((posts) => {
-  //       this.posts.next(posts);
-  //     });
-  // }
+  //Trae todos las publicaciones del usuario logueado
   async getPosts() {
     const loading = await this.loadingCtrl.create({
       cssClass: 'laoding-ctrl',
@@ -45,24 +37,29 @@ export class PostsService {
         loading.dismiss();
       });
   }
+
+  //Actualiza la lista de publicaciones
   getPostsAction() {
     this.http
       .get<PostsResponse[]>(`${URL}/publish/my_publish`)
       .pipe(retry(3))
       .subscribe((data) => {
         this.posts.next(data.reverse());
-        console.log(data);
+        // console.log(data);
       });
   }
 
+  //Trae todas las publicaciones de acuerdo al hastag selecionado
   getPostsByHashtag(hashtag) {
     return this.http.get<PostsResponse[]>(`${URL}/publish/hashtag/${hashtag}`);
   }
 
+  //Trae una sola publicación
   getPost(id) {
     return this.http.get<PostsResponse>(`${URL}/publish/show/${id}`);
   }
 
+  //Crea una publicaión
   createPost(description, files, ubication) {
     const dto = {
       description,
@@ -102,6 +99,7 @@ export class PostsService {
     });
   }
 
+  //Edita una publicación
   editPost(description, files, ubication, id) {
     const formData: any = new FormData();
 
@@ -130,6 +128,7 @@ export class PostsService {
       });
   }
 
+  //Elimina una publicación
   deletePost(id) {
     const formData = new FormData();
     const option = '3';

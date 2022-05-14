@@ -18,6 +18,9 @@ export class HomePage implements OnInit {
     private userService: UserService,
     private postsSvc: PostsService
   ) {
+    this.userService.user$.subscribe((data) => {
+      this.userName = data.name;
+    });
     this.postsSvc.posts$.subscribe((data) => {
       this.posts = data.slice(0, 3);
     });
