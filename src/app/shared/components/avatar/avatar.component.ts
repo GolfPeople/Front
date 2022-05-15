@@ -43,16 +43,20 @@ export class AvatarComponent implements OnInit {
     private postsSvc: PostsService
   ) {
     this.userService.user$.subscribe((data) => {
-      if (data.profile.photo) this.imageAvatar = data.profile.photo;
+      // if (data.profile.photo) this.imageAvatar = data.profile.photo;
+    });
+    this.userService.userPhoto$.subscribe((photo) => {
+      if (photo) this.imageAvatar = photo;
+      console.log(photo);
     });
   }
 
   ngOnInit() {
-    this.userService.getUserInfo().subscribe(({ profile }) => {
-      if (profile.photo) {
-        this.imageAvatarDefault = profile.photo;
-      }
-    });
+    // this.userService.getUserInfo().subscribe(({ profile }) => {
+    //   if (profile.photo) {
+    //     this.imageAvatarDefault = profile.photo;
+    //   }
+    // });
   }
 
   async selectImageSource() {
@@ -106,7 +110,7 @@ export class AvatarComponent implements OnInit {
         `image/${image.format}`
       );
       await this.blobArrayData.push(blobData);
-      this.onSubmit();
+      this.onSubmit(this.blobArrayData[this.blobArrayData.length - 1]);
     });
     await croppperModal.present();
   }
@@ -132,9 +136,10 @@ export class AvatarComponent implements OnInit {
     return blob;
   }
 
-  onSubmit() {
+  onSubmit(file) {
     const formData = new FormData();
-    formData.append('photo', this.blobArrayData[this.blobArrayData.length - 1]);
+    const fileName = `${file.size}123`;
+    formData.append('photo', file, fileName);
     this.http.post(URL, formData).subscribe((res) => res);
     // this.postsSvc.getPosts();
     this.userService.updatePhoto(this.imageAvatar);
