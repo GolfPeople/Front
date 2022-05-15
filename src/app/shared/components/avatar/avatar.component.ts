@@ -24,7 +24,8 @@ const URL = `${environment.golfpeopleAPI}/api/auth/photo`;
 })
 export class AvatarComponent implements OnInit {
   // @Input() src;
-  imageAvatarDefault;
+  imageAvatarDefault = 'assets/img/default-avatar.png';
+
   imageAvatar;
 
   //Crop image
@@ -135,7 +136,7 @@ export class AvatarComponent implements OnInit {
     const formData = new FormData();
     formData.append('photo', this.blobArrayData[this.blobArrayData.length - 1]);
     this.http.post(URL, formData).subscribe((res) => res);
-    this.postsSvc.getPosts();
+    // this.postsSvc.getPosts();
     this.userService.updatePhoto(this.imageAvatar);
     // this.step1Service.uploadDataS1(this.blobArrayData[this.blobArrayData.length-1], '').
     // subscribe(res => res)

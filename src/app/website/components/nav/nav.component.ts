@@ -16,6 +16,8 @@ export class NavComponent implements OnInit {
   user: UserProfileData;
 
   userName: string;
+  imageAvatarDefault = 'assets/img/default-avatar.png';
+
   profileImage;
   profileUrl: string = 'https://api.app.golfpeople.com/api/profile';
 
@@ -29,26 +31,25 @@ export class NavComponent implements OnInit {
   ) {
     this.userService.user$.subscribe((data) => {
       this.user = data;
-      if (data.profile.photo) {
-        this.profileImage = data.profile.photo;
-      }
+      // if (data.profile.photo) {
+      //   this.profileImage = data.profile.photo;
+      // }
       console.log('User info saved', this.user);
       this.value = `${this.profileUrl}/${data.id}`;
     });
-    // this.userService.userPhoto$.subscribe((photo) => {
-    //   if (photo) this.profileImage = photo;
-    // });
+    this.userService.userPhoto$.subscribe((photo) => {
+      if (photo) this.profileImage = photo;
+    });
   }
 
   ngOnInit() {
-    this.userService.getUserInfo().subscribe((res) => {
-      this.userName = res.name;
-      this.value = `${this.profileUrl}/${res.id}`;
-
-      if (res.profile.photo) {
-        this.profileImage = res.profile.photo;
-      }
-    });
+    // this.userService.getUserInfo().subscribe((res) => {
+    //   this.userName = res.name;
+    //   this.value = `${this.profileUrl}/${res.id}`;
+    //   if (res.profile.photo) {
+    //     this.profileImage = res.profile.photo;
+    //   }
+    // });
   }
 
   toProfile() {

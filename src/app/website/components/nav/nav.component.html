@@ -40,12 +40,25 @@
     <ion-row class="ion-justify-content-center">
       <ion-menu-toggle>
         <div class="profile">
-          <a routerLink="profile" class="link-profile">
-            <img class="link-profile--img" [src]="profileImage" alt="" />
+          <a
+            routerLink="profile"
+            class="link-profile"
+            [ngStyle]="{
+              'background-image':
+                'url(' +
+                (profileImage ? profileImage : imageAvatarDefault) +
+                ')'
+            }"
+          >
+            <!-- <img
+              class="link-profile--img"
+              [src]="profileImage ? profileImage : imageAvatarDefault"
+              alt=""
+            /> -->
           </a>
           <div class="profile-info">
             <h3 class="text">mi perfil</h3>
-            <h2 class="name">{{ userName }}</h2>
+            <h2 class="name">{{ user.name }}</h2>
             <p class="text">Golfer</p>
           </div>
         </div>
