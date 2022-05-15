@@ -25,6 +25,7 @@ const URL = `${environment.golfpeopleAPI}/api/auth/photo`;
 export class AvatarComponent implements OnInit {
   // @Input() src;
   imageAvatarDefault;
+  imageAvatar;
 
   //Crop image
   imageDAtaUrl: any;
@@ -39,7 +40,11 @@ export class AvatarComponent implements OnInit {
     private step1Service: Step1Service,
     private http: HttpClient,
     private postsSvc: PostsService
-  ) {}
+  ) {
+    this.userService.user$.subscribe((data) => {
+      if (data.profile.photo) this.imageAvatar = data.profile.photo;
+    });
+  }
 
   ngOnInit() {
     this.userService.getUserInfo().subscribe(({ profile }) => {
@@ -93,8 +98,8 @@ export class AvatarComponent implements OnInit {
     croppperModal.onDidDismiss().then(async (data) => {
       this.croppedImage = data.data;
       this.backgroundImages.push(this.croppedImage);
-      this.imageAvatarDefault = this.croppedImage;
-      console.log(this.backgroundImages);
+      this.imageAvatar = this.croppedImage;
+      // console.log(this.backgroundImages);
       const blobData = this.b64toBlob(
         this.croppedImage,
         `image/${image.format}`
@@ -131,7 +136,7 @@ export class AvatarComponent implements OnInit {
     formData.append('photo', this.blobArrayData[this.blobArrayData.length - 1]);
     this.http.post(URL, formData).subscribe((res) => res);
     this.postsSvc.getPosts();
-    this.userService.updatePhoto(this.imageAvatarDefault);
+    this.userService.updatePhoto(this.imageAvatar);
     // this.step1Service.uploadDataS1(this.blobArrayData[this.blobArrayData.length-1], '').
     // subscribe(res => res)
   }

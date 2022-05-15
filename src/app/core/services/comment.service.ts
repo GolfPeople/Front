@@ -22,5 +22,10 @@ export class CommentService {
     return this.http.get<Comment[]>(`${URL}/publish/comment/${post_id}`);
   }
 
-  response() {}
+  //Responde un comentario
+  response(id: number, description: string) {
+    const formData = new FormData();
+    formData.append('description', description);
+    return this.http.post(`${URL}/publish/response/create/${id}`, formData);
+  }
 }

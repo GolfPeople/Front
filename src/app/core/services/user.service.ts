@@ -42,6 +42,7 @@ export class UserService {
     this.http.get<any>(`${this.apiUrl}/user`).subscribe((data) => {
       this.user.next(data);
       this.userPhoto.next(data.profile.photo);
+      console.log(this.userPhoto, this.user);
     });
   }
 

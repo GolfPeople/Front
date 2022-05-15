@@ -28,7 +28,7 @@
           >{{ comment.responses.length }}
           {{ comment.responses.length > 1 ? "respuestas" : "respuesta" }}
         </a>
-        <a>Responder</a>
+        <a (click)="createResponse(comment)"> Responder</a>
       </div>
     </ion-label>
   </ion-item>

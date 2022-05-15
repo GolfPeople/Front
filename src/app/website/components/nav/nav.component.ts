@@ -29,13 +29,15 @@ export class NavComponent implements OnInit {
   ) {
     this.userService.user$.subscribe((data) => {
       this.user = data;
+      if (data.profile.photo) {
+        this.profileImage = data.profile.photo;
+      }
       console.log('User info saved', this.user);
       this.value = `${this.profileUrl}/${data.id}`;
     });
-    this.userService.userPhoto$.subscribe((photo) => {
-      if (photo) this.profileImage = photo;
-      console.log(photo);
-    });
+    // this.userService.userPhoto$.subscribe((photo) => {
+    //   if (photo) this.profileImage = photo;
+    // });
   }
 
   ngOnInit() {

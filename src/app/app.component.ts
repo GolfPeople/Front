@@ -17,7 +17,9 @@ export class AppComponent implements OnInit {
     private router: Router,
     private userSvc: UserService,
     private postsSvc: PostsService
-  ) {}
+  ) {
+    this.userSvc.getUserInfoToSave();
+  }
 
   ngOnInit(): void {
     // this.userSvc.getUserID();

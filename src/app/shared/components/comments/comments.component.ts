@@ -23,7 +23,7 @@ export class CommentsComponent implements OnInit {
 
   user: UserPublicData;
   userPhoto;
-  createdAt = new Date();
+  date = new Date();
 
   constructor(
     private modalCtrl: ModalController,
@@ -32,40 +32,45 @@ export class CommentsComponent implements OnInit {
     private loadingCtrl: LoadingController,
     private postsSvc: PostsService,
     private userSvc: UserService
-  ) {}
+  ) {
+    this.userSvc.user$.subscribe((res) => (this.user = res));
+  }
 
   async ngOnInit() {
+    const loading = await this.loadingCtrl.create({});
+    await loading.present();
     console.log(this.post);
     this.loadComments();
+    loading.dismiss();
   }
 
   onClick() {
     this.modalCtrl.dismiss();
   }
 
-  async loadComments() {
-    const loading = await this.loadingCtrl.create({});
-    await loading.present();
+  loadComments() {
+    // const loading = await this.loadingCtrl.create({});
+    // await loading.present();
 
     this.commentSvc.getComments(this.post.id).subscribe((res) => {
       if (res.length) {
         this.comments = res;
         console.log(res);
-        loading.dismiss();
+        // loading.dismiss();
         return;
       }
-      loading.dismiss();
+      // loading.dismiss();
     });
   }
 
   async comment() {
-    // const comment = {
-    //   user: this.user,
-    //   description: this.commentary,
-    //   created_at: this.createdAt,
-    //   responses: [],
-    // };
-    // this.comments.push(comment);
+    const comment = {
+      user: this.user,
+      description: this.commentary,
+      created_at: this.date,
+      responses: [],
+    };
+    this.comments.push(comment);
     const commentary = this.commentary;
     console.log(commentary);
     this.commentary = '';
@@ -77,14 +82,13 @@ export class CommentsComponent implements OnInit {
     });
   }
 
-  async presentModal(commentId, user, description) {
+  async createResponse(commentary: Comment) {
     const modal = await this.modalCtrl.create({
       component: CommentResponseComponent,
       cssClass: 'my-custom-class',
       componentProps: {
-        commentId,
-        user,
-        description,
+        commentary,
+        postId: this.post.id,
       },
     });
     return await modal.present();

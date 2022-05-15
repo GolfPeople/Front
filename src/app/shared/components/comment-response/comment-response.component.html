@@ -1,1 +1,49 @@
-<p>comment-response works!</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button class="ion-margin" (click)="closeModal()">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Respuestas</ion-title>
+  </ion-toolbar>
+  <ion-item>
+    <ion-label
+      >{{ commentary.user.name }}
+      <p>{{ commentary.description }}</p>
+    </ion-label>
+  </ion-item>
+</ion-header>
+<ion-content>
+  <ion-item
+    class="comment"
+    lines="none"
+    *ngFor="let response of commentary.responses"
+  >
+    <!-- <ion-avatar class="ion-margin-end">
+      <img [src]="comment.user.profile.photo" />
+    </ion-avatar> -->
+    <ion-label class="normal">
+      {{ response.user.name }}
+      <p class="normal">{{ response.description }}</p>
+      <div class="footer-comment">
+        <p class="date-text">{{ response.created_at | date }}</p>
+      </div>
+    </ion-label>
+  </ion-item>
+</ion-content>
+<ion-footer>
+  <ion-item>
+    <ion-label>
+      <ion-textarea
+        placeholder="Escribe algo"
+        [(ngModel)]="description"
+      ></ion-textarea>
+    </ion-label>
+    <ion-buttons slot="end">
+      <ion-button (click)="respuesta()">
+        <ion-icon color="success" slot="icon-only" name="send-sharp"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
+</ion-footer>
