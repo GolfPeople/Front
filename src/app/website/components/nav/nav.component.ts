@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { UserProfileData } from 'src/app/core/interfaces/interfaces';
+import {
+  UserProfileData,
+  UserPublicData,
+} from 'src/app/core/interfaces/interfaces';
 import { QrComponent } from 'src/app/website/components/qr/qr.component';
 import { LoginService } from '../../../core/services/login.service';
 import { UserService } from '../../../core/services/user.service';
@@ -12,7 +15,7 @@ import { CreatePostComponent } from '../create-post/create-post.component';
   styleUrls: ['./nav.component.scss'],
 })
 export class NavComponent implements OnInit {
-  user: UserProfileData;
+  user: UserPublicData;
 
   userName: string;
   imageAvatarDefault = 'assets/img/default-avatar.png';
