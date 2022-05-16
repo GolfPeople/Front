@@ -41,16 +41,35 @@
       <p class="text ion-text-center">
         ¿Alguna foto/vídeo que quieras compartir con la comunidad?
       </p>
-      <swiper *ngIf="backgroundImages.length > 0" #swiper>
-        <ng-template *ngFor="let image of backgroundImages" swiperSlide>
+      <swiper
+        *ngIf="backgroundImages.length > 0"
+        [pagination]="{
+          dynamicBullets: true
+        }"
+        #swiper
+      >
+        <ng-template
+          *ngFor="let image of backgroundImages;index as i"
+          swiperSlide
+        >
           <img [src]="image" class="picture" alt="" />
+          <ion-button
+            color="danger"
+            (click)="removeImage(i)"
+            expand="block"
+            fill="clear"
+            shape="round"
+          >
+            Quitar imagen
+          </ion-button>
         </ng-template>
       </swiper>
-      <swiper *ngIf="backgroundImagesEdit.length > 0" #swiper>
-        <ng-template *ngFor="let image of backgroundImagesEdit" swiperSlide>
+      <!-- <swiper *ngIf="backgroundImagesEdit.length > 0" #swiper>
+        <ng-template *ngFor="let image of backgroundImagesEdit: i = index" swiperSlide>
           <img [src]="image.url || image" class="picture" alt="" />
+        
         </ng-template>
-      </swiper>
+      </swiper> -->
     </div>
 
     <div class="footer">
@@ -79,11 +98,9 @@
             [formControl]="hashtagsInput"
           >
           </ion-input>
-          <!-- <ion-buttons slot="end"> -->
           <ion-button slot="end" color="primary" (click)="addHashtags()">
             <ion-icon name="add"></ion-icon>
           </ion-button>
-          <!-- </ion-buttons> -->
         </ion-item>
         <ion-row>
           <ion-col *ngFor="let hashtag of hashtags" size="4">
@@ -92,12 +109,6 @@
               <a (click)="removeHashtag(hashtag)">X</a>
             </div>
           </ion-col>
-          <!-- <ion-col *ngFor="let hashtag of postHashtags" size="4">
-            <div class="hashtags">
-              <p>#{{ hashtag }}</p>
-              <a (click)="removeHashtag(hashtag)">X</a>
-            </div>
-          </ion-col> -->
         </ion-row>
         <ion-item>
           <ion-label position="floating">
@@ -110,13 +121,7 @@
         <p class="card-text text-center">¿Dónde vives?</p>
         <div class="data-input">
           <img class="geo" src="../../../assets/icon/geolocation.png" alt="" />
-          <!-- <input
-            type="text"
-            name="license"
-            placeholder=" Ubicación Actual"
-            id="location"
-            [formControl]="address"
-          /> -->
+
           <input
             type="text"
             name="license"
@@ -139,16 +144,6 @@
         shape="round"
       >
         PUBLICAR
-      </ion-button>
-
-      <ion-button
-        *ngIf="editPost === true"
-        (click)="edit(textArea.value, address.value, blobArrayData)"
-        type="submit"
-        class="next-button"
-        shape="round"
-      >
-        EDITAR
       </ion-button>
     </form>
     <!-- </div> -->

@@ -33,39 +33,41 @@
     </ng-template>
   </swiper>
 
-  <div class="reactions">
-    <div class="reactions-items">
-      <a *ngIf="liked === false" (click)="like()">
-        <ion-icon name="heart-outline"></ion-icon>
-      </a>
-      <a *ngIf="liked === true" class="liked" (click)="like()">
-        <ion-icon name="heart" class="liked"></ion-icon>
-      </a>
-      <a (click)="presentModal()">
-        <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
-      </a>
+  <div class="bottom">
+    <div class="reactions">
+      <div class="reactions-items">
+        <a *ngIf="liked === false" (click)="like()">
+          <ion-icon name="heart-outline"></ion-icon>
+        </a>
+        <a *ngIf="liked === true" class="liked" (click)="like()">
+          <ion-icon name="heart" class="liked"></ion-icon>
+        </a>
+        <a (click)="presentModal()">
+          <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+        </a>
 
-      <a (click)="sharePost()">
-        <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
-      </a>
+        <a (click)="sharePost()">
+          <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
+        </a>
+      </div>
     </div>
-  </div>
 
-  <div class="description">
-    <a (click)="showLikes()" class="likes" *ngIf="count > 0"
-      >{{ count }} {{ count > 1 ? "likes" : "like" }}</a
-    >
-    <p>
-      <strong>{{ post.user.name }}</strong> {{ post.description }}
-      <a
-        *ngFor="let hashtag of post.hashtags | jsonToData"
-        [routerLink]="['/website/posts/', hashtag]"
-        >#{{ hashtag }}</a
+    <div class="description">
+      <a (click)="showLikes()" class="likes" *ngIf="count > 0"
+        >{{ count }} {{ count > 1 ? "likes" : "like" }}</a
       >
+      <p>
+        <strong>{{ post.user.name }}</strong> {{ post.description }}
+        <a
+          *ngFor="let hashtag of post.hashtags | jsonToData"
+          [routerLink]="['/website/posts/', hashtag]"
+          >#{{ hashtag }}</a
+        >
+      </p>
+    </div>
+    <p *ngIf="post.comments.length" class="comments" (click)="presentModal()">
+      {{ post.comments.length }}
+      {{ post.comments.length > 1 ? "comentarios" : "comentario" }}
     </p>
   </div>
-  <p *ngIf="post.comments.length" class="comments" (click)="presentModal()">
-    {{ post.comments.length }}
-    {{ post.comments.length > 1 ? "comentarios" : "comentario" }}
-  </p>
 </div>

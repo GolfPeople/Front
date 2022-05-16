@@ -92,16 +92,17 @@
     justify-content: center;
     width: 100%;
     height: 100%;
+    padding-bottom: 40px;
   }
 
-  .swiper-pagination-bullet-active {
-    background: #007aff;
-  }
+  // .swiper-pagination-bullet-active {
+  //   background: #007aff;
+  // }
 
-  .swiper-pagination-bullet-active-prev,
-  .swiper-pagination-bullet-active-next {
-    background: #ddd;
-  }
+  // .swiper-pagination-bullet-active-prev,
+  // .swiper-pagination-bullet-active-next {
+  //   background: #ddd;
+  // }
 
   .image-post {
     width: 100%;
@@ -114,6 +115,12 @@
     width: 100%;
     // height: 100%;
     object-fit: cover;
+  }
+
+  .bottom {
+    width: 100%;
+    position: relative;
+    bottom: 40px;
   }
 
   .reactions {

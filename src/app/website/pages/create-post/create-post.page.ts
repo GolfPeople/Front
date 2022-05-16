@@ -37,9 +37,12 @@ import { Post } from 'src/app/core/interfaces/interfaces';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { CropperComponent } from './components/cropper/cropper.component';
+import SwiperCore, { Pagination, Lazy } from 'swiper';
 
 declare var google: any;
 declare var window: any;
+
+SwiperCore.use([Lazy, Pagination]);
 
 @Component({
   selector: 'app-create-post',
@@ -50,14 +53,9 @@ export class CreatePostPage implements OnInit {
   @ViewChild('swiper') swiper: SwiperComponent;
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
   @ViewChild('fileInputVideo', { static: false }) fileInputVideo: ElementRef;
-  @Input() type: number;
+  // @Input() type: number;
   @Input() postId: number;
 
-  // Post data
-  @Input() postDescription: string;
-  @Input() postFiles;
-  @Input() postLocation: string;
-  @Input() postHashtags = [];
   // google maps
   autocomplete: any;
   geocoder = new google.maps.Geocoder();
@@ -109,12 +107,10 @@ export class CreatePostPage implements OnInit {
     private platform: Platform,
 
     private _location: Location
-  ) {
-    // this.initAutoComplete();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
-    this.initAutoCom();
+    // this.initAutoCom();
   }
   async ngOnInit() {
     const { description, location, hashtags } = this.initFormControls();
@@ -124,18 +120,6 @@ export class CreatePostPage implements OnInit {
     const coordinates = await this.geolocationService.currentPosition();
     const { latitude, longitude } = await coordinates.coords;
     this.coords = { lat: latitude, lng: longitude };
-    // this.geoCodeLatLong(this.coords);
-    if (this.type === 2) {
-      this.editPost = true;
-      this.textArea.setValue(this.postDescription);
-
-      this.address.setValue(this.postLocation);
-      // this.tempImages = this.postFiles;
-      this.blobArrayData = this.postFiles;
-      this.backgroundImagesEdit = this.postFiles;
-      console.log(this.postFiles);
-      this.hashtags = this.postHashtags;
-    }
   }
 
   ngAfterContentChecked(): void {
@@ -198,6 +182,14 @@ export class CreatePostPage implements OnInit {
     // }
     const newHashtags = this.hashtags.filter((item) => item !== hashtag);
     this.hashtags = [...newHashtags];
+  }
+
+  removeImage(index) {
+    console.log('index -->', index);
+    this.backgroundImages.splice(index, 1);
+    this.blobArrayData.splice(index, 1);
+
+    console.log(this.backgroundImages.length, this.blobArrayData.length);
   }
 
   // Simon Grimm method
@@ -356,16 +348,16 @@ export class CreatePostPage implements OnInit {
     });
   }
 
-  initAutoCom() {
-    this.autocomplete = new google.maps.places.Autocomplete(
-      document.getElementById('location') as HTMLInputElement,
-      {
-        fields: ['place_id', 'geometry', 'name'],
-      }
-    );
+  // initAutoCom() {
+  //   this.autocomplete = new google.maps.places.Autocomplete(
+  //     document.getElementById('location') as HTMLInputElement,
+  //     {
+  //       fields: ['place_id', 'geometry', 'name'],
+  //     }
+  //   );
 
-    // this.autocomplete.addListener('place_changed', this.onPlaceChanged);
-  }
+  //   // this.autocomplete.addListener('place_changed', this.onPlaceChanged);
+  // }
 
   geoCodeLatLong(latlng) {
     // This is making the Geocode request
@@ -394,7 +386,7 @@ export class CreatePostPage implements OnInit {
   async openModal(message) {
     const modal = await this.modalCtrl.create({
       component: SuccessModalComponent,
-      backdropDismiss: true,
+      backdropDismiss: false,
       cssClass: 'request-modal',
       componentProps: {
         message,
@@ -447,22 +439,6 @@ export class CreatePostPage implements OnInit {
       console.log(res);
     });
     console.log('se cerró');
-    // this.closeModal();
-  }
-
-  async edit(description, ubication, files) {
-    const descriptionConcat = description.concat(` ${this.hashtagsString}`);
-    console.log('description -->', descriptionConcat);
-    console.log('edit files -->', files);
-    const loading = await this.loadingCtrl.create({
-      cssClass: 'laoding-ctrl',
-      spinner: 'crescent',
-    });
-    await loading.present();
-    await this.postsSvc.editPost(descriptionConcat, [], ubication, this.postId);
-    await loading.dismiss();
-
-    this.openModal('Su publicación ha sido editada exitosamente');
     // this.closeModal();
   }
 }
