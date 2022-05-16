@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { UserProfileData } from 'src/app/core/interfaces/interfaces';
 import { QrComponent } from 'src/app/website/components/qr/qr.component';
@@ -25,16 +24,10 @@ export class NavComponent implements OnInit {
   constructor(
     private loginService: LoginService,
     private userService: UserService,
-    private modalCtrl: ModalController,
-    private router: Router,
-    private r: ActivatedRoute
+    private modalCtrl: ModalController
   ) {
     this.userService.user$.subscribe((data) => {
       this.user = data;
-      // if (data.profile.photo) {
-      //   this.profileImage = data.profile.photo;
-      // }
-      console.log('User info saved', this.user);
       this.value = `${this.profileUrl}/${data.id}`;
     });
     this.userService.userPhoto$.subscribe((photo) => {
@@ -42,23 +35,7 @@ export class NavComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    // this.userService.getUserInfo().subscribe((res) => {
-    //   this.userName = res.name;
-    //   this.value = `${this.profileUrl}/${res.id}`;
-    //   if (res.profile.photo) {
-    //     this.profileImage = res.profile.photo;
-    //   }
-    // });
-  }
-
-  toProfile() {
-    this.router.navigate(['profile'], { relativeTo: this.r });
-  }
-
-  toHome() {
-    this.router.navigate(['/website'], { relativeTo: this.r });
-  }
+  ngOnInit() {}
 
   onLogout() {
     this.loginService.logout();

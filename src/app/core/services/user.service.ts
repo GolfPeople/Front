@@ -42,7 +42,6 @@ export class UserService {
     this.http.get<any>(`${this.apiUrl}/user`).subscribe((data) => {
       this.user.next(data);
       this.userPhoto.next(data.profile.photo);
-      console.log(this.userPhoto, this.user);
     });
   }
 
@@ -52,7 +51,6 @@ export class UserService {
       .pipe(
         tap((data) => {
           this.saveId(data.id);
-          console.log('USER ID -->', localStorage.getItem('user_id'));
           return data;
         })
       )

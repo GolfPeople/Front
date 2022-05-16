@@ -47,7 +47,6 @@ export class AvatarComponent implements OnInit {
     });
     this.userService.userPhoto$.subscribe((photo) => {
       if (photo) this.imageAvatar = photo;
-      console.log(photo);
     });
   }
 

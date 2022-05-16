@@ -33,7 +33,6 @@ export class PostsService {
       .pipe(retry(3))
       .subscribe((data) => {
         this.posts.next(data.reverse());
-        console.log(data);
         loading.dismiss();
       });
   }
@@ -45,7 +44,6 @@ export class PostsService {
       .pipe(retry(3))
       .subscribe((data) => {
         this.posts.next(data.reverse());
-        // console.log(data);
       });
   }
 
