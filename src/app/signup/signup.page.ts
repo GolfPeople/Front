@@ -49,7 +49,7 @@ export class SignupPage implements OnInit {
     // this.loading.dismissLoading();
     const modal = await this.modalCtrl.create({
       component: SuccessComponent,
-      backdropDismiss: true,
+      backdropDismiss: false,
       cssClass: 'success-alert',
       componentProps: {
         message,
