@@ -52,7 +52,7 @@ export class PostComponent implements OnInit {
   @Input() hashtags;
   @Input() likes: Like[];
   userID;
-  count;
+  count: number = 0;
 
   liked: boolean = false;
 

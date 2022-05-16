@@ -90,11 +90,12 @@ export class PostsService {
 
     console.log('file', files);
 
-    return this.http.post<Post>(`${URL}/publish`, formData).subscribe((res) => {
-      console.log(res);
-      console.log(files);
-      this.getPosts();
-    });
+    return this.http.post<Post>(`${URL}/publish`, formData);
+    // return this.http.post<Post>(`${URL}/publish`, formData).subscribe((res) => {
+    //   console.log(res);
+    //   console.log(files);
+    //   this.getPosts();
+    // });
   }
 
   //Edita una publicación
@@ -115,15 +116,15 @@ export class PostsService {
         'X-Requested-With': 'XMLHttpRequest',
       }),
     };
-    return this.http
-      .post<Post>(
-        `${URL}/publish/my_publish/${id}`,
-        { description, files, ubication },
-        headers
-      )
-      .subscribe(() => {
-        this.getPosts();
-      });
+    return this.http.post<Post>(
+      `${URL}/publish/my_publish/${id}`,
+      { description, files, ubication },
+      headers
+    );
+    // .subscribe(() => {
+    //   this.getPosts();
+    //   this.getPosts();
+    // });
   }
 
   //Elimina una publicación

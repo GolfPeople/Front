@@ -128,7 +128,17 @@ export class EditPostComponent implements OnInit {
     this.backgroundImagesEdit = this.post.files;
     console.log(this.post.files);
     this.hashtags = JSON.parse(this.post.hashtags);
+    this.hashtagsString = this.hashtags
+      .map((item) => {
+        if (item.includes('#')) {
+          return item;
+        }
+
+        return `#${item}`;
+      })
+      .join(' ');
     console.log(this.hashtags);
+    console.log(this.hashtagsString);
     this.userAddress = this.address.value;
     // }
   }
@@ -161,8 +171,8 @@ export class EditPostComponent implements OnInit {
       return data.indexOf(item) === index;
     });
     this.hashtagsString = this.hashtags
-      .join(' ')
-      .split(' ')
+      // .join(' ')
+      // .split(' ')
       .map((item) => {
         if (item.includes('#')) {
           return item;
@@ -262,15 +272,14 @@ export class EditPostComponent implements OnInit {
       spinner: 'crescent',
     });
     await loading.present();
-    await this.postsSvc.editPost(
-      descriptionConcat,
-      [],
-      this.userAddress,
-      this.postId
-    );
-    await loading.dismiss();
+    await this.postsSvc
+      .editPost(descriptionConcat, [], this.userAddress, this.postId)
+      .subscribe((res) => {
+        this.postsSvc.getPostsAction();
+        loading.dismiss();
+        this.openModal('Su publicación ha sido editada exitosamente');
+      });
 
-    this.openModal('Su publicación ha sido editada exitosamente');
     this.closeModal();
   }
 }

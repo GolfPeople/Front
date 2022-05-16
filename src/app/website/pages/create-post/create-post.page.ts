@@ -267,7 +267,7 @@ export class CreatePostPage implements OnInit {
 
   async addImage(source: CameraSource) {
     const image = await Camera.getPhoto({
-      quality: 60,
+      quality: 30,
       allowEditing: true,
       resultType: CameraResultType.DataUrl,
       source,
@@ -416,14 +416,24 @@ export class CreatePostPage implements OnInit {
         spinner: 'crescent',
       });
       await loading.present();
-      await this.postsSvc.createPostWithImageFile(
-        descriptionConcat,
-        files,
-        this.userAddress
-      );
-      await loading.dismiss();
-      this.openModal('Su publicación ha sido creada exitosamente');
+      await this.postsSvc
+        .createPostWithImageFile(descriptionConcat, files, this.userAddress)
+        .subscribe((res) => {
+          console.log(res);
+          loading.dismiss();
+          // this.postsSvc.getPosts();
+          // this.postsSvc.getPostsAction();
+          this.openModal('Su publicación ha sido creada exitosamente');
+        });
       // this.closeModal();
+      // await this.postsSvc.createPostWithImageFile(
+      //   descriptionConcat,
+      //   files,
+      //   this.userAddress
+      // );
+      // await loading.dismiss();
+      // this.openModal('Su publicación ha sido creada exitosamente');
+      // // this.closeModal();
       return;
     }
 

@@ -62,8 +62,8 @@
         <a
           *ngFor="let hashtag of post.hashtags | jsonToData"
           [routerLink]="['/website/posts/', hashtag]"
-          >#{{ hashtag }}</a
-        >
+          >#{{ hashtag }}
+        </a>
       </p>
     </div>
     <p *ngIf="post.comments.length" class="comments" (click)="presentModal()">
