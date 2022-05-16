@@ -53,9 +53,10 @@
     </div>
 
     <div class="description">
-      <a (click)="showLikes()" class="likes" *ngIf="count > 0"
+      <a (click)="showLikes()" class="likes">Likes: {{ count }}</a>
+      <!-- <a (click)="showLikes()" class="likes" *ngIf="count > 0"
         >{{ count }} {{ count > 1 ? "likes" : "like" }}</a
-      >
+      > -->
       <p>
         <strong>{{ post.user.name }}</strong> {{ post.description }}
         <a
