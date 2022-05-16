@@ -68,7 +68,7 @@ export class AvatarComponent implements OnInit {
         },
       },
       {
-        text: 'Escoger fotos',
+        text: 'Escoger foto',
         icon: 'image',
         handler: () => {
           this.addImage(CameraSource.Photos);
