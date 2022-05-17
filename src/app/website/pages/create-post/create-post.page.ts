@@ -53,6 +53,7 @@ export class CreatePostPage implements OnInit {
   @ViewChild('swiper') swiper: SwiperComponent;
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
   @ViewChild('fileInputVideo', { static: false }) fileInputVideo: ElementRef;
+  @ViewChild('addressInput', { static: false }) addressInput: ElementRef;
   // @Input() type: number;
   @Input() postId: number;
 
@@ -113,6 +114,7 @@ export class CreatePostPage implements OnInit {
     // this.initAutoCom();
   }
   async ngOnInit() {
+    console.log(this.addressInput);
     const { description, location, hashtags } = this.initFormControls();
     this.textArea = description;
     this.address = location;
@@ -423,7 +425,7 @@ export class CreatePostPage implements OnInit {
           loading.dismiss();
           // this.postsSvc.getPosts();
           // this.postsSvc.getPostsAction();
-          this.openModal('Su publicación ha sido creada exitosamente');
+          this.openModal('Publicación creada con éxito');
         });
       // this.closeModal();
       // await this.postsSvc.createPostWithImageFile(

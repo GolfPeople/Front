@@ -204,7 +204,7 @@ export class PostComponent implements OnInit {
             },
           },
           {
-            text: 'Reportar',
+            text: 'Reportar como abuso',
             icon: 'pencil',
             data: 10,
           },
@@ -230,7 +230,7 @@ export class PostComponent implements OnInit {
   sharePost() {
     navigator.share({
       title: 'Publicación',
-      text: 'Mira este post',
+      text: 'Mira esta publicación',
       url: `https://golf-people.web.app/website/post/${this.post.user.name}/${this.post.id}'`,
     });
   }
