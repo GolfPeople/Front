@@ -53,7 +53,6 @@ export class CreatePostPage implements OnInit {
   @ViewChild('swiper') swiper: SwiperComponent;
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
   @ViewChild('fileInputVideo', { static: false }) fileInputVideo: ElementRef;
-  @ViewChild('addressInput', { static: false }) addressInput: ElementRef;
   // @Input() type: number;
   @Input() postId: number;
 
@@ -79,10 +78,7 @@ export class CreatePostPage implements OnInit {
   imageDAtaUrl: any;
   croppedImage: any;
 
-  postImages = [];
-  editPost: boolean = false;
   backgroundImages = [];
-  backgroundImagesEdit = [];
 
   // Simon Grimm method
   selectedFiles: FileList;
@@ -110,11 +106,7 @@ export class CreatePostPage implements OnInit {
     private _location: Location
   ) {}
 
-  ngAfterViewInit(): void {
-    // this.initAutoCom();
-  }
   async ngOnInit() {
-    console.log(this.addressInput);
     const { description, location, hashtags } = this.initFormControls();
     this.textArea = description;
     this.address = location;
@@ -122,6 +114,7 @@ export class CreatePostPage implements OnInit {
     const coordinates = await this.geolocationService.currentPosition();
     const { latitude, longitude } = await coordinates.coords;
     this.coords = { lat: latitude, lng: longitude };
+    this.geoCodeLatLong(this.coords);
   }
 
   ngAfterContentChecked(): void {
@@ -137,6 +130,7 @@ export class CreatePostPage implements OnInit {
     return { description, location, hashtags };
   }
 
+  //Método para implementar google autocomplete
   handleAddressChange(address: any) {
     this.userAddress = address.formatted_address;
     this.userLatitude = address.geometry.location.lat();
@@ -146,12 +140,14 @@ export class CreatePostPage implements OnInit {
     console.log(this.userLongitude);
   }
 
+  //Capturar el valor del hashtag
   hashtag(event: Event) {
     const element = event.target as HTMLInputElement;
     const value = element.value;
     this.inputValue = value;
   }
 
+  //Agregar un hashtag  a lista
   addHashtags() {
     this.hashtagsInput.reset();
     console.log(this.inputValue);
@@ -175,17 +171,13 @@ export class CreatePostPage implements OnInit {
     console.log(this.hashtagsString);
   }
 
+  //Remover un hastag de la lista
   removeHashtag(hashtag: string) {
-    // if (this.type === 2) {
-    //   const newHashtags = this.postHashtags.filter((item) => item !== hashtag);
-    //   this.postHashtags = [...newHashtags];
-    //   console.log(hashtag, newHashtags, this.postHashtags);
-    //   return;
-    // }
     const newHashtags = this.hashtags.filter((item) => item !== hashtag);
     this.hashtags = [...newHashtags];
   }
 
+  //Método para remover una imagen selecionada
   removeImage(index) {
     console.log('index -->', index);
     this.backgroundImages.splice(index, 1);
@@ -212,10 +204,6 @@ export class CreatePostPage implements OnInit {
     for (let index = 0; index < filesTobase64.length; index++) {
       const fileBase64 = filesTobase64[index];
 
-      // const base64Image = this.domSanitizer.bypassSecurityTrustUrl(
-      //   `data:${file.type};base64,${base64}`
-      // );
-      console.log('base64Image', fileBase64);
       this.backgroundImages.push(fileBase64);
     }
 
@@ -267,6 +255,7 @@ export class CreatePostPage implements OnInit {
     await actionSheet.present();
   }
 
+  //Métod para agregar una imagen al arreglo para enviar
   async addImage(source: CameraSource) {
     const image = await Camera.getPhoto({
       quality: 30,
@@ -310,6 +299,7 @@ export class CreatePostPage implements OnInit {
     return await modal.present();
   }
 
+  //Convierte un base 64 en un BLOB
   b64toBlob(base64, contentType = '', sliceSize = 512) {
     const base64String = base64.replace('data:image/png;base64,', '');
     const byteCharacters = atob(base64String);
@@ -331,6 +321,7 @@ export class CreatePostPage implements OnInit {
     return blob;
   }
 
+  //Convierte un BLOB en BASE64
   convertBlobToBase64 = (blob: Blob) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -341,6 +332,7 @@ export class CreatePostPage implements OnInit {
       reader.readAsDataURL(blob);
     });
 
+  //Captura el BASE64 de un archivo
   getBase64(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -350,39 +342,36 @@ export class CreatePostPage implements OnInit {
     });
   }
 
-  // initAutoCom() {
-  //   this.autocomplete = new google.maps.places.Autocomplete(
-  //     document.getElementById('location') as HTMLInputElement,
-  //     {
-  //       fields: ['place_id', 'geometry', 'name'],
-  //     }
-  //   );
-
-  //   // this.autocomplete.addListener('place_changed', this.onPlaceChanged);
-  // }
-
-  geoCodeLatLong(latlng) {
+  async geoCodeLatLong(latlng) {
     // This is making the Geocode request
-    const address = this.address;
+    // const address = this.address;
+    let address;
     console.log('TEST LAt Long', latlng);
-    this.geocoder.geocode({ location: latlng }, function (results, status) {
-      console.log('TEST results', results);
-      if (status !== google.maps.GeocoderStatus.OK) {
-        alert(status);
-      }
-      // This is checking to see if the Geoeode Status is OK before proceeding
-      if (status == google.maps.GeocoderStatus.OK) {
-        // var address = results[0].formatted_address;
+    await this.geocoder.geocode(
+      { location: latlng },
+      function (results, status) {
+        console.log('TEST results', results);
+        if (status !== google.maps.GeocoderStatus.OK) {
+          alert(status);
+        }
+        // This is checking to see if the Geoeode Status is OK before proceeding
+        if (status == google.maps.GeocoderStatus.OK) {
+          // var address = results[0].formatted_address;
 
-        //This is placing the returned address in the 'Address' field on the HTML form
+          //This is placing the returned address in the 'Address' field on the HTML form
 
-        address.setValue(
-          `${results[0].address_components[3].long_name} ${results[0].address_components[6].long_name}`
-        );
-        console.log(address.value);
+          // address.setValue(
+          //   `${results[0].address_components[3].long_name} ${results[0].address_components[6].long_name}`
+          // );
+          // console.log(address.value);
+          address = `${results[0].address_components[3].long_name} ${results[0].address_components[6].long_name}`;
+          console.log('Tu ubucación -->', address);
+        }
       }
-    });
-    this.address.setValue(address.value);
+    );
+    this.userAddress = address;
+    console.log(this.userAddress);
+    // this.address.setValue(address.value);
   }
 
   async openModal(message) {
