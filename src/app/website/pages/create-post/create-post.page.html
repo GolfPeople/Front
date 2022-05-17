@@ -15,7 +15,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen="true" class="content">
+<ion-content class="content">
   <ion-row class="ion-justify-content-center ion-align-items-center">
     <div class="pick-image-container">
       <!-- <div class="button-container"> -->
@@ -69,12 +69,30 @@
           </ion-button>
         </ng-template>
       </swiper>
-      <!-- <swiper *ngIf="backgroundImagesEdit.length > 0" #swiper>
-        <ng-template *ngFor="let image of backgroundImagesEdit: i = index" swiperSlide>
-          <img [src]="image.url || image" class="picture" alt="" />
-        
+      <!-- <swiper *ngIf="videos.length > 0" #swiper>
+        <ng-template *ngFor="let video of videos" swiperSlide>
         </ng-template>
       </swiper> -->
+      <div class="video-container">
+        <video
+          class="video"
+          #video
+          autoplay
+          playsinline
+          muted
+          [hidden]="!isRecording"
+        ></video>
+
+        <ion-item>
+          <!-- <ion-label (click)="playVideo(video)" >/data/whatever/123123.mp4</ion-label> -->
+        </ion-item>
+
+        <ion-buttons slot="fixed">
+          <ion-button (click)="isRecording ? stopRecord() : recordVideo()">
+            <ion-icon [name]="isRecording ? 'stop' : 'videocam'"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </div>
     </div>
 
     <div class="footer">

@@ -38,6 +38,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { CropperComponent } from './components/cropper/cropper.component';
 import SwiperCore, { Pagination, Lazy } from 'swiper';
+import { VideoService } from 'src/app/core/services/video.service';
+import { Capacitor } from '@capacitor/core';
+import { CapacitorVideoPlayer } from 'capacitor-video-player';
 
 declare var google: any;
 declare var window: any;
@@ -49,15 +52,14 @@ SwiperCore.use([Lazy, Pagination]);
   templateUrl: './create-post.page.html',
   styleUrls: ['./create-post.page.scss'],
 })
-export class CreatePostPage implements OnInit {
+export class CreatePostPage implements OnInit, AfterViewInit {
   @ViewChild('swiper') swiper: SwiperComponent;
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
   @ViewChild('fileInputVideo', { static: false }) fileInputVideo: ElementRef;
+  @ViewChild('video') captureElement: ElementRef;
   // @Input() type: number;
-  @Input() postId: number;
 
   // google maps
-  autocomplete: any;
   geocoder = new google.maps.Geocoder();
   coords;
 
@@ -78,6 +80,12 @@ export class CreatePostPage implements OnInit {
   imageDAtaUrl: any;
   croppedImage: any;
 
+  //Capture videos
+  mediaRecorder: MediaRecorder;
+  videoPlayer: any;
+  isRecording = false;
+  videos = [];
+
   backgroundImages = [];
 
   // Simon Grimm method
@@ -92,11 +100,8 @@ export class CreatePostPage implements OnInit {
   hashtagsString: string;
 
   constructor(
-    private userService: UserService,
     private modalCtrl: ModalController,
-    private http: HttpClient,
-    // private camera: Camera,
-    private loader: LoadingController,
+    private videoService: VideoService,
     private geolocationService: GeolocationService,
     private postsSvc: PostsService,
     private loadingCtrl: LoadingController,
@@ -105,6 +110,19 @@ export class CreatePostPage implements OnInit {
 
     private _location: Location
   ) {}
+
+  async ngAfterViewInit() {
+    this.videos = await this.videoService.loadVideos();
+
+    // Inicializar el plugin de video
+    // if (this.platform.is('hybrid')) {
+    //   this.videoPlayer = CapacitorVideoPlayer
+    // } else {
+    //   this.videoPlayer = 
+    // }
+  }
+
+
 
   async ngOnInit() {
     const { description, location, hashtags } = this.initFormControls();
@@ -121,6 +139,44 @@ export class CreatePostPage implements OnInit {
     if (this.swiper) {
       this.swiper.updateSwiper({});
     }
+  }
+
+  //Método para grabar video
+  async recordVideo() {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'user',
+      },
+      audio: true,
+    });
+    this.captureElement.nativeElement.srcObject = stream;
+    this.isRecording = true;
+
+    const options = { mimeType: 'video/webm' };
+    this.mediaRecorder = new MediaRecorder(stream, options);
+    let chunks = [];
+
+    this.mediaRecorder.ondataavailable = (event) => {
+      if (event.data && event.data.size > 0) {
+        chunks.push(event.data);
+      }
+    };
+
+    this.mediaRecorder.onstop = async (event) => {
+      const videoBuffer = new Blob(chunks, { type: 'video/webm' });
+      // Store the voideo
+      // reload the list
+    };
+  }
+  stopRecord() {
+    this.mediaRecorder.stop();
+    this.mediaRecorder = null;
+    this.captureElement.nativeElement.srcObject = null;
+    this.isRecording = false;
+  }
+
+  async play() {
+    console.log('holaa');
   }
 
   initFormControls() {
