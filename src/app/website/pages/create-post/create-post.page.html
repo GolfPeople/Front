@@ -36,6 +36,7 @@
         accept="video/*;capture=camcorder"
       />
       <ion-button
+        *ngIf="!backgroundImages.length"
         class="select-button"
         expand="block"
         (click)="selectImageSource()"
@@ -43,7 +44,10 @@
         <img src="../../../../assets/icon/camera.png" alt="" />
       </ion-button>
       <!-- </div> -->
-      <p class="text ion-text-center">
+      <p
+        *ngIf="!backgroundImages.length"
+        class="text ion-text-center ion-margin-bottom"
+      >
         ¿Alguna foto/vídeo que quieras compartir con la comunidad?
       </p>
       <swiper
@@ -58,22 +62,30 @@
           swiperSlide
         >
           <img [src]="image" class="picture" alt="" />
+
           <ion-button
+            class="delete-button"
             color="danger"
             (click)="removeImage(i)"
-            expand="block"
-            fill="clear"
-            shape="round"
+            shape="outline"
           >
-            Quitar imagen
+            X
           </ion-button>
         </ng-template>
       </swiper>
+      <ion-button
+        *ngIf="backgroundImages.length"
+        class="add-image-button"
+        (click)="selectImageSource()"
+        expand="full"
+      >
+        Agregar imagen extra
+      </ion-button>
       <!-- <swiper *ngIf="videos.length > 0" #swiper>
         <ng-template *ngFor="let video of videos" swiperSlide>
         </ng-template>
       </swiper> -->
-      <div class="video-container">
+      <!-- <div class="video-container">
         <video
           class="video"
           #video
@@ -83,26 +95,33 @@
           [hidden]="!isRecording"
         ></video>
 
-        <ion-item>
-          <!-- <ion-label (click)="playVideo(video)" >/data/whatever/123123.mp4</ion-label> -->
-        </ion-item>
+        <div id="fullscreen" slot="fixed"></div>
+
+        <ion-list *ngIf="!isRecording">
+          <ion-item *ngFor="let video of videos" (click)="play(video)" tappable>
+            {{video}}
+          </ion-item>
+        </ion-list>
+
+       
 
         <ion-buttons slot="fixed">
           <ion-button (click)="isRecording ? stopRecord() : recordVideo()">
             <ion-icon [name]="isRecording ? 'stop' : 'videocam'"></ion-icon>
           </ion-button>
         </ion-buttons>
-      </div>
+      </div> -->
     </div>
 
     <div class="footer">
-      <p class="text">Cuentanos algo</p>
+      <p class="text">Añade un comentario a tu publicaión</p>
       <ion-textarea
         type="text"
         inputmode="text"
         [maxlength]="2000"
         class="text"
         [formControl]="textArea"
+        placeholder="Escribe algo..."
       >
       </ion-textarea>
     </div>

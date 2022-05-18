@@ -7,6 +7,7 @@ import {
   ViewEncapsulation,
   Input,
   ElementRef,
+  ChangeDetectorRef,
 } from '@angular/core';
 import {
   AlertController,
@@ -41,6 +42,10 @@ import SwiperCore, { Pagination, Lazy } from 'swiper';
 import { VideoService } from 'src/app/core/services/video.service';
 import { Capacitor } from '@capacitor/core';
 import { CapacitorVideoPlayer } from 'capacitor-video-player';
+
+import { CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+import { Camera as cmra } from '@awesome-cordova-plugins/camera/ngx';
+import { File } from '@awesome-cordova-plugins/file/ngx';
 
 declare var google: any;
 declare var window: any;
@@ -99,30 +104,36 @@ export class CreatePostPage implements OnInit, AfterViewInit {
   hashtags = [];
   hashtagsString: string;
 
+  //video
+
+  selectedVideo: string; //= "https://res.cloudinary.com/demo/video/upload/w_640,h_640,c_pad/dog.mp4";
+  uploadedVideo: string;
+
   constructor(
     private modalCtrl: ModalController,
     private videoService: VideoService,
     private geolocationService: GeolocationService,
     private postsSvc: PostsService,
     private loadingCtrl: LoadingController,
+    private alertCtrl: AlertController,
     private actionSheetCtrl: ActionSheetController,
     private platform: Platform,
-
-    private _location: Location
+    private _location: Location,
+    private changeDetector: ChangeDetectorRef,
+    //Video imports
+    private cmra: cmra
   ) {}
 
   async ngAfterViewInit() {
     this.videos = await this.videoService.loadVideos();
 
     // Inicializar el plugin de video
-    // if (this.platform.is('hybrid')) {
-    //   this.videoPlayer = CapacitorVideoPlayer
-    // } else {
-    //   this.videoPlayer = 
-    // }
+    if (this.platform.is('hybrid')) {
+      this.videoPlayer = CapacitorVideoPlayer;
+    } else {
+      this.videoPlayer = CapacitorVideoPlayer;
+    }
   }
-
-
 
   async ngOnInit() {
     const { description, location, hashtags } = this.initFormControls();
@@ -141,42 +152,100 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     }
   }
 
-  //Método para grabar video
-  async recordVideo() {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: {
-        facingMode: 'user',
-      },
-      audio: true,
+  // //Método para grabar video
+  // async recordVideo() {
+  //   const stream = await navigator.mediaDevices.getUserMedia({
+  //     video: {
+  //       facingMode: 'user',
+  //     },
+  //     audio: true,
+  //   });
+  //   this.captureElement.nativeElement.srcObject = stream;
+  //   this.isRecording = true;
+
+  //   const options = { mimeType: 'video/webm' };
+  //   let chunks: any = [];
+  //   this.mediaRecorder = new MediaRecorder(stream, options);
+
+  //   this.mediaRecorder.ondataavailable = (event) => {
+  //     if (event.data && event.data.size > 0) {
+  //       chunks.push(event.data);
+  //     }
+  //   };
+
+  //   this.mediaRecorder.onstop = async (event) => {
+  //     const videoBuffer = new Blob(chunks, { type: 'video/webm' });
+  //     // Store the voideo
+  //     await this.videoService.storevideo(videoBuffer);
+  //     // reload the list
+  //     this.videos = this.videoService.videos;
+  //     this.changeDetector.detectChanges();
+  //   };
+  // }
+  // stopRecord() {
+  //   this.mediaRecorder.stop();
+  //   this.mediaRecorder = null;
+  //   this.captureElement.nativeElement.src = null;
+  //   this.isRecording = false;
+  // }
+
+  // async play(video) {
+  //   const base6data = await this.videoService.getVideoUrl(video);
+
+  //   //Shoe the player fullscreen
+  //   await this.videoPlayer.initPlayer({
+  //     mode: 'fullscreen',
+  //     url: base6data,
+  //     playerId: 'fullscreen',
+  //     componentTag: 'app-create-post',
+  //   });
+  // }
+
+  //Camera cordova video
+
+  async showLoader() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Please wait...',
     });
-    this.captureElement.nativeElement.srcObject = stream;
-    this.isRecording = true;
+    loading.present();
+  }
 
-    const options = { mimeType: 'video/webm' };
-    this.mediaRecorder = new MediaRecorder(stream, options);
-    let chunks = [];
+  dismissLoader() {
+    this.loadingCtrl.dismiss();
+  }
 
-    this.mediaRecorder.ondataavailable = (event) => {
-      if (event.data && event.data.size > 0) {
-        chunks.push(event.data);
+  async presentAlert(title, message) {
+    const alert = await this.alertCtrl.create({
+      message: message,
+      header: title,
+      buttons: ['Dismiss'],
+    });
+    alert.present();
+  }
+
+  cancelSelection() {
+    this.selectedVideo = null;
+    this.uploadedVideo = null;
+  }
+
+  selectVideo() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.cmra.PictureSourceType.PHOTOLIBRARY,
+      mediaType: this.cmra.MediaType.VIDEO,
+    };
+
+    this.cmra.getPicture(options).then(
+      (imageData) => {
+        // imageData is either a base64 encoded string or a file URI
+        // If it's base64 (DATA_URL):
+        console.log(imageData);
+        let base64Image = 'data:image/jpeg;base64,' + imageData;
+      },
+      (err) => {
+        // Handle error
       }
-    };
-
-    this.mediaRecorder.onstop = async (event) => {
-      const videoBuffer = new Blob(chunks, { type: 'video/webm' });
-      // Store the voideo
-      // reload the list
-    };
-  }
-  stopRecord() {
-    this.mediaRecorder.stop();
-    this.mediaRecorder = null;
-    this.captureElement.nativeElement.srcObject = null;
-    this.isRecording = false;
-  }
-
-  async play() {
-    console.log('holaa');
+    );
   }
 
   initFormControls() {
@@ -299,9 +368,16 @@ export class CreatePostPage implements OnInit, AfterViewInit {
         text: 'Subir video',
         icon: 'attach',
         handler: () => {
-          this.fileInputVideo.nativeElement.click();
+          this.selectVideo();
         },
       });
+      // buttons.push({
+      //   text: 'Subir video',
+      //   icon: 'attach',
+      //   handler: () => {
+      //     this.fileInputVideo.nativeElement.click();
+      //   },
+      // });
     }
 
     const actionSheet = await this.actionSheetCtrl.create({

@@ -111,19 +111,19 @@ export class PostComponent implements OnInit {
             },
             handler: async () => {
               const alert = await this.alertCtrl.create({
-                cssClass: 'alert-confirmation',
-                header: 'Eliminar publicación',
-                message: 'Estás seguro de eliminar esta publicación',
+                cssClass: 'delete-confirmation',
+                // header: 'Eliminar publicación',
+                message: '¿Estás seguro de eliminar esta publicación?',
                 buttons: [
-                  {
-                    text: 'cancelar',
-                    role: 'cancel',
-                  },
                   {
                     text: 'aceptar',
                     handler: () => {
                       this.postsSvc.deletePost(this.post.id);
                     },
+                  },
+                  {
+                    text: 'cancelar',
+                    role: 'cancel',
                   },
                 ],
               });
