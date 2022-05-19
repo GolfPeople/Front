@@ -2,28 +2,28 @@
   <a [routerLink]="['create-post']"
     ><img
       class="create"
-      src="../../../../assets/icon/menu/create.png"
+      src="../../../../assets/icons/tab/circle-add.svg"
       alt=""
     />CREAR</a
   >
   <a [routerLink]="['posts']"
     ><img
       class="play"
-      src="../../../../assets/icon/menu/play.png"
+      src="../../../../assets/icons/tab/play.svg"
       alt=""
     />JUGAR</a
   >
   <a routerLink="/website"
     ><img
       class="home"
-      src="../../../../assets/icon/menu/home.png"
+      src="../../../../assets/icons/tab/home.svg"
       alt=""
     />HOME</a
   >
   <a
     ><img
       class="message"
-      src="../../../../assets/icon/menu/message.png"
+      src="../../../../assets/icons/tab/message.svg"
       alt=""
     />MENSAJES</a
   >
@@ -80,11 +80,14 @@
         <ion-menu-toggle>
           <ion-item lines="none" class="list-item">
             <a>
-              <img
-                class="events"
-                src="../../../../assets/icon/side-menu/calendar.png"
-                alt=""
-              />
+              <div class="logo-container">
+                <img
+                  class="events"
+                  src="../../../../assets/icons/tab/calendar.svg"
+                  alt=""
+                />
+              </div>
+
               EVENTOS
             </a>
           </ion-item>
@@ -92,23 +95,27 @@
         <ion-menu-toggle>
           <ion-item lines="none" class="list-item">
             <a>
-              <img
-                class="classes"
-                src="../../../../assets/icon/side-menu/grado.png"
-                alt=""
-              />
+              <div class="logo-container">
+                <img
+                  class="classes"
+                  src="../../../../assets/icons/tab/clases.svg"
+                  alt=""
+                />
+              </div>
               CLASES
             </a>
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle>
           <ion-item lines="none" class="list-item">
-            <a [routerLink]="['/website/my-posts']">
-              <img
-                class="classes"
-                src="../../../../assets/icon/side-menu/grado.png"
-                alt=""
-              />
+            <a [routerLink]="['my-posts']">
+              <div class="logo-container">
+                <img
+                  class="classes"
+                  src="../../../../assets/icon/side-menu/grado.png"
+                  alt=""
+                />
+              </div>
               MIS PUBLICAIONES
             </a>
           </ion-item>
@@ -117,23 +124,27 @@
         <ion-menu-toggle>
           <ion-item lines="none" class="list-item">
             <a>
-              <img
-                class="friends"
-                src="../../../../assets/icon/side-menu/friends.png"
-                alt=""
-              />
+              <div class="logo-container">
+                <img
+                  class="friends"
+                  src="../../../../assets/icons/tab/users.svg"
+                  alt=""
+                />
+              </div>
               AMIGOS
             </a>
           </ion-item>
         </ion-menu-toggle>
         <ion-menu-toggle>
           <ion-item lines="none" class="list-item">
-            <a>
-              <img
-                class="save"
-                src="../../../../assets/icon/side-menu/save.png"
-                alt=""
-              />
+            <a [routerLink]="['saved-posts']">
+              <div class="logo-container">
+                <img
+                  class="save"
+                  src="../../../../assets/icons/tab/guardados.svg"
+                  alt=""
+                />
+              </div>
               GUARDADOS
             </a>
           </ion-item>
@@ -141,11 +152,13 @@
         <ion-menu-toggle>
           <ion-item lines="none" class="list-item">
             <a>
-              <img
-                class="club"
-                src="../../../../assets/icon/side-menu/favorite.png"
-                alt=""
-              />
+              <div class="logo-container">
+                <img
+                  class="club"
+                  src="../../../../assets/icons/tab/star.svg"
+                  alt=""
+                />
+              </div>
               MI CLUB
             </a>
           </ion-item>

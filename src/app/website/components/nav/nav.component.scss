@@ -31,22 +31,24 @@
       object-fit: cover;
       display: block;
 
-      // &.create {
-      //   width: 28.33px;
-      //   height: 29.17px;
-      // }
-      // &.play {
-      //   width: 18.44px;
-      //   height: 21.18px;
-      // }
-      // &.home {
-      //   width: 22.65px;
-      //   height: 25.32px;
-      // }
-      // &.message {
-      //   width: 28.33px;
-      //   height: 26.25px;
-      // }
+      &.create {
+        width: 28.33px;
+        height: 29.17px;
+      }
+      &.play {
+        width: 25.44px;
+        height: 30.18px;
+      }
+      &.home {
+        width: 22.65px;
+        height: 25.32px;
+      }
+      &.message {
+        width: 28.33px;
+
+        height: 26.25px;
+      }
+
       // &.burger {
       //   width: 34px;
       //   height: 35px;
@@ -232,10 +234,19 @@ ion-row {
         line-height: 121.9%;
         transition: all 0.5s ease;
         color: $color-white;
-        img {
-          width: 20px;
-          object-fit: cover;
+
+        .logo-container {
+          width: 30px;
+          height: 100%;
+          display: flex;
+
+          align-items: center;
+          justify-content: center;
           margin-right: 10px;
+          img {
+            // width: 20px;
+            object-fit: cover;
+          }
         }
         .save {
           width: 16.33px;

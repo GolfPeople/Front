@@ -24,6 +24,10 @@ export class CropperComponent implements OnInit {
   }
 
   dismissModal() {
+    if (!this.croppedImage) {
+      this.modalCtrl.dismiss();
+      return;
+    }
     this.modalCtrl.dismiss(this.croppedImage);
   }
 }

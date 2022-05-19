@@ -1,5 +1,10 @@
 <ion-header>
   <ion-toolbar class="ion-padding">
+    <ion-buttons slot="start">
+      <ion-button class="ion-margin" (click)="dismissModal()">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>image-cropper</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="dismissModal()"> Recortar </ion-button>

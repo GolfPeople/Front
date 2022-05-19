@@ -521,7 +521,6 @@ export class CreatePostPage implements OnInit, AfterViewInit {
   }
 
   goBack() {
-    // this.router.navigate(['..']);
     this._location.back();
   }
 
@@ -532,6 +531,8 @@ export class CreatePostPage implements OnInit, AfterViewInit {
       : (descriptionConcat = description.concat(` ${this.hashtagsString}`));
 
     console.log('description -->', descriptionConcat);
+
+    if ((this.userAddress = '')) this.userAddress = 'En algún lugar';
 
     if (!this.platform.is('hybrid')) {
       const loading = await this.loadingCtrl.create({
@@ -544,19 +545,10 @@ export class CreatePostPage implements OnInit, AfterViewInit {
         .subscribe((res) => {
           console.log(res);
           loading.dismiss();
-          // this.postsSvc.getPosts();
-          // this.postsSvc.getPostsAction();
+
           this.openModal('Publicación creada con éxito');
         });
-      // this.closeModal();
-      // await this.postsSvc.createPostWithImageFile(
-      //   descriptionConcat,
-      //   files,
-      //   this.userAddress
-      // );
-      // await loading.dismiss();
-      // this.openModal('Su publicación ha sido creada exitosamente');
-      // // this.closeModal();
+
       return;
     }
 
