@@ -50,8 +50,8 @@ export class PostsPage implements OnInit {
       )
       .subscribe((res) => {
         console.log(res);
-        this.posts = res.filter((post) => post.files.length > 0).reverse();
-        // this.posts = res.filter((item) => item.hashtags !== null);
+        // this.posts = res.data;
+        this.posts = res.data.filter((item) => item.hashtags !== null);
         // console.log(this.posts);
         // const data = this.posts.map((item) => {
         //   const hashtags = item.hashtags;

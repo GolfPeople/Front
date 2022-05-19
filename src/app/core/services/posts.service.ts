@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Post, PostsResponse } from '../interfaces/interfaces';
+import {
+  Post,
+  PostsResponse,
+  PostResponseData,
+} from '../interfaces/interfaces';
 import { BehaviorSubject } from 'rxjs';
 import { filter, finalize, map, retry } from 'rxjs/operators';
 import { LoadingController } from '@ionic/angular';
@@ -20,8 +24,17 @@ export class PostsService {
     private loadingCtrl: LoadingController
   ) {}
 
+  //Trae todos las publicaciones del usuario logueado con paginación.
+  getPosts2(page) {
+    const params = new HttpParams().set('page', page);
+    return this.http
+      .get<PostResponseData>(`${URL}/publish/my_publish`, { params })
+      .pipe(retry(3));
+  }
+
   //Trae todos las publicaciones del usuario logueado
-  async getPosts() {
+  async getPosts(page = 1) {
+    const params = new HttpParams().set('page', page);
     const loading = await this.loadingCtrl.create({
       cssClass: 'laoding-ctrl',
     });
@@ -29,27 +42,32 @@ export class PostsService {
     await loading.present();
 
     this.http
-      .get<PostsResponse[]>(`${URL}/publish/my_publish`)
+      .get<PostResponseData>(`${URL}/publish/my_publish`, { params })
       .pipe(retry(3))
       .subscribe((data) => {
-        this.posts.next(data.reverse());
+        this.posts.next(data.data);
+        // console.log(data);
         loading.dismiss();
       });
   }
 
   //Actualiza la lista de publicaciones
-  getPostsAction() {
+  getPostsAction(page = 1) {
+    const params = new HttpParams().set('page', page);
     this.http
-      .get<PostsResponse[]>(`${URL}/publish/my_publish`)
+      .get<PostResponseData>(`${URL}/publish/my_publish`, { params })
       .pipe(retry(3))
       .subscribe((data) => {
-        this.posts.next(data.reverse());
+        this.posts.next(data.data);
+        // console.log(data);
       });
   }
 
   //Trae todas las publicaciones de acuerdo al hastag selecionado
-  getPostsByHashtag(hashtag) {
-    return this.http.get<PostsResponse[]>(`${URL}/publish/hashtag/${hashtag}`);
+  getPostsByHashtag(hashtag, page = 1) {
+    const params = new HttpParams().set('page', page);
+
+    return this.http.get<PostResponseData>(`${URL}/publish/hashtag/${hashtag}`);
   }
 
   //Trae una sola publicación
@@ -139,5 +157,14 @@ export class PostsService {
         console.log('delete -->', res);
         this.getPosts();
       });
+  }
+
+  //Guardar una publicación
+  savePost(id) {
+    return this.http.post(`${URL}/publish/toogle/favorite/${id}`, {});
+  }
+
+  getSavedPosts() {
+    return this.http.get<PostResponseData>(`${URL}/publish/favorites`);
   }
 }

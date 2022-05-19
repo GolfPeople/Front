@@ -31,7 +31,7 @@ export class VideoService {
       directory: Directory.Data,
     });
 
-    this.videos.unshift(savedFile);
+    this.videos.unshift(savedFile.uri);
     console.log('my array now', this.videos);
 
     return Storage.set({
@@ -53,11 +53,12 @@ export class VideoService {
     });
 
   async getVideoUrl(fullPath) {
-    const path = fullPath.substr(fullPath.lastIndexOf('/') + 1);
-    const file: any = await Filesystem.readFile({
+    console.log(fullPath);
+    const path = fullPath.substring(fullPath.indexOf('/') + 1);
+    const file = await Filesystem.readFile({
       path: path, //123123.mp4
       directory: Directory.Data, // DATA/
     });
-    return `data:video/mp4;base64,${file.path}`;
+    return `data:video/mp4;base64,${file.data}`;
   }
 }

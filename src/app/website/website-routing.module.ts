@@ -25,6 +25,20 @@ const routes: Routes = [
             (m) => m.EditProfilePageModule
           ),
       },
+      {
+        path: 'saved-posts',
+        loadChildren: () =>
+          import('./pages/saved-posts/saved-posts.module').then(
+            (m) => m.SavedPostsPageModule
+          ),
+      },
+      {
+        path: 'my-posts',
+        loadChildren: () =>
+          import('./pages/my-posts/my-posts.module').then(
+            (m) => m.MyPostsPageModule
+          ),
+      },
     ],
   },
   {
@@ -50,11 +64,7 @@ const routes: Routes = [
       import('./pages/edit-post/edit-post.module').then(
         (m) => m.EditPostPageModule
       ),
-  },  {
-    path: 'my-posts',
-    loadChildren: () => import('./pages/my-posts/my-posts.module').then( m => m.MyPostsPageModule)
   },
-
 ];
 
 @NgModule({

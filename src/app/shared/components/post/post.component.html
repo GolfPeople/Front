@@ -50,6 +50,12 @@
           <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
         </a>
       </div>
+      <div class="">
+        <a (click)="savePost()">
+          <ion-icon *ngIf="saved === false" name="bookmark-outline"></ion-icon>
+          <ion-icon *ngIf="saved === true" name="bookmark"></ion-icon>
+        </a>
+      </div>
     </div>
 
     <div class="description">

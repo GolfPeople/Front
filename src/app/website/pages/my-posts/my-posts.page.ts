@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { PostsResponse } from 'src/app/core/interfaces/interfaces';
 import { PostsService } from 'src/app/core/services/posts.service';
@@ -8,15 +9,24 @@ import { PostsService } from 'src/app/core/services/posts.service';
   styleUrls: ['./my-posts.page.scss'],
 })
 export class MyPostsPage implements OnInit {
-  posts: PostsResponse[];
+  posts: PostsResponse[] = [];
 
-  constructor(private postsSvc: PostsService) {
-    this.postsSvc.posts$.subscribe(
-      (data) => (this.posts = data.filter((item) => item.files.length > 0))
-    );
+  constructor(
+    private postsSvc: PostsService,
+
+    private location: Location
+  ) {
+    this.postsSvc.posts$.subscribe((data) => {
+      this.posts = data;
+      console.log(data);
+    });
   }
 
   ngOnInit() {
     this.postsSvc.getPosts();
+  }
+
+  back() {
+    this.location.back();
   }
 }

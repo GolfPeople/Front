@@ -55,6 +55,7 @@ export class PostComponent implements OnInit {
   count: number = 0;
 
   liked: boolean = false;
+  saved: boolean = false;
 
   swiperConfig: SwiperOptions = {
     pagination: { clickable: true },
@@ -83,6 +84,14 @@ export class PostComponent implements OnInit {
       this.post.likes.forEach((item) => {
         if (item.user_id == this.userID) {
           this.liked = true;
+          // console.log(this.liked);
+        }
+      });
+    }
+    if (this.post.favorites.length) {
+      this.post.favorites.forEach((item) => {
+        if (item.user_id == this.userID) {
+          this.saved = true;
           // console.log(this.liked);
         }
       });
@@ -261,6 +270,11 @@ export class PostComponent implements OnInit {
       this.count = res.count;
       console.log(res);
     });
+  }
+
+  savePost() {
+    this.saved = !this.saved;
+    this.postsSvc.savePost(this.post.id).subscribe((res) => console.log(res));
   }
 
   async presentModal() {

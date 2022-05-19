@@ -6,6 +6,10 @@ export interface Post {
   ubication: string;
 }
 
+export interface PostResponseData {
+  data: PostsResponse[];
+}
+
 export interface PostsResponse extends Post {
   id: number;
   description: string;
@@ -15,7 +19,8 @@ export interface PostsResponse extends Post {
   files: any;
   ubication: string;
   user: UserPublicData;
-  comments:any
+  comments: any;
+  favorites: any;
 }
 export interface Like {
   id: number;

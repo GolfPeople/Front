@@ -13,17 +13,20 @@ import { LoadingController } from '@ionic/angular';
 export class PostsComponent implements OnInit {
   avatarImage: string;
   userName: string;
-  posts: PostsResponse[];
+  posts: PostsResponse[] = [];
   location: string;
+  page = 1;
 
   constructor(
     private postsSvc: PostsService,
     private userSvc: UserService,
     private loadingCtrl: LoadingController
   ) {
-    this.postsSvc.posts$.subscribe(
-      (data) => (this.posts = data.filter((item) => item.files.length > 0))
-    );
+    // this.postsSvc.posts$.subscribe((data) => {
+    //   // this.posts = data;
+    //   this.posts = data.filter((item) => item.files.length > 0);
+    //   console.log(this.posts);
+    // });
   }
 
   async ngOnInit() {
@@ -32,23 +35,12 @@ export class PostsComponent implements OnInit {
       spinner: 'crescent',
     });
     await loading.present();
-    await this.postsSvc.getPosts();
-
-    loading.dismiss();
-
-    // this.postsSvc.getPosts().subscribe((data) => {
-    //   this.posts = data.reverse();
-    //   if (this.posts.length === 0) {
-    //     return;
-    //   }
-    //   // console.log(this.posts);
-
-    //   loading.dismiss();
-    // });
-    // this.postsSvc.posts$.subscribe((posts) => {
-    //   this.posts = posts.reverse();
-    //   loading.dismiss();
-    //   console.log(this.posts);
-    // });
+    // await this.postsSvc.getPosts();
+    this.postsSvc.getPosts2(this.page).subscribe((data) => {
+      this.posts = data.data.filter((item) => item.files.length);
+      console.log(this.posts);
+      this.page += 1;
+      loading.dismiss();
+    });
   }
 }
