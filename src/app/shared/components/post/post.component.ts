@@ -111,6 +111,7 @@ export class PostComponent implements OnInit {
             },
             handler: async () => {
               const alert = await this.alertCtrl.create({
+                mode: 'md',
                 cssClass: 'delete-confirmation',
                 // header: 'Eliminar publicación',
                 message: '¿Estás seguro de eliminar esta publicación?',
@@ -204,7 +205,7 @@ export class PostComponent implements OnInit {
             },
           },
           {
-            text: 'Reportar como abuso',
+            text: 'Reportar abuso',
             icon: 'pencil',
             data: 10,
           },
