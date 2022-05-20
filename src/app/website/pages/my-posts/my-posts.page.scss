@@ -1,6 +1,10 @@
 ion-header {
   z-index: 1 !important;
 }
+
+ion-toolbar {
+  margin-bottom: 1rem;
+}
 ion-content {
   --padding-bottom: 100px;
 }

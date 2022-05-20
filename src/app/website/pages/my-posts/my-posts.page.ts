@@ -17,7 +17,7 @@ export class MyPostsPage implements OnInit {
     private location: Location
   ) {
     this.postsSvc.posts$.subscribe((data) => {
-      this.posts = data;
+      this.posts = data.filter((item) => item.files.length);
       console.log(data);
     });
   }
