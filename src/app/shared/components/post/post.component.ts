@@ -42,14 +42,7 @@ export class PostComponent implements OnInit {
   userPhoto: string = '';
 
   @Input() userName: string;
-  @Input() avatar: string;
-  @Input() description: string;
-  @Input() location: string;
-  @Input() images;
-  @Input() id;
   // @Input() userId;
-  @Input() type;
-  @Input() hashtags;
   @Input() likes: Like[];
   userID;
   count: number = 0;
@@ -67,9 +60,7 @@ export class PostComponent implements OnInit {
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     private postsSvc: PostsService,
-    private router: Router,
     private userSvc: UserService,
-    private loadingCtrl: LoadingController,
     private reactionsSvc: ReactionsService
   ) {
     this.userID = localStorage.getItem('user_id');
@@ -84,7 +75,6 @@ export class PostComponent implements OnInit {
       this.post.likes.forEach((item) => {
         if (item.user_id == this.userID) {
           this.liked = true;
-          // console.log(this.liked);
         }
       });
     }
@@ -92,7 +82,6 @@ export class PostComponent implements OnInit {
       this.post.favorites.forEach((item) => {
         if (item.user_id == this.userID) {
           this.saved = true;
-          // console.log(this.liked);
         }
       });
     }
@@ -122,7 +111,6 @@ export class PostComponent implements OnInit {
               const alert = await this.alertCtrl.create({
                 mode: 'md',
                 cssClass: 'delete-confirmation',
-                // header: 'Eliminar publicación',
                 message: '¿Estás seguro de eliminar esta publicación?',
                 buttons: [
                   {
@@ -145,17 +133,6 @@ export class PostComponent implements OnInit {
             icon: 'share',
             data: 10,
             handler: () => this.sharePost(),
-            // handler: () => {
-            //   navigator.share({
-            //     title: 'public-post',
-            //     text: 'Mira este post',
-            //     url: `https://golf-people.web.app/website/post/${this.post.user.name}/${this.post.id}'`,
-            //   });
-            // },
-            // handler: () => {
-            //   console.log('Share clicked');
-            //   this.router.navigate([`/website/post/${this.userName}/${this.id}`]);
-            // },
           },
           {
             text: 'Editar',
@@ -167,12 +144,6 @@ export class PostComponent implements OnInit {
                 backdropDismiss: true,
                 cssClass: 'create-post-modal',
                 componentProps: {
-                  postId: this.post.id,
-                  type: 2,
-                  postDescription: this.description,
-                  postFiles: this.images,
-                  postLocation: this.location,
-                  postHashtags: this.hashtags,
                   post: this.post,
                 },
               });
@@ -205,13 +176,7 @@ export class PostComponent implements OnInit {
             text: 'Compartir',
             icon: 'share',
             data: 10,
-            handler: () => {
-              navigator.share({
-                title: 'public-post',
-                text: 'Mira este post',
-                url: `https://golf-people.web.app/post/${this.userName}/${this.post.id}'`,
-              });
-            },
+            handler: () => this.sharePost(),
           },
           {
             text: 'Reportar abuso',

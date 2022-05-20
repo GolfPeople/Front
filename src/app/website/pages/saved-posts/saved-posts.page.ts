@@ -13,7 +13,7 @@ import { PostsService } from 'src/app/core/services/posts.service';
   styleUrls: ['./saved-posts.page.scss'],
 })
 export class SavedPostsPage implements OnInit {
-  posts: PostsResponse[];
+  posts: any;
 
   constructor(
     private postsSvc: PostsService,
@@ -28,12 +28,11 @@ export class SavedPostsPage implements OnInit {
     await loading.present();
     this.postsSvc.getSavedPosts().subscribe((data) => {
       this.posts = data.data;
-      console.log(data);
       loading.dismiss();
     });
   }
 
   back() {
-    this.location.back()
+    this.location.back();
   }
 }
