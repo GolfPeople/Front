@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Notificaciones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <swiper
+    #swiper
+    [allowTouchMove]="false"
+    class="mySwiper"
+    *ngIf="notifications.length || noReadedNotifications.length"
+  >
+    <ng-template swiperSlide>
+      <ion-list>
+        <ion-item *ngIf="noReadedNotifications.length">
+          <ion-label>Marcar como leidas</ion-label>
+          <ion-checkbox (ionChange)="markAsread()" slot="end"></ion-checkbox>
+        </ion-item>
+        <ion-item *ngFor="let notificacion of noReadedNotifications">
+          <ion-avatar class="ion-margin-end">
+            <img [src]="notificacion.data.data.user_sender.profile.photo" />
+          </ion-avatar>
+          <ion-label
+            (click)="
+              show(
+                notificacion.data.data.user_sender.name,
+                notificacion.data.data.publication_id
+              )
+            "
+            class="normal"
+          >
+            {{ notificacion.data.data.detail }}
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <p *ngIf="!noReadedNotifications.length">No tienes notificaciones</p>
+    </ng-template>
+    <ng-template swiperSlide>
+      <ion-list>
+        <ion-item *ngFor="let notificacion of notifications">
+          <ion-avatar class="ion-margin-end">
+            <img [src]="notificacion.data.data.user_sender.profile.photo" />
+          </ion-avatar>
+          <ion-label
+            (click)="
+              show(
+                notificacion.data.data.user_sender.name,
+                notificacion.data.data.publication_id
+              )
+            "
+            class="normal"
+          >
+            {{ notificacion.data.data.detail }}
+            <div class="footer-notification">
+              <!-- <a (click)="markAsread(notificacion.id)"> Responder</a> -->
+            </div>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <p *ngIf="!notifications.length">No tienes notificaciones</p>
+    </ng-template>
+  </swiper>
+</ion-content>
+<ion-footer>
+  <ion-row>
+    <ion-col size="6">
+      <ion-item
+        [ngClass]="{ active: noRead === true }"
+        class="navigation-prev"
+        (click)="prev()"
+      >
+        <ion-label>Sin ver</ion-label>
+      </ion-item>
+    </ion-col>
+    <ion-col size="6">
+      <ion-item
+        [ngClass]="{ active: all === true }"
+        class="navigation-next"
+        (click)="next()"
+      >
+        <ion-label>Todas</ion-label>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+</ion-footer>

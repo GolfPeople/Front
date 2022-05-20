@@ -11,6 +11,7 @@ ion-content {
 }
 
 .banner {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,7 +19,7 @@ ion-content {
   height: 330px;
   background: linear-gradient(
       to bottom,
-      rgba(0, 56, 139, 0.56) 38%,
+      rgba(109, 111, 114, 0.56) 38%,
       $primary-color 81%
     ),
     url(../../../../assets/img/rectangle-2.jpg) no-repeat center / cover;
@@ -71,6 +72,33 @@ ion-content {
     color: $color-white;
     img {
       width: 17.25px;
+    }
+  }
+  .notifications {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    margin: 0;
+    position: absolute;
+    top: 8px;
+    right: 13px;
+    border-radius: 100%;
+    background: #ff0000;
+
+    ion-icon {
+      font-size: 22px;
+    }
+
+    ion-badge {
+      position: absolute;
+      top: 0;
+      right: -5%;
+      --padding-bottom: 4px;
+      --padding-end: 4px;
+      --padding-start: 4px;
+      --padding-top: 4px;
     }
   }
 }

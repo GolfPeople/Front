@@ -14,6 +14,15 @@
         ><img src="../../../../assets/icon/busqueda-avanzada.png" alt="" />
         Búsqueda Avanzada</a
       >
+
+      <!-- <a (click)="openNotifications()" class="notifications">
+        <img src="../../../../assets/icon/notifications.svg" alt="" />
+        <ion-badge color="danger">{{notifications}}</ion-badge>
+      </a> -->
+      <a (click)="openNotifications()" class="notifications">
+        <ion-icon name="notifications-outline"></ion-icon>
+        <ion-badge color="danger">{{notifications}}</ion-badge>
+      </a>
     </div>
   </section>
   <section class="main-section">
@@ -21,7 +30,8 @@
       <div class="slides-container__header">
         <p class="slide-text">Campos cerca de ti...</p>
         <a class="view-map"
-          ><img src="../../../../assets/icon/map.png" alt="" /> Ver Mapa</a
+          ><img src="../../../../assets/icon/busqueda-avanzada.png" alt="" />
+          Ver Mapa</a
         >
       </div>
       <div class="galery">

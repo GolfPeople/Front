@@ -77,6 +77,7 @@ export class CommentsComponent implements OnInit {
     if (commentary === '') return;
     this.commentSvc.comment(commentary, this.post.id).subscribe((res) => {
       console.log(res);
+      this.post.comments.length += 1;
       this.postsSvc.getPostsAction();
       this.loadComments();
     });

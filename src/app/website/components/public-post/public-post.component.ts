@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PostsService } from 'src/app/core/services/posts.service';
 import { switchMap } from 'rxjs/operators';
 import { PostsResponse } from 'src/app/core/interfaces/interfaces';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-public-post',
@@ -20,10 +21,15 @@ export class PublicPostComponent implements OnInit {
   constructor(
     private postsSvc: PostsService,
     private actRoute: ActivatedRoute,
-    private _location: Location
+    private _location: Location,
+    private loadingCtrl: LoadingController
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    const loading = await this.loadingCtrl.create({
+      cssClass: 'loading-ctrl',
+    });
+    await loading.present();
     this.actRoute.paramMap
       .pipe(
         switchMap((params) => {
@@ -42,6 +48,7 @@ export class PublicPostComponent implements OnInit {
         this.description = res.description;
         // this.ubication = res.ubication;
         // this.files = res.files;
+        loading.dismiss();
       });
   }
 
