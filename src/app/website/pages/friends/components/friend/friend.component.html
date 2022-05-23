@@ -1,0 +1,43 @@
+<!-- <div text-wrap class="friend-card">
+  <div class="start">
+    <ion-avatar>
+      <img [src]="image" />
+    </ion-avatar>
+    <ion-label text-wrap class="friend-info">
+      <h4>{{ name }}</h4>
+      <p>{{ address }}</p>
+      <span>HCP {{ handicap }}</span>
+    </ion-label>
+  </div>
+  <div class="actions">
+    <a>
+      <img src="../../../../../../assets/icons/message-alt.svg" alt="" />
+    </a>
+    <a>
+      <img src="../../../../../../assets/icons/play.svg" alt="" />
+    </a>
+  </div>
+</div> -->
+
+<ion-item lines="none">
+  <ion-avatar>
+    <img [src]="image" />
+  </ion-avatar>
+  <ion-label>
+    <h4>
+      {{ name }}
+    </h4>
+    <p>
+      {{ address }}
+    </p>
+    <span> HCP {{ handicap }} </span>
+  </ion-label>
+  <div class="actions">
+    <a>
+      <img src="../../../../../../assets/icons/message-alt.svg" alt="" />
+    </a>
+    <a>
+      <img src="../../../../../../assets/icons/play.svg" alt="" />
+    </a>
+  </div>
+</ion-item>

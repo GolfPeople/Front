@@ -59,11 +59,9 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'edit-post/:post',
+    path: 'friends',
     loadChildren: () =>
-      import('./pages/edit-post/edit-post.module').then(
-        (m) => m.EditPostPageModule
-      ),
+      import('./pages/friends/friends.module').then((m) => m.FriendsPageModule),
   },
 ];
 

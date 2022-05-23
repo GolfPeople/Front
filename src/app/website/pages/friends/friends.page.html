@@ -1,0 +1,45 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="ion-no-border">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/website">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-justify-content-center">
+      <h2>
+        <img src="../../../../assets/icons/tab/users.svg  " alt="" />
+        AMIGOS
+      </h2>
+    </ion-title>
+  </ion-toolbar>
+  <div class="search-container">
+    <h3>Busca o agrega amigos</h3>
+
+    <div class="search">
+      <input
+        type="text"
+        placeholder="Escribe algo..."
+        [(ngModel)]="searchItem"
+        (ngModelChange)="search($event)"
+      />
+      <img src="../../../../assets/icons/search.svg" alt="" />
+    </div>
+  </div>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- <ion-item *ngFor="let data of data$ | async">
+    <ion-label>{{data.name}}</ion-label>
+  </ion-item> -->
+  <p class="searching" *ngIf="isLoading">Buscando...</p>
+
+  <ion-list lines="none">
+    <app-friend
+      *ngFor="let data of data$ | async"
+      [image]="data.profile.photo"
+      [name]="data.name"
+      [address]="data.profile.address"
+      [handicap]="data.profile.handicap"
+    ></app-friend>
+  </ion-list>
+</ion-content>
