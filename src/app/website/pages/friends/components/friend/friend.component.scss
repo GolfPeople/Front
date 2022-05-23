@@ -1,74 +1,74 @@
 @import "../../../../../scss/variables.scss";
 
-.friend-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 9.5rem;
-  padding: 1.5rem 1.8rem 1.5rem 1.1rem;
-  background: rgba(143, 143, 143, 0.12);
-  border-radius: 15px;
+// .friend-card {
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   width: 100%;
+//   height: 9.5rem;
+//   padding: 1.5rem 1.8rem 1.5rem 1.1rem;
+//   background: rgba(143, 143, 143, 0.12);
+//   border-radius: 15px;
 
-  .start {
-    display: flex;
+//   .start {
+//     display: flex;
 
-    ion-avatar {
-      width: 65px;
-      height: 65px;
-      margin-right: 1rem;
-      img {
-        width: 100%;
-      }
-    }
+//     ion-avatar {
+//       width: 65px;
+//       height: 65px;
+//       margin-right: 1rem;
+//       img {
+//         width: 100%;
+//       }
+//     }
 
-    .friend-info {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
+//     .friend-info {
+//       display: flex;
+//       flex-direction: column;
+//       align-items: flex-start;
 
-      h4 {
-        margin: 0;
-        font-weight: 500;
-        font-size: 13px;
-        line-height: 17px;
+//       h4 {
+//         margin: 0;
+//         font-weight: 500;
+//         font-size: 13px;
+//         line-height: 17px;
 
-        color: #2c2c2c;
-      }
+//         color: #2c2c2c;
+//       }
 
-      p {
-        font-weight: 500;
-        font-size: 11px;
-        line-height: 20px;
-        /* or 182% */
+//       p {
+//         font-weight: 500;
+//         font-size: 11px;
+//         line-height: 20px;
+//         /* or 182% */
 
-        color: #8f8f8f;
-      }
+//         color: #8f8f8f;
+//       }
 
-      span {
-        font-weight: 700;
-        font-size: 11px;
-        line-height: 20px;
-        /* or 182% */
+//       span {
+//         font-weight: 700;
+//         font-size: 11px;
+//         line-height: 20px;
+//         /* or 182% */
 
-        color: #009838;
-      }
-    }
-  }
+//         color: #009838;
+//       }
+//     }
+//   }
 
-  .actions {
-    display: flex;
-    flex-direction: column;
+//   .actions {
+//     display: flex;
+//     flex-direction: column;
 
-    @media screen and (min-width: 350px) {
-      flex-direction: row;
+//     @media screen and (min-width: 350px) {
+//       flex-direction: row;
 
-      a:first-child {
-        margin-right: 25px;
-      }
-    }
-  }
-}
+//       a:first-child {
+//         margin-right: 25px;
+//       }
+//     }
+//   }
+// }
 
 ion-item {
   height: 9.5rem;
@@ -101,6 +101,7 @@ ion-item {
       font-weight: 500;
       font-size: 11px;
       line-height: 20px;
+      margin: 0;
       /* or 182% */
 
       color: #8f8f8f;

@@ -28,12 +28,9 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- <ion-item *ngFor="let data of data$ | async">
-    <ion-label>{{data.name}}</ion-label>
-  </ion-item> -->
   <p class="searching" *ngIf="isLoading">Buscando...</p>
 
-  <ion-list lines="none">
+  <ion-list *ngIf="data$" lines="none">
     <app-friend
       *ngFor="let data of data$ | async"
       [image]="data.profile.photo"
