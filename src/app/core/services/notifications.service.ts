@@ -14,6 +14,8 @@ export class NotificationsService {
   noReadedNotifications$ = this.noReadedNotifications.asObservable();
   private notifications = new BehaviorSubject<Notification[]>([]);
   notifications$ = this.notifications.asObservable();
+  private counter = new BehaviorSubject<number>(0);
+  counter$ = this.counter.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -24,7 +26,10 @@ export class NotificationsService {
     return this.http
       .get<Notification[]>(`${URL}/notifications/my/notread`)
       .subscribe((res) => {
-        if (res.length) this.noReadedNotifications.next(res);
+        if (res.length) {
+          this.noReadedNotifications.next(res);
+          this.counter.next(res.length);
+        }
 
         return;
       });
@@ -40,6 +45,10 @@ export class NotificationsService {
           if (res.length) this.noReadedNotifications.next(res);
         });
       });
+  }
+
+  updateCounter(value: number) {
+    this.counter.next(value);
   }
 
   all() {

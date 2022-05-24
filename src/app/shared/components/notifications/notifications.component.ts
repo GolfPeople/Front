@@ -20,6 +20,7 @@ export class NotificationsComponent implements OnInit {
 
   notifications: Notification[] = [];
   noReadedNotifications: Notification[] = [];
+  notificationCounter: number;
 
   noRead: boolean = true;
   all: boolean = false;
@@ -29,7 +30,11 @@ export class NotificationsComponent implements OnInit {
     private notifocationsSvc: NotificationsService,
     private loadingCtrl: LoadingController,
     private router: Router
-  ) {}
+  ) {
+    this.notifocationsSvc.counter$.subscribe(
+      (res) => (this.notificationCounter = res)
+    );
+  }
 
   async ngOnInit() {
     const loading = await this.loadingCtrl.create({
@@ -58,6 +63,7 @@ export class NotificationsComponent implements OnInit {
   }
 
   async markAsread() {
+    this.notifocationsSvc.updateCounter(0);
     const loading = await this.loadingCtrl.create({
       cssClass: 'loading-ctrl',
     });

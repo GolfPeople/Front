@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Observable } from 'rxjs';
 import { take, takeLast } from 'rxjs/operators';
 import { PostsResponse } from 'src/app/core/interfaces/interfaces';
 import { NotificationsService } from 'src/app/core/services/notifications.service';
@@ -16,7 +17,7 @@ export class HomePage implements OnInit {
   userName: string = '';
   cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   posts: PostsResponse[];
-  notifications: number;
+  notifications: any;
 
   constructor(
     private userService: UserService,
@@ -30,9 +31,10 @@ export class HomePage implements OnInit {
     this.postsSvc.posts$.subscribe((data) => {
       this.posts = data.slice(0, 3);
     });
-    this.notificationsSvc.noReadedNotifications$.subscribe(
-      (res) => (this.notifications = res.length)
-    );
+    // this.notificationsSvc.noReadedNotifications$.subscribe(
+    //   (res) => (this.notifications = res.length)
+    // );
+    this.notifications = this.notificationsSvc.counter$;
   }
 
   ngOnInit() {
