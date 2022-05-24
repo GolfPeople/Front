@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Friend } from 'src/app/core/models/friend.interface';
+import { FriendsService } from 'src/app/core/services/friends.service';
 
 @Component({
   selector: 'app-friend',
@@ -6,12 +8,26 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./friend.component.scss'],
 })
 export class FriendComponent implements OnInit {
-  @Input() image: string;
-  @Input() name: string;
-  @Input() address: string;
-  @Input() handicap: string;
+  @Input() user: Friend;
+  myId;
+  following: boolean = false;
 
-  constructor() {}
+  constructor(private friendsSvc: FriendsService) {
+    this.myId = localStorage.getItem('user_id');
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.user.to.length) {
+      this.user.to.forEach((item) => {
+        if (item.user_id == this.myId) {
+          this.following = true;
+        }
+      });
+    }
+  }
+
+  follow(id) {
+    this.following = true;
+    this.friendsSvc.follow(id).subscribe((res) => console.log(res));
+  }
 }

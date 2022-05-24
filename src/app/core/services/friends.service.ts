@@ -12,9 +12,35 @@ const URL = `${environment.golfpeopleAPI}/api`;
 export class FriendsService {
   constructor(private http: HttpClient) {}
 
+  // Método para buscar usuarios
   search(user: string) {
     const params = new HttpParams().set('search', user);
-    return this.http
-      .get<FriendResponse>(`${URL}/connections/search`, { params })
+    return this.http.get<FriendResponse>(`${URL}/connections/search`, {
+      params,
+    });
+  }
+
+  // Método para seguir a un usuario
+  follow(id) {
+    return this.http.post(`${URL}/connections/attach/${id}`, {});
+  }
+
+  // Método para dejar de seguir a un usuario
+  unfollow(id) {
+    return this.http.post(`${URL}/connections/detach/${id}`, {});
+  }
+
+  //Muestra los usuarios que sigo
+  following() {
+    return this.http.get(`${URL}/connections/my/follows`);
+  }
+
+  //Muestra los usuarios que me siguen
+  followers() {
+    return this.http.get(`${URL}/connections/my/followers`);
+  }
+
+  mayKnow() {
+    return this.http.get(`${URL}/connections/mayknow`);
   }
 }

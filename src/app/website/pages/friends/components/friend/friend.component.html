@@ -1,43 +1,25 @@
-<!-- <div text-wrap class="friend-card">
-  <div class="start">
-    <ion-avatar>
-      <img [src]="image" />
-    </ion-avatar>
-    <ion-label text-wrap class="friend-info">
-      <h4>{{ name }}</h4>
-      <p>{{ address }}</p>
-      <span>HCP {{ handicap }}</span>
-    </ion-label>
-  </div>
-  <div class="actions">
-    <a>
-      <img src="../../../../../../assets/icons/message-alt.svg" alt="" />
-    </a>
-    <a>
-      <img src="../../../../../../assets/icons/play.svg" alt="" />
-    </a>
-  </div>
-</div> -->
-
 <ion-item lines="none">
   <ion-avatar>
-    <img [src]="image" />
+    <img [src]="user.profile.photo" />
   </ion-avatar>
   <ion-label>
     <h4>
-      {{ name }}
+      {{ user.name }}
     </h4>
     <p>
-      {{ address }}
+      {{ user.profile.address }}
     </p>
-    <span> HCP {{ handicap }} </span>
+    <span> HCP {{ user.profile.handicap }} </span>
   </ion-label>
   <div class="actions">
     <a>
       <img src="../../../../../../assets/icons/message-alt.svg" alt="" />
     </a>
-    <a>
+    <a *ngIf="following">
       <img src="../../../../../../assets/icons/play.svg" alt="" />
+    </a>
+    <a *ngIf="!following" (click)="follow(user.id)">
+      <img src="../../../../../../assets/icons/user-add.svg" alt="" />
     </a>
   </div>
 </ion-item>

@@ -39,6 +39,7 @@ export interface Friend {
   provider_id?: any;
   profile: Profile;
   privacity: Privacity;
+  to: any;
 }
 
 export interface Link {

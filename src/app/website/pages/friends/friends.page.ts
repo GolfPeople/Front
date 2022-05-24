@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { debounceTime, finalize, map } from 'rxjs/operators';
+import { Friend } from 'src/app/core/models/friend.interface';
 import { FriendsService } from 'src/app/core/services/friends.service';
 
 @Component({
@@ -9,7 +11,7 @@ import { FriendsService } from 'src/app/core/services/friends.service';
 })
 export class FriendsPage implements OnInit {
   searchItem: string = '';
-  public data$: any;
+  public data$: Observable<Friend[]> = new Observable();
   isLoading: boolean = false;
   constructor(private friendsSvc: FriendsService) {}
 
@@ -19,13 +21,14 @@ export class FriendsPage implements OnInit {
     this.isLoading = true;
     console.log(this.searchItem);
     if (!value.length) {
-      this.data$ = [];
       return;
     }
     this.data$ = this.friendsSvc.search(value).pipe(
       debounceTime(500),
       map((data) => data.data),
-      finalize(() => (this.isLoading = false))
+      finalize(() => {
+        this.isLoading = false;
+      })
     );
   }
 }

@@ -31,12 +31,11 @@
   <p class="searching" *ngIf="isLoading">Buscando...</p>
 
   <ion-list *ngIf="data$" lines="none">
-    <app-friend
-      *ngFor="let data of data$ | async"
-      [image]="data.profile.photo"
-      [name]="data.name"
-      [address]="data.profile.address"
-      [handicap]="data.profile.handicap"
-    ></app-friend>
+    <app-friend *ngFor="let data of data$ | async" [user]="data"></app-friend>
   </ion-list>
 </ion-content>
+
+<!-- [image]="data.profile.photo"
+  [name]="data.name"
+  [address]="data.profile.address"
+  [handicap]="data.profile.handicap" -->
