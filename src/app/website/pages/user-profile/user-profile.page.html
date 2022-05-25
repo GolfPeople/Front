@@ -1,0 +1,102 @@
+<ion-content>
+  <div class="header">
+    <div class="header-links">
+      <a (click)="goBack()"
+        ><img
+          class="profile-icon"
+          src="../../../../assets/icons/user-profile/arrow-back.svg"
+          alt=""
+        />
+      </a>
+
+      <div class="end">
+        <a (click)="favorite()">
+          <img
+            class="share-icon"
+            src="../../../../assets/icons/user-profile/favorite.svg"
+            alt=""
+        /></a>
+        <a (click)="shareProfile()">
+          <img
+            class="share-icon"
+            src="../../../../assets/icons/user-profile/share.svg"
+            alt=""
+        /></a>
+      </div>
+    </div>
+
+    <app-public-avatar
+      [imageAvatar]="userInfo.profile.photo"
+    ></app-public-avatar>
+    <div class="user-profile">
+      <h3 class="profile-name text-center">{{userInfo.name}}</h3>
+      <h5 class="profile-golfer text-center">Perfil Golfer</h5>
+    </div>
+    <div class="club">
+      <img src="../../../../assets/icons/user-profile/king.svg" alt="" />
+      <p>Socio Real Club Valderrama</p>
+    </div>
+    <div class="header-buttons">
+      <ion-button class="message-button" (click)="onClick()">
+        <img
+          src="../../../../assets/icons/user-profile/message-button.svg"
+          alt=""
+        />
+        Enviar Mensaje
+      </ion-button>
+      <ion-button class="play-button" (click)="onClick()">
+        <img
+          src="../../../../assets/icons/user-profile/play-button.svg"
+          alt=""
+        />
+
+        Jugar Partida
+      </ion-button>
+    </div>
+  </div>
+  <div class="edit-profile-card">
+    <div class="edit-nav">
+      <!-- <div class="qr-container">
+        <div class="qr-info">
+          <h3>MyGolfPass</h3>
+          <h4>5768 2948 4872 9692</h4>
+          <p>{{userName}}</p>
+        </div>
+        <div class="qr" (click)="openModal()">
+          <img src="../../../../assets/icon/qr.png" alt="" />
+        </div>
+      </div> -->
+      <ul>
+        <!-- <li><a routerLinkActive="active" [routerLink]="['level']">Nivel</a></li>
+      <li>
+        <a routerLinkActive="active">Mi Bolsa</a>
+      </li>
+      <li><a routerLinkActive="active">Campos</a></li>
+      <li>
+        <a routerLinkActive="active">Publicaciones</a>
+      </li> -->
+        <li>
+          <a (click)="prev()" id="1" [ngClass]="{'active': level}">Nivel</a>
+        </li>
+        <li>
+          <a>Bolsa</a>
+        </li>
+        <li><a>Campos</a></li>
+        <li>
+          <a (click)="next()" id="4" [ngClass]="{'active': posts}"
+            >Publicaciones</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <swiper #swiper class="mySwiper">
+      <ng-template swiperSlide>
+        <app-level></app-level>
+      </ng-template>
+      <ng-template swiperSlide>
+        <app-posts></app-posts>
+      </ng-template>
+    </swiper>
+  </div>
+</ion-content>

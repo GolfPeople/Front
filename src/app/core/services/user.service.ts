@@ -34,6 +34,13 @@ export class UserService {
     return this.http.get<any>(`${this.apiUrl}/user`);
   }
 
+  // Método para obtener la información de un usuario en especifico
+  getUser(id) {
+    return this.http.get<any>(
+      `https://api.app.golfpeople.com/api/profile/${id}`
+    );
+  }
+
   updatePhoto(image: string) {
     this.userPhoto.next(image);
   }

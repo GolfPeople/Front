@@ -1,5 +1,5 @@
 <ion-item lines="none">
-  <ion-avatar>
+  <ion-avatar [routerLink]="['/website/user-profile', user.profile.user_id]">
     <img [src]="user.profile.photo" />
   </ion-avatar>
   <ion-label>

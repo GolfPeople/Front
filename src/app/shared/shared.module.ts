@@ -21,6 +21,7 @@ import { CropperComponent } from './components/cropper/cropper.component';
 import { CommentsComponent } from './components/comments/comments.component';
 import { CommentResponseComponent } from './components/comment-response/comment-response.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import { PublicAvatarComponent } from './components/public-avatar/public-avatar.component';
 
 const components = [
   SelectDateComponent,
@@ -37,6 +38,7 @@ const components = [
   CommentsComponent,
   CommentResponseComponent,
   NotificationsComponent,
+  PublicAvatarComponent,
 ];
 
 @NgModule({

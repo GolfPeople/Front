@@ -39,6 +39,20 @@ const routes: Routes = [
             (m) => m.MyPostsPageModule
           ),
       },
+      {
+        path: 'friends',
+        loadChildren: () =>
+          import('./pages/friends/friends.module').then(
+            (m) => m.FriendsPageModule
+          ),
+      },
+      {
+        path: 'user-profile/:id',
+        loadChildren: () =>
+          import('./pages/user-profile/user-profile.module').then(
+            (m) => m.UserProfilePageModule
+          ),
+      },
     ],
   },
   {
@@ -57,11 +71,6 @@ const routes: Routes = [
       import('./pages/create-post/create-post.module').then(
         (m) => m.CreatePostPageModule
       ),
-  },
-  {
-    path: 'friends',
-    loadChildren: () =>
-      import('./pages/friends/friends.module').then((m) => m.FriendsPageModule),
   },
 ];
 

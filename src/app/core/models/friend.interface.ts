@@ -1,12 +1,12 @@
 export interface Profile {
-  id: number;
-  user_id: number;
+  id?: number;
+  user_id?: number;
   username?: any;
   license?: any;
-  photo: string;
-  created_at: Date;
-  updated_at: Date;
-  handicap: string;
+  photo?: string;
+  created_at?: Date;
+  updated_at?: Date;
+  handicap?: string;
   time_playing?: any;
   type?: any;
   gender?: any;
@@ -40,6 +40,7 @@ export interface Friend {
   profile: Profile;
   privacity: Privacity;
   to?: any;
+  from?: any;
 }
 
 export interface Link {

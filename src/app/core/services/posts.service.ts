@@ -51,6 +51,14 @@ export class PostsService {
       });
   }
 
+  getPostsByUser(id, page) {
+    const params = new HttpParams().set('page', page);
+
+    return this.http.get<PostResponseData>(`${URL}/profile/publish/${id}`, {
+      params,
+    });
+  }
+
   //Actualiza la lista de publicaciones
   getPostsAction(page = 1) {
     const params = new HttpParams().set('page', page);
