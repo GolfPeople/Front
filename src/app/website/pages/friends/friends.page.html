@@ -33,9 +33,28 @@
   <ion-list *ngIf="data$" lines="none">
     <app-friend *ngFor="let data of data$ | async" [user]="data"></app-friend>
   </ion-list>
+
+  <ion-list *ngIf="friends.length" lines="none">
+    <h3 class="list-title">Amigos</h3>
+    <app-friend
+      *ngFor="let data of friends"
+      [user]="data.to"
+      [friend]="true"
+    ></app-friend>
+  </ion-list>
+
+  <ion-list *ngIf="mayKnow.length" lines="none">
+    <h3 class="list-title">Personas que quizas conozcas</h3>
+    <app-friend
+      *ngFor="let data of mayKnow; index as i "
+      (addedFriend)="addedFriend($event, i)"
+      [user]="data"
+    ></app-friend>
+  </ion-list>
 </ion-content>
 
 <!-- [image]="data.profile.photo"
   [name]="data.name"
   [address]="data.profile.address"
   [handicap]="data.profile.handicap" -->
+<!-- </ion-content> -->

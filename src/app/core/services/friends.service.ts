@@ -31,16 +31,22 @@ export class FriendsService {
   }
 
   //Muestra los usuarios que sigo
-  following() {
-    return this.http.get(`${URL}/connections/my/follows`);
+  following(page) {
+    const params = new HttpParams().set('page', page);
+
+    return this.http.get<any>(`${URL}/connections/my/follows`);
   }
 
   //Muestra los usuarios que me siguen
-  followers() {
-    return this.http.get(`${URL}/connections/my/followers`);
+  followers(page) {
+    const params = new HttpParams().set('page', page);
+
+    return this.http.get<FriendResponse>(`${URL}/connections/my/followers`);
   }
 
-  mayKnow() {
-    return this.http.get(`${URL}/connections/mayknow`);
+  mayKnow(page) {
+    const params = new HttpParams().set('page', page);
+
+    return this.http.get<FriendResponse>(`${URL}/connections/mayknow`);
   }
 }
