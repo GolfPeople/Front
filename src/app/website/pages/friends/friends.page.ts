@@ -30,12 +30,12 @@ export class FriendsPage implements OnInit {
     await loading.present();
     this.friendsSvc.following(this.friendsPage).subscribe(({ data }) => {
       this.friendsPage += 1;
-      console.log(data);
+      // console.log('data de amigos', data);
       this.friends = data;
     });
     this.friendsSvc.mayKnow(this.mayKnowPage).subscribe(({ data }) => {
       this.mayKnowPage += 1;
-      console.log(data);
+      // console.log('data de quizas conozcas', data);
       this.mayKnow = data;
       loading.dismiss();
     });
@@ -52,6 +52,7 @@ export class FriendsPage implements OnInit {
       map((data) => data.data),
       finalize(() => {
         this.isLoading = false;
+        //Esto es una prueba para ver la datar en consola. No se debe realizar.
         // this.data$.subscribe((res) => console.log('res--> ', res));
       })
     );
@@ -60,7 +61,15 @@ export class FriendsPage implements OnInit {
   addedFriend(friend, index) {
     console.log(friend);
     console.log(index);
-    this.mayKnow.splice(index, 1);
+    // if (friend) {
+    this.friendsSvc.following(this.friendsPage).subscribe(({ data }) => {
+      this.friendsPage += 1;
+      console.log('data de amigos', data);
+      this.friends = data;
+    });
+    // }
+    //Esto se va a utilizar si se requiere quitar
+    // this.mayKnow.splice(index, 1);
 
     // No se puede hacer el push porque la data es distinta
     // this.friends.push(friend);

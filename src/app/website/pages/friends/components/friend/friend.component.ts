@@ -38,7 +38,10 @@ export class FriendComponent implements OnInit {
 
   follow(id) {
     this.following = true;
-    this.friendsSvc.follow(id).subscribe((res) => console.log(res));
-    this.addedFriend.emit(this.user);
+    this.friendsSvc.follow(id).subscribe((res) => {
+      console.log(res);
+
+      this.addedFriend.emit(this.user);
+    });
   }
 }
