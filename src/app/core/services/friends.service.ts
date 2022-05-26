@@ -20,6 +20,14 @@ export class FriendsService {
     });
   }
 
+  // Método para buscar amigos
+  searchFriend(user: string) {
+    const params = new HttpParams().set('search', user);
+    return this.http.get<FriendResponse>(`${URL}/connections/search/friends`, {
+      params,
+    });
+  }
+
   // Método para seguir a un usuario
   follow(id) {
     return this.http.post(`${URL}/connections/attach/${id}`, {});

@@ -27,30 +27,58 @@
   </div>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <p class="searching" *ngIf="isLoading">Buscando...</p>
+<ion-content fullscreen="true" class="">
+  <div class="toggle-tab">
+    <div [ngClass]="{'active': all}" class="fondo"></div>
+    <div class="toggle-buttons">
+      <button [ngClass]="{'active': following}" (click)="prev()">Amigos</button>
+      <button [ngClass]="{'active': all}" (click)="next()">Usuarios</button>
+    </div>
+  </div>
 
-  <ion-list *ngIf="data$" lines="none">
-    <app-friend *ngFor="let data of data$ | async" [user]="data"></app-friend>
-  </ion-list>
+  <swiper #swiper [allowTouchMove]="false" class="mySwiper">
+    <ng-template swiperSlide>
+      <p class="searching" *ngIf="isLoading">Buscando...</p>
 
-  <ion-list *ngIf="friends.length" lines="none">
-    <h3 class="list-title">Amigos</h3>
-    <app-friend
-      *ngFor="let data of friends"
-      [user]="data.to"
-      [friend]="true"
-    ></app-friend>
-  </ion-list>
+      <ion-list lines="none">
+        <h3 *ngIf="friendsData" class="list-title">Tus amigos</h3>
+        <app-friend
+          *ngFor="let data of friends$ | async"
+          [user]="data"
+          [friend]="true"
+        ></app-friend>
+      </ion-list>
 
-  <ion-list *ngIf="mayKnow.length" lines="none">
+      <ion-list *ngIf="friends.length && !friendsData" lines="none">
+        <h3 class="list-title">Tus amigos</h3>
+        <app-friend
+          *ngFor="let data of friends"
+          [user]="data.to"
+          [friend]="true"
+        ></app-friend>
+      </ion-list>
+    </ng-template>
+    <ng-template swiperSlide>
+      <p class="searching" *ngIf="isLoading">Buscando...</p>
+
+      <ion-list lines="none">
+        <h3 class="list-title">Usuarios</h3>
+        <app-friend
+          *ngFor="let data of users$ | async"
+          [user]="data"
+        ></app-friend>
+      </ion-list>
+    </ng-template>
+  </swiper>
+
+  <!-- <ion-list *ngIf="mayKnow.length" lines="none">
     <h3 class="list-title">Personas que quizas conozcas</h3>
     <app-friend
       *ngFor="let data of mayKnow; index as i "
       (addedFriend)="addedFriend($event, i)"
       [user]="data"
     ></app-friend>
-  </ion-list>
+  </ion-list> -->
 </ion-content>
 
 <!-- [image]="data.profile.photo"

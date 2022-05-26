@@ -7,7 +7,10 @@
 ion-content {
   --background: #ffffff;
   top: -15px;
-  --padding-top: 45px;
+  --padding-top: 20px;
+  --padding-bottom: 200px;
+  --padding-start: 16px;
+  --padding-end: 16px;
 }
 
 .searching {
@@ -17,11 +20,12 @@ ion-content {
 
 .list-title {
   font-size: 1.8rem;
+  font-weight: 600;
   color: #000;
 }
 
 ion-list {
-  background: transparent;
+  background: transparent !important;
 }
 
 ion-header {
@@ -99,5 +103,79 @@ ion-toolbar {
       line-height: 17px;
       color: #828282;
     }
+  }
+}
+
+.toggle-tab {
+  position: relative;
+  width: 100%;
+  max-width: 33rem;
+  height: 4.3rem;
+  margin: 2rem auto;
+  background: rgba(221, 221, 221, 0.25);
+  border-radius: 4rem;
+
+  .fondo {
+    width: 50%;
+    height: 100%;
+    background: #009838;
+    border-radius: 4rem;
+    transition: all 0.5s ease;
+
+    &.active {
+      transform: translateX(100%);
+    }
+  }
+
+  .toggle-buttons {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+
+    button {
+      width: 500%;
+      height: 100%;
+      font-size: 1.3rem;
+      font-weight: 500;
+      line-height: 1.7rem;
+      text-align: center;
+      color: #8f8f8f;
+      background: transparent;
+
+      &.active {
+        color: #ffffff;
+      }
+    }
+  }
+}
+
+.swiper {
+  width: 100%;
+  // height: 100%;
+}
+
+// .swiper-slide {
+//   display: flex;
+//   flex-direction: column;
+//   // align-items: center;
+//   justify-content: center;
+//   height: 100%;
+//   padding-bottom: 40px;
+// }
+
+.navigation-prev {
+  transition: all 0.5s;
+  &.active {
+    border-top: 1.5px solid $blue;
+  }
+}
+.navigation-next {
+  transition: all 0.5s;
+  &.active {
+    border-top: 1.5px solid $blue;
   }
 }

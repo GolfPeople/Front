@@ -9,10 +9,18 @@ import { FriendsPageRoutingModule } from './friends-routing.module';
 import { FriendsPage } from './friends.page';
 import { FriendComponent } from './components/friend/friend.component';
 
+import { SwiperModule } from 'swiper/angular';
+
 const components = [FriendComponent];
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, FriendsPageRoutingModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    FriendsPageRoutingModule,
+    SwiperModule,
+  ],
   declarations: [FriendsPage, components],
 })
 export class FriendsPageModule {}

@@ -4,6 +4,7 @@ import {
   OnInit,
   ViewChild,
   AfterContentChecked,
+  ViewEncapsulation,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
@@ -21,6 +22,7 @@ SwiperCore.use([Navigation]);
   selector: 'app-user-profile',
   templateUrl: './user-profile.page.html',
   styleUrls: ['./user-profile.page.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class UserProfilePage implements OnInit, AfterContentChecked {
   @ViewChild('swiper') swiper: SwiperComponent;
