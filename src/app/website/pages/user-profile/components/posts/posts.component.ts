@@ -32,7 +32,7 @@ export class PostsComponent implements OnInit {
       .pipe(
         switchMap((param) => {
           this.id = param.get('id');
-
+          console.log(this.id);
           if (this.id) {
             return this.postsSvc.getPostsByUser(this.id, this.page);
           }
@@ -40,7 +40,9 @@ export class PostsComponent implements OnInit {
         })
       )
       .subscribe((res) => {
+        // console.log('TEST', res);
         this.posts = res.data.filter((item) => item.files.length);
+        // console.log(this.posts);
         this.page += 1;
       });
   }

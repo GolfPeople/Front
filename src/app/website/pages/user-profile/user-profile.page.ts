@@ -9,12 +9,16 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { switchMap } from 'rxjs/operators';
-import { UserPublicData } from 'src/app/core/interfaces/interfaces';
+import {
+  PostsResponse,
+  UserPublicData,
+} from 'src/app/core/interfaces/interfaces';
 import { Friend } from 'src/app/core/models/friend.interface';
 import { UserService } from 'src/app/core/services/user.service';
 
 import { SwiperComponent } from 'swiper/angular';
 import SwiperCore, { Pagination, Lazy, Navigation } from 'swiper';
+import { PostsService } from 'src/app/core/services/posts.service';
 
 SwiperCore.use([Navigation]);
 
@@ -30,8 +34,8 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
   profileUrl: string = 'https://golf-people.web.app/website/user-profile';
   value: string;
 
-  level: boolean = true;
-  posts: boolean = false;
+  levelTab: boolean = true;
+  postsTab: boolean = false;
 
   id;
   userInfo: Friend = {
@@ -115,14 +119,14 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
 
   next() {
     this.swiper.swiperRef.slideNext(500);
-    this.posts = true;
-    this.level = false;
-    console.log(this.posts, this.level);
+    this.postsTab = true;
+    this.levelTab = false;
+    console.log(this.postsTab, this.levelTab);
   }
   prev() {
     this.swiper.swiperRef.slidePrev(500);
-    this.posts = false;
-    this.level = true;
-    console.log(this.posts, this.level);
+    this.postsTab = false;
+    this.levelTab = true;
+    console.log(this.postsTab, this.levelTab);
   }
 }
