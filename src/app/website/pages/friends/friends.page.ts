@@ -25,9 +25,11 @@ export class FriendsPage implements OnInit {
   following: boolean = true;
 
   searchItem: string = '';
-  public users$: Observable<Friend[]> = new Observable();
-  public friends$: Observable<Friend[]> = new Observable();
-  friendsData: boolean = false;
+  public users$: Observable<Friend[]> | any;
+  public friends$: Observable<Friend[]> | any;
+  usersArray: Friend[];
+  friendsArray: Friend[];
+  friendsData: boolean = true;
   friends: any = [];
   mayKnow: Friend[] = [];
   friendsPage = 1;
@@ -47,43 +49,49 @@ export class FriendsPage implements OnInit {
       this.friendsPage += 1;
       console.log('data de amigos', data);
       this.friends = data;
-    });
-    this.friendsSvc.mayKnow(this.mayKnowPage).subscribe(({ data }) => {
-      this.mayKnowPage += 1;
-      // console.log('data de quizas conozcas', data);
-      this.mayKnow = data;
       loading.dismiss();
     });
+    // this.friendsSvc.mayKnow(this.mayKnowPage).subscribe(({ data }) => {
+    //   this.mayKnowPage += 1;
+    //   // console.log('data de quizas conozcas', data);
+    //   this.mayKnow = data;
+    //   // loading.dismiss();
+    // });
   }
 
   search(value: string) {
     this.isLoading = true;
     console.log(value);
     if (value === '') {
-      this.friendsData = false;
+      this.friendsData = true;
       this.isLoading = false;
+
+      this.users$ = new Observable();
+      this.friends$ = new Observable();
 
       return;
     }
-    this.friends$ = this.friendsSvc.searchFriend(value).pipe(
-      debounceTime(500),
-      map((data) => data.data),
-      finalize(() => {
-        this.friendsData = true;
-        this.isLoading = false;
-        //Esto es una prueba para ver la datar en consola. No se debe realizar.
-        // this.users$.subscribe((res) => console.log('res--> ', res));
-      })
-    );
-    this.users$ = this.friendsSvc.search(value).pipe(
-      debounceTime(500),
-      map((data) => data.data),
-      finalize(() => {
-        this.isLoading = false;
-        //Esto es una prueba para ver la datar en consola. No se debe realizar.
-        // this.users$.subscribe((res) => console.log('res--> ', res));
-      })
-    );
+
+    if (value) {
+      console.log('Valor valido', value);
+      this.friends$ = this.friendsSvc.searchFriend(value).pipe(
+        debounceTime(500),
+        map((data) => data.data),
+        finalize(() => {
+          this.friendsData = false;
+          console.log(this.friendsData);
+          // this.friends$.subscribe((res) => console.log('res -->', res));
+        })
+      );
+      this.users$ = this.friendsSvc.search(value).pipe(
+        debounceTime(500),
+        map((data) => data.data),
+        finalize(() => {
+          this.isLoading = false;
+        })
+      );
+    }
+    return;
   }
 
   addedFriend(friend, index) {
@@ -101,6 +109,11 @@ export class FriendsPage implements OnInit {
 
     // No se puede hacer el push porque la data es distinta
     // this.friends.push(friend);
+  }
+
+  unfollow(friend, index) {
+    console.log(friend);
+    // this.friends.splice(index, 1);
   }
 
   next() {

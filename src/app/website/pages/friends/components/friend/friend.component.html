@@ -21,5 +21,15 @@
     <a *ngIf="!following" (click)="follow(user.id)">
       <img src="../../../../../../assets/icons/user-add.svg" alt="" />
     </a>
+    <ion-button
+      *ngIf="following"
+      (click)="unfollow(user.id)"
+      color="danger"
+      expand="block"
+      fill="clear"
+      shape="round"
+    >
+      <ion-icon name="trash"></ion-icon>
+    </ion-button>
   </div>
 </ion-item>

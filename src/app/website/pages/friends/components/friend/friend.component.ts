@@ -9,8 +9,9 @@ import { FriendsService } from 'src/app/core/services/friends.service';
 })
 export class FriendComponent implements OnInit {
   @Input() user: Friend;
-  @Input() friend: boolean = false;
+  @Input() isFriend: boolean = false;
   @Output() addedFriend = new EventEmitter<Friend>();
+  @Output() unfollowFriend = new EventEmitter<Friend>();
   myId;
   following: boolean = false;
 
@@ -23,13 +24,13 @@ export class FriendComponent implements OnInit {
     //   this.following = true;
     // }
 
-    this.friend ? (this.following = true) : (this.following = false);
+    this.isFriend ? (this.following = true) : (this.following = false);
     if (this.user.hasOwnProperty('to')) {
       if (this.user.to.length) {
         this.user.to.forEach((item) => {
           if (item.user_id == this.myId) {
             this.following = true;
-            this.friend = true;
+            this.isFriend = true;
           }
         });
       }
@@ -42,6 +43,15 @@ export class FriendComponent implements OnInit {
       console.log(res);
 
       this.addedFriend.emit(this.user);
+    });
+  }
+  unfollow(id) {
+    this.following = false;
+
+    this.friendsSvc.unfollow(id).subscribe((res) => {
+      console.log(res);
+
+      this.unfollowFriend.emit(this.user);
     });
   }
 }
