@@ -19,6 +19,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import { SwiperComponent } from 'swiper/angular';
 import SwiperCore, { Pagination, Lazy, Navigation } from 'swiper';
 import { PostsService } from 'src/app/core/services/posts.service';
+import { FriendsService } from 'src/app/core/services/friends.service';
 
 SwiperCore.use([Navigation]);
 
@@ -34,8 +35,13 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
   profileUrl: string = 'https://golf-people.web.app/website/user-profile';
   value: string;
 
+  // Swiper pages
   levelTab: boolean = true;
   postsTab: boolean = false;
+
+  // Validación de seguidor
+  following: boolean = false;
+  myId;
 
   id;
   userInfo: Friend = {
@@ -57,8 +63,11 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
     private actRoute: ActivatedRoute,
     private loadingCtrl: LoadingController,
     private userSvc: UserService,
-    private location: Location
-  ) {}
+    private location: Location,
+    private friendsSvc: FriendsService
+  ) {
+    this.myId = localStorage.getItem('user_id');
+  }
 
   async ngOnInit() {
     const loading = await this.loadingCtrl.create({
@@ -80,6 +89,15 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
       )
       .subscribe((res) => {
         this.userInfo = res;
+
+        if (this.userInfo.to.length) {
+          res.to.forEach((item) => {
+            if (item.user_id == this.myId) {
+              this.following = true;
+              console.log('Eres amigo');
+            }
+          });
+        }
         this.value = `${this.profileUrl}/${this.id}`;
         loading.dismiss();
       });
@@ -93,6 +111,12 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
 
   goBack() {
     this.location.back();
+  }
+
+  unfollow() {
+    this.following = false;
+
+    this.friendsSvc.unfollow(this.id).subscribe((res) => console.log(res));
   }
 
   favorite() {}

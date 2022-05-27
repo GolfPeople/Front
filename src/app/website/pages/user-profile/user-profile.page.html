@@ -10,7 +10,16 @@
       </a>
 
       <div class="end">
-        <a (click)="favorite()">
+        <ion-button
+          *ngIf="following"
+          color="danger"
+          class="ion-margin-end"
+          shape="round"
+          (click)="unfollow()"
+        >
+          Unfollow
+        </ion-button>
+        <a class="favorite" (click)="favorite()">
           <img
             class="share-icon"
             src="../../../../assets/icons/user-profile/favorite.svg"

@@ -46,7 +46,20 @@ ion-content {
     }
 
     .end {
-      a:first-child {
+      display: flex;
+      align-items: center;
+
+      ion-button {
+        text-transform: capitalize;
+        font-weight: 500;
+        font-size: 1.3rem;
+        line-height: 1.7rem;
+        color: #ffffff;
+      }
+      // a:first-child {
+      //   margin-right: 1.7rem;
+      // }
+      .favorite {
         margin-right: 1.7rem;
       }
     }

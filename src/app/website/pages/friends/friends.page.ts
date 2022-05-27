@@ -47,7 +47,7 @@ export class FriendsPage implements OnInit {
     await loading.present();
     this.friendsSvc.following(this.friendsPage).subscribe(({ data }) => {
       this.friendsPage += 1;
-      console.log('data de amigos', data);
+      // console.log('data de amigos', data);
       this.friends = data;
       loading.dismiss();
     });
