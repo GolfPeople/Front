@@ -426,7 +426,8 @@ export class CreatePostComponent
       await this.postsSvc.createPostWithImageFile(
         descriptionConcat,
         files,
-        ubication
+        ubication,
+        []
       );
       await loading.dismiss();
       this.openModal('Su publicación ha sido creada exitosamente');

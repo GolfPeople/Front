@@ -157,8 +157,32 @@
             <img class="geo" src="../../../../assets/icon/tag.png" alt="" />
             Etiqueta a tus amigos
           </ion-label>
-          <ion-input></ion-input>
+          <ion-input
+            type="text"
+            placeholder="tags"
+            (ngModelChange)="tag($event)"
+            [formControl]="tagsInput"
+          ></ion-input>
         </ion-item>
+        <ion-list lines="none">
+          <ion-item
+            (click)="addTag(user.name, user.profile.user_id)"
+            *ngFor="let user of users$ | async"
+          >
+            <ion-avatar>
+              <img [src]="user.profile.photo" />
+            </ion-avatar>
+            <ion-label>{{user.name}}</ion-label>
+          </ion-item>
+        </ion-list>
+        <ion-row>
+          <ion-col *ngFor="let tag of tags" size="4">
+            <div class="hashtags">
+              <p>#{{ tag }}</p>
+              <a (click)="removeTag(tag)">X</a>
+            </div>
+          </ion-col>
+        </ion-row>
         <ion-item class="ion-no-padding">
           <ion-label class="addressInput-label">
             <img

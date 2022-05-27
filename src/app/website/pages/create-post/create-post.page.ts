@@ -2,10 +2,7 @@ import {
   Component,
   OnInit,
   AfterViewInit,
-  AfterContentChecked,
   ViewChild,
-  ViewEncapsulation,
-  Input,
   ElementRef,
   ChangeDetectorRef,
 } from '@angular/core';
@@ -16,36 +13,25 @@ import {
   Platform,
   ActionSheetController,
 } from '@ionic/angular';
-import { UserService } from 'src/app/core/services/user.service';
-import {
-  Camera,
-  GalleryImageOptions,
-  Photo,
-  CameraSource,
-  CameraResultType,
-} from '@capacitor/camera';
+import { Camera, CameraSource, CameraResultType } from '@capacitor/camera';
 
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
-// import { SuccessComponent } from '../success/success.component';
 import { SuccessModalComponent } from './components/success-modal/success-modal.component';
 import { SwiperComponent } from 'swiper/angular';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { GeolocationService } from 'src/app/core/services/geolocation.service';
 import { PostsService } from 'src/app/core/services/posts.service';
-import { Post } from 'src/app/core/interfaces/interfaces';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { CropperComponent } from './components/cropper/cropper.component';
 import SwiperCore, { Pagination, Lazy } from 'swiper';
 import { VideoService } from 'src/app/core/services/video.service';
-import { Capacitor } from '@capacitor/core';
 import { CapacitorVideoPlayer } from 'capacitor-video-player';
 
 import { CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 import { Camera as cmra } from '@awesome-cordova-plugins/camera/ngx';
-import { File } from '@awesome-cordova-plugins/file/ngx';
+import { Observable } from 'rxjs';
+import { Friend } from 'src/app/core/models/friend.interface';
+import { FriendsService } from 'src/app/core/services/friends.service';
+import { finalize, map } from 'rxjs/operators';
 
 declare var google: any;
 declare var window: any;
@@ -102,7 +88,17 @@ export class CreatePostPage implements OnInit, AfterViewInit {
   inputValue: string;
   inputHashtagsValue = [];
   hashtags = [];
-  hashtagsString: string;
+  hashtagsString: string = '';
+
+  // tags
+  public users$: Observable<Friend[]> | any;
+
+  tagsInput: FormControl;
+  tasgsInputValue: string;
+  inputTagsValue = [];
+  tags = [];
+  tagsString: string = '';
+  tagsArray = [];
 
   //video
 
@@ -119,9 +115,8 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     private actionSheetCtrl: ActionSheetController,
     private platform: Platform,
     private _location: Location,
-    private changeDetector: ChangeDetectorRef,
-    //Video imports
-    private cmra: cmra
+    private cmra: cmra,
+    private friendsSvc: FriendsService
   ) {}
 
   async ngAfterViewInit() {
@@ -136,10 +131,12 @@ export class CreatePostPage implements OnInit, AfterViewInit {
   }
 
   async ngOnInit() {
-    const { description, location, hashtags } = this.initFormControls();
+    const { description, location, hashtags, tags } = this.initFormControls();
     this.textArea = description;
     this.address = location;
     this.hashtagsInput = hashtags;
+    this.tagsInput = tags;
+
     const coordinates = await this.geolocationService.currentPosition();
     const { latitude, longitude } = await coordinates.coords;
     this.coords = { lat: latitude, lng: longitude };
@@ -151,57 +148,6 @@ export class CreatePostPage implements OnInit, AfterViewInit {
       this.swiper.updateSwiper({});
     }
   }
-
-  // //Método para grabar video
-  // async recordVideo() {
-  //   const stream = await navigator.mediaDevices.getUserMedia({
-  //     video: {
-  //       facingMode: 'user',
-  //     },
-  //     audio: true,
-  //   });
-  //   this.captureElement.nativeElement.srcObject = stream;
-  //   this.isRecording = true;
-
-  //   const options = { mimeType: 'video/webm' };
-  //   let chunks: any = [];
-  //   this.mediaRecorder = new MediaRecorder(stream, options);
-
-  //   this.mediaRecorder.ondataavailable = (event) => {
-  //     if (event.data && event.data.size > 0) {
-  //       chunks.push(event.data);
-  //     }
-  //   };
-
-  //   this.mediaRecorder.onstop = async (event) => {
-  //     const videoBuffer = new Blob(chunks, { type: 'video/webm' });
-  //     // Store the voideo
-  //     await this.videoService.storevideo(videoBuffer);
-  //     // reload the list
-  //     this.videos = this.videoService.videos;
-  //     this.changeDetector.detectChanges();
-  //   };
-  // }
-  // stopRecord() {
-  //   this.mediaRecorder.stop();
-  //   this.mediaRecorder = null;
-  //   this.captureElement.nativeElement.src = null;
-  //   this.isRecording = false;
-  // }
-
-  // async play(video) {
-  //   const base6data = await this.videoService.getVideoUrl(video);
-
-  //   //Shoe the player fullscreen
-  //   await this.videoPlayer.initPlayer({
-  //     mode: 'fullscreen',
-  //     url: base6data,
-  //     playerId: 'fullscreen',
-  //     componentTag: 'app-create-post',
-  //   });
-  // }
-
-  //Camera cordova video
 
   async showLoader() {
     const loading = await this.loadingCtrl.create({
@@ -252,7 +198,8 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     const description = new FormControl('', {});
     const location = new FormControl(this.userAddress, {});
     const hashtags = new FormControl('', {});
-    return { description, location, hashtags };
+    const tags = new FormControl('', {});
+    return { description, location, hashtags, tags };
   }
 
   //Método para implementar google autocomplete
@@ -300,6 +247,99 @@ export class CreatePostPage implements OnInit, AfterViewInit {
   removeHashtag(hashtag: string) {
     const newHashtags = this.hashtags.filter((item) => item !== hashtag);
     this.hashtags = [...newHashtags];
+
+    this.hashtags.length
+      ? (this.hashtagsString = this.hashtags
+          .join(' ')
+          .split(' ')
+          .map((item) => {
+            if (item.includes('@')) {
+              return item;
+            }
+
+            return `@${item}`;
+          })
+          .join(' '))
+      : (this.hashtagsString = '');
+
+    console.log(this.hashtagsString);
+  }
+
+  tag(value) {
+    // const element = event.target as HTMLInputElement;
+    // const value = element.value;
+    console.log(value);
+    this.tasgsInputValue = value;
+
+    if (value === '') {
+      this.users$ = new Observable();
+
+      return;
+    }
+
+    if (value) {
+      console.log('Valor valido', value);
+
+      this.users$ = this.friendsSvc.search(value).pipe(
+        map((data) => data.data),
+        finalize(() => {
+          // this.isLoading = false;
+        })
+      );
+    }
+    return;
+  }
+
+  addTag(tag: string, id: number) {
+    this.tagsArray.push({
+      name: tag,
+      id: id,
+    });
+
+    console.log(this.tagsArray);
+    this.tagsInput.reset();
+    this.users$ = new Observable();
+
+    console.log(this.tasgsInputValue);
+    const data = [...this.tags, ...tag.split(' ')];
+    console.log(data);
+    this.tags = data.filter((item, index) => {
+      return data.indexOf(item) === index;
+    });
+    this.tagsString = this.tags
+      .join(' ')
+      .split(' ')
+      .map((item) => {
+        if (item.includes('@')) {
+          return item;
+        }
+
+        return `@${item}`;
+      })
+      .join(' ');
+    console.log(this.tags);
+    console.log(this.tagsString);
+  }
+
+  removeTag(tag: string) {
+    const newTags = this.tags.filter((item) => item !== tag);
+    this.tags = [...newTags];
+
+    this.tags.length
+      ? (this.tagsString = this.tags
+          .join(' ')
+          .split(' ')
+          .map((item) => {
+            if (item.includes('@')) {
+              return item;
+            }
+
+            return `@${item}`;
+          })
+          .join(' '))
+      : (this.tagsString = '');
+
+    console.log(this.tagsString);
   }
 
   //Método para remover una imagen selecionada
@@ -407,7 +447,7 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     croppperModal.onDidDismiss().then((data) => {
       this.croppedImage = data.data;
       this.backgroundImages.push(this.croppedImage);
-      console.log(this.backgroundImages);
+      // console.log(this.backgroundImages);
       const blobData = this.b64toBlob(
         this.croppedImage,
         `image/${image.format}`
@@ -482,7 +522,7 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     await this.geocoder.geocode(
       { location: latlng },
       function (results, status) {
-        console.log('TEST results', results);
+        // console.log('TEST results', results);
         if (status !== google.maps.GeocoderStatus.OK) {
           alert(status);
         }
@@ -528,7 +568,7 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     let descriptionConcat;
     this.hashtagsString === undefined
       ? (descriptionConcat = description)
-      : (descriptionConcat = description.concat(` ${this.hashtagsString}`));
+      : (descriptionConcat = description.concat(` ${this.hashtagsString} `));
 
     console.log('description -->', descriptionConcat);
 
@@ -541,7 +581,12 @@ export class CreatePostPage implements OnInit, AfterViewInit {
       });
       await loading.present();
       await this.postsSvc
-        .createPostWithImageFile(descriptionConcat, files, this.userAddress)
+        .createPostWithImageFile(
+          descriptionConcat,
+          files,
+          this.userAddress,
+          this.tagsArray
+        )
         .subscribe((res) => {
           console.log(res);
           loading.dismiss();

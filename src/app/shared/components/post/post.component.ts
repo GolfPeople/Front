@@ -78,6 +78,7 @@ export class PostComponent implements OnInit {
         }
       });
     }
+    console.log(JSON.parse(this.post.friends));
     if (this.post.favorites.length) {
       this.post.favorites.forEach((item) => {
         if (item.user_id == this.userID) {

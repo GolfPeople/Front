@@ -70,6 +70,8 @@
           [routerLink]="['/website/posts/', hashtag]"
           >#{{ hashtag }}
         </a>
+
+        <!-- <a  *ngFor="let tag of post.friends | jsonToData">@{{tag.name}}</a> -->
       </p>
     </div>
     <p *ngIf="post.comments.length" class="comments" (click)="presentModal()">

@@ -102,7 +102,7 @@ export class PostsService {
     });
   }
 
-  createPostWithImageFile(description, files, ubication) {
+  createPostWithImageFile(description, files, ubication, tags) {
     const formData: any = new FormData();
 
     files.forEach((file, index) => {
@@ -110,6 +110,11 @@ export class PostsService {
       formData.append('files[]', file, fileName);
     });
 
+    // tags.forEach((tag) => {
+    //   formData.append('friends', tag);
+    // });
+
+    formData.append('friends', tags);
     // formData.append('files[]', files);
     formData.append('description', description);
     formData.append('ubication', ubication);
