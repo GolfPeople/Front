@@ -1,5 +1,16 @@
 <div class="card">
-  <img src="../../../../assets/cards/person.png" alt="" />
-  <h2 class="card-text">Antonio López</h2>
-  <a class="conect-button">Conectar</a>
+  <ion-avatar>
+    <img [src]="user.profile.photo || avatarDefault" />
+  </ion-avatar>
+  <h2 class="card-text">{{ user.name }}</h2>
+  <!-- <a class="conect-button">Conectar</a> -->
+  <ion-button
+    (click)="
+      following ? unfollow(user.profile.user_id) : follow(user.profile.user_id)
+    "
+    [ngClass]="{ connected: following }"
+    shape="round"
+  >
+    {{ following ? "Conectado" : "Conectar" }}
+  </ion-button>
 </div>

@@ -1,11 +1,12 @@
 <div class="post">
   <div class="post-header" lines="none">
     <div
+      [routerLink]="['/website/user-profile', post.user_id]"
       class="avatar"
       [ngStyle]="{
         'background-image':
           'url(' +
-          (this.userID == this.post.user_id && userPhoto.length > 0
+          (this.userID == post.user_id && userPhoto.length > 0
             ? userPhoto
             : post.user.profile.photo) +
           ')'

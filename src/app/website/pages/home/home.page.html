@@ -87,8 +87,8 @@
       </div>
       <div class="galery">
         <ul class="stories-list">
-          <li *ngFor="let card of cards">
-            <app-people></app-people>
+          <li *ngFor="let user of people">
+            <app-people [user]="user"></app-people>
           </li>
         </ul>
       </div>

@@ -60,7 +60,9 @@ export class FriendsPage implements OnInit {
   }
 
   search(value: string) {
+    // this.isLoading ? null : (this.isLoading = true);
     this.isLoading = true;
+
     console.log(value);
     if (value === '') {
       this.friendsData = true;
@@ -78,7 +80,9 @@ export class FriendsPage implements OnInit {
         debounceTime(500),
         map((data) => data.data),
         finalize(() => {
-          this.friendsData = false;
+          this.friendsData
+            ? (this.friendsData = false)
+            : (this.friendsData = true);
           console.log(this.friendsData);
           // this.friends$.subscribe((res) => console.log('res -->', res));
         })

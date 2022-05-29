@@ -1,6 +1,6 @@
 <ion-item lines="none">
   <ion-avatar [routerLink]="['/website/user-profile', user.profile.user_id]">
-    <img [src]="user.profile.photo" />
+    <img [src]="user.profile.photo || avatarDefault" />
   </ion-avatar>
   <ion-label>
     <h4>
@@ -21,7 +21,7 @@
     <a *ngIf="!following" (click)="follow(user.id)">
       <img src="../../../../../../assets/icons/user-add.svg" alt="" />
     </a>
-    <ion-button
+    <!-- <ion-button
       *ngIf="following"
       (click)="unfollow(user.id)"
       color="danger"
@@ -30,6 +30,6 @@
       shape="round"
     >
       <ion-icon name="trash"></ion-icon>
-    </ion-button>
+    </ion-button> -->
   </div>
 </ion-item>

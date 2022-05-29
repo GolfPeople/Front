@@ -14,6 +14,7 @@ export class FriendComponent implements OnInit {
   @Output() unfollowFriend = new EventEmitter<Friend>();
   myId;
   following: boolean = false;
+  avatarDefault: string = 'assets/img/default-avatar.png';
 
   constructor(private friendsSvc: FriendsService) {
     this.myId = localStorage.getItem('user_id');
