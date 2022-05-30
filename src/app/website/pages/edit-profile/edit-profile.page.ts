@@ -10,6 +10,8 @@ import { LoadingController, ModalController } from '@ionic/angular';
 import { QrModalComponent } from './components/qr-modal/qr-modal.component';
 import { element } from 'protractor';
 import { LoadingService } from 'src/app/core/services/loading/loading.service';
+import { PostsService } from 'src/app/core/services/posts.service';
+import { PostsResponse } from 'src/app/core/interfaces/interfaces';
 
 @Component({
   selector: 'app-edit-profile',
@@ -25,6 +27,9 @@ export class EditProfilePage implements OnInit {
   bolsa: boolean;
   campos: boolean;
   posts: boolean = true;
+  postsPage = 1;
+  postsData: PostsResponse[] = [];
+  isLoadingMore: boolean = false;
 
   elementType = NgxQrcodeElementTypes.URL;
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
@@ -34,21 +39,24 @@ export class EditProfilePage implements OnInit {
     private userService: UserService,
     private modalCtrl: ModalController,
     private loadingSvc: LoadingService,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private postsSvc: PostsService
   ) {}
 
   async ngOnInit() {
-    // this.loadingSvc.presentLoading();
-    // const loading = await this.loadingCtrl.create({
-    //   cssClass: 'laoding-ctrl',
-    //   spinner: 'crescent',
-    // });
-    // await loading.present();
+    const loading = await this.loadingCtrl.create({
+      cssClass: 'laoding-ctrl',
+    });
+    await loading.present();
     this.userService.getUserInfo().subscribe((res) => {
       this.userName = res.name;
       this.value = `${this.profileUrl}/${res.id}`;
-      // this.loadingSvc.dismissLoading();
-      // loading.dismiss();
+    });
+    this.postsSvc.myPosts(this.postsPage).subscribe(({ data }) => {
+      this.postsPage += 1;
+      this.postsData = data;
+      console.log(data);
+      loading.dismiss();
     });
   }
 
@@ -143,5 +151,25 @@ export class EditProfilePage implements OnInit {
     }
 
     return false;
+  }
+
+  onLoadMore() {
+    this.isLoadingMore = true;
+    this.postsSvc.myPosts(this.postsPage).subscribe(
+      ({ data }) => {
+        this.postsData = this.postsData.concat(
+          data.filter((item) => {
+            item.files.length;
+
+            this.isLoadingMore = false;
+          })
+        );
+        this.postsPage += 1;
+      },
+      (error) => {
+        this.isLoadingMore = false;
+        console.log(error);
+      }
+    );
   }
 }

@@ -25,7 +25,7 @@ export class PostsService {
   ) {}
 
   //Trae todos las publicaciones del usuario logueado con paginación.
-  getPosts2(page) {
+  myPosts(page) {
     const params = new HttpParams().set('page', page);
     return this.http
       .get<PostResponseData>(`${URL}/publish/my_publish`, { params })

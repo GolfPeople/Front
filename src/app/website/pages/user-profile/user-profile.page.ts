@@ -32,6 +32,11 @@ SwiperCore.use([Navigation]);
 export class UserProfilePage implements OnInit, AfterContentChecked {
   @ViewChild('swiper') swiper: SwiperComponent;
 
+  // Posts
+  posts: PostsResponse[] = [];
+  page = 1;
+  isLoadingMore: boolean = false;
+
   profileUrl: string = 'https://golf-people.web.app/website/user-profile';
   value: string;
 
@@ -64,7 +69,8 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
     private loadingCtrl: LoadingController,
     private userSvc: UserService,
     private location: Location,
-    private friendsSvc: FriendsService
+    private friendsSvc: FriendsService,
+    private postsSvc: PostsService
   ) {
     this.myId = localStorage.getItem('user_id');
   }
@@ -99,7 +105,18 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
           });
         }
         this.value = `${this.profileUrl}/${this.id}`;
-        loading.dismiss();
+
+        this.postsSvc.getPostsByUser(this.id, this.page).subscribe(
+          ({ data }) => {
+            this.posts = data.filter((item) => item.files.length);
+            console.log(data);
+            this.page += 1;
+            loading.dismiss();
+          },
+          (error) => {
+            loading.dismiss();
+          }
+        );
       });
   }
 
@@ -145,12 +162,30 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
     this.swiper.swiperRef.slideNext(500);
     this.postsTab = true;
     this.levelTab = false;
-    console.log(this.postsTab, this.levelTab);
   }
   prev() {
     this.swiper.swiperRef.slidePrev(500);
     this.postsTab = false;
     this.levelTab = true;
-    console.log(this.postsTab, this.levelTab);
+  }
+
+  onLoadMore() {
+    this.isLoadingMore = true;
+    this.postsSvc.myPosts(this.page).subscribe(
+      ({ data }) => {
+        this.posts = this.posts.concat(
+          data.filter((item) => {
+            item.files.length;
+
+            this.isLoadingMore = false;
+          })
+        );
+        this.page += 1;
+      },
+      (error) => {
+        this.isLoadingMore = false;
+        console.log(error);
+      }
+    );
   }
 }

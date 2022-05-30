@@ -104,7 +104,12 @@
         <app-level></app-level>
       </ng-template>
       <ng-template swiperSlide>
-        <app-posts></app-posts>
+        <!-- <app-posts></app-posts> -->
+        <app-posts
+          (loadMore)="onLoadMore()"
+          [loadingMore]="isLoadingMore"
+          [posts]="posts"
+        ></app-posts>
       </ng-template>
     </swiper>
   </div>

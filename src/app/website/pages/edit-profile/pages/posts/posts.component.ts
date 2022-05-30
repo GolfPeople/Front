@@ -36,7 +36,7 @@ export class PostsComponent implements OnInit {
     });
     await loading.present();
     // await this.postsSvc.getPosts();
-    this.postsSvc.getPosts2(this.page).subscribe((data) => {
+    this.postsSvc.myPosts(this.page).subscribe((data) => {
       this.posts = data.data.filter((item) => item.files.length);
       console.log(this.posts);
       this.page += 1;

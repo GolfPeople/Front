@@ -1,0 +1,23 @@
+@import "../../../scss/variables.scss";
+
+ion-row {
+  padding-bottom: 100px;
+}
+p {
+  margin-top: 1.2rem;
+  color: $text-color;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 1.7rem;
+}
+ion-button {
+  // width: 96px;
+  // height: 24px;
+  --background: #009dd6;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 17px;
+  --color: #ffffff;
+  text-transform: capitalize;
+}

@@ -62,6 +62,12 @@
       </ul>
     </div>
     <app-level *ngIf="level"></app-level>
-    <app-posts *ngIf="posts"></app-posts>
+    <!-- <app-posts *ngIf="posts"></app-posts> -->
+    <app-posts
+      (loadMore)="onLoadMore()"
+      [loadingMore]="isLoadingMore"
+      [posts]="postsData"
+      *ngIf="posts"
+    ></app-posts>
   </div>
 </ion-content>

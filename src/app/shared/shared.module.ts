@@ -22,12 +22,14 @@ import { CommentsComponent } from './components/comments/comments.component';
 import { CommentResponseComponent } from './components/comment-response/comment-response.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { PublicAvatarComponent } from './components/public-avatar/public-avatar.component';
+import { PostsComponent } from './components/posts/posts.component';
 
 const components = [
   SelectDateComponent,
   StoryCardComponent,
   PeopleComponent,
   PostComponent,
+  PostsComponent,
   AvatarComponent,
   RankingCardComponent,
   SuccessComponent,

@@ -16,7 +16,7 @@ import { LevelComponent } from './pages/level/level.component';
 import { NgChartsModule } from 'ng2-charts';
 import { SaveInfoModalComponent } from './pages/edit/components/save-info-modal/save-info-modal.component';
 import { ErrorAlertComponent } from './pages/edit/components/error-alert/error-alert.component';
-import { PostsComponent } from './pages/posts/posts.component';
+// import { PostsComponent } from './pages/posts/posts.component';
 
 @NgModule({
   entryComponents: [
@@ -44,7 +44,7 @@ import { PostsComponent } from './pages/posts/posts.component';
     SaveInfoModalComponent,
     LevelComponent,
     ErrorAlertComponent,
-    PostsComponent,
+    // PostsComponent,
   ],
 })
 export class EditProfilePageModule {}
