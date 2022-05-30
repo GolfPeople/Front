@@ -4,12 +4,10 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  // justify-content: space-between;
   align-items: center;
   width: 100%;
   height: auto;
   padding: 2rem;
-  // margin-bottom: 15rem;
   border-bottom-left-radius: 2rem;
   border-bottom-right-radius: 2rem;
   background-color: #fff;
@@ -56,7 +54,6 @@ section {
   top: -2.5rem;
   left: 0;
   width: 100%;
-  height: 2000px;
   padding: 2.5rem 1.6rem;
   background: linear-gradient(180deg, #00388b 0%, rgba(0, 157, 214, 0) 100%);
 

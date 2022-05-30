@@ -161,8 +161,9 @@ export class EditProfilePage implements OnInit {
           data.filter((item) => item.files.length)
         );
         this.isLoadingMore = false;
-        this.postsPage += 1;
-        console.log(data);
+        if (data.length) {
+          this.postsPage += 1;
+        }
       },
       (error) => {
         this.isLoadingMore = false;

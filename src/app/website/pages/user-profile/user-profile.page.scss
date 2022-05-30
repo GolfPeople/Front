@@ -49,18 +49,28 @@ ion-content {
       display: flex;
       align-items: center;
 
-      ion-button {
+      .action-button {
+        --background: #009838;
         text-transform: capitalize;
         font-weight: 500;
         font-size: 1.3rem;
         line-height: 1.7rem;
         color: #ffffff;
+
+        &.unfollow {
+          --background: #ff4961;
+        }
       }
       // a:first-child {
       //   margin-right: 1.7rem;
       // }
-      .favorite {
+      .favorite,
+      .share {
         margin-right: 1.7rem;
+      }
+
+      .follow-icon {
+        width: 22px;
       }
     }
   }

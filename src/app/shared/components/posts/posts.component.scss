@@ -3,6 +3,7 @@
 ion-row {
   padding-bottom: 100px;
 }
+
 p {
   margin-top: 1.2rem;
   color: $text-color;
@@ -11,6 +12,16 @@ p {
   font-weight: 500;
   line-height: 1.7rem;
 }
+
+.no-posts {
+  margin-top: 1.2rem;
+  color: $text-color;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 1.7rem;
+}
+
 ion-button {
   // width: 96px;
   // height: 24px;
@@ -20,4 +31,9 @@ ion-button {
   line-height: 17px;
   --color: #ffffff;
   text-transform: capitalize;
+  opacity: 0;
+
+  &.show-button {
+    opacity: 1;
+  }
 }

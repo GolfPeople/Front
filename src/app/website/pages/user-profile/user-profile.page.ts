@@ -41,8 +41,8 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
   value: string;
 
   // Swiper pages
-  levelTab: boolean = true;
-  postsTab: boolean = false;
+  levelTab: boolean = false;
+  postsTab: boolean = true;
 
   // Validación de seguidor
   following: boolean = false;
@@ -109,7 +109,7 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
         this.postsSvc.getPostsByUser(this.id, this.page).subscribe(
           ({ data }) => {
             this.posts = data.filter((item) => item.files.length);
-            console.log(data);
+            console.log(this.posts);
             this.page += 1;
             loading.dismiss();
           },
@@ -128,6 +128,12 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
 
   goBack() {
     this.location.back();
+  }
+
+  follow() {
+    this.following = true;
+
+    this.friendsSvc.follow(this.id).subscribe((res) => console.log(res));
   }
 
   unfollow() {
@@ -160,24 +166,26 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
 
   next() {
     this.swiper.swiperRef.slideNext(500);
-    this.postsTab = true;
-    this.levelTab = false;
+    this.postsTab = false;
+    this.levelTab = true;
   }
   prev() {
     this.swiper.swiperRef.slidePrev(500);
-    this.postsTab = false;
-    this.levelTab = true;
+    this.postsTab = true;
+    this.levelTab = false;
   }
 
   onLoadMore() {
     this.isLoadingMore = true;
-    this.postsSvc.myPosts(this.page).subscribe(
+    this.postsSvc.getPostsByUser(this.id, this.page).subscribe(
       ({ data }) => {
         this.posts = this.posts.concat(
           data.filter((item) => item.files.length)
         );
         this.isLoadingMore = false;
-        this.page += 1;
+        if (data.length) {
+          this.page += 1;
+        }
       },
       (error) => {
         this.isLoadingMore = false;

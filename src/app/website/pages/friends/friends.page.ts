@@ -67,18 +67,15 @@ export class FriendsPage implements OnInit {
     }
 
     if (value) {
-      console.log('Valor valido', value);
       this.friends$ = this.friendsSvc.searchFriend(value).pipe(
-        debounceTime(500),
+        // debounceTime(500),
         map((data) => data.data),
         finalize(() => {
           this.friendsData = false;
-
-          console.log(this.friendsData);
         })
       );
       this.users$ = this.friendsSvc.search(value).pipe(
-        debounceTime(500),
+        // debounceTime(500),
         map((data) => data.data),
         finalize(() => {
           this.isLoading = false;
@@ -102,6 +99,10 @@ export class FriendsPage implements OnInit {
     this.swiper.swiperRef.slideNext(500);
     this.all = true;
     this.following = false;
+    this.search(this.searchItem);
+    this.friendsSvc.following(1).subscribe(({ data }) => {
+      this.friends = data;
+    });
   }
   prev() {
     this.swiper.swiperRef.slidePrev(500);

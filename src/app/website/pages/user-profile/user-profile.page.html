@@ -10,25 +10,30 @@
       </a>
 
       <div class="end">
-        <ion-button
-          *ngIf="following"
-          color="danger"
-          class="ion-margin-end"
+        <!-- <ion-button
+          class="ion-margin-end action-button"
+          [ngClass]="{'unfollow': following}"
           shape="round"
-          (click)="unfollow()"
+          (click)="following ? unfollow() : follow()"
         >
-          Unfollow
-        </ion-button>
+          {{following ? 'Unfollow' : 'Follow'}}
+        </ion-button> -->
         <a class="favorite" (click)="favorite()">
           <img
             class="share-icon"
-            src="../../../../assets/icons/user-profile/favorite.svg"
+            src="../../../../assets/icons/user-profile/save.svg"
             alt=""
         /></a>
-        <a (click)="shareProfile()">
+        <a class="share" (click)="shareProfile()">
           <img
             class="share-icon"
             src="../../../../assets/icons/user-profile/share.svg"
+            alt=""
+        /></a>
+        <a (click)="following ? unfollow() : follow()">
+          <img
+            class="follow-icon"
+            [src]=" following ?  '../../../../assets/icons/user-profile/user-remove.svg' :  '../../../../assets/icons/user-profile/users.svg'"
             alt=""
         /></a>
       </div>
@@ -85,31 +90,31 @@
         <a routerLinkActive="active">Publicaciones</a>
       </li> -->
         <li>
-          <a (click)="prev()" id="1" [ngClass]="{'active': levelTab}">Nivel</a>
+          <a (click)="prev()" id="4" [ngClass]="{'active': postsTab}"
+            >Publicaciones</a
+          >
+        </li>
+
+        <li><a>Campos</a></li>
+        <li>
+          <a (click)="next()" id="1" [ngClass]="{'active': levelTab}">Nivel</a>
         </li>
         <li>
           <a>Bolsa</a>
-        </li>
-        <li><a>Campos</a></li>
-        <li>
-          <a (click)="next()" id="4" [ngClass]="{'active': postsTab}"
-            >Publicaciones</a
-          >
         </li>
       </ul>
     </div>
 
     <swiper #swiper class="mySwiper">
       <ng-template swiperSlide>
-        <app-level></app-level>
-      </ng-template>
-      <ng-template swiperSlide>
-        <!-- <app-posts></app-posts> -->
         <app-posts
           (loadMore)="onLoadMore()"
           [loadingMore]="isLoadingMore"
           [posts]="posts"
         ></app-posts>
+      </ng-template>
+      <ng-template swiperSlide>
+        <app-level></app-level>
       </ng-template>
     </swiper>
   </div>

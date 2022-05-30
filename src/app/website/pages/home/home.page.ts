@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { take, takeLast } from 'rxjs/operators';
 import { PostsResponse } from 'src/app/core/interfaces/interfaces';
@@ -30,21 +30,26 @@ export class HomePage implements OnInit {
     private postsSvc: PostsService,
     private modalCtrl: ModalController,
     private notificationsSvc: NotificationsService,
-    private friendsSvc: FriendsService
+    private friendsSvc: FriendsService,
+    private loadingCtrl: LoadingController
   ) {
     this.userService.user$.subscribe((data) => {
       this.userName = data.name;
     });
-    this.postsSvc.posts$.subscribe((data) => {
-      this.posts = data.slice(0, 3);
-    });
+    // this.postsSvc.posts$.subscribe((data) => {
+    //   this.posts = data.slice(0, 3);
+    // });
     // this.notificationsSvc.noReadedNotifications$.subscribe(
     //   (res) => (this.notifications = res.length)
     // );
     this.notifications = this.notificationsSvc.counter$;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const loading = await this.loadingCtrl.create({
+      cssClass: 'laoding-ctrl',
+    });
+    await loading.present();
     this.userService.getUserInfo().subscribe((res) => {
       this.userName = res.name;
     });
@@ -53,6 +58,19 @@ export class HomePage implements OnInit {
     this.friendsSvc.mayKnow(this.peoplePage).subscribe(({ data }) => {
       this.people = data;
     });
+
+    this.postsSvc.all(this.page).subscribe(
+      ({ data }) => {
+        this.posts = data.filter((item) => item.files.length);
+        console.log(this.posts);
+        this.page += 1;
+        loading.dismiss();
+      },
+      (error) => {
+        loading.dismiss();
+        console.log(error);
+      }
+    );
   }
 
   async openNotifications() {
@@ -66,13 +84,15 @@ export class HomePage implements OnInit {
 
   onLoadMore() {
     this.isLoadingMore = true;
-    this.postsSvc.myPosts(this.page).subscribe(
+    this.postsSvc.all(this.page).subscribe(
       ({ data }) => {
         this.posts = this.posts.concat(
           data.filter((item) => item.files.length)
         );
         this.isLoadingMore = false;
-        this.page += 1;
+        if (data.length) {
+          this.page += 1;
+        }
       },
       (error) => {
         this.isLoadingMore = false;

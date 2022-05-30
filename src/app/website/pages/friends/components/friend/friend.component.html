@@ -12,14 +12,20 @@
     <span> HCP {{ user.profile.handicap }} </span>
   </ion-label>
   <div class="actions">
-    <a>
+    <a class="action">
       <img src="../../../../../../assets/icons/message-alt.svg" alt="" />
     </a>
-    <a *ngIf="following">
+    <a class="action" *ngIf="following">
       <img src="../../../../../../assets/icons/play.svg" alt="" />
     </a>
-    <a *ngIf="!following" (click)="follow(user.id)">
-      <img src="../../../../../../assets/icons/user-add.svg" alt="" />
+    <a (click)="following ? unfollow(user.id) : follow(user.id)">
+      <img
+        [src]="
+          following
+            ? '../../../../../../assets/icons/user-remove.svg'
+            : '../../../../../../assets/icons/user-add.svg'
+        "
+      />
     </a>
     <!-- <ion-button
       *ngIf="following"

@@ -24,6 +24,14 @@ export class PostsService {
     private loadingCtrl: LoadingController
   ) {}
 
+  //Método para obtener todas la publicaciones
+  all(page = 1) {
+    const params = new HttpParams().set('page', page);
+    return this.http
+      .get<PostResponseData>(`${URL}/publish/get`, { params })
+      .pipe(retry(3));
+  }
+
   //Trae todos las publicaciones del usuario logueado con paginación.
   myPosts(page) {
     const params = new HttpParams().set('page', page);
