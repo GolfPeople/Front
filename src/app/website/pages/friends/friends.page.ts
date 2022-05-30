@@ -47,24 +47,16 @@ export class FriendsPage implements OnInit {
     await loading.present();
     this.friendsSvc.following(this.friendsPage).subscribe(({ data }) => {
       this.friendsPage += 1;
-      // console.log('data de amigos', data);
       this.friends = data;
       loading.dismiss();
     });
-    // this.friendsSvc.mayKnow(this.mayKnowPage).subscribe(({ data }) => {
-    //   this.mayKnowPage += 1;
-    //   // console.log('data de quizas conozcas', data);
-    //   this.mayKnow = data;
-    //   // loading.dismiss();
-    // });
   }
 
   search(value: string) {
-    // this.isLoading ? null : (this.isLoading = true);
     this.isLoading = true;
 
     console.log(value);
-    if (value === '') {
+    if (this.searchItem === '') {
       this.friendsData = true;
       this.isLoading = false;
 
@@ -80,11 +72,9 @@ export class FriendsPage implements OnInit {
         debounceTime(500),
         map((data) => data.data),
         finalize(() => {
-          this.friendsData
-            ? (this.friendsData = false)
-            : (this.friendsData = true);
+          this.friendsData = false;
+
           console.log(this.friendsData);
-          // this.friends$.subscribe((res) => console.log('res -->', res));
         })
       );
       this.users$ = this.friendsSvc.search(value).pipe(
@@ -101,36 +91,25 @@ export class FriendsPage implements OnInit {
   addedFriend(friend, index) {
     console.log(friend);
     console.log(index);
-    // if (friend) {
     this.friendsSvc.following(this.friendsPage).subscribe(({ data }) => {
       this.friendsPage += 1;
       console.log('data de amigos', data);
       this.friends = data;
     });
-    // }
-    //Esto se va a utilizar si se requiere quitar
-    // this.mayKnow.splice(index, 1);
-
-    // No se puede hacer el push porque la data es distinta
-    // this.friends.push(friend);
-  }
-
-  unfollow(friend, index) {
-    console.log(friend);
-    // this.friends.splice(index, 1);
   }
 
   next() {
     this.swiper.swiperRef.slideNext(500);
     this.all = true;
     this.following = false;
-    console.log(this.all, this.following);
   }
   prev() {
     this.swiper.swiperRef.slidePrev(500);
     this.all = false;
     this.following = true;
-    console.log('all', this.all);
-    console.log('following', this.following);
+    this.search(this.searchItem);
+    this.friendsSvc.following(1).subscribe(({ data }) => {
+      this.friends = data;
+    });
   }
 }
