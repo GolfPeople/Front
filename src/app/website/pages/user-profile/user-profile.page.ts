@@ -174,12 +174,9 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
     this.postsSvc.myPosts(this.page).subscribe(
       ({ data }) => {
         this.posts = this.posts.concat(
-          data.filter((item) => {
-            item.files.length;
-
-            this.isLoadingMore = false;
-          })
+          data.filter((item) => item.files.length)
         );
+        this.isLoadingMore = false;
         this.page += 1;
       },
       (error) => {

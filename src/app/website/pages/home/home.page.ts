@@ -19,7 +19,9 @@ export class HomePage implements OnInit {
   userName: string = '';
   cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   posts: PostsResponse[];
-  people: Friend[] = []
+  page = 1;
+  isLoadingMore: boolean = false;
+  people: Friend[] = [];
   peoplePage = 1;
   notifications: any;
 
@@ -48,10 +50,9 @@ export class HomePage implements OnInit {
     });
     this.notificationsSvc.noReaedCount();
 
-
-    this.friendsSvc.mayKnow(this.peoplePage).subscribe(({data}) => {
+    this.friendsSvc.mayKnow(this.peoplePage).subscribe(({ data }) => {
       this.people = data;
-    })
+    });
   }
 
   async openNotifications() {
@@ -61,5 +62,22 @@ export class HomePage implements OnInit {
       cssClass: 'create-post-modal',
     });
     await modal.present();
+  }
+
+  onLoadMore() {
+    this.isLoadingMore = true;
+    this.postsSvc.myPosts(this.page).subscribe(
+      ({ data }) => {
+        this.posts = this.posts.concat(
+          data.filter((item) => item.files.length)
+        );
+        this.isLoadingMore = false;
+        this.page += 1;
+      },
+      (error) => {
+        this.isLoadingMore = false;
+        console.log(error);
+      }
+    );
   }
 }

@@ -106,6 +106,12 @@
       </swiper> -->
     </div>
 
-    <app-post *ngFor="let post of posts" [post]="post"></app-post>
+    <!-- <app-post *ngFor="let post of posts" [post]="post"></app-post> -->
+
+    <app-posts
+      (loadMore)="onLoadMore()"
+      [loadingMore]="isLoadingMore"
+      [posts]="posts"
+    ></app-posts>
   </section>
 </ion-content>
