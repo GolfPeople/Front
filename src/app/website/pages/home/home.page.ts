@@ -42,7 +42,9 @@ export class HomePage implements OnInit {
     // this.notificationsSvc.noReadedNotifications$.subscribe(
     //   (res) => (this.notifications = res.length)
     // );
-    this.notifications = this.notificationsSvc.counter$;
+    this.notificationsSvc.counter$.subscribe(res => {
+      this.notifications = res
+    });
   }
 
   async ngOnInit() {
