@@ -50,6 +50,9 @@ export class PostComponent implements OnInit {
   liked: boolean = false;
   saved: boolean = false;
 
+  taggedFriends: string[] = [];
+  taggedFriendsId: string[] = [];
+
   swiperConfig: SwiperOptions = {
     pagination: { clickable: true },
     lazy: { loadPrevNext: true },
@@ -84,6 +87,14 @@ export class PostComponent implements OnInit {
           this.saved = true;
         }
       });
+    }
+    if (this.post.friends_name) {
+      this.taggedFriends = JSON.parse(this.post.friends_name).split(',');
+      console.log(this.taggedFriends);
+    }
+    if (this.post.friends_id) {
+      this.taggedFriendsId = JSON.parse(this.post.friends_id).split(',');
+      console.log(this.taggedFriendsId);
     }
   }
 

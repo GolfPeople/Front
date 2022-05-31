@@ -110,31 +110,39 @@ export class PostsService {
     });
   }
 
-  createPostWithImageFile(description, files, ubication, tags) {
+  createPostWithImageFile(
+    description,
+    files,
+    ubication,
+    tags,
+    friendsName: string[],
+    friendsId: string[]
+  ) {
     const formData: any = new FormData();
 
     files.forEach((file, index) => {
       const fileName = `${file.size}${index}`;
       formData.append('files[]', file, fileName);
     });
+    console.log({
+      description,
+      files,
+      ubication,
+      tags,
+      friendsName,
+      friendsId,
+    });
 
-    // tags.forEach((tag) => {
-    //   formData.append('friends', tag);
-    // });
+    formData.append('friends_name', friendsName);
+    formData.append('friends_id', friendsId);
 
     formData.append('friends', tags);
-    // formData.append('files[]', files);
     formData.append('description', description);
     formData.append('ubication', ubication);
 
     console.log('file', files);
 
     return this.http.post<Post>(`${URL}/publish`, formData);
-    // return this.http.post<Post>(`${URL}/publish`, formData).subscribe((res) => {
-    //   console.log(res);
-    //   console.log(files);
-    //   this.getPosts();
-    // });
   }
 
   //Edita una publicación

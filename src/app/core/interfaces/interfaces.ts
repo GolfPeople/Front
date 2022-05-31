@@ -21,7 +21,9 @@ export interface PostsResponse extends Post {
   user: UserPublicData;
   comments: any;
   favorites: any;
-  friends: any
+  friends: any;
+  friends_id: string;
+  friends_name: string;
 }
 export interface Like {
   id: number;

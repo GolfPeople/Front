@@ -99,6 +99,8 @@ export class CreatePostPage implements OnInit, AfterViewInit {
   tags = [];
   tagsString: string = '';
   tagsArray = [];
+  taggedFriends: string[] = [];
+  taggedFriendsId: string[] = [];
 
   //video
 
@@ -295,6 +297,12 @@ export class CreatePostPage implements OnInit, AfterViewInit {
       name: tag,
       id: id,
     });
+    this.taggedFriends.push(tag);
+    this.taggedFriendsId.push(id.toString());
+
+    console.log('nombres -->', this.taggedFriends);
+
+    console.log('IDs -->', this.taggedFriendsId);
 
     console.log(this.tagsArray);
     this.tagsInput.reset();
@@ -565,20 +573,23 @@ export class CreatePostPage implements OnInit, AfterViewInit {
   }
 
   async onSubmit(description, files, ubication) {
+    console.log('ubicación -->', ubication);
     let descriptionConcat;
     this.hashtagsString === undefined
       ? (descriptionConcat = description)
       : (descriptionConcat = description.concat(` ${this.hashtagsString} `));
 
-    this.tagsString === undefined
-      ? descriptionConcat
-      : (descriptionConcat = descriptionConcat.concat(` ${this.tagsString} `));
+    // this.tagsString === undefined
+    //   ? descriptionConcat
+    //   : (descriptionConcat = descriptionConcat.concat(` ${this.tagsString} `));
 
     console.log('description -->', descriptionConcat);
 
-    if ((this.userAddress = '')) this.userAddress = 'En algún lugar';
+    if (ubication === '') ubication = 'En algún lugar';
 
     if (!this.platform.is('hybrid')) {
+      console.log('ubicación -->', ubication);
+
       const loading = await this.loadingCtrl.create({
         cssClass: 'laoding-ctrl',
         spinner: 'crescent',
@@ -588,8 +599,10 @@ export class CreatePostPage implements OnInit, AfterViewInit {
         .createPostWithImageFile(
           descriptionConcat,
           files,
-          this.userAddress,
-          this.tagsArray
+          ubication,
+          this.tagsArray,
+          this.taggedFriends,
+          this.taggedFriendsId
         )
         .subscribe((res) => {
           console.log(res);

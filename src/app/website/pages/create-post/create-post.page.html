@@ -169,7 +169,7 @@
             (click)="addTag(user.name, user.profile.user_id)"
             *ngFor="let user of users$ | async"
           >
-            <ion-avatar>
+            <ion-avatar slot="start">
               <img [src]="user.profile.photo" />
             </ion-avatar>
             <ion-label>{{user.name}}</ion-label>
@@ -225,7 +225,7 @@
 
       <ion-button
         [disabled]="blobArrayData.length === 0"
-        (click)="onSubmit(textArea.value, blobArrayData, address.value)"
+        (click)="onSubmit(textArea.value, blobArrayData, userAddress)"
         type="submit"
         class="next-button"
         shape="round"
