@@ -51,7 +51,11 @@
         ></app-friend>
       </ion-list>
 
-      <ion-list class="friends1" *ngIf="friendsData" lines="none">
+      <ion-list
+        class="friends1"
+        *ngIf="friendsData && friends.length"
+        lines="none"
+      >
         <h3 class="list-title">Tus amigos</h3>
         <app-friend
           *ngFor="let data of friends; index as i"

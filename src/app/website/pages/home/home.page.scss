@@ -107,7 +107,7 @@ ion-content {
   position: relative;
   width: 100%;
   height: auto - 75px;
-  padding: 27.5px 0;
+  padding: 27.5px 0 100px;
   top: -30px;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
@@ -161,4 +161,13 @@ ion-content {
       }
     }
   }
+}
+
+.show-more {
+  --background: #009dd6;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 17px;
+  --color: #ffffff;
+  text-transform: capitalize;
 }

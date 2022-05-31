@@ -59,6 +59,7 @@ export class FriendsPage implements OnInit {
     if (this.searchItem === '') {
       this.friendsData = true;
       this.isLoading = false;
+      console.log(this.friendsData);
 
       this.users$ = new Observable();
       this.friends$ = new Observable();

@@ -61,7 +61,7 @@
           ><img src="../../../../assets/icon/map.png" alt="" /> Ver Mapa</a
         >
       </div>
-      <div class="galery">
+      <div class="gallery">
         <ul class="stories-list">
           <li *ngFor="let card of cards">
             <app-story-card></app-story-card>
@@ -106,12 +106,20 @@
       </swiper> -->
     </div>
 
-    <!-- <app-post *ngFor="let post of posts" [post]="post"></app-post> -->
+    <app-post *ngFor="let post of posts" [post]="post"></app-post>
+    <ion-button
+      class="show-more"
+      [routerLink]="['/website/all-posts']"
+      expand="block"
+      shape="round"
+    >
+      Ver más
+    </ion-button>
 
-    <app-posts
+    <!-- <app-posts
       (loadMore)="onLoadMore()"
       [loadingMore]="isLoadingMore"
       [posts]="posts"
-    ></app-posts>
+    ></app-posts> -->
   </section>
 </ion-content>

@@ -18,7 +18,7 @@ import { UserService } from '../../../core/services/user.service';
 export class HomePage implements OnInit {
   userName: string = '';
   cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  posts: PostsResponse[];
+  posts: PostsResponse[] = [];
   page = 1;
   isLoadingMore: boolean = false;
   people: Friend[] = [];
@@ -61,7 +61,7 @@ export class HomePage implements OnInit {
 
     this.postsSvc.all(this.page).subscribe(
       ({ data }) => {
-        this.posts = data.filter((item) => item.files.length);
+        this.posts = data.filter((item) => item.files.length).slice(0, 3);
         console.log(this.posts);
         this.page += 1;
         loading.dismiss();

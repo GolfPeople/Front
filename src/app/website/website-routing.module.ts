@@ -71,7 +71,11 @@ const routes: Routes = [
       import('./pages/create-post/create-post.module').then(
         (m) => m.CreatePostPageModule
       ),
+  },  {
+    path: 'all-posts',
+    loadChildren: () => import('./pages/all-posts/all-posts.module').then( m => m.AllPostsPageModule)
   },
+
 ];
 
 @NgModule({

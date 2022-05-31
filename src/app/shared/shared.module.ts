@@ -23,6 +23,7 @@ import { CommentResponseComponent } from './components/comment-response/comment-
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { PublicAvatarComponent } from './components/public-avatar/public-avatar.component';
 import { PostsComponent } from './components/posts/posts.component';
+import { HeaderComponent } from './components/header/header.component';
 
 const components = [
   SelectDateComponent,
@@ -41,6 +42,7 @@ const components = [
   CommentResponseComponent,
   NotificationsComponent,
   PublicAvatarComponent,
+  HeaderComponent,
 ];
 
 @NgModule({
