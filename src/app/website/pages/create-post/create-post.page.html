@@ -128,7 +128,7 @@
 
     <form>
       <ion-list>
-        <ion-item class="ion-align-items-center">
+        <ion-item class="ion-align-items-center hashtags-input">
           <ion-label position="floating">
             <!-- <p>Agregar hashtags</p> -->
             Agregar hashtags
@@ -145,14 +145,14 @@
           </ion-button>
         </ion-item>
         <ion-row>
-          <ion-col *ngFor="let hashtag of hashtags" size="4">
-            <div class="hashtags">
-              <p>#{{ hashtag }}</p>
-              <a (click)="removeHashtag(hashtag)">X</a>
-            </div>
-          </ion-col>
+          <!-- <ion-col *ngFor="let hashtag of hashtags" size="4"> -->
+          <div *ngFor="let hashtag of hashtags" class="hashtags">
+            <p>#{{ hashtag }}</p>
+            <a (click)="removeHashtag(hashtag)">X</a>
+          </div>
+          <!-- </ion-col> -->
         </ion-row>
-        <ion-item>
+        <ion-item class="tags-input">
           <ion-label position="floating">
             <img class="geo" src="../../../../assets/icon/tag.png" alt="" />
             Etiqueta a tus amigos
@@ -175,13 +175,13 @@
             <ion-label>{{user.name}}</ion-label>
           </ion-item>
         </ion-list>
-        <ion-row>
-          <ion-col *ngFor="let tag of tags" size="4">
-            <div class="hashtags">
-              <p>#{{ tag }}</p>
-              <a (click)="removeTag(tag)">X</a>
-            </div>
-          </ion-col>
+        <ion-row class="tags-row" *ngIf="tags.length">
+          <!-- <ion-col *ngFor="let tag of tags" size="4"> -->
+          <div *ngFor="let tag of tags" class="hashtags">
+            <p>@{{ tag }}</p>
+            <a (click)="removeTag(tag)">X</a>
+          </div>
+          <!-- </ion-col> -->
         </ion-row>
         <ion-item class="ion-no-padding">
           <ion-label class="addressInput-label">

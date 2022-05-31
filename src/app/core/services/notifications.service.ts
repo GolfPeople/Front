@@ -52,11 +52,19 @@ export class NotificationsService {
   }
 
   all() {
-    return this.http.get<Notification[]>(`${URL}/notifications/my/all`);
+    return this.http.get<Notification[]>(
+      `https://api.app.golfpeople.com/api/notifications/my/all`
+    );
   }
 
   markAsRead() {
     return this.http.post(`${URL}/notifications/my/markread`, {});
+  }
+
+  // Marca una notificacion como leidas
+  markAsReadOne(id) {
+    const key = id;
+    return this.http.post(`${URL}/notifications/my/markreadone`, { key });
   }
 
   delete() {

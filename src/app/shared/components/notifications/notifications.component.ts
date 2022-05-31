@@ -19,7 +19,7 @@ export class NotificationsComponent implements OnInit {
   @ViewChild('swiper') swiper: SwiperComponent;
 
   notifications: Notification[] = [];
-  noReadedNotifications: Notification[] = [];
+  noReadedNotifications: any = [];
   notificationCounter: number;
 
   noRead: boolean = true;
@@ -47,7 +47,7 @@ export class NotificationsComponent implements OnInit {
     });
     this.notifocationsSvc.all().subscribe((data) => {
       this.notifications = data;
-      console.log('REs-->', data);
+      console.log('Todas -->', data);
       loading.dismiss();
     });
   }

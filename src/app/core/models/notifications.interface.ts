@@ -29,13 +29,15 @@ export interface UserSender {
   provider?: any;
   provider_id?: any;
   profile: Profile;
+  to: any;
 }
 
 export interface NotificationData {
   type: string;
   detail: string;
   publication_id: string;
-  user_sender: UserSender;
+  user_sender: any;
+  // user_sender: UserSender;
 }
 
 export interface Data {

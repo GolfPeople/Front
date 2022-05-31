@@ -39,7 +39,9 @@
           </ion-label>
         </ion-item>
       </ion-list>
-      <p *ngIf="!noReadedNotifications.length">No tienes notificaciones</p>
+      <p *ngIf="!noReadedNotifications.length" class="not-notifications">
+        No tienes notificaciones
+      </p>
     </ng-template>
     <ng-template swiperSlide>
       <ion-list>

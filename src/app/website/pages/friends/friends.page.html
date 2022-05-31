@@ -41,6 +41,9 @@
   <swiper #swiper [allowTouchMove]="false" class="mySwiper">
     <ng-template swiperSlide>
       <p class="searching" *ngIf="isLoading">Buscando...</p>
+      <p class="searching" *ngIf="!friends.length && !isLoading">
+        No tienes amigos
+      </p>
 
       <ion-list class="Searched-friends" lines="none">
         <h3 *ngIf=" !friendsData" class="list-title">Tus amigos</h3>

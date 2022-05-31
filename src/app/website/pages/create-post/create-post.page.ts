@@ -570,6 +570,10 @@ export class CreatePostPage implements OnInit, AfterViewInit {
       ? (descriptionConcat = description)
       : (descriptionConcat = description.concat(` ${this.hashtagsString} `));
 
+    this.tagsString === undefined
+      ? descriptionConcat
+      : (descriptionConcat = descriptionConcat.concat(` ${this.tagsString} `));
+
     console.log('description -->', descriptionConcat);
 
     if ((this.userAddress = '')) this.userAddress = 'En algún lugar';
