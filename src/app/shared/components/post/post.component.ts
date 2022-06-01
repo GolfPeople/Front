@@ -89,11 +89,11 @@ export class PostComponent implements OnInit {
         }
       });
     }
-    if (this.post.friends_name) {
+    if (this.post.friends_name !== null) {
       this.taggedFriends = JSON.parse(this.post.friends_name).split(',');
       console.log(this.taggedFriends);
     }
-    if (this.post.friends_id) {
+    if (this.post.friends_id !== null) {
       this.taggedFriendsId = JSON.parse(this.post.friends_id).split(',');
       console.log(this.taggedFriendsId);
     }

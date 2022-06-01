@@ -48,6 +48,10 @@ export class CreatePostPage implements OnInit, AfterViewInit {
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
   @ViewChild('fileInputVideo', { static: false }) fileInputVideo: ElementRef;
   @ViewChild('video') captureElement: ElementRef;
+  @ViewChild('address') addressInput: ElementRef;
+
+  imageAvatarDefault = 'assets/img/default-avatar.png';
+
   // @Input() type: number;
 
   // google maps
@@ -133,12 +137,14 @@ export class CreatePostPage implements OnInit, AfterViewInit {
   }
 
   async ngOnInit() {
+    var direccion = document.getElementById('address') as HTMLInputElement;
     const { description, location, hashtags, tags } = this.initFormControls();
     this.textArea = description;
     this.address = location;
     this.hashtagsInput = hashtags;
     this.tagsInput = tags;
 
+    console.log('Addres input -->', direccion);
     const coordinates = await this.geolocationService.currentPosition();
     const { latitude, longitude } = await coordinates.coords;
     this.coords = { lat: latitude, lng: longitude };

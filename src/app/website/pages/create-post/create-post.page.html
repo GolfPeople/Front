@@ -8,7 +8,6 @@
     </ion-title>
     <ion-buttons slot="start">
       <ion-button color="primary" shape="round" (click)="goBack()">
-        <!-- <img src="../../../../assets/icon/back-link.png" alt="" /> -->
         <ion-icon slot="start" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -18,7 +17,6 @@
 <ion-content class="content">
   <ion-row class="ion-justify-content-center ion-align-items-center">
     <div class="pick-image-container">
-      <!-- <div class="button-container"> -->
       <input
         type="file"
         #fileInput
@@ -77,40 +75,11 @@
         *ngIf="backgroundImages.length"
         class="add-image-button"
         (click)="selectImageSource()"
-        expand="full"
+        expand="block"
+        shape="round"
       >
         Agregar imagen extra
       </ion-button>
-      <!-- <swiper *ngIf="videos.length > 0" #swiper>
-        <ng-template *ngFor="let video of videos" swiperSlide>
-        </ng-template>
-      </swiper> -->
-      <!-- <div class="video-container">
-        <video
-          class="video"
-          #video
-          autoplay
-          playsinline
-          muted
-          [hidden]="!isRecording"
-        ></video>
-
-        <div id="fullscreen" slot="fixed"></div>
-
-        <ion-list *ngIf="!isRecording">
-          <ion-item *ngFor="let video of videos" (click)="play(video)" tappable>
-            {{video}}
-          </ion-item>
-        </ion-list>
-
-       
-
-        <ion-buttons slot="fixed">
-          <ion-button (click)="isRecording ? stopRecord() : recordVideo()">
-            <ion-icon [name]="isRecording ? 'stop' : 'videocam'"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </div> -->
     </div>
 
     <div class="footer">
@@ -129,10 +98,7 @@
     <form>
       <ion-list>
         <ion-item class="ion-align-items-center hashtags-input">
-          <ion-label position="floating">
-            <!-- <p>Agregar hashtags</p> -->
-            Agregar hashtags
-          </ion-label>
+          <ion-label position="floating"> Agregar hashtags </ion-label>
           <ion-input
             type="text"
             placeholder="Hashtags"
@@ -144,13 +110,11 @@
             <ion-icon name="add"></ion-icon>
           </ion-button>
         </ion-item>
-        <ion-row>
-          <!-- <ion-col *ngFor="let hashtag of hashtags" size="4"> -->
+        <ion-row class="tags-row" *ngIf="hashtags.length">
           <div *ngFor="let hashtag of hashtags" class="hashtags">
             <p>#{{ hashtag }}</p>
             <a (click)="removeHashtag(hashtag)">X</a>
           </div>
-          <!-- </ion-col> -->
         </ion-row>
         <ion-item class="tags-input">
           <ion-label position="floating">
@@ -159,43 +123,35 @@
           </ion-label>
           <ion-input
             type="text"
-            placeholder="tags"
+            placeholder="Etiqueta a tus amigos"
             (ngModelChange)="tag($event)"
             [formControl]="tagsInput"
           ></ion-input>
         </ion-item>
-        <ion-list lines="none">
+
+        <ion-list class="ion-no-padding" lines="none">
           <ion-item
             (click)="addTag(user.name, user.profile.user_id)"
             *ngFor="let user of users$ | async"
           >
-            <ion-avatar slot="start">
-              <img [src]="user.profile.photo" />
+            <ion-avatar class="ion-margin-end" slot="start">
+              <img [src]="user.profile.photo || imageAvatarDefault " />
             </ion-avatar>
             <ion-label>{{user.name}}</ion-label>
           </ion-item>
         </ion-list>
         <ion-row class="tags-row" *ngIf="tags.length">
-          <!-- <ion-col *ngFor="let tag of tags" size="4"> -->
           <div *ngFor="let tag of tags" class="hashtags">
             <p>@{{ tag }}</p>
             <a (click)="removeTag(tag)">X</a>
           </div>
-          <!-- </ion-col> -->
         </ion-row>
-        <ion-item class="ion-no-padding">
-          <ion-label class="addressInput-label">
-            <img
-              class="tag"
-              src="../../../../assets/icon/geolocation.png"
-              alt=""
-            />
+
+        <ion-item lines="none" class="">
+          <ion-label class="">
+            <img src="../../../../assets/icon/geolocation.svg" alt="" />
           </ion-label>
-          <img
-            class="tag"
-            src="../../../../assets/icon/geolocation.png"
-            alt=""
-          />
+
           <input
             class="addressInput"
             type="text"
@@ -207,19 +163,6 @@
           />
         </ion-item>
 
-        <!-- <div class="data-input">
-          <img class="geo" src="../../../assets/icon/geolocation.png" alt="" />
-
-          <input
-            type="text"
-            name="license"
-            placeholder=" Ubicación"
-            (ngModel)="userAddress"
-            [formControl]="address"
-            ngx-google-places-autocomplete
-            (onAddressChange)="handleAddressChange($event)"
-          />
-        </div> -->
         <br />
       </ion-list>
 
