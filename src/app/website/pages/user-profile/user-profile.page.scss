@@ -116,17 +116,29 @@ ion-content {
   }
 
   .header-buttons {
+    width: 100%;
+    max-width: 40rem;
     display: flex;
     align-items: center;
     margin-top: 1rem;
 
+    ion-button:first-child {
+      margin-right: 10px;
+    }
+
     ion-button {
+      width: 50%;
+      --padding-start: 20px;
+      --padding-end: 20px;
       text-transform: capitalize;
       --border-radius: 100px;
       font-weight: 500;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       line-height: 1.7rem;
       color: #ffffff;
+      img {
+        margin-right: 5px;
+      }
 
       &.message-button {
         --background: #009dd6;
