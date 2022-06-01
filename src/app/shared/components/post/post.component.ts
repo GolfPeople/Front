@@ -52,6 +52,7 @@ export class PostComponent implements OnInit {
 
   taggedFriends: string[] = [];
   taggedFriendsId: string[] = [];
+  tagged: any = [];
 
   swiperConfig: SwiperOptions = {
     pagination: { clickable: true },
@@ -95,6 +96,16 @@ export class PostComponent implements OnInit {
     if (this.post.friends_id) {
       this.taggedFriendsId = JSON.parse(this.post.friends_id).split(',');
       console.log(this.taggedFriendsId);
+    }
+
+    for (let i = 0; i < this.taggedFriends.length; i++) {
+      const name = this.taggedFriends[i];
+      const id = this.taggedFriendsId[i];
+      const obj = {
+        name,
+        id,
+      };
+      this.tagged.push(obj);
     }
   }
 
