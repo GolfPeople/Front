@@ -61,7 +61,7 @@ export class HomePage implements OnInit {
 
     this.postsSvc.all(this.page).subscribe(
       ({ data }) => {
-        this.posts = data.filter((item) => item.files.length).slice(0, 3);
+        this.posts = data.filter((item) => item.files.length);
         console.log(this.posts);
         this.page += 1;
         loading.dismiss();
