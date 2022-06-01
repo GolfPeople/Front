@@ -6,7 +6,8 @@
     [routerLink]="['/website/user-profile', user.profile.user_id]"
     class="avatar"
     [ngStyle]="{
-      'background-image': 'url(' + user.profile.photo || avatarDefault + ')'
+      'background-image':
+        'url(' + (user.profile.photo ? user.profile.photo : avatarDefault) + ')'
     }"
   >
     <!-- <img [src]="user.profile.photo || avatarDefault" /> -->
