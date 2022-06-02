@@ -42,7 +42,6 @@ export class PostComponent implements OnInit {
   userPhoto: string = '';
 
   @Input() userName: string;
-  // @Input() userId;
   @Input() likes: Like[];
   userID;
   count: number = 0;
@@ -50,8 +49,8 @@ export class PostComponent implements OnInit {
   liked: boolean = false;
   saved: boolean = false;
 
-  taggedFriends: string[] = [];
-  taggedFriendsId: string[] = [];
+  taggedFriends = [];
+  taggedFriendsId = [];
   tagged: any = [];
 
   swiperConfig: SwiperOptions = {
@@ -89,13 +88,21 @@ export class PostComponent implements OnInit {
         }
       });
     }
-    if (this.post.friends_name !== null) {
-      this.taggedFriends = JSON.parse(this.post.friends_name).split(',');
-      console.log(this.taggedFriends);
+    this.getTags();
+  }
+
+  onClick() {
+    this.presentActionSheet();
+  }
+
+  getTags() {
+    if (this.post.friends_name) {
+      const frindsString = JSON.parse(this.post.friends_name);
+      frindsString ? (this.taggedFriends = frindsString.split(',')) : null;
     }
-    if (this.post.friends_id !== null) {
-      this.taggedFriendsId = JSON.parse(this.post.friends_id).split(',');
-      console.log(this.taggedFriendsId);
+    if (this.post.friends_id) {
+      const frindsString = JSON.parse(this.post.friends_id);
+      frindsString ? (this.taggedFriendsId = frindsString.split(',')) : null;
     }
 
     for (let i = 0; i < this.taggedFriends.length; i++) {
@@ -107,10 +114,6 @@ export class PostComponent implements OnInit {
       };
       this.tagged.push(obj);
     }
-  }
-
-  onClick() {
-    this.presentActionSheet();
   }
 
   async presentActionSheet() {

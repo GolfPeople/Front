@@ -34,6 +34,10 @@ import { GeolocationService } from 'src/app/core/services/geolocation.service';
 import { PostsService } from 'src/app/core/services/posts.service';
 import { Post, PostsResponse } from 'src/app/core/interfaces/interfaces';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Observable } from 'rxjs';
+import { Friend } from 'src/app/core/models/friend.interface';
+import { FriendsService } from 'src/app/core/services/friends.service';
+import { finalize, map } from 'rxjs/operators';
 
 declare var google: any;
 declare var window: any;
@@ -49,6 +53,8 @@ export class EditPostComponent implements OnInit {
   @ViewChild('fileInputVideo', { static: false }) fileInputVideo: ElementRef;
   @Input() type: number;
   @Input() postId: number;
+
+  imageAvatarDefault = 'assets/img/default-avatar.png';
 
   // Post data
   @Input() postDescription: string;
@@ -87,6 +93,19 @@ export class EditPostComponent implements OnInit {
   hashtags = [];
   hashtagsString: string;
 
+  //tags
+  // tags
+  public users$: Observable<Friend[]> | any;
+
+  tagsInput: FormControl;
+  tasgsInputValue: string;
+  inputTagsValue = [];
+  tags = [];
+  tagsString: string = '';
+  tagsArray = [];
+  taggedFriends: string[] = [];
+  taggedFriendsId: string[] = [];
+
   //ngx autocomplete
   title = 'google-places-autocomplete';
   userAddress: string = '';
@@ -107,7 +126,8 @@ export class EditPostComponent implements OnInit {
     private loadingCtrl: LoadingController,
     private actionSheetCtrl: ActionSheetController,
     private platform: Platform,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private friendsSvc: FriendsService
   ) {
     // this.initAutoComplete();
   }
@@ -117,10 +137,11 @@ export class EditPostComponent implements OnInit {
   }
   async ngOnInit() {
     console.log(this.post);
-    const { description, location, hashtags } = this.initFormControls();
+    const { description, location, hashtags, tags } = this.initFormControls();
     this.textArea = description;
     this.address = location;
     this.hashtagsInput = hashtags;
+    this.tagsInput = tags;
     this.editPost = true;
     this.textArea.setValue(this.post.description);
     this.address.setValue(this.post.ubication);
@@ -141,6 +162,11 @@ export class EditPostComponent implements OnInit {
     console.log(this.hashtagsString);
     this.userAddress = this.address.value;
     // }
+
+    if (this.post.friends_name !== null) {
+      this.tags = JSON.parse(this.post.friends_name).split(',');
+      console.log(this.taggedFriends);
+    }
   }
 
   ngAfterContentChecked(): void {
@@ -153,7 +179,9 @@ export class EditPostComponent implements OnInit {
     const description = new FormControl('', {});
     const location = new FormControl('', {});
     const hashtags = new FormControl('', {});
-    return { description, location, hashtags };
+    const tags = new FormControl('', {});
+
+    return { description, location, hashtags, tags };
   }
 
   hashtag(event: Event) {
@@ -196,6 +224,89 @@ export class EditPostComponent implements OnInit {
     this.hashtags = [...newHashtags];
   }
 
+  tag(value) {
+    // const element = event.target as HTMLInputElement;
+    // const value = element.value;
+    console.log(value);
+    this.tasgsInputValue = value;
+
+    if (value === '') {
+      this.users$ = new Observable();
+
+      return;
+    }
+
+    if (value) {
+      console.log('Valor valido', value);
+
+      this.users$ = this.friendsSvc.search(value).pipe(
+        map((data) => data.data),
+        finalize(() => {
+          // this.isLoading = false;
+        })
+      );
+    }
+    return;
+  }
+
+  addTag(tag: string, id: number) {
+    this.tagsArray.push({
+      name: tag,
+      id: id,
+    });
+    this.taggedFriends.push(tag);
+    this.taggedFriendsId.push(id.toString());
+
+    console.log('nombres -->', this.taggedFriends);
+
+    console.log('IDs -->', this.taggedFriendsId);
+
+    console.log(this.tagsArray);
+    this.tagsInput.reset();
+    this.users$ = new Observable();
+
+    console.log(this.tasgsInputValue);
+    const data = [...this.tags, ...tag.split(' ')];
+    console.log(data);
+    this.tags = data.filter((item, index) => {
+      return data.indexOf(item) === index;
+    });
+    this.tagsString = this.tags
+      .join(' ')
+      .split(' ')
+      .map((item) => {
+        if (item.includes('@')) {
+          return item;
+        }
+
+        return `@${item}`;
+      })
+      .join(' ');
+    console.log(this.tags);
+    console.log(this.tagsString);
+  }
+
+  removeTag(tag: string) {
+    const newTags = this.tags.filter((item) => item !== tag);
+    this.tags = [...newTags];
+
+    this.tags.length
+      ? (this.tagsString = this.tags
+          .join(' ')
+          .split(' ')
+          .map((item) => {
+            if (item.includes('@')) {
+              return item;
+            }
+
+            return `@${item}`;
+          })
+          .join(' '))
+      : (this.tagsString = '');
+
+    console.log(this.tagsString);
+  }
+
   handleAddressChange(address: any) {
     this.userAddress = address.formatted_address;
     this.userLatitude = address.geometry.location.lat();
@@ -204,41 +315,6 @@ export class EditPostComponent implements OnInit {
     console.log(this.userLatitude);
     console.log(this.userLongitude);
   }
-
-  // initAutoCom() {
-  //   this.autocomplete = new google.maps.places.Autocomplete(
-  //     document.getElementById('location') as HTMLInputElement,
-  //     {
-  //       fields: ['place_id', 'geometry', 'name'],
-  //     }
-  //   );
-
-  //   // this.autocomplete.addListener('place_changed', this.onPlaceChanged);
-  // }
-
-  // geoCodeLatLong(latlng) {
-  //   // This is making the Geocode request
-  //   const address = this.address;
-  //   console.log('TEST LAt Long', latlng);
-  //   this.geocoder.geocode({ location: latlng }, function (results, status) {
-  //     console.log('TEST results', results);
-  //     if (status !== google.maps.GeocoderStatus.OK) {
-  //       alert(status);
-  //     }
-  //     // This is checking to see if the Geoeode Status is OK before proceeding
-  //     if (status == google.maps.GeocoderStatus.OK) {
-  //       // var address = results[0].formatted_address;
-
-  //       //This is placing the returned address in the 'Address' field on the HTML form
-
-  //       address.setValue(
-  //         `${results[0].address_components[3].long_name} ${results[0].address_components[6].long_name}`
-  //       );
-  //       console.log(address.value);
-  //     }
-  //   });
-  //   this.address.setValue(address.value);
-  // }
 
   async openModal(message) {
     const modal = await this.modalCtrl.create({
@@ -273,11 +349,11 @@ export class EditPostComponent implements OnInit {
     });
     await loading.present();
     await this.postsSvc
-      .editPost(descriptionConcat, [], this.userAddress, this.postId)
+      .editPost(descriptionConcat, [], this.userAddress, this.post.id)
       .subscribe((res) => {
         this.postsSvc.getPostsAction();
         loading.dismiss();
-        this.openModal('Su publicación ha sido editada exitosamente');
+        this.openModal('Su publicación ha sido editada con éxito');
       });
 
     this.closeModal();

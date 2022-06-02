@@ -274,8 +274,6 @@ export class CreatePostPage implements OnInit, AfterViewInit {
   }
 
   tag(value) {
-    // const element = event.target as HTMLInputElement;
-    // const value = element.value;
     console.log(value);
     this.tasgsInputValue = value;
 
@@ -290,9 +288,7 @@ export class CreatePostPage implements OnInit, AfterViewInit {
 
       this.users$ = this.friendsSvc.search(value).pipe(
         map((data) => data.data),
-        finalize(() => {
-          // this.isLoading = false;
-        })
+        finalize(() => {})
       );
     }
     return;
