@@ -55,7 +55,6 @@ export class EditProfilePage implements OnInit {
     this.postsSvc.myPosts(this.postsPage).subscribe(({ data }) => {
       this.postsPage += 1;
       this.postsData = data;
-      console.log(data);
       loading.dismiss();
     });
   }

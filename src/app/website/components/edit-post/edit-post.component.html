@@ -17,24 +17,22 @@
 <ion-content class="content">
   <ion-row class="ion-justify-content-center ion-align-items-center">
     <div class="footer">
-      <p class="text">Escribe un pie para tu foto</p>
+      <p class="text">Añade un comentario a tu publicaión</p>
       <ion-textarea
         type="text"
         inputmode="text"
         [maxlength]="2000"
         class="text"
         [formControl]="textArea"
-        (ngModelChange)="descriptionValue()"
+        placeholder="Escribe algo..."
       >
       </ion-textarea>
     </div>
 
     <form>
       <ion-list>
-        <ion-item class="ion-align-items-center">
-          <ion-label position="floating">
-            <p>Agregar hashtags</p>
-          </ion-label>
+        <ion-item class="ion-align-items-center hashtags-input">
+          <ion-label position="floating"> Agregar hashtags </ion-label>
           <ion-input
             type="text"
             placeholder="Hashtags"
@@ -42,44 +40,62 @@
             [formControl]="hashtagsInput"
           >
           </ion-input>
-          <ion-button
-            [disabled]="!hashtagsInput.value"
-            slot="end"
-            color="primary"
-            (click)="addHashtags()"
-          >
+          <ion-button class="hashtag-button" slot="end" (click)="addHashtags()">
             <ion-icon name="add"></ion-icon>
           </ion-button>
         </ion-item>
-        <ion-row>
-          <ion-col *ngFor="let hashtag of hashtags" size="4">
-            <div class="hashtags">
-              <p>#{{ hashtag }}</p>
-              <a (click)="removeHashtag(hashtag)">X</a>
-            </div>
-          </ion-col>
+        <ion-row class="tags-row" *ngIf="hashtags.length">
+          <div *ngFor="let hashtag of hashtags" class="hashtags">
+            <p>#{{ hashtag }}</p>
+            <a (click)="removeHashtag(hashtag)">X</a>
+          </div>
         </ion-row>
-        <ion-item>
+        <ion-item class="tags-input">
           <ion-label position="floating">
-            <img class="tag" src="../../../../assets/icon/tag.png" alt="" />
+            <img class="geo" src="../../../../assets/icon/tag.png" alt="" />
             Etiqueta a tus amigos
           </ion-label>
-          <ion-input></ion-input>
+          <ion-input
+            type="text"
+            placeholder="Etiqueta a tus amigos"
+            (ngModelChange)="tag($event)"
+            [formControl]="tagsInput"
+          ></ion-input>
         </ion-item>
 
-        <p class="card-text text-center">¿Dónde vives?</p>
-        <div class="data-input">
-          <img class="geo" src="../../../assets/icon/geolocation.png" alt="" />
+        <ion-list class="ion-no-padding" lines="none">
+          <ion-item
+            (click)="addTag(user.name, user.profile.user_id)"
+            *ngFor="let user of users$ | async"
+          >
+            <ion-avatar class="ion-margin-end" slot="start">
+              <img [src]="user.profile.photo || imageAvatarDefault" />
+            </ion-avatar>
+            <ion-label>{{ user.name }}</ion-label>
+          </ion-item>
+        </ion-list>
+        <ion-row class="tags-row" *ngIf="tags.length">
+          <div *ngFor="let tag of tags" class="hashtags">
+            <p>@{{ tag }}</p>
+            <a (click)="removeTag(tag)">X</a>
+          </div>
+        </ion-row>
+
+        <ion-item lines="none">
+          <ion-label>
+            <img src="../../../../assets/icon/geolocation.svg" alt="" />
+          </ion-label>
+
           <input
+            class="addressInput"
             type="text"
-            name="license"
-            placeholder=" Ubicación Actual"
-            (ngModel)="(userAddress)"
-            [formControl]="address"
+            placeholder=" Ubicación"
+            [(ngModel)]="userAddress"
+            name="location"
             ngx-google-places-autocomplete
             (onAddressChange)="handleAddressChange($event)"
           />
-        </div>
+        </ion-item>
         <br />
       </ion-list>
       <ion-button

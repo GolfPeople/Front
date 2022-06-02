@@ -427,6 +427,8 @@ export class CreatePostComponent
         descriptionConcat,
         files,
         ubication,
+        [],
+        [],
         []
       );
       await loading.dismiss();

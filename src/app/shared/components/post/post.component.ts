@@ -42,13 +42,16 @@ export class PostComponent implements OnInit {
   userPhoto: string = '';
 
   @Input() userName: string;
-  // @Input() userId;
   @Input() likes: Like[];
   userID;
   count: number = 0;
 
   liked: boolean = false;
   saved: boolean = false;
+
+  taggedFriends = [];
+  taggedFriendsId = [];
+  tagged: any = [];
 
   swiperConfig: SwiperOptions = {
     pagination: { clickable: true },
@@ -85,10 +88,32 @@ export class PostComponent implements OnInit {
         }
       });
     }
+    this.getTags();
   }
 
   onClick() {
     this.presentActionSheet();
+  }
+
+  getTags() {
+    if (this.post.friends_name) {
+      const frindsString = JSON.parse(this.post.friends_name);
+      frindsString ? (this.taggedFriends = frindsString.split(',')) : null;
+    }
+    if (this.post.friends_id) {
+      const frindsString = JSON.parse(this.post.friends_id);
+      frindsString ? (this.taggedFriendsId = frindsString.split(',')) : null;
+    }
+
+    for (let i = 0; i < this.taggedFriends.length; i++) {
+      const name = this.taggedFriends[i];
+      const id = this.taggedFriendsId[i];
+      const obj = {
+        name,
+        id,
+      };
+      this.tagged.push(obj);
+    }
   }
 
   async presentActionSheet() {

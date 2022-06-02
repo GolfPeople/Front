@@ -39,12 +39,10 @@ export class HomePage implements OnInit {
     // this.postsSvc.posts$.subscribe((data) => {
     //   this.posts = data.slice(0, 3);
     // });
-    // this.notificationsSvc.noReadedNotifications$.subscribe(
-    //   (res) => (this.notifications = res.length)
-    // );
-    this.notificationsSvc.counter$.subscribe(res => {
-      this.notifications = res
-    });
+    this.notificationsSvc.noReadedNotifications$.subscribe(
+      (res) => (this.notifications = res.length)
+    );
+    // this.notifications = this.notificationsSvc.counter$;
   }
 
   async ngOnInit() {
@@ -63,7 +61,7 @@ export class HomePage implements OnInit {
 
     this.postsSvc.all(this.page).subscribe(
       ({ data }) => {
-        this.posts = data.filter((item) => item.files.length).slice(0, 3);
+        this.posts = data.filter((item) => item.files.length);
         console.log(this.posts);
         this.page += 1;
         loading.dismiss();

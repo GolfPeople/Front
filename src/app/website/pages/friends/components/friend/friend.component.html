@@ -1,7 +1,17 @@
 <ion-item lines="none">
-  <ion-avatar [routerLink]="['/website/user-profile', user.profile.user_id]">
+  <!-- <ion-avatar [routerLink]="['/website/user-profile', user.profile.user_id]">
     <img [src]="user.profile.photo || avatarDefault" />
-  </ion-avatar>
+  </ion-avatar> -->
+  <a
+    [routerLink]="['/website/user-profile', user.profile.user_id]"
+    class="avatar"
+    [ngStyle]="{
+      'background-image':
+        'url(' + (user.profile.photo ? user.profile.photo : avatarDefault) + ')'
+    }"
+  >
+    <!-- <img [src]="user.profile.photo || avatarDefault" /> -->
+  </a>
   <ion-label>
     <h4>
       {{ user.name }}

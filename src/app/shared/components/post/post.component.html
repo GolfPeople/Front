@@ -71,6 +71,11 @@
           [routerLink]="['/website/posts/', hashtag]"
           >#{{ hashtag }}
         </a>
+        <a
+          *ngFor="let tag of tagged"
+          [routerLink]="['/website/user-profile', tag.id]"
+          >@{{ tag.name }}
+        </a>
 
         <!-- <a  *ngFor="let tag of post.friends | jsonToData">@{{tag.name}}</a> -->
       </p>

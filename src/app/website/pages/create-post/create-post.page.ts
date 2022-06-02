@@ -48,6 +48,10 @@ export class CreatePostPage implements OnInit, AfterViewInit {
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
   @ViewChild('fileInputVideo', { static: false }) fileInputVideo: ElementRef;
   @ViewChild('video') captureElement: ElementRef;
+  @ViewChild('address') addressInput: ElementRef;
+
+  imageAvatarDefault = 'assets/img/default-avatar.png';
+
   // @Input() type: number;
 
   // google maps
@@ -99,6 +103,8 @@ export class CreatePostPage implements OnInit, AfterViewInit {
   tags = [];
   tagsString: string = '';
   tagsArray = [];
+  taggedFriends: string[] = [];
+  taggedFriendsId: string[] = [];
 
   //video
 
@@ -131,12 +137,14 @@ export class CreatePostPage implements OnInit, AfterViewInit {
   }
 
   async ngOnInit() {
+    var direccion = document.getElementById('address') as HTMLInputElement;
     const { description, location, hashtags, tags } = this.initFormControls();
     this.textArea = description;
     this.address = location;
     this.hashtagsInput = hashtags;
     this.tagsInput = tags;
 
+    console.log('Addres input -->', direccion);
     const coordinates = await this.geolocationService.currentPosition();
     const { latitude, longitude } = await coordinates.coords;
     this.coords = { lat: latitude, lng: longitude };
@@ -266,8 +274,6 @@ export class CreatePostPage implements OnInit, AfterViewInit {
   }
 
   tag(value) {
-    // const element = event.target as HTMLInputElement;
-    // const value = element.value;
     console.log(value);
     this.tasgsInputValue = value;
 
@@ -282,9 +288,7 @@ export class CreatePostPage implements OnInit, AfterViewInit {
 
       this.users$ = this.friendsSvc.search(value).pipe(
         map((data) => data.data),
-        finalize(() => {
-          // this.isLoading = false;
-        })
+        finalize(() => {})
       );
     }
     return;
@@ -295,6 +299,12 @@ export class CreatePostPage implements OnInit, AfterViewInit {
       name: tag,
       id: id,
     });
+    this.taggedFriends.push(tag);
+    this.taggedFriendsId.push(id.toString());
+
+    console.log('nombres -->', this.taggedFriends);
+
+    console.log('IDs -->', this.taggedFriendsId);
 
     console.log(this.tagsArray);
     this.tagsInput.reset();
@@ -565,20 +575,23 @@ export class CreatePostPage implements OnInit, AfterViewInit {
   }
 
   async onSubmit(description, files, ubication) {
+    console.log('ubicación -->', ubication);
     let descriptionConcat;
     this.hashtagsString === undefined
       ? (descriptionConcat = description)
       : (descriptionConcat = description.concat(` ${this.hashtagsString} `));
 
-    this.tagsString === undefined
-      ? descriptionConcat
-      : (descriptionConcat = descriptionConcat.concat(` ${this.tagsString} `));
+    // this.tagsString === undefined
+    //   ? descriptionConcat
+    //   : (descriptionConcat = descriptionConcat.concat(` ${this.tagsString} `));
 
     console.log('description -->', descriptionConcat);
 
-    if ((this.userAddress = '')) this.userAddress = 'En algún lugar';
+    if (ubication === '') ubication = 'En algún lugar';
 
     if (!this.platform.is('hybrid')) {
+      console.log('ubicación -->', ubication);
+
       const loading = await this.loadingCtrl.create({
         cssClass: 'laoding-ctrl',
         spinner: 'crescent',
@@ -588,8 +601,10 @@ export class CreatePostPage implements OnInit, AfterViewInit {
         .createPostWithImageFile(
           descriptionConcat,
           files,
-          this.userAddress,
-          this.tagsArray
+          ubication,
+          this.tagsArray,
+          this.taggedFriends,
+          this.taggedFriendsId
         )
         .subscribe((res) => {
           console.log(res);
