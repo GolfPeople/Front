@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "golf-people"
+  },
+  "targets": {
+    "golf-people": {
+      "hosting": {
+        "app": [
+          "golf-people"
+        ]
+      }
+    }
   }
 }
