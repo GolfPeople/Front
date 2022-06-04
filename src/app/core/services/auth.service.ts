@@ -8,12 +8,24 @@ import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/compat/firestore';
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private afAuth: AngularFireAuth) {}
+  public user$: Observable<UserAuth>;
+  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {
+    this.user$ = this.afAuth.authState.pipe(
+      switchMap((user) => {
+        if (user) {
+          return this.afs.doc<UserAuth>(`users/${user.uid}`).valueChanges();
+        }
+        return of(null);
+      })
+    );
+  }
 
   async resetPassword(email: string): Promise<any> {
     try {
@@ -28,6 +40,7 @@ export class AuthService {
       const { user } = await this.afAuth.signInWithPopup(
         new firebase.auth.GoogleAuthProvider()
       );
+      this.updateUserData(user);
       return user;
     } catch (error) {
       console.log('Error -->', error);
@@ -53,6 +66,7 @@ export class AuthService {
         email,
         password
       );
+      this.updateUserData(user);
       return user;
     } catch (error) {
       console.log('Error -->', error);
@@ -73,5 +87,18 @@ export class AuthService {
     } catch (error) {
       console.log('Error -->', error);
     }
+  }
+
+  private updateUserData(user: UserAuth) {
+    const userRef: AngularFirestoreDocument<UserAuth> = this.afs.doc(
+      `users/${user.uid}`
+    );
+    const data: UserAuth = {
+      uid: user.uid,
+      email: user.email,
+      emailVerified: user.emailVerified,
+      displayName: user.displayName,
+    };
+    return userRef.set(data, { merge: true });
   }
 }

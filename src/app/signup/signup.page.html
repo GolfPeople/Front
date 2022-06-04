@@ -8,47 +8,39 @@
             <h2 class="card-title">Regístrate</h2>
             <p class="card-text">Ingresa tus credenciales</p>
           </div>
-          <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+          <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
             <ion-list>
-              <ion-item>
+              <ion-item class="">
                 <ion-label position="floating" class="signup-form-title"
                   ><ion-icon name="mail"></ion-icon> E-Mail</ion-label
                 >
                 <ion-input
                   type="email"
-                  ngModel
                   name="email"
-                  required
-                  email
-                  #emailCtrl="ngModel"
+                  formControlName="email"
                   class="input-text"
                 ></ion-input>
               </ion-item>
               <div class="error-container">
-                <ion-item
-                  *ngIf="!emailCtrl.valid && emailCtrl.touched"
-                  lines="none"
-                >
+                <ion-item *ngIf="form.get('email')?.errors?.email" lines="none">
                   <ion-label class="validation-text">Email inválido</ion-label>
                 </ion-item>
               </div>
 
-              <ion-item>
+              <ion-item class="">
                 <ion-label position="floating" class="signup-form-title"
                   ><ion-icon name="person"></ion-icon>Nombre de
                   usuario</ion-label
                 >
                 <ion-input
                   type="text"
-                  ngModel
                   name="name"
-                  required
-                  #nameCtrl="ngModel"
+                  formControlName="name"
                 ></ion-input>
               </ion-item>
               <div class="error-container">
                 <ion-item
-                  *ngIf="!nameCtrl.valid && nameCtrl.touched"
+                  *ngIf="form.get('name')?.errors && form.get('name').touched"
                   lines="none"
                 >
                   <ion-label class="validation-text"
@@ -57,18 +49,14 @@
                 </ion-item>
               </div>
 
-              <ion-item>
+              <ion-item class="">
                 <ion-label position="floating" class="signup-form-title"
                   ><ion-icon name="lock-open"></ion-icon> Contraseña</ion-label
                 >
                 <ion-input
                   [type]="passwordType"
-                  ngModel
                   name="password"
-                  required
-                  minlength="8"
-                  #passwordCtrl="ngModel"
-                  pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.]).{8,}$"
+                  formControlName="password"
                 ></ion-input>
                 <ion-icon
                   [name]="eye"
@@ -79,7 +67,7 @@
               </ion-item>
               <div class="error-container-large">
                 <ion-item
-                  *ngIf="!passwordCtrl.valid && passwordCtrl.touched"
+                  *ngIf="form.get('password')?.touched && form.get('password')?.errors?.pattern"
                   lines="none"
                 >
                   <ion-label text-wrap class="validation-text">
@@ -88,19 +76,24 @@
                     un carácter especial (a-z/A-Z/0-9/*$).
                   </ion-label>
                 </ion-item>
+                <ion-item
+                  lines="none"
+                  *ngIf="form.get('password')?.errors?.['required'] && form.get('password')?.touched "
+                >
+                  <ion-label text-wrap class="validation-text"
+                    >Este campo es obligatoriol</ion-label
+                  >
+                </ion-item>
               </div>
-              <ion-item>
+              <ion-item class="">
                 <ion-label position="floating" class="signup-form-title"
                   ><ion-icon name="lock-open"></ion-icon> Confirmar
                   contraseña</ion-label
                 >
                 <ion-input
                   [type]="passwordType"
-                  ngModel
                   name="rePassword"
-                  required
-                  #rePasswordCtrl="ngModel"
-                  minlength="8"
+                  formControlName="password_confirmation"
                 ></ion-input>
                 <ion-icon
                   [name]="eye"
@@ -110,7 +103,7 @@
                 ></ion-icon>
               </ion-item>
               <ion-item
-                *ngIf="(passwordCtrl.value !== rePasswordCtrl.value) && passwordCtrl.touched"
+                *ngIf="form.get('password_confirmation')?.errors?.isMatching"
                 lines="none"
               >
                 <ion-label class="validation-text"
@@ -118,7 +111,10 @@
                 >
               </ion-item>
               <ion-item lines="none">
-                <ion-checkbox #checkboxCtrl required></ion-checkbox>
+                <ion-checkbox
+                  (click)="onclick()"
+                  formControlName="checked"
+                ></ion-checkbox>
                 <ion-label text-wrap class="checkbox-text signup-form-checkbox"
                   >Acepto los <a href="#">términos y condiciones</a></ion-label
                 >
@@ -130,7 +126,7 @@
               shape="round"
               expand="block"
               class="signup-btn"
-              [disabled]="(!f.valid) || (passwordCtrl.value !== rePasswordCtrl.value || !checkboxCtrl.checked)"
+              [disabled]="form.invalid || !checked"
             >
               Continuar
             </ion-button>

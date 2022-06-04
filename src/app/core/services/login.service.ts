@@ -35,7 +35,7 @@ export class LoginService {
     }
   }
 
-  login(email: string, password: string) {
+  login({ email, password }) {
     const opts = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

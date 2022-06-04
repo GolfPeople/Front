@@ -86,6 +86,10 @@ ion-label {
   --color: #00388b !important;
 }
 
+ion-item {
+  --border-color: #ddd;
+}
+
 ion-item.item-has-focus > ion-label {
   color: #00388b !important;
 }

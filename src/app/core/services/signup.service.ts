@@ -21,10 +21,10 @@ export class SignupService {
   constructor(private http: HttpClient) {}
 
   signup(
-    email: string,
-    name: string,
-    password: string,
-    password_confirmation: string
+    {email,
+    name,
+    password,
+    password_confirmation}
   ) {
     const opts = {
       headers: new HttpHeaders({

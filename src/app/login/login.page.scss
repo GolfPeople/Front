@@ -105,6 +105,17 @@ ion-content{
   color: #fff;
 }
 
+.validation-errors {
+  font-size: small;
+  color: #f1453d;
+}
+.error-message {
+  padding: 0 5px;
+  text-align: right;
+  font-size: 1.2rem;
+  color: #f1453d;
+}
+
 ion-list{
   --ion-item-background: transparent !important;
 }

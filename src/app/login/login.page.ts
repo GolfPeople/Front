@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  NgForm,
+  Validators,
+} from '@angular/forms';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import {
   LoadingController,
@@ -34,6 +40,7 @@ export class LoginPage implements OnInit {
   passwordType = 'password';
   eye = 'eye';
   isLoading = false;
+  form: FormGroup;
 
   constructor(
     private loginService: LoginService,
@@ -42,50 +49,30 @@ export class LoginPage implements OnInit {
     private alertCtrl: AlertController,
     private loadingSvc: LoadingService,
     private modalCtrl: ModalController,
-    private userService: UserService
+    private userService: UserService,
+    private fb: FormBuilder
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.form = this.initForm();
+  }
 
   togglePasswordMode() {
     this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
     // this.eye = this.eye === 'eye-off' ? 'eye' : 'eye-off';
   }
 
-  // login(email: string, password: string) {
-  //   this.isLoading = true;
-  //   this.loadingCtrl
-  //     .create({ keyboardClose: true, message: 'Iniciando sesión...' })
-  //     .then((loadingEl) => {
-  //       loadingEl.present();
-  //       // let authObs: Observable<LoginResponseData>;
-  //       // if (this.isLogin) {
-  //       //   authObs = this.loginService.login(email, password);
-  //       // }
-  //       // authObs.subscribe(
-  //       this.loginService.login(email, password).subscribe(
-  //         () => {
-  //           // this.loginService.isLogged$.subscribe((data) => console.log(data));
-  //           this.isLoading = false;
-  //           loadingEl.dismiss();
-  //           this.router.navigate(['/website']);
-  //         },
-  //         (errRes) => {
-  //           loadingEl.dismiss();
-  //           let message;
-  //           errRes === 'Credenciales incorrectas'
-  //             ? (message = 'Datos incorrectos, intenta de nuevo.')
-  //             : (message = 'Error de conexión');
-  //           this.showAlert(message);
-  //         }
-  //       );
-  //     });
-  // }
+  initForm() {
+    return this.fb.group({
+      email: ['', [Validators.email, Validators.required]],
+      password: ['', [, Validators.required]],
+    });
+  }
 
-  login(email, password) {
+  login({ email, password }) {
     this.loadingSvc.presentLoading();
 
-    this.loginService.login(email, password).subscribe(
+    this.loginService.login({ email, password }).subscribe(
       () => {
         // this.loginService.isLogged$.subscribe((data) => console.log(data));
         this.isLoading = false;
@@ -105,14 +92,15 @@ export class LoginPage implements OnInit {
     );
   }
 
-  onSubmit(form: NgForm) {
-    if (!form.valid) {
-      return;
-    }
-    const email = form.value.email;
-    const password = form.value.password;
+  onSubmit(f: FormGroup) {
+    const form = f.value;
+    // if (!form.valid) {
+    //   return;
+    // }
+    // const email = form.value.email;
+    // const password = form.value.password;
 
-    this.login(email, password);
+    this.login(form);
   }
 
   async errorAlert(message) {
