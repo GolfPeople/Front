@@ -54,7 +54,7 @@ export class SignupPage implements OnInit {
       componentProps: {
         message,
         route,
-      },
+      }, 
     });
 
     await modal.present();
