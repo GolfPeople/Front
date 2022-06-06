@@ -55,6 +55,8 @@ ion-content{
 .col-content{
   height: 77%;
   width: 100% !important;
+  // max-width: 380px;
+  // max-width: 320px;
   padding: 20px;
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
@@ -64,12 +66,18 @@ ion-content{
   background-color: #00388B;
 }
 
-.vertical-align-center > *
+.vertical-align-center 
 {
+  // height: 100%;
+  // display: flex!important;
+  // align-content: center!important;
+  // align-items: center!important;
+  // justify-content: center;
   height: 100%;
-  display: flex!important;
-  align-content: center!important;
-  align-items: center!important;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
   justify-content: center;
 }
 
@@ -148,10 +156,32 @@ ion-checkbox{
   color: red;
 }
 
+ion-button {
+  height: 47px;
+  img {
+    margin-left: 8px;
+  }
+}
+
 .login-btn{
   margin-top: 30px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   --background: #009DD6;
+  color: #ffffff
+}
+
+.google {
+  margin-bottom: 1.2rem;
+  --background: #FFFFFF;
+  text-transform: none;
+  color: #383838
+}
+.facebook {
+  --background: #0078F6;
+  text-transform: none;
+  color: #ffffff;
+  margin-bottom: 1.6rem;
+
 }
 
 .pos-link{

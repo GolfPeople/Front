@@ -5,6 +5,8 @@ import {
   AfterContentChecked,
   ViewChild,
   ViewEncapsulation,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import {
@@ -43,6 +45,7 @@ export class PostComponent implements OnInit {
 
   @Input() userName: string;
   @Input() likes: Like[];
+  @Output() delete = new EventEmitter()
   userID;
   count: number = 0;
 
@@ -64,7 +67,8 @@ export class PostComponent implements OnInit {
     private alertCtrl: AlertController,
     private postsSvc: PostsService,
     private userSvc: UserService,
-    private reactionsSvc: ReactionsService
+    private reactionsSvc: ReactionsService,
+    private loadingCtrl: LoadingController
   ) {
     this.userID = localStorage.getItem('user_id');
     this.userSvc.userPhoto$.subscribe((photo) => {
@@ -140,8 +144,19 @@ export class PostComponent implements OnInit {
                 buttons: [
                   {
                     text: 'aceptar',
-                    handler: () => {
-                      this.postsSvc.deletePost(this.post.id);
+                    handler: async  () => {
+                      const loading = await this.loadingCtrl.create({
+                        cssClass: 'loading-ctrl'
+                      })
+                      await loading.present()
+                      this.postsSvc.deletePost(this.post.id).subscribe(
+                        res => {
+                          console.log('Delete --> ', res)
+                          this.delete.emit()
+                          loading.dismiss()
+                        }
+
+                      )
                     },
                   },
                   {

@@ -96,7 +96,7 @@ export class PersonalInfoComponent implements OnInit {
     // this.loadingSvc.presentLoading();
     this.form = this.initForm();
     const loading = await this.loadingCtrl.create({
-      cssClass: 'laoding-ctrl',
+      cssClass: 'loading-ctrl',
       spinner: 'crescent',
     });
     await loading.present();

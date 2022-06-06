@@ -217,7 +217,7 @@ export class EditPostPage implements OnInit {
     console.log('description -->', descriptionConcat);
     console.log('edit files -->', files);
     const loading = await this.loadingCtrl.create({
-      cssClass: 'laoding-ctrl',
+      cssClass: 'loading-ctrl',
       spinner: 'crescent',
     });
     await loading.present();

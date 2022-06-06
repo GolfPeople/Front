@@ -2,7 +2,8 @@
   <ion-grid>
     <ion-row>
       <div class="login-header">
-        <ion-col size-sm="4" offset-sm="4" class="col-title">
+        <!-- <ion-col size-sm="4" offset-sm="4" class="col-title"> -->
+        <ion-col class="col-title">
           <div class="header-title">
             <h2 class="title-text">Bienvenido,</h2>
             <p class="subtitle-text header-content">
@@ -12,9 +13,10 @@
         </ion-col>
       </div>
     </ion-row>
-    <ion-row>
+    <ion-row class="vertical-align-center">
       <div>
-        <ion-col size-sm="4" offset-sm="4" class="col-content">
+        <!-- <ion-col size-sm="4" offset-sm="4" class="col-content"> -->
+        <ion-col class="col-content">
           <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
             <ion-list>
               <ion-item class="item-neg">
@@ -62,6 +64,20 @@
               class="login-btn"
             >
               Siguiente
+            </ion-button>
+
+            <ion-button
+              class="google"
+              shape="round"
+              expand="block"
+              (click)="onLoginGoogle()"
+            >
+              Entrar con <img src="../../assets/icons/google.svg" />
+              <img src="" alt="" />
+            </ion-button>
+            <ion-button class="facebook" shape="round" expand="block">
+              Entrar con <img src="../../assets/icons/facebook.svg" />
+              <img src="" alt="" />
             </ion-button>
           </form>
           <p class="text-center pos-link">

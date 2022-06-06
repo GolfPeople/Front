@@ -20,7 +20,8 @@ export class AuthService {
     this.user$ = this.afAuth.authState.pipe(
       switchMap((user) => {
         if (user) {
-          return this.afs.doc<UserAuth>(`users/${user.uid}`).valueChanges();
+          console.log('Service -->',user)
+          return this.afs.collection('users').doc<UserAuth>(user.uid).valueChanges();
         }
         return of(null);
       })
@@ -80,6 +81,9 @@ export class AuthService {
       console.log('Error -->', error);
     }
   }
+  isEmailVerified(user: UserAuth) {
+    return user.emailVerified === true ? true : false;
+  }
 
   async logout(): Promise<void> {
     try {
@@ -90,9 +94,10 @@ export class AuthService {
   }
 
   private updateUserData(user: UserAuth) {
-    const userRef: AngularFirestoreDocument<UserAuth> = this.afs.doc(
-      `users/${user.uid}`
+    const userRef: AngularFirestoreDocument<UserAuth> =  this.afs.collection('users').doc(
+      user.uid
     );
+    console.log('userRef -->', userRef)
     const data: UserAuth = {
       uid: user.uid,
       email: user.email,

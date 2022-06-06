@@ -44,7 +44,7 @@ export class PostsService {
   async getPosts(page = 1) {
     const params = new HttpParams().set('page', page);
     const loading = await this.loadingCtrl.create({
-      cssClass: 'laoding-ctrl',
+      cssClass: 'loading-ctrl',
     });
 
     await loading.present();
@@ -180,12 +180,12 @@ export class PostsService {
     const option = '3';
 
     formData.append('option', option);
-    this.http
+    return this.http
       .post(`${URL}/publish/my_publish/toogle/${id}`, formData)
-      .subscribe((res) => {
-        console.log('delete -->', res);
-        this.getPosts();
-      });
+      // .subscribe((res) => {
+      //   console.log('delete -->', res);
+      //   this.getPosts();
+      // });
   }
 
   //Guardar una publicación

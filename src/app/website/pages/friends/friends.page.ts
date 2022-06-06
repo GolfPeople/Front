@@ -42,7 +42,7 @@ export class FriendsPage implements OnInit {
 
   async ngOnInit() {
     const loading = await this.loadingCtrl.create({
-      cssClass: 'laoding-ctrl',
+      cssClass: 'loading-ctrl',
     });
     await loading.present();
     this.friendsSvc.following(this.friendsPage).subscribe(({ data }) => {

@@ -2,7 +2,11 @@
   <ion-col class="ion-justify-content-center ion-align-items-start" size="12">
     <p class="no-posts" *ngIf="!posts.length">No tienes publicaciones.</p>
 
-    <app-post *ngFor="let post of posts" [post]="post"></app-post>
+    <app-post
+      *ngFor="let post of posts; index as i"
+      [post]="post"
+      (delete)="onDelete($event, i)"
+    ></app-post>
     <p *ngIf="loadingMore">Cargando más...</p>
     <!-- <ion-button
       (click)="onLoadMore()"
@@ -14,7 +18,7 @@
     </ion-button> -->
     <ion-button
       (click)="onLoadMore()"
-      [ngClass]="{'show-button': posts.length}"
+      [ngClass]="{ 'show-button': posts.length }"
       expand="block"
       *ngIf="!loadingMore"
       shape="round"

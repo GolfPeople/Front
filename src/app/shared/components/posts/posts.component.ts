@@ -18,4 +18,8 @@ export class PostsComponent implements OnInit {
   onLoadMore() {
     this.loadMore.emit();
   }
+
+  onDelete(e, i){
+    this.posts.splice(i,1)
+  }
 }

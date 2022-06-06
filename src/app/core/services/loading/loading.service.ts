@@ -9,7 +9,7 @@ export class LoadingService {
 
   async presentLoading() {
     const loading = await this.loadingCtrl.create({
-      cssClass: 'laoding-ctrl',
+      cssClass: 'loading-ctrl',
       spinner: 'crescent',
       // message: 'Please wait...',
       // duration: 2000

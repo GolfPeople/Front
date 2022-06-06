@@ -20,7 +20,7 @@ export class AllPostsPage implements OnInit {
 
   async ngOnInit() {
     const loading = await this.loadingCtrl.create({
-      cssClass: 'laoding-ctrl',
+      cssClass: 'loading-ctrl',
     });
     await loading.present();
 

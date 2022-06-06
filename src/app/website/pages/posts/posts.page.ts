@@ -32,7 +32,7 @@ export class PostsPage implements OnInit {
 
   async ngOnInit() {
     const loading = await this.loadingCtrl.create({
-      cssClass: 'laoding-ctrl',
+      cssClass: 'loading-ctrl',
       spinner: 'crescent',
     });
     await loading.present();

@@ -73,7 +73,15 @@ const routes: Routes = [
     loadChildren: () =>
       import('./website/website.module').then((m) => m.WebsiteModule),
     canLoad: [AuthGuard],
+  },  {
+    path: 'verify-email',
+    loadChildren: () => import('./verify-email/verify-email.module').then( m => m.VerifyEmailPageModule)
   },
+  {
+    path: 'forgot-password',
+    loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
+  },
+
 ];
 
 @NgModule({

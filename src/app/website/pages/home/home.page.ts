@@ -47,7 +47,7 @@ export class HomePage implements OnInit {
 
   async ngOnInit() {
     const loading = await this.loadingCtrl.create({
-      cssClass: 'laoding-ctrl',
+      cssClass: 'loading-ctrl',
     });
     await loading.present();
     this.userService.getUserInfo().subscribe((res) => {

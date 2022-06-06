@@ -77,7 +77,7 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
 
   async ngOnInit() {
     const loading = await this.loadingCtrl.create({
-      cssClass: 'laoding-ctrl',
+      cssClass: 'loading-ctrl',
       spinner: 'crescent',
     });
     await loading.present();

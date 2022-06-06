@@ -22,6 +22,7 @@ import { Observable } from 'rxjs';
 import { LoadingService } from '../core/services/loading/loading.service';
 import { ErrorComponent } from '../shared/alerts/error/error.component';
 import { UserService } from '../core/services/user.service';
+import { AuthService } from '../core/services/auth.service';
 
 const TOKEN_DIR = 'session';
 
@@ -50,7 +51,8 @@ export class LoginPage implements OnInit {
     private loadingSvc: LoadingService,
     private modalCtrl: ModalController,
     private userService: UserService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private authSvc: AuthService
   ) {}
 
   ngOnInit() {
@@ -91,16 +93,47 @@ export class LoginPage implements OnInit {
       }
     );
   }
+  async onLoginFb({ email, password }) {
+    try {
+      const user = await this.authSvc.login(email, password);
+      if (user) {
+        //Todo: CheckEmail
+        const isVerified = this.authSvc.isEmailVerified(user);
+        // this.redirectUser(isVerified)
+      }
+    } catch (error) {
+      console.log('Error -->', error);
+    }
+  }
+
+  async onLoginGoogle() {
+    try {
+      const user = await this.authSvc.loginGoogle();
+      if (user) {
+        //Todo: CheckEmail
+        const isVerified = this.authSvc.isEmailVerified(user)
+        // this.redirectUser(isVerified)
+      }
+    } catch (error) {
+      console.log('Error -->', error);
+    }
+  }
+
+  private redirectUser(isVerified: boolean) {
+    // redirect --> admin 
+    // else VerificationPage
+    if(isVerified) {
+      this.router.navigate(['/website'])
+    } else {
+      this.router.navigate(['/verify-email'])
+    }
+  }
 
   onSubmit(f: FormGroup) {
     const form = f.value;
-    // if (!form.valid) {
-    //   return;
-    // }
-    // const email = form.value.email;
-    // const password = form.value.password;
 
     this.login(form);
+    this.onLoginFb(form);
   }
 
   async errorAlert(message) {

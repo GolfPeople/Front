@@ -593,7 +593,7 @@ export class CreatePostPage implements OnInit, AfterViewInit {
       console.log('ubicación -->', ubication);
 
       const loading = await this.loadingCtrl.create({
-        cssClass: 'laoding-ctrl',
+        cssClass: 'loading-ctrl',
         spinner: 'crescent',
       });
       await loading.present();
@@ -617,7 +617,7 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     }
 
     const loading = await this.loadingCtrl.create({
-      cssClass: 'laoding-ctrl',
+      cssClass: 'loading-ctrl',
       spinner: 'crescent',
     });
     await loading.present();

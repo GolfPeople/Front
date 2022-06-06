@@ -419,7 +419,7 @@ export class CreatePostComponent
 
     if (!this.platform.is('hybrid')) {
       const loading = await this.loadingCtrl.create({
-        cssClass: 'laoding-ctrl',
+        cssClass: 'loading-ctrl',
         spinner: 'crescent',
       });
       await loading.present();
@@ -438,7 +438,7 @@ export class CreatePostComponent
     }
 
     const loading = await this.loadingCtrl.create({
-      cssClass: 'laoding-ctrl',
+      cssClass: 'loading-ctrl',
       spinner: 'crescent',
     });
     await loading.present();
@@ -457,7 +457,7 @@ export class CreatePostComponent
     console.log('description -->', descriptionConcat);
     console.log('edit files -->', files);
     const loading = await this.loadingCtrl.create({
-      cssClass: 'laoding-ctrl',
+      cssClass: 'loading-ctrl',
       spinner: 'crescent',
     });
     await loading.present();
