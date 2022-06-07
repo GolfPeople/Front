@@ -23,6 +23,7 @@ export class SignupService {
   signup(
     {email,
     name,
+    username,
     password,
     password_confirmation}
   ) {
@@ -35,7 +36,7 @@ export class SignupService {
     return this.http
       .post<SignupResponseData>(
         `${this.apiUrl}/signup`,
-        { email, name, password, password_confirmation },
+        { email, name,username, password, password_confirmation },
         opts
       )
       .pipe(

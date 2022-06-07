@@ -29,8 +29,8 @@
 
               <ion-item class="">
                 <ion-label position="floating" class="signup-form-title"
-                  ><ion-icon name="person"></ion-icon>Nombre de
-                  usuario</ion-label
+                  ><ion-icon name="person"></ion-icon>Nombre y
+                  Apellido</ion-label
                 >
                 <ion-input
                   type="text"
@@ -43,8 +43,29 @@
                   *ngIf="form.get('name')?.errors && form.get('name').touched"
                   lines="none"
                 >
+                  <ion-label class="validation-text">Nombre inválido</ion-label>
+                </ion-item>
+              </div>
+
+              <ion-item class="">
+                <ion-label position="floating" class="signup-form-title"
+                  ><ion-icon name="person"></ion-icon>Nombre de
+                  Usuario</ion-label
+                >
+                <ion-input
+                  type="text"
+                  name="name"
+                  formControlName="username"
+                ></ion-input>
+              </ion-item>
+
+              <div class="error-container">
+                <ion-item
+                  *ngIf="form.get('username')?.errors && form.get('username').touched"
+                  lines="none"
+                >
                   <ion-label class="validation-text"
-                    >Nombre de usuario inválido</ion-label
+                    >El nombre de usuario es obligatorio</ion-label
                   >
                 </ion-item>
               </div>

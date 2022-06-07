@@ -67,7 +67,7 @@ export class SignupPage implements OnInit {
     return this.fb.group({
       email: ['', [Validators.email, Validators.required]],
       name: ['', [Validators.required]],
-      username: ['', []],
+      username: ['', [Validators.required]],
       password: [
         '',
         [
@@ -82,7 +82,7 @@ export class SignupPage implements OnInit {
         '',
         [Validators.required, MyValidations.matchValues('password')],
       ],
-      checked: [this.checked ],
+      checked: [this.checked],
     });
   }
   onclick() {
@@ -104,7 +104,7 @@ export class SignupPage implements OnInit {
       componentProps: {
         message,
         route,
-      }, 
+      },
     });
 
     await modal.present();
@@ -125,61 +125,62 @@ export class SignupPage implements OnInit {
     await modal.present();
   }
 
-  async signup({ email, name, password, password_confirmation }) {
+  async signup({ email, name, username, password, password_confirmation }) {
     this.isLoading = true;
     const loading = await this.loadingCtrl.create({
-      cssClass: 'loading-ctrl'
-    })
-    await loading.present()
-    this.signupService.signup({
-      email,
-      name,
-      password,
-      password_confirmation,
-    }).subscribe(res => {
-      this.loginService
-      .login({ email, password })
-      .subscribe((res) => console.log(res));
-      console.log(res);
-      this.isLoading = false;
-      loading.dismiss();
-      const code = res.message;
-      const message = 'Usuario registrado con éxito';
-      this.successAlert(code, '/complete-profile');
-    },
-    (error) => {
-      loading.dismiss();
-      let message;
-      error === 'The email has already been taken.'
-        ? (message = 'El email ya ha sido registrado.')
-        : (message = 'Error de conexión');
-      this.errorAlert(message);
-    }
-    )
+      cssClass: 'loading-ctrl',
+    });
+    await loading.present();
+    this.signupService
+      .signup({
+        email,
+        name,
+        username,
+        password,
+        password_confirmation,
+      })
+      .subscribe(
+        (res) => {
+          this.loginService
+            .login({ email, password })
+            .subscribe((res) => console.log(res));
+          console.log(res);
+          this.isLoading = false;
+          loading.dismiss();
+          const code = res.message;
+          const message = 'Usuario registrado con éxito';
+          this.successAlert(code, '/complete-profile');
+        },
+        (error) => {
+          loading.dismiss();
+          let message;
+          error === 'The email has already been taken.'
+            ? (message = 'El email ya ha sido registrado.')
+            : (message = 'Error de conexión');
+          this.errorAlert(message);
+        }
+      );
   }
 
-  async register(f) { 
+  async register(f) {
     try {
-      const {email, password} = f.value
-      const user = await this.authSvc.register(email, password)
+      const { email, password } = f.value;
+      const user = await this.authSvc.register(email, password);
       if (user) {
-        console.log('User -->', user)
-        const isVerified = this.authSvc.isEmailVerified(user)
+        console.log('User -->', user);
+        const isVerified = this.authSvc.isEmailVerified(user);
         // this.redirectUser(isVerified)
-
       }
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   }
 
   private redirectUser(isVerified: boolean) {
-    // redirect --> admin 
+    // redirect --> admin
     // else VerificationPage
-    if(isVerified) {
-      this.router.navigate(['/website'])
+    if (isVerified) {
+      this.router.navigate(['/website']);
     } else {
-      this.router.navigate(['/verify-email'])
+      this.router.navigate(['/verify-email']);
     }
   }
 
@@ -237,7 +238,7 @@ export class SignupPage implements OnInit {
     // const rePassword = form.value.rePassword;
 
     this.signup(formValue);
-    this.register(f)
+    this.register(f);
   }
 
   private showSuccessAlert(message: string) {

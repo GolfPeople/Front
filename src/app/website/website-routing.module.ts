@@ -53,6 +53,11 @@ const routes: Routes = [
             (m) => m.UserProfilePageModule
           ),
       },
+      {
+        path: 'chat',
+        loadChildren: () =>
+          import('./pages/chat/chat.module').then((m) => m.ChatPageModule),
+      },
     ],
   },
   {
@@ -71,11 +76,14 @@ const routes: Routes = [
       import('./pages/create-post/create-post.module').then(
         (m) => m.CreatePostPageModule
       ),
-  },  {
-    path: 'all-posts',
-    loadChildren: () => import('./pages/all-posts/all-posts.module').then( m => m.AllPostsPageModule)
   },
-
+  {
+    path: 'all-posts',
+    loadChildren: () =>
+      import('./pages/all-posts/all-posts.module').then(
+        (m) => m.AllPostsPageModule
+      ),
+  },
 ];
 
 @NgModule({
