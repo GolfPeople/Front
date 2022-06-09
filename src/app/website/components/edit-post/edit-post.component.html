@@ -65,7 +65,7 @@
 
         <ion-list class="ion-no-padding" lines="none">
           <ion-item
-            (click)="addTag(user.name, user.profile.user_id)"
+            (click)="addTag(user.profile.username, user.profile.user_id)"
             *ngFor="let user of users$ | async"
           >
             <ion-avatar class="ion-margin-end" slot="start">
@@ -99,7 +99,7 @@
         <br />
       </ion-list>
       <ion-button
-        (click)="edit(textArea.value, address.value, blobArrayData)"
+        (click)="edit(textArea.value, userAddress)"
         type="submit"
         class="next-button"
         shape="round"

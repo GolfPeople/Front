@@ -106,6 +106,9 @@ export class PersonalInfoComponent implements OnInit {
       if (res.name) {
         this.form.controls['name'].setValue(res.name);
       }
+      if (res.profile.username) {
+        this.form.controls['username'].setValue(res.profile.username);
+      }
       if (res.profile.license) {
         this.form.controls['license'].setValue(res.profile.license);
       }
@@ -155,6 +158,7 @@ export class PersonalInfoComponent implements OnInit {
   initForm(): FormGroup {
     return this.fb.group({
       name: ['', []],
+      username: ['', []],
       license: ['', []],
       email: ['', [Validators.email]],
       phone: ['', []],

@@ -109,15 +109,37 @@
     object-fit: cover;
   }
 
+
+
   .bottom {
     width: 100%;
     position: relative;
     bottom: 40px;
-
     z-index: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  // .order {
+  //   order: 2;
+  // }
+
+  .bottom-container {
+    display: flex;
+    flex-direction: column;
+
+    .orderA{
+      order: 1;
+    }
+    .orderB{
+      order: 2;
+    }
+
   }
 
+
+
   .reactions {
+
     --background: #fff;
     // display: flex;
     // align-items: center;

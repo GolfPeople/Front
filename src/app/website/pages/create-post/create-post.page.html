@@ -131,7 +131,7 @@
 
         <ion-list class="ion-no-padding" lines="none">
           <ion-item
-            (click)="addTag(user.name, user.profile.user_id)"
+            (click)="addTag(user.profile.username, user.profile.user_id)"
             *ngFor="let user of users$ | async"
           >
             <ion-avatar class="ion-margin-end" slot="start">
@@ -167,7 +167,7 @@
       </ion-list>
 
       <ion-button
-        [disabled]="blobArrayData.length === 0"
+        [disabled]="blobArrayData.length === 0 && !textArea.value ? true : blobArrayData.length && !textArea.value ? false : false"
         (click)="onSubmit(textArea.value, blobArrayData, userAddress)"
         type="submit"
         class="next-button"

@@ -34,8 +34,8 @@
     </ng-template>
   </swiper>
 
-  <div class="bottom">
-    <div class="reactions">
+  <div [ngClass]="{ bottom: post.files.length }" class="bottom-container">
+    <div [ngClass]="{ orderB: !post.files.length }" class="reactions">
       <div class="reactions-items">
         <a *ngIf="liked === false" (click)="like()">
           <ion-icon name="heart-outline"></ion-icon>
@@ -59,7 +59,7 @@
       </div>
     </div>
 
-    <div class="description">
+    <div [ngClass]="{ orderA: !post.files.length }" class="description">
       <a (click)="showLikes()" class="likes">Likes: {{ count }}</a>
       <!-- <a (click)="showLikes()" class="likes" *ngIf="count > 0"
         >{{ count }} {{ count > 1 ? "likes" : "like" }}</a

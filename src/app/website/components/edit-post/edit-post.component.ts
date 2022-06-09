@@ -337,23 +337,38 @@ export class EditPostComponent implements OnInit {
     console.log(this.textArea.value);
   }
 
-  async edit(description, ubication, files) {
-    const descriptionConcat = description.concat(
-      ` ${this.hashtagsString ? this.hashtagsString : ''}`
-    );
+  async edit(description, ubication) {
+    // const descriptionConcat = description.concat(
+    //   ` ${this.hashtagsString ? this.hashtagsString : ''}`
+    // );
+    let descriptionConcat;
+    this.hashtagsString === undefined
+      ? (descriptionConcat = description)
+      : (descriptionConcat = description.concat(` ${this.hashtagsString} `));
+
     console.log('description -->', descriptionConcat);
-    console.log('edit files -->', files);
+
+    if (ubication === '') ubication = 'En algún lugar';
+
+    console.log(ubication)
+
+
     const loading = await this.loadingCtrl.create({
       cssClass: 'loading-ctrl',
       spinner: 'crescent',
     });
     await loading.present();
     await this.postsSvc
-      .editPost(descriptionConcat, [], this.userAddress, this.post.id)
-      .subscribe((res) => {
+      .editPost(descriptionConcat, [], ubication, this.post.id)
+      .subscribe(() => {
         this.postsSvc.getPostsAction();
         loading.dismiss();
         this.openModal('Su publicación ha sido editada con éxito');
+      },
+      error => {
+        console.log('Error -->',error)
+        loading.dismiss();
+
       });
 
     this.closeModal();
