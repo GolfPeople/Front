@@ -122,15 +122,31 @@ ion-content {
     align-items: center;
     margin-top: 1rem;
 
-    ion-button:first-child {
-      margin-right: 10px;
-    }
-
     ion-button {
-      width: 50%;
       --padding-start: 20px;
       --padding-end: 20px;
       text-transform: capitalize;
+      font-weight: 500;
+      font-size: 1.2rem;
+      line-height: 1.7rem;
+      color: #ffffff;
+
+    }
+
+    .header-button:first-child {
+      margin-right: 10px;
+    }
+
+    .request-button {
+      width: 100%;
+      max-width: 260px;
+      margin: 0 auto;
+      --background: #009838;
+    }
+
+    .header-button {
+      width: 50%;
+
       --border-radius: 100px;
       font-weight: 500;
       font-size: 1.2rem;
@@ -148,14 +164,48 @@ ion-content {
       }
     }
   }
+
+}
+.isPrivate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 30%;
+  color: $text-color;
+
+  ion-icon {
+    font-size: 45px;
+    // color: #fff;
+    margin-right: 10px;
+  }
+  div {
+      h3 {
+        font-size: 1.6rem;
+        margin: 0;
+        text-align: center;
+    
+      }
+      p {
+        font-size: 1.3rem;
+        text-align: center;
+
+      }
+  }
 }
 
-.edit-profile-card {
+
+
+.profile-card {
   position: absolute;
   left: 0px;
   top: 331px;
   width: 100%;
   height: auto;
+  min-width: 100%;
+  border-radius: 30px 30px 0px 0px;
+  background: $color-white;
+
 
   .edit-nav {
     display: flex;
@@ -262,6 +312,11 @@ ion-content {
       }
     }
   }
+}
+
+.dow {
+  top: 400px;
+
 }
 
 // .button {

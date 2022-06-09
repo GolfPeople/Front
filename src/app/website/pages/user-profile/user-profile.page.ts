@@ -46,6 +46,7 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
 
   // Validación de seguidor
   following: boolean = false;
+  isPrivate: boolean = false;
   myId;
 
   id;
@@ -94,6 +95,7 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
         })
       )
       .subscribe((res) => {
+        console.log(res);
         this.userInfo = res;
 
         if (this.userInfo.to.length) {
@@ -103,6 +105,10 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
               console.log('Eres amigo');
             }
           });
+        }
+
+        if (this.userInfo.privacity.profile === 1) {
+          this.isPrivate = true;
         }
         this.value = `${this.profileUrl}/${this.id}`;
 

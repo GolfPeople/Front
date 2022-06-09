@@ -51,14 +51,14 @@
       <p>Socio Real Club Valderrama</p>
     </div>
     <div class="header-buttons">
-      <ion-button class="message-button">
+      <ion-button *ngIf="following" class="message-button header-button">
         <img
           src="../../../../assets/icons/user-profile/message-button.svg"
           alt=""
         />
         Enviar Mensaje
       </ion-button>
-      <ion-button class="play-button">
+      <ion-button *ngIf="following" class="play-button header-button">
         <img
           src="../../../../assets/icons/user-profile/play-button.svg"
           alt=""
@@ -66,29 +66,21 @@
 
         Jugar Partida
       </ion-button>
+      <ion-button
+        *ngIf="!following"
+        class="request-button"
+        (click)="follow()"
+        expand="block"
+        shape="round"
+      >
+        Agregar como amigo
+      </ion-button>
     </div>
   </div>
-  <div class="edit-profile-card">
+  <div class="profile-card">
+    <!-- <div *ngIf="!following && !isPrivate" class="edit-nav"> -->
     <div class="edit-nav">
-      <!-- <div class="qr-container">
-        <div class="qr-info">
-          <h3>MyGolfPass</h3>
-          <h4>5768 2948 4872 9692</h4>
-          <p>{{userName}}</p>
-        </div>
-        <div class="qr" (click)="openModal()">
-          <img src="../../../../assets/icon/qr.png" alt="" />
-        </div>
-      </div> -->
       <ul>
-        <!-- <li><a routerLinkActive="active" [routerLink]="['level']">Nivel</a></li>
-      <li>
-        <a routerLinkActive="active">Mi Bolsa</a>
-      </li>
-      <li><a routerLinkActive="active">Campos</a></li>
-      <li>
-        <a routerLinkActive="active">Publicaciones</a>
-      </li> -->
         <li>
           <a (click)="prev()" id="4" [ngClass]="{'active': postsTab}"
             >Publicaciones</a
@@ -105,7 +97,15 @@
       </ul>
     </div>
 
-    <swiper #swiper class="mySwiper">
+    <div *ngIf="isPrivate && !following" class="isPrivate">
+      <ion-icon slot="icon-only" name="lock-closed-outline"></ion-icon>
+      <div>
+        <h3>Esta cuenta es privada</h3>
+        <p>Sigue esta cuenta para ver su contenido</p>
+      </div>
+    </div>
+
+    <swiper *ngIf="following || !isPrivate " #swiper class="mySwiper">
       <ng-template swiperSlide>
         <app-posts
           (loadMore)="onLoadMore()"

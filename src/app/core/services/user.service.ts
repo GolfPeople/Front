@@ -23,7 +23,7 @@ export class UserService {
   user$ = this.user.asObservable();
   userPhoto$ = this.userPhoto.asObservable();
   userName: string;
-  private apiUrl = `${environment.golfpeopleAPI}/api/auth`;
+  private apiUrl = `${environment.golfpeopleAPI}/api`;
 
   constructor(
     private http: HttpClient,
@@ -31,13 +31,13 @@ export class UserService {
   ) {}
 
   getUserInfo() {
-    return this.http.get<any>(`${this.apiUrl}/user`);
+    return this.http.get<any>(`${this.apiUrl}/auth/user`);
   }
 
   // Método para obtener la información de un usuario en especifico
   getUser(id) {
     return this.http.get<any>(
-      `https://api.app.golfpeople.com/api/profile/${id}`
+      `${this.apiUrl}/profile/${id}`
     );
   }
 
@@ -46,7 +46,7 @@ export class UserService {
   }
 
   getUserInfoToSave() {
-    this.http.get<any>(`${this.apiUrl}/user`).subscribe((data) => {
+    this.http.get<any>(`${this.apiUrl}/auth/user`).subscribe((data) => {
       this.user.next(data);
       this.userPhoto.next(data.profile.photo);
     });
@@ -54,7 +54,7 @@ export class UserService {
 
   getUserID() {
     this.http
-      .get<any>(`${this.apiUrl}/user`)
+      .get<any>(`${this.apiUrl}/auth/user`)
       .pipe(
         tap((data) => {
           this.saveId(data.id);
