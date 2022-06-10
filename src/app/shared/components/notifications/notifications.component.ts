@@ -6,6 +6,7 @@ import { NotificationsService } from 'src/app/core/services/notifications.servic
 import { SwiperComponent } from 'swiper/angular';
 import SwiperCore, { Pagination, Lazy, Navigation } from 'swiper';
 import { Router } from '@angular/router';
+import { FriendsService } from 'src/app/core/services/friends.service';
 
 SwiperCore.use([Navigation]);
 
@@ -21,6 +22,7 @@ export class NotificationsComponent implements OnInit {
   notifications: Notification[] = [];
   noReadedNotifications: any = [];
   notificationCounter: number;
+  buttonsCondition: string = 'te envió una solicitud de amistad'
 
   noRead: boolean = true;
   all: boolean = false;
@@ -29,7 +31,8 @@ export class NotificationsComponent implements OnInit {
     private modalCtrl: ModalController,
     private notifocationsSvc: NotificationsService,
     private loadingCtrl: LoadingController,
-    private router: Router
+    private router: Router,
+    private friendsSvc: FriendsService
   ) {
     this.notifocationsSvc.counter$.subscribe(
       (res) => (this.notificationCounter = res)
@@ -83,12 +86,27 @@ export class NotificationsComponent implements OnInit {
     });
   }
 
+  onAccept(id, i) {
+    this.noReadedNotifications.splice(i, 1)
+    this.friendsSvc.acceptRequest(id).subscribe(res => {
+      console.log(res)
+    })
+  }
+
+  onDecline(id, i) {
+    this.noReadedNotifications.splice(i, 1)
+    this.friendsSvc.declineRequest(id).subscribe(res => {
+      console.log(res)
+    })
+  }
+
   next() {
     this.swiper.swiperRef.slideNext(500);
     this.all = true;
     this.noRead = false;
     console.log(this.all, this.noRead);
   }
+
   prev() {
     this.swiper.swiperRef.slidePrev(500);
     this.all = false;

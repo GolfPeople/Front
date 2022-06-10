@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { UserService } from 'src/app/core/services/user.service';
 import { PersonalInfoService } from '../../services/personal-info/personal-info.service';
 import { SaveInfoModalComponent } from '../save-info-modal/save-info-modal.component';
@@ -17,7 +17,8 @@ export class PrivacyComponent implements OnInit {
   constructor(
     private personaSvc: PersonalInfoService,
     private modalCtrl: ModalController,
-    private userService: UserService
+    private userService: UserService,
+    private loadingCtrl: LoadingController
   ) {}
 
   ngOnInit() {
@@ -57,10 +58,17 @@ export class PrivacyComponent implements OnInit {
     console.log(this.profile);
   }
 
-  onSubmit(handicap, profile) {
+  async onSubmit(handicap, profile) {
+    const loading = await this.loadingCtrl.create({
+      cssClass: 'loading-ctrl'
+    })
+    await loading.present()
     this.personaSvc
       .changePrivacy(handicap, profile, this.id)
-      .subscribe((res) => console.log('Privacy res --> ', res));
-    this.openModal();
+      .subscribe((res) => {
+        loading.dismiss()
+        console.log('Privacy res --> ', res)
+        this.openModal();
+      });
   }
 }

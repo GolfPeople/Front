@@ -47,6 +47,7 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
   // Validación de seguidor
   following: boolean = false;
   isPrivate: boolean = false;
+  sentFriendRequest: boolean = false;
   myId;
 
   id;
@@ -63,6 +64,7 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
     privacity: null,
     to: null,
     from: null,
+    friends: null,
   };
 
   constructor(
@@ -98,12 +100,42 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
         console.log(res);
         this.userInfo = res;
 
-        if (this.userInfo.to.length) {
-          res.to.forEach((item) => {
-            if (item.user_id == this.myId) {
-              this.following = true;
-              console.log('Eres amigo');
+        if (this.userInfo.friends.length) {
+          console.log('Frends test -->')
+          this.userInfo.friends.forEach((friendsItem) => {
+            if (friendsItem.connect.length) {
+              console.log('Connect test -->')
+              const friend = friendsItem
+              // console.log(friend)
+              friendsItem.connect.forEach(connectItem => {
+                console.log('Connect forEach test -->')
+                // console.log('connect item test -->', connectItem)
+                
+                if (connectItem.user_id == this.myId) {
+                  console.log('tienes conexion')
+                  if (friend.connections.status === 1) {
+                    this.sentFriendRequest = true;
+                    console.log('Ya has enviado una solicitud e amistad.')
+                  } else if(friend.connections.status === 2) {
+                      this.following = true
+                      console.log('Solicitud de amistad aprobada')
+                  } else {
+                    this.following = false
+                  }
+                }
+              })
             }
+
+            // if (item.connect.connection_id === 1) {
+            //     this.following = true;
+            //   console.log('Eres amigo');
+            // }
+
+
+            // if (item.user_id == this.myId) {
+            //   this.following = true;
+            //   console.log('Eres amigo');
+            // } 
           });
         }
 
@@ -134,6 +166,13 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
 
   goBack() {
     this.location.back();
+  }
+
+  friendRequest() {
+    this.sentFriendRequest = true;
+    this.friendsSvc.friendRequest(this.id).subscribe((res) => {
+      console.log('Solicitud enviada -->', res);
+    });
   }
 
   follow() {

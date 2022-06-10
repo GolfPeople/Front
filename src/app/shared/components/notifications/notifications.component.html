@@ -22,7 +22,9 @@
           <ion-label>Marcar como leidas</ion-label>
           <ion-checkbox (ionChange)="markAsread()" slot="end"></ion-checkbox>
         </ion-item>
-        <ion-item *ngFor="let notificacion of noReadedNotifications">
+        <ion-item
+          *ngFor="let notificacion of noReadedNotifications; index as i"
+        >
           <ion-avatar class="ion-margin-end">
             <img [src]="notificacion.data.data.user_sender.profile.photo" />
           </ion-avatar>
@@ -37,6 +39,27 @@
           >
             {{ notificacion.data.data.detail }}
           </ion-label>
+          <ion-buttons
+            *ngIf="notificacion.data.data.detail.includes(buttonsCondition)"
+            slot="end"
+          >
+            <ion-button
+              color="success"
+              (click)="
+                onAccept(notificacion.data.data.user_sender.profile.user_id, i)
+              "
+            >
+              <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>
+            </ion-button>
+            <ion-button
+              color="danger"
+              (click)="
+                onDecline(notificacion.data.data.user_sender.profile.user_id, i)
+              "
+            >
+              <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
         </ion-item>
       </ion-list>
       <p *ngIf="!noReadedNotifications.length" class="not-notifications">

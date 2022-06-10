@@ -30,12 +30,12 @@
             src="../../../../assets/icons/user-profile/share.svg"
             alt=""
         /></a>
-        <a (click)="following ? unfollow() : follow()">
+        <!-- <a (click)="following ? unfollow() : follow()">
           <img
             class="follow-icon"
             [src]=" following ?  '../../../../assets/icons/user-profile/user-remove.svg' :  '../../../../assets/icons/user-profile/users.svg'"
             alt=""
-        /></a>
+        /></a> -->
       </div>
     </div>
 
@@ -71,19 +71,19 @@
         Jugar Partida
       </ion-button>
       <ion-button
-        *ngIf="!following"
+        *ngIf="!following && isPrivate"
         class="request-button"
-        (click)="follow()"
+        (click)=" sentFriendRequest ? null : friendRequest()"
         expand="block"
         shape="round"
       >
-        Agregar como amigo
+        {{ sentFriendRequest ? 'Solicitud enviada':'Agregar como amigo'}}
       </ion-button>
     </div>
   </div>
   <div class="profile-card">
     <!-- <div *ngIf="!following && !isPrivate" class="edit-nav"> -->
-    <div class="edit-nav">
+    <div *ngIf="following" class="edit-nav">
       <ul>
         <li>
           <a (click)="prev()" id="4" [ngClass]="{'active': postsTab}"
@@ -109,7 +109,7 @@
       </div>
     </div>
 
-    <swiper *ngIf="following || !isPrivate " #swiper class="mySwiper">
+    <swiper *ngIf="following" #swiper class="mySwiper">
       <ng-template swiperSlide>
         <app-posts
           (loadMore)="onLoadMore()"

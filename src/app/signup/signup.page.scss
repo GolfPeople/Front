@@ -1,3 +1,5 @@
+@import '../scss/variables.scss';
+
 ion-content {
   --ion-background-color: linear-gradient(
       180deg,
@@ -28,8 +30,78 @@ ion-content {
   justify-content: center;
 }
 
-.register-card {
+.card {
   margin-top: 65px;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 95%;
+  min-width: 310px;
+  // height: 95vh;
+  // min-height: 600px;
+  max-width: 400px;
+  // max-height: 634px;
+  // margin: auto auto;
+  padding: 25px;
+  border-radius: 20px;
+  // left: 0;
+  font-family: "Montserrat", sans-serif;
+
+  background-color: #fff;
+
+  .card-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: $title-color;
+    text-transform: uppercase;
+  }
+
+  .card-text {
+    font-size: 1.3rem;
+    font-weight: 500;
+    line-height: 1.7rem;
+    color: $text-color;
+  }
+
+
+
+
+
+  .back-link {
+    margin: 15px auto;
+    font-size: 1.3rem;
+    font-weight: 500;
+    line-height: 1.7rem;
+  }
+
+  // .progress {
+  //   margin-bottom: 20px;
+  // }
+
+  .ignore-container {
+    width: 100%;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 40 0 0;
+    position: absolute;
+    bottom: -60px;
+    left: 0;
+
+    .ignore-container__link {
+      font-size: 1.6rem;
+      font-weight: 600;
+      line-height: 2rem;
+      text-transform: uppercase;
+
+      a {
+        color: #fff;
+      }
+    }
+  }
 }
 
 // .vertical-align-center > * {

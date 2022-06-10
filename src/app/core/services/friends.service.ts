@@ -28,6 +28,20 @@ export class FriendsService {
     });
   }
 
+  // Solicitud de amistad en caso de que el perfil sea privado
+  friendRequest(id) {
+    return this.http.post<FriendResponse>(`${URL}/connections/friends/attach/${id}`, {})
+  }
+
+  // Aceptar solicitud de amistad 
+  acceptRequest(id){
+    return this.http.post<FriendResponse>(`${URL}/connections/friends/accept/${id}`, {})
+  }
+
+  declineRequest(id){
+    return this.http.post<FriendResponse>(`${URL}/connections/friends/delete/${id}`, {})
+  }
+
   // Método para seguir a un usuario
   follow(id) {
     return this.http.post(`${URL}/connections/attach/${id}`, {});
