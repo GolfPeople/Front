@@ -89,7 +89,7 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
       .pipe(
         switchMap((param) => {
           this.id = param.get('id');
-
+          console.log('ID del perfil del usuario',this.id)
           if (this.id) {
             return this.userSvc.getUser(this.id);
           }
@@ -171,6 +171,7 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
   friendRequest() {
     this.sentFriendRequest = true;
     this.friendsSvc.friendRequest(this.id).subscribe((res) => {
+      console.log('Id del usuario a enviar solicitud', this.id)
       console.log('Solicitud enviada -->', res);
     });
   }
