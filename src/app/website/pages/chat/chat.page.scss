@@ -42,16 +42,29 @@ ion-content {
   --padding-bottom: 130px;
 }
 
+.message {
+  padding: 10px !important;
+  border-radius: 12px !important;
+  margin-bottom: 4px !important;
+  white-space: pre-wrap;
+}
+
 .my-message {
-  --background: #009dd6;
-  border-radius: 12px;
+  background: #009dd6;
+  // border-radius: 12px;
   color: #fff;
 }
 
-.message {
+.other-message {
   color: #000;
-  --background: #f1f1f1;
-  border-radius: 12px;
+  background: #f1f1f1;
+  // border-radius: 12px;
+}
+
+.time {
+  color: #dfdfdf;
+  float: right;
+  font-size: small;
 }
 
 ion-list {

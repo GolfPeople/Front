@@ -14,22 +14,52 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
+  <!-- <ion-list>
     <ion-item lines="none" class="my-message">
       <ion-label>Awesome Label</ion-label>
     </ion-item>
     <ion-item lines="none" class="message">
       <ion-label>Awesome Label</ion-label>
     </ion-item>
-  </ion-list>
+  </ion-list> -->
+
+  <!-- <ion-grid>
+    <ion-row *ngFor="let message of messages | async">
+      <ion-col size="9" class="message"
+        [offset]="message.myMsg ? 3 : 0"
+        [ngClass]="{ 'my-message': message.myMsg, 'other-message': !message.myMsg }">
+        <b>{{ message.fromName }}</b><br>
+        <span>{{ message.msg }}
+        </span>
+        <div class="time ion-text-right"><br>{{ message.createdAt?.toMillis() | date:'short' }}</div>
+      </ion-col>
+    </ion-row>
+  </ion-grid> -->
+  <ion-grid>
+    <ion-row>
+      <ion-col size="9" class="message my-message" offset="3">
+        <b>Alejandro</b><br />
+        <span>Hola mundo, es Alejandro </span>
+        <div class="time ion-text-right"><br />{{ 21-06-2001 }}</div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="9" class="message other-message" offset="0">
+        <b>Pedro</b><br />
+        <span>Hola mundo, es Pedro </span>
+        <div class="time ion-text-right"><br />{{ 21-06-2001 }}</div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
 <ion-footer>
   <ion-item lines="none" class="text-area-container ion-no-border">
     <textarea
       class="ion-no-margin ion-no-border"
       placeholder="Escribe algo"
+      [(ngModel)]="message"
     ></textarea>
-    <a>
+    <a (click)="onSendMessage()">
       <img src="../../../../assets/icons/grey-message.svg" alt="" />
     </a>
     <!-- <ion-buttons slot="end">

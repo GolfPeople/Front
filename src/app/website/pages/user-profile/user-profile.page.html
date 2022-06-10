@@ -47,11 +47,15 @@
       <h5 class="profile-golfer text-center">Perfil Golfer</h5>
     </div>
     <div class="club">
-      <img src="../../../../assets/icons/user-profile/king.svg" alt="" />
+      <img src="../../../../assets/icons/user-profile/king.svg" />
       <p>Socio Real Club Valderrama</p>
     </div>
     <div class="header-buttons">
-      <ion-button *ngIf="following" class="message-button header-button">
+      <ion-button
+        [routerLink]="['/website/chat', id]"
+        *ngIf="following"
+        class="message-button header-button"
+      >
         <img
           src="../../../../assets/icons/user-profile/message-button.svg"
           alt=""
