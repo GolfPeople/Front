@@ -86,16 +86,16 @@ export class NotificationsComponent implements OnInit {
     });
   }
 
-  onAccept(id, i) {
+  onAccept(connectionId, i) {
     this.noReadedNotifications.splice(i, 1)
-    this.friendsSvc.acceptRequest(id).subscribe(res => {
+    this.friendsSvc.acceptRequest(connectionId).subscribe(res => {
       console.log(res)
     })
   }
 
-  onDecline(id, i) {
+  onDecline(connectionId, i) {
     this.noReadedNotifications.splice(i, 1)
-    this.friendsSvc.declineRequest(id).subscribe(res => {
+    this.friendsSvc.declineRequest(connectionId).subscribe(res => {
       console.log(res)
     })
   }

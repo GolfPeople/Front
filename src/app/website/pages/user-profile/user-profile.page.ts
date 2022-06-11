@@ -89,7 +89,7 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
       .pipe(
         switchMap((param) => {
           this.id = param.get('id');
-          console.log('ID del perfil del usuario',this.id)
+          console.log('ID del perfil del usuario', this.id);
           if (this.id) {
             return this.userSvc.getUser(this.id);
           }
@@ -101,29 +101,33 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
         this.userInfo = res;
 
         if (this.userInfo.friends.length) {
-          console.log('Frends test -->')
+          console.log('Frends test -->');
           this.userInfo.friends.forEach((friendsItem) => {
             if (friendsItem.connect.length) {
-              console.log('Connect test -->')
-              const friend = friendsItem
+              console.log('Connect test -->');
+              const friend = friendsItem;
               // console.log(friend)
-              friendsItem.connect.forEach(connectItem => {
-                console.log('Connect forEach test -->')
+              friendsItem.connect.forEach((connectItem) => {
+                console.log('Connect forEach test -->');
                 // console.log('connect item test -->', connectItem)
-                
+
                 if (connectItem.user_id == this.myId) {
-                  console.log('tienes conexion')
-                  if (friend.connections.status === 1) {
-                    this.sentFriendRequest = true;
-                    console.log('Ya has enviado una solicitud e amistad.')
-                  } else if(friend.connections.status === 2) {
-                      this.following = true
-                      console.log('Solicitud de amistad aprobada')
-                  } else {
-                    this.following = false
-                  }
+                  console.log('tienes conexion');
+                  // if (friend.connections) {
+                    if (friend.connections.status === 1) {
+                      this.sentFriendRequest = true;
+                      console.log('Ya has enviado una solicitud e amistad.');
+                    } else if (friend.connections.status === 2) {
+                      this.following = true;
+                      console.log('Solicitud de amistad aprobada');
+                    } else {
+                      this.following = false;
+                    }
+                  // } else {
+                  //   this.following = false;
+                  // }
                 }
-              })
+              });
             }
 
             // if (item.connect.connection_id === 1) {
@@ -131,11 +135,10 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
             //   console.log('Eres amigo');
             // }
 
-
             // if (item.user_id == this.myId) {
             //   this.following = true;
             //   console.log('Eres amigo');
-            // } 
+            // }
           });
         }
 
@@ -171,7 +174,7 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
   friendRequest() {
     this.sentFriendRequest = true;
     this.friendsSvc.friendRequest(this.id).subscribe((res) => {
-      console.log('Id del usuario a enviar solicitud', this.id)
+      console.log('Id del usuario a enviar solicitud', this.id);
       console.log('Solicitud enviada -->', res);
     });
   }

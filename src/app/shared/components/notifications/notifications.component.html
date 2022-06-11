@@ -45,17 +45,13 @@
           >
             <ion-button
               color="success"
-              (click)="
-                onAccept(notificacion.data.data.user_sender.profile.user_id, i)
-              "
+              (click)="onAccept(notificacion.data.data.connection_id, i)"
             >
               <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>
             </ion-button>
             <ion-button
               color="danger"
-              (click)="
-                onDecline(notificacion.data.data.user_sender.profile.user_id, i)
-              "
+              (click)="onDecline(notificacion.data.data.connection_id, i)"
             >
               <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
             </ion-button>

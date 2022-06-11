@@ -37,6 +37,8 @@ export interface NotificationData {
   detail: string;
   publication_id: string;
   user_sender: any;
+  connection_id: number;
+  user_id: string | number;
   // user_sender: UserSender;
 }
 
