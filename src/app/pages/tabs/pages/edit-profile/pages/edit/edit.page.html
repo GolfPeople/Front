@@ -1,0 +1,46 @@
+<ion-content>
+  <div class="edit-header">
+    <div class="edit-header--title">
+      <a routerLink="..">
+        <img src="../../../../../../assets/icon/back-arrow.png" alt="" />
+      </a>
+      <div class="title">
+        <img src="../../../../../../assets/icon/forms/white.png" alt="" />
+        <h2>editar Cuenta</h2>
+      </div>
+    </div>
+    <div class="avatar-container">
+      <app-avatar></app-avatar>
+    </div>
+  </div>
+  <section>
+    <div class="nav">
+      <ul>
+        <li>
+          <a
+            (click)="selectPage($event)"
+            id="1"
+            [ngClass]="{'active': personalInfo}"
+            >Personal</a
+          >
+        </li>
+        <li>
+          <a
+            (click)="selectPage($event)"
+            id="2"
+            [ngClass]="{'active': security}"
+            >Seguridad</a
+          >
+        </li>
+        <li>
+          <a (click)="selectPage($event)" id="3" [ngClass]="{'active': privacy}"
+            >Privacidad</a
+          >
+        </li>
+      </ul>
+    </div>
+    <app-personal-info *ngIf="personalInfo"></app-personal-info>
+    <app-security *ngIf="security"></app-security>
+    <app-privacy *ngIf="privacy"></app-privacy>
+  </section>
+</ion-content>

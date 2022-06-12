@@ -1,0 +1,22 @@
+<ion-header collapse="fade">
+  <ion-toolbar>
+    <ion-title>Código QR</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="danger" shape="round" (click)="closeModal()">
+        <ion-icon color="danger" name="close"></ion-icon>
+        Cerrar
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="qr-container">
+    <ngx-qrcode
+      cssClass="qr-code"
+      [elementType]="elementType"
+      [errorCorrectionLevel]="correctionLevel"
+      [width]="220"
+      [value]="qr"
+    ></ngx-qrcode>
+  </div>
+</ion-content>

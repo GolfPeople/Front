@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button class="ion-margin" (click)="back()">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Guardados</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-post *ngFor="let post of posts" [post]="post.publications"></app-post>
+</ion-content>

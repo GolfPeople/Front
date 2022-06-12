@@ -73,7 +73,8 @@ const routes: Routes = [
     loadChildren: () =>
       import('./website/website.module').then((m) => m.WebsiteModule),
     canLoad: [AuthGuard],
-  },  {
+  },
+  {
     path: 'verify-email',
     loadChildren: () => import('./verify-email/verify-email.module').then( m => m.VerifyEmailPageModule)
   },
@@ -81,6 +82,24 @@ const routes: Routes = [
     path: 'forgot-password',
     loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
   },
+  {
+    path: 'tabs',
+    loadChildren: () => import('./pages/tabs/tabs.module').then( m => m.TabsPageModule)
+  },
+  {
+    path: 'create-post',
+    loadChildren: () => import('./pages/create-post/create-post.module').then(m => m.CreatePostPageModule)
+  },
+  {
+    path: 'chat/:id',
+    loadChildren: () =>
+      import('./pages/chat/chat.module').then((m) => m.ChatPageModule),
+  },
+  {
+    path: 'personal-chat/:id/:room',
+    loadChildren: () => import('./pages/personal-chat/personal-chat.module').then( m => m.PersonalChatPageModule)
+  },
+
 
 ];
 

@@ -1,0 +1,181 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <ion-list>
+    <ion-item>
+      <ion-label position="floating">
+        <!-- <ion-icon [src]="personIcon"></ion-icon>  -->
+        <img src="../../../../../../assets/icon/forms/person.png" alt="" />
+        Nombre y Apellido
+      </ion-label>
+      <ion-input formControlName="name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        <!-- <ion-icon [src]="personIcon"></ion-icon>  -->
+        <img src="../../../../../../assets/icon/forms/person.png" alt="" />
+        Nombre de usuario
+      </ion-label>
+      <ion-input formControlName="username"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        <!-- <ion-icon name="mail-outline"></ion-icon>  -->
+        <img src="../../../../../../assets/icon/forms/mail.png" alt="" />
+
+        Mail
+      </ion-label>
+      <ion-input formControlName="email"></ion-input>
+    </ion-item>
+    <ion-row>
+      <ion-col>
+        <div class="erros-container">
+          <div class="error-message" *ngIf="form.get('email')?.errors?.email">
+            Email inválido
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-item>
+      <ion-label position="floating">
+        <!-- <ion-icon name="document-outline"></ion-icon>  -->
+        <img src="../../../../../../assets/icon/forms/license.png" alt="" />
+
+        Número de Licencia
+      </ion-label>
+      <ion-input formControlName="license"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        <!-- <ion-icon name="call-outline"></ion-icon>  -->
+        <img src="../../../../../../assets/icon/forms/phone.png" alt="" />
+
+        Móvil
+      </ion-label>
+      <ion-input formControlName="phone"></ion-input>
+    </ion-item>
+    <!-- <ion-item>
+      <ion-label position="floating">
+        <img src="../../../../../../assets/icon/forms/home.png" alt="" />
+
+        Dirección
+      </ion-label>
+      <input
+        (ngModel)="(userAddress)"
+        ngx-google-places-autocomplete
+        (onAddressChange)="handleAddressChange($event)"
+      />
+    </ion-item> -->
+    <div class="address-input">
+      <input
+        placeholder="Dirección"
+        (ngModel)="(userAddress)"
+        ngx-google-places-autocomplete
+        (onAddressChange)="handleAddressChange($event)"
+      />
+    </div>
+
+    <ion-row>
+      <ion-col>
+        <ion-item class="input-col">
+          <ion-label position="floating">Provincia</ion-label>
+          <ion-input formControlName="province"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item class="input-col">
+          <ion-label position="floating">C.P</ion-label>
+          <ion-input formControlName="cp"></ion-input>
+        </ion-item>
+      </ion-col>
+      <!-- <ion-col>
+      </ion-col> -->
+    </ion-row>
+    <ion-item>
+      <!-- <ion-input formControlName="country"></ion-input> -->
+      <ion-label>Country</ion-label>
+      <ion-select
+        formControlName="country"
+        okText="Aceptar"
+        cancelText="Cancelar"
+      >
+        <ion-select-option *ngFor="let country of countries">{{
+          country
+        }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        <!-- <ion-icon name="message-outline"></ion-icon>  -->
+        <img src="../../../../../../assets/icon/forms/idioma.png" alt="" />
+
+        Idioma
+      </ion-label>
+      <ion-input formControlName="language"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating"> Handicap </ion-label>
+      <ion-input type="number" formControlName="handicap"></ion-input>
+    </ion-item>
+    <ion-row>
+      <ion-col>
+        <div class="erros-container">
+          <div
+            class="error-message"
+            *ngIf="form.get('handicap')?.errors?.isInvalid"
+          >
+            valor máximo 54
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-item>
+      <ion-label> Género </ion-label>
+      <ion-select
+        formControlName="gender"
+        (ionChange)="selectGender($event)"
+        interface="popover"
+      >
+        <ion-select-option
+          *ngFor="let gender of genders"
+          [value]="gender.value"
+          >{{ gender.text }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+    <p class="input-text">¿Cuándo es tu cumpleaños?</p>
+    <ion-item lines="none">
+      <!-- <ion-label position="floating">¿Cuándo es tu cumpleaños?</ion-label> -->
+      <app-select-date (date)="getDate($event)"></app-select-date>
+    </ion-item>
+
+    <ion-item>
+      <ion-label> Tiempo jugando </ion-label>
+      <ion-select formControlName="time_playing" interface="popover">
+        <ion-select-option
+          *ngFor="let time of timePlaying"
+          [value]="time.value"
+          >{{ time.text }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label> Tipo de jugador </ion-label>
+      <ion-select
+        formControlName="type"
+        (onChange)="selectTypeplayer($event)"
+        interface="popover"
+      >
+        <ion-select-option
+          *ngFor="let type of typePlayer"
+          [value]="type.value"
+          >{{ type.text }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <ion-button type="submit" class="next-button" shape="round">
+    Guardar Cambios
+  </ion-button>
+</form>

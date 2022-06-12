@@ -1,0 +1,51 @@
+<ion-item lines="none">
+  <!-- <ion-avatar [routerLink]="['/website/user-profile', user.profile.user_id]">
+    <img [src]="user.profile.photo || avatarDefault" />
+  </ion-avatar> -->
+  <a
+    [routerLink]="['/tabs/user-profile', user.profile.user_id]"
+    class="avatar"
+    [ngStyle]="{
+      'background-image':
+        'url(' + (user.profile.photo ? user.profile.photo : avatarDefault) + ')'
+    }"
+  >
+    <!-- <img [src]="user.profile.photo || avatarDefault" /> -->
+  </a>
+  <ion-label>
+    <h4>
+      {{ user.name }}
+    </h4>
+    <p>
+      {{ user.profile.address }}
+    </p>
+    <span> HCP {{ user.profile.handicap }} </span>
+  </ion-label>
+  <div class="actions">
+    <a class="action">
+      <img src="../../../../../../assets/icons/message-alt.svg" alt="" />
+    </a>
+    <a class="action" *ngIf="following">
+      <img src="../../../../../../assets/icons/play.svg" alt="" />
+    </a>
+    <a (click)="following ? unfollow(user.id) : follow(user.id)">
+      <img
+        [src]="
+          following
+            ? '../../../../../../assets/icons/user-remove.svg'
+            : '../../../../../../assets/icons/user-add.svg'
+        "
+      />
+    </a>
+    <!-- <ion-button
+      *ngIf="following"
+      (click)="unfollow(user.id)"
+      color="danger"
+      expand="block"
+      fill="clear"
+      shape="round"
+    >
+      <ion-icon name="trash"></ion-icon>
+    </ion-button> -->
+  </div>
+</ion-item>

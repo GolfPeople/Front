@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import firebase from 'firebase/compat/app';
 import { environment } from 'src/environments/environment';
-import { User } from '../../models/chat.interface';
+import { Message, User } from '../../models/chat.interface';
 
 const API = `${environment.golfpeopleAPI}/api`
 
@@ -23,12 +23,12 @@ export class ChatService {
 
   // Mis salas de chat
   getRoom() {
-    return this.http.get(`${API}/chat/connet`)
+    return this.http.get(`${API}/chat/connect`)
   }
 
-  // Sala de chat 
+  // Sala de chat, donde id es el id de la sala
   getChat(id) {
-    return this.http.get(`${API}/chat/${id}`)
+    return this.http.get<Message[]>(`${API}/chat/${id}`)
   }
 
 

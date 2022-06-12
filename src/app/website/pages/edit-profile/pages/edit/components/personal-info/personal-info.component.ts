@@ -221,13 +221,20 @@ export class PersonalInfoComponent implements OnInit {
 
   async onSubmit() {
     try {
+      const loading = await this.loadingCtrl.create({
+        cssClass: 'loading-ctrl'
+      })
+      await loading.present()
       this.form.controls['address'].setValue(this.userAddress);
       const dto = this.form.value;
       console.log(dto);
       this.personalSvg
         .updateInfo(dto, this.id)
-        .subscribe((res) => console.log('RES -->', res));
-      this.openModal();
+        .subscribe((res) => {
+          loading.dismiss()
+          this.openModal();
+          console.log('RES -->', res)
+        });
     } catch (error) {}
   }
 }

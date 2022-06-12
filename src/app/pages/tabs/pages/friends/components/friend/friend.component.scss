@@ -1,0 +1,150 @@
+@import "../../../../../../scss/variables.scss";
+
+// .friend-card {
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   width: 100%;
+//   height: 9.5rem;
+//   padding: 1.5rem 1.8rem 1.5rem 1.1rem;
+//   background: rgba(143, 143, 143, 0.12);
+//   border-radius: 15px;
+
+//   .start {
+//     display: flex;
+
+//     ion-avatar {
+//       width: 65px;
+//       height: 65px;
+//       margin-right: 1rem;
+//       img {
+//         width: 100%;
+//       }
+//     }
+
+//     .friend-info {
+//       display: flex;
+//       flex-direction: column;
+//       align-items: flex-start;
+
+//       h4 {
+//         margin: 0;
+//         font-weight: 500;
+//         font-size: 13px;
+//         line-height: 17px;
+
+//         color: #2c2c2c;
+//       }
+
+//       p {
+//         font-weight: 500;
+//         font-size: 11px;
+//         line-height: 20px;
+//         /* or 182% */
+
+//         color: #8f8f8f;
+//       }
+
+//       span {
+//         font-weight: 700;
+//         font-size: 11px;
+//         line-height: 20px;
+//         /* or 182% */
+
+//         color: #009838;
+//       }
+//     }
+//   }
+
+//   .actions {
+//     display: flex;
+//     flex-direction: column;
+
+//     @media screen and (min-width: 350px) {
+//       flex-direction: row;
+
+//       a:first-child {
+//         margin-right: 25px;
+//       }
+//     }
+//   }
+// }
+
+ion-item {
+  min-height: 9.5rem;
+  margin-bottom: 15px;
+
+  --border-radius: 15px;
+  --background: rgba(143, 143, 143, 0.12) !important;
+  --padding-top: 15px;
+  --padding-end: 18px;
+  --padding-bottom: 15px;
+  --padding-start: 11px;
+  --inner-padding-end: 0px;
+
+  ion-avatar {
+    width: 65px;
+    height: 65px;
+    margin-right: 1rem;
+    border: none;
+  }
+
+  .avatar {
+    width: 65px;
+    height: 65px;
+    margin-right: 1rem;
+    border: none;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 50%;
+  }
+  ion-label {
+    h4 {
+      margin: 0;
+      margin-right: 1rem;
+      font-weight: 500;
+      font-size: 13px;
+      line-height: 17px;
+
+      color: #2c2c2c;
+    }
+
+    p {
+      font-weight: 500;
+      font-size: 11px;
+      line-height: 20px;
+      margin: 0;
+      /* or 182% */
+
+      color: #8f8f8f;
+    }
+
+    span {
+      font-weight: 700;
+      font-size: 11px;
+      line-height: 20px;
+      /* or 182% */
+
+      color: #009838;
+    }
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+
+    .action {
+      margin-bottom: 0.5rem;
+    }
+
+    @media screen and (min-width: 350px) {
+      flex-direction: row;
+
+      .action {
+        margin-right: 1.8rem;
+        margin-bottom: 0;
+      }
+    }
+  }
+}

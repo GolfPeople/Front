@@ -1,0 +1,46 @@
+<ion-header class="ion-text-center">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <h2>
+        <img src="../../../../assets/icons/message.svg" alt="" /> mensajes
+      </h2>
+    </ion-title>
+  </ion-toolbar>
+  <ion-buttons slot="end">
+    <ion-button>
+      <ion-icon slot="icon-only" name="add"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="search">
+    <img src="../../../../assets/messages/blue-message.svg" alt="" />
+    <input
+      placeholder="Buscar conversación"
+      type="text"
+      name=""
+      id=""
+      [(ngModel)]="searchValue"
+      (ngModelChange)="searchRoom($event)"
+    />
+  </div>
+  <ion-list lines="none">
+    <ion-item
+      *ngFor="let room of searchedRooms; index as i"
+      [routerLink]="['/personal-chat', room.user.length ? room.user[0].profile.user_id : 0  , room.pivot.sale_id,]"
+    >
+      <ion-avatar>
+        <img [src]="  room.user.length ? room.user[0].profile.photo : avatar" />
+      </ion-avatar>
+      <ion-label class="ion-margin-start">
+        <h3>{{room.user.length ? room.user[0].name : ''}}</h3>
+        <p>Last message</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

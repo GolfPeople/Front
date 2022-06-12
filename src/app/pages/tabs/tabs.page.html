@@ -1,0 +1,187 @@
+<!-- <ion-split-pane contentId="menu-content" when="xs" [disabled]="true" (ionSplitPaneVisible)="onSplitPaneVisible(event)">
+  <ion-menu contentId="menu-content" menuId="menu-content" side="start" type="overlay">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>onSplitPaneVisible</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      start
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="menu-content"></ion-router-outlet>
+</ion-split-pane> -->
+
+<ion-split-pane contentId="main">
+  <ion-menu side="start" menuId="main-menu" contentId="main">
+    <ion-content class="side-menu">
+      <ion-row class="ion-justify-content-center">
+        <ion-menu-toggle>
+          <div class="profile">
+            <a
+              [routerLink]="['/tabs/profile']"
+              tab="profile"
+              class="link-profile"
+              [ngStyle]="{
+              'background-image':
+                'url(' +
+                (profileImage ? profileImage : imageAvatarDefault) +
+                ')'
+            }"
+            >
+            </a>
+            <div class="profile-info">
+              <h3 class="text">mi perfil</h3>
+              <h2 class="name">{{ user.name }}</h2>
+              <p class="text">Golfer</p>
+            </div>
+          </div>
+        </ion-menu-toggle>
+        <div class="qr">
+          <div class="qr-top">
+            <h3>My<strong>Golf</strong>Pass</h3>
+            <a (click)="openQR()">
+              <img src="../../../../assets/icon/qr.png" alt="" />
+            </a>
+          </div>
+
+          <div class="qr-bottom">
+            <p>5768 2948 4872 9692</p>
+            <p class="user-name">{{ userName }}</p>
+          </div>
+        </div>
+        <ion-list class="side-menu--list" lines="none">
+          <ion-menu-toggle>
+            <ion-item lines="none" class="list-item">
+              <a>
+                <div class="logo-container">
+                  <img
+                    class="events"
+                    src="../../../../assets/icons/tab/calendar.svg"
+                    alt=""
+                  />
+                </div>
+
+                EVENTOS
+              </a>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle>
+            <ion-item lines="none" class="list-item">
+              <a>
+                <div class="logo-container">
+                  <img
+                    class="classes"
+                    src="../../../../assets/icons/tab/clases.svg"
+                    alt=""
+                  />
+                </div>
+                CLASES
+              </a>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle>
+            <ion-item lines="none" class="list-item">
+              <a [routerLink]="['/tabs/my-posts']">
+                <div class="logo-container">
+                  <img
+                    class="classes"
+                    src="../../../../assets/icon/side-menu/grado.png"
+                    alt=""
+                  />
+                </div>
+                MIS PUBLICAIONES
+              </a>
+            </ion-item>
+          </ion-menu-toggle>
+
+          <ion-menu-toggle>
+            <ion-item lines="none" class="list-item">
+              <a [routerLink]="['/tabs/friends']">
+                <div class="logo-container">
+                  <img
+                    class="friends"
+                    src="../../../../assets/icons/tab/users.svg"
+                    alt=""
+                  />
+                </div>
+                AMIGOS
+              </a>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle>
+            <ion-item lines="none" class="list-item">
+              <a [routerLink]="['/tabs/saved-posts']">
+                <div class="logo-container">
+                  <img
+                    class="save"
+                    src="../../../../assets/icons/tab/guardados.svg"
+                    alt=""
+                  />
+                </div>
+                GUARDADOS
+              </a>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle>
+            <ion-item lines="none" class="list-item">
+              <a>
+                <div class="logo-container">
+                  <img
+                    class="club"
+                    src="../../../../assets/icons/tab/star.svg"
+                    alt=""
+                  />
+                </div>
+                MI CLUB
+              </a>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+        <!-- <div> -->
+        <ion-menu-toggle>
+          <ion-button class="next-button" expand="block"
+            >Admin panel</ion-button
+          >
+        </ion-menu-toggle>
+        <!-- <div class="nav-footer"> -->
+        <a [routerLink]="['']" (click)="onLogout()" class="signup"
+          >Cerrar Sesión</a
+        >
+        <div class="side-menu--footer">
+          <p>Acerca de GolfPeople</p>
+          <p>GolfPeople® Versión 1.0</p>
+        </div>
+        <!-- </div> -->
+        <!-- </div> -->
+      </ion-row>
+    </ion-content>
+  </ion-menu>
+
+  <ion-tabs id="main">
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button [routerLink]="['/create-post']">
+        <img src="../../../assets/icons/tab/create.svg" />
+        <ion-label>CREAR</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="schedule">
+        <img src="../../../assets/icons/tab/play.svg" />
+
+        <ion-label>JUGAR</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="home">
+        <img src="../../../assets/icons/tab/home.svg" />
+        <ion-label>HOME</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="chat-room">
+        <img src="../../../assets/icons/tab/messages.svg" />
+
+        <ion-label>MENSAJES</ion-label>
+      </ion-tab-button>
+      <ion-tab-button (click)="openMenu() ">
+        <img class="menu-icon" src="../../../assets/icons/tab/menu.svg" />
+        <ion-label>MENU</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-split-pane>
