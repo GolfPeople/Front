@@ -86,14 +86,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/chat/chat.module').then((m) => m.ChatPageModule),
   },
-  {
-    path: 'chat-room',
-    loadChildren: () => import('./pages/chat-room/chat-room.module').then( m => m.ChatRoomPageModule)
-  },
-  {
-    path: 'personal-chat/:id/:room',
-    loadChildren: () => import('./pages/personal-chat/personal-chat.module').then( m => m.PersonalChatPageModule)
-  },
+  // {
+  //   path: 'chat-room',
+  //   loadChildren: () => import('./pages/chat-room/chat-room.module').then( m => m.ChatRoomPageModule)
+  // },
+  // {
+  //   path: 'personal-chat/:id/:room',
+  //   loadChildren: () => import('./pages/personal-chat/personal-chat.module').then( m => m.PersonalChatPageModule)
+  // },
 
 
 
