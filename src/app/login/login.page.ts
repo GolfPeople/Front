@@ -80,7 +80,7 @@ export class LoginPage implements OnInit {
         this.isLoading = false;
         this.userService.getUserInfoToSave();
         this.loadingCtrl.dismiss();
-        this.router.navigate(['/website']);
+        this.router.navigate(['/tabs']);
       },
       (errRes) => {
         this.loadingCtrl.dismiss();
@@ -123,7 +123,7 @@ export class LoginPage implements OnInit {
     // redirect --> admin 
     // else VerificationPage
     if(isVerified) {
-      this.router.navigate(['/website'])
+      this.router.navigate(['/tabs'])
     } else {
       this.router.navigate(['/verify-email'])
     }
