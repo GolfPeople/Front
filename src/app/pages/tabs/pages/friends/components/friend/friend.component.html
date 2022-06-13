@@ -25,17 +25,17 @@
     <a class="action">
       <img src="../../../../../../assets/icons/message-alt.svg" alt="" />
     </a>
-    <a class="action" *ngIf="following">
+    <a  *ngIf="following" >
       <img src="../../../../../../assets/icons/play.svg" alt="" />
     </a>
-    <a (click)="following ? unfollow(user.id) : follow(user.id)">
+    <a class="request-button" (click)="!sentFriendRequest && !following ? friendRequest() : null">
       <img
-        [src]="
-          following
-            ? '../../../../../../assets/icons/user-remove.svg'
-            : '../../../../../../assets/icons/user-add.svg'
+        *ngIf="!sentFriendRequest && !following"
+        src="
+            ../../../../../../assets/icons/user-add.svg
         "
       />
+      <ion-icon *ngIf="sentFriendRequest" slot="icon-only" name="time-outline"></ion-icon>
     </a>
     <!-- <ion-button
       *ngIf="following"

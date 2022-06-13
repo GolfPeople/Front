@@ -138,6 +138,12 @@ ion-item {
       margin-bottom: 0.5rem;
     }
 
+    .request-button {
+      ion-icon {
+        font-size: 25px;
+      }
+    }
+
     @media screen and (min-width: 350px) {
       flex-direction: row;
 
