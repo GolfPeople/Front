@@ -1,10 +1,16 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/website">
+      <ion-back-button defaultHref="/tabs">
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+        <!-- <img src="assets/icons/arrow-back.svg" alt=""> -->
       </ion-back-button>
     </ion-buttons>
-    <ion-title>{{ text | titlecase }}</ion-title>
+    <ion-title>
+      <h2>
+        <img *ngIf="img"  [src]="img">
+        {{text | uppercase}}
+      </h2>
+    </ion-title>
   </ion-toolbar>
 </ion-header>

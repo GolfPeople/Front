@@ -1,0 +1,33 @@
+@import "../../../../../../scss/variables.scss";
+
+ion-content {
+  --background: #fff;
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 3rem 0;
+  background: $primary-color;
+  border-radius: 0 0 3rem 3rem;
+
+  img {
+    position: absolute;
+    top: 9px;
+    right: 19px;
+    width: 3.7rem;
+    height: 3.7rem;
+    border-radius: 50%;
+    z-index: 11;
+  }
+
+  h3 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.6rem;
+    line-height: 2rem;
+    color: #fff;
+  }
+}

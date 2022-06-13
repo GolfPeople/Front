@@ -1,0 +1,23 @@
+<ion-content>
+  <app-header no img="assets/icons/admin-panel.svg" text="admin panel">
+  </app-header>
+  <div class="banner">
+    <app-avatar></app-avatar>
+    <h3>real club valderrama</h3>
+    <p class="address">Av. los Cortijos, s/n, 11310 Sotogrande, Cádiz</p>
+    <a>
+      <img src="../../../../../assets/icons/edit-pencil.svg" alt="" />
+      Editar
+    </a>
+  </div>
+  <ion-list>
+    <ion-item   *ngFor="let item of items"  >
+      <ion-label >{{item.text}}</ion-label>
+      <ion-buttons slot="end">
+        <ion-button [routerLink]="item.route" >
+          <ion-icon slot="icon-only" name="chevron-forward"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+</ion-content>
