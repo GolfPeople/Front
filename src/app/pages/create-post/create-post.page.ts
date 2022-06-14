@@ -563,7 +563,7 @@ export class CreatePostPage implements OnInit, AfterViewInit {
       cssClass: 'request-modal',
       componentProps: {
         message,
-        route: '/website/profile',
+        route: '/tabs/profile',
       },
     });
 

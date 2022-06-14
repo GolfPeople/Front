@@ -67,6 +67,13 @@ const routes: Routes = [
             (m) => m.AdminPanelPageModule
           ),
       },
+      {
+        path: 'create-field',
+        loadChildren: () =>
+          import('./pages/create-field/create-field.module').then(
+            (m) => m.CreateFieldPageModule
+          ),
+      },
     ],
   },
 ];

@@ -1,0 +1,64 @@
+<ion-content>
+  <app-header no img="assets/icons/admin-panel.svg" text="admin panel">
+  </app-header>
+  <div class="banner">
+    <img src="assets/img/admin-avatar.svg" />
+    <h3>DESCRICIÓN DEL CAMPO</h3>
+  </div>
+  <form [formGroup]="form" class="ion-padding section-1">
+    <div class="section_title">
+      <h3>Información del Club</h3>
+      <!-- <img src="assets/icons/edit-pencil-grey.svg" alt="" /> -->
+    </div>
+    <ion-textarea
+      formControlName="information"
+      placeholder="Escribe algo..."
+      class="description"
+    >
+    </ion-textarea>
+
+    <div class="section_title">
+      <h3>¿Qué ofreces en tu campo?</h3>
+    </div>
+
+    <div class="option-buttons">
+      <button
+        class="option-button"
+        *ngFor="let btn of optionButtons"
+        (click)="selectService(btn)"
+        [ngClass]="{selected: btn.selected}"
+      >
+        {{btn.text}}
+      </button>
+    </div>
+
+    <div class="section_title">
+      <h3>Diseñador</h3>
+    </div>
+
+    <app-designer-avatar (image)="captureImage($event)" ></app-designer-avatar>
+
+    <div class="campus-input">
+      <label for="name">Nombre:</label>
+      <input
+        formControlName="name"
+        placeholder="Escribe algo..."
+        title="name"
+        type="text"
+      />
+    </div>
+
+    <div class="campus-input">
+      <label for="title">Titulo:</label>
+      <input
+        formControlName="title"
+        placeholder="Escribe algo..."
+        name="title"
+        type="text"
+      />
+    </div>
+    <ion-button (click)="onSubmit()" expand="block" shape="round">
+      Crear Publicación
+    </ion-button>
+  </form>
+</ion-content>

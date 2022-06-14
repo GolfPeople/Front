@@ -1,0 +1,16 @@
+<div class="avatar-container">
+  <div
+    class="avatar"
+    [ngStyle]="{
+      'background-image':
+        'url(' + (imageAvatar ? imageAvatar : imageAvatarDefault) + ')'
+    }"
+  >
+    <!-- <img [src]="imageAvatarDefault" alt="" /> -->
+    <div class="edit-avatar">
+      <!-- <img src="../../../../assets/icons/edit-pencil.svg" /> -->
+      <ion-icon slot="icon-only" name="camera"></ion-icon>
+      <button (click)="selectImageSource()"></button>
+    </div>
+  </div>
+</div>

@@ -76,19 +76,29 @@ const routes: Routes = [
   },
   {
     path: 'verify-email',
-    loadChildren: () => import('./verify-email/verify-email.module').then( m => m.VerifyEmailPageModule)
+    loadChildren: () =>
+      import('./verify-email/verify-email.module').then(
+        (m) => m.VerifyEmailPageModule
+      ),
   },
   {
     path: 'forgot-password',
-    loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
+    loadChildren: () =>
+      import('./forgot-password/forgot-password.module').then(
+        (m) => m.ForgotPasswordPageModule
+      ),
   },
   {
     path: 'tabs',
-    loadChildren: () => import('./pages/tabs/tabs.module').then( m => m.TabsPageModule)
+    loadChildren: () =>
+      import('./pages/tabs/tabs.module').then((m) => m.TabsPageModule),
   },
   {
     path: 'create-post',
-    loadChildren: () => import('./pages/create-post/create-post.module').then(m => m.CreatePostPageModule)
+    loadChildren: () =>
+      import('./pages/create-post/create-post.module').then(
+        (m) => m.CreatePostPageModule
+      ),
   },
   {
     path: 'chat/:id',
@@ -97,10 +107,11 @@ const routes: Routes = [
   },
   {
     path: 'personal-chat/:id/:room',
-    loadChildren: () => import('./pages/personal-chat/personal-chat.module').then( m => m.PersonalChatPageModule)
+    loadChildren: () =>
+      import('./pages/personal-chat/personal-chat.module').then(
+        (m) => m.PersonalChatPageModule
+      ),
   },
-
-
 ];
 
 @NgModule({
