@@ -5,13 +5,13 @@
     <img src="assets/img/admin-avatar.svg" />
     <h3>DESCRICIÓN DEL CAMPO</h3>
   </div>
-  <form [formGroup]="form" class="ion-padding section-1">
+  <form class="ion-padding section-1">
     <div class="section_title">
       <h3>Información del Club</h3>
       <!-- <img src="assets/icons/edit-pencil-grey.svg" alt="" /> -->
     </div>
     <ion-textarea
-      formControlName="information"
+      [formControl]="information"
       placeholder="Escribe algo..."
       class="description"
     >
@@ -36,12 +36,12 @@
       <h3>Diseñador</h3>
     </div>
 
-    <app-designer-avatar (image)="captureImage($event)" ></app-designer-avatar>
+    <app-designer-avatar (image)="captureImage($event)"></app-designer-avatar>
 
     <div class="campus-input">
       <label for="name">Nombre:</label>
       <input
-        formControlName="name"
+        [formControl]="name"
         placeholder="Escribe algo..."
         title="name"
         type="text"
@@ -51,14 +51,120 @@
     <div class="campus-input">
       <label for="title">Titulo:</label>
       <input
-        formControlName="title"
+        [formControl]="title"
         placeholder="Escribe algo..."
         name="title"
         type="text"
       />
     </div>
-    <ion-button (click)="onSubmit()" expand="block" shape="round">
-      Crear Publicación
+
+    <ion-item lines="none">
+      <ion-label>
+        <img src="../../../../../assets/icon/geolocation.svg" alt="" />
+      </ion-label>
+
+      <input
+        class="addressInput"
+        type="text"
+        placeholder=" Ubicación"
+        [(ngModel)]="userAddress"
+        name="location"
+        ngx-google-places-autocomplete
+        (onAddressChange)="handleAddressChange($event)"
+      />
+    </ion-item>
+
+    <div class="campus-input">
+      <label for="title">Año:</label>
+      <input
+        [formControl]="year"
+        placeholder="Escribe algo..."
+        name="title"
+        type="number"
+        min="2017"
+        max="2100"
+      />
+    </div>
+    <div class="section_title">
+      <h3>Horario</h3>
+    </div>
+    <!-- <div class="itinerary"> -->
+      <div class="times">
+        <h3 class="time-title">Dia:</h3>
+        <div class="select-time">
+          <div class="time">
+            <label for="day1">Desde: </label>
+            <ion-select [(ngModel)]="dayA" type="time" name="day1" id="">
+              <ion-select-option *ngFor="let d of daysA" [value]="d"
+                >{{d}}</ion-select-option
+              >
+            </ion-select>
+          </div>
+          <div class="time ">
+            <label for="day2">Hasta: </label>
+            <ion-select [(ngModel)]="dayB" type="time" name="day1" id="">
+              <ion-select-option *ngFor="let dB of daysA" [value]="dB"
+                >{{dB}}</ion-select-option
+              >
+            </ion-select>
+          </div>
+          <!-- <ion-button size="small" (click)="addDay()" >
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button> -->
+        </div>
+        <!-- <ion-row class="tags-row" *ngIf="days.length">
+          <div *ngFor="let d of days; index as i" class="hashtags">
+            <p>{{ d }}</p>
+            <a (click)="removeDay(i)">X</a>
+          </div>
+        </ion-row> -->
+
+        <h3 class="time-title">Hora:</h3>
+        <div class="select-time">
+          <div class="time">
+            <label for="hour1">Desde: </label>
+            <input
+              (ngModelChange)="showValueA($event)"
+              [(ngModel)]="timeA"
+              type="time"
+              name="hour1"
+              id=""
+            />
+          </div>
+          <div class="time">
+            <label for="hour2">Hasta: </label>
+            <input
+              (ngModelChange)="showValueB($event)"
+              [(ngModel)]="timeB"
+              type="time"
+              name="hour2"
+              id=""
+            />
+          </div>
+          <!-- <ion-button size="small" (click)="addTime(timeA, timeB)" >
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button> -->
+        </div>
+        <ion-row class="tags-row" *ngIf="selectedTimes.length">
+          <div *ngFor="let time of selectedTimes; index as i" class="hashtags">
+            <p>{{ time }}</p>
+            <a (click)="removeTime(i)">X</a>
+          </div>
+        </ion-row>
+      </div>
+      <ion-button [disabled]="!dayA || !dayB || !timeA || !timeB" size="small" (click)="addTime(timeA, timeB, dayA, dayB)" >
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    <!-- </div> -->
+
+    <ion-button
+    [disabled]="(!information.value || !services.length || !name.value || !title.value || !year.value ||!days.length || !hours.length || !userAddress ||  !designerImage) "
+      class="submit-button"
+      (click)="onSubmit()"
+      expand="block"
+      shape="round"
+    >
+      Publicar
     </ion-button>
   </form>
 </ion-content>

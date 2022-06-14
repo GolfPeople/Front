@@ -101,6 +101,7 @@ ion-content {
   .campus-input {
     display: flex;
     flex-direction: column;
+    margin-bottom: 1.6rem;
 
     label {
       font-weight: 500;
@@ -125,13 +126,199 @@ ion-content {
     }
   }
 
-  ion-button {
-    height: 47px;
-    margin-top: 4rem;
-    --background: #009dd6;
+  .itinerary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .times {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      // justify-content: center;
+    }
+  }
+
+  .time-title {
+    width: 100%;
+    font-weight: 500;
+    font-size: 1.1rem;
+    line-height: 1.6rem;
     text-transform: capitalize;
-    font-weight: 600;
+    color: #000;
+  }
+
+  .select-time {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    // height: 3.6rem;
+
+    .time {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 48%;
+      height: 100%;
+      padding: 9.5px 8px;
+      background: rgba(250, 250, 250, 0.93);
+      border-radius: 100px;
+      border: none;
+      outline: none;
+      font-weight: 500;
+      font-size: 1.3rem;
+      line-height: 1.7rem;
+      color: #8f8f8f;
+      label {
+        color: #000;
+      }
+
+      ion-select {
+        width: 50%;
+      }
+
+      input {
+        background: transparent;
+        color: #383838;
+        outline: none;
+        border: 1px solid rgb(129, 129, 129);
+        
+      }
+
+      input[type=time] {
+        // border: none;
+        border-radius: 8px;
+        padding: 5px;
+        border: 1px solid rgb(184, 184, 184);
+        color: #2a2c2d;
+        font-size: 14px;
+        font-family: helvetica;
+        // width: 180px;
+      }
+      input[type="time"]::-webkit-calendar-picker-indicator{
+        // width: 100%;
+        // background: transparent;
+        filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(130deg) brightness(95%) contrast(80%);
+      }
+    }
+    // ion-button {
+    //   width: 31.17px;
+    //   height: 25px;
+    //   font-size: 1.6rem;
+    // }
+  }
+
+  .tags-row {
+    margin: 1rem 0;
+  }
+  
+  .hashtags {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    // width: 100%;
+    height: 2rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ddd;
+    margin: .25rem;
+  
+    p {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: #383838;
+    }
+    a {
+      margin-left: 1rem;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+  }
+
+  ion-button {
+    --background: #009dd6;
+  }
+
+  .submit-button {
+    width: 300px;
+    height: 50px;
+    margin: 4rem auto 0;
+    text-transform: uppercase;
+    font-weight: 500;
     font-size: 1.6rem;
     line-height: 2rem;
   }
+}
+
+ion-list {
+  --ion-item-background: transparent !important;
+}
+
+ion-label {
+  --color: #383838 !important;
+  font-family: "Montserrat" !important;
+
+  font-size: 13px !important;
+  line-height: 17px !important;
+  font-weight: 500 !important;
+  color: #383838 !important;
+  display: flex !important;
+  align-items: center;
+  ion-icon {
+    color: #00388b;
+    font-size: 20px;
+    margin-right: 12px !important;
+  }
+  img {
+    margin-right: 12px;
+  }
+}
+
+ion-item {
+  --color: #00388b;
+  // margin-bottom: 20px;
+  --border-color: #dddddd;
+  font-family: "Montserrat" !important;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 17px;
+  --background: none;
+}
+
+ion-item.item-has-focus > ion-label {
+  color: #00388b !important;
+}
+
+ion-input {
+  color: #383838 !important;
+  // font-family: "Montserrat" important;
+  // font-style: normal;
+  // font-weight: 500;
+  // font-size: 13px;
+  // line-height: 17px;
+
+  .native-input .sc-ion-input-md {
+    // color: #383838 !important;
+    font-family: "Montserrat" !important;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 17px;
+  }
+}
+
+.addressInput {
+  width: 90%;
+  background: transparent;
+  border: none;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 17px;
+  outline: none;
+  text-align: left;
+  color: #000;
 }
