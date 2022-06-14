@@ -1,0 +1,48 @@
+@import '../../../../scss/variables.scss';
+
+ion-content {
+  --background: #fff;
+}
+
+.search-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 2.2rem 3rem;
+  border-radius: 0px 0px 20px 20px;
+  background: $primary-color;
+
+  h3 {
+    font-weight: 600;
+    font-size: 1.6rem;
+    line-height: 2rem;
+    color: #fff;
+  }
+
+  .search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 3.6rem;
+    padding: 0 1rem;
+    background: rgba(250, 250, 250, 0.93);
+    border-radius: 100px;
+
+    input {
+      width: 100%;
+      height: 100%;
+      padding: .5rem;
+      font-weight: 500;
+      font-size: 1.3rem;
+      line-height: 1.7rem;
+      border: none;
+      outline: none;
+      color: #383838;
+      background: none;
+  }
+
+  }
+}
+ion-list {
+  background: none;
+}

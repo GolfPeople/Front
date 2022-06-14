@@ -1,0 +1,25 @@
+<div class="card">
+  <div class="card-image">
+    <img src="../../../../assets/img/campo-image-card.svg" alt="">
+  </div>
+  <ion-item class="ion-no-padding" lines="none">
+    <ion-label>
+      <h4>{{designer.name}}</h4>
+      <p *ngIf="campo.location" >{{campo.location}}</p>
+    </ion-label>
+  </ion-item>
+ 
+<div class="card-buttons">
+  <ion-button (click)="showCampo()" shape="round">
+    Ver campo
+  </ion-button>
+  <div slot="end" class="reaction-buttons">
+    <a class="ion-margin-end" (click)="save()" >
+      <img src="../../../../assets/icons/campo-card-bookmark.svg" alt="">
+    </a>
+    <a (click)="share()" >
+      <img src="../../../../assets/icons/campo-card-share.svg" alt="">
+    </a>
+  </div>
+</div>
+</div>

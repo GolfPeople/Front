@@ -25,6 +25,7 @@ import { PublicAvatarComponent } from './components/public-avatar/public-avatar.
 import { PostsComponent } from './components/posts/posts.component';
 import { HeaderComponent } from './components/header/header.component';
 import { DesignerAvatarComponent } from './components/designer-avatar/designer-avatar.component';
+import { CampoCardComponent } from './components/campo-card/campo-card.component';
 
 const components = [
   SelectDateComponent,
@@ -45,6 +46,7 @@ const components = [
   PublicAvatarComponent,
   HeaderComponent,
   DesignerAvatarComponent,
+  CampoCardComponent,
 ];
 
 @NgModule({

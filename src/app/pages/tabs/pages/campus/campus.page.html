@@ -1,0 +1,25 @@
+<app-header text="campos"></app-header>
+<div class="search-container">
+  <h3>Resultados de tu búsqueda</h3>
+  <div class="search">
+    <img src="../../../../../assets/icons/geolocation.svg" alt="" />
+    <input
+      type="text"
+      placeholder="Busca algún campo"
+      [(ngModel)]="text"
+      (ngModelChange)="searchCampo($event)"
+    />
+
+    <a (click)="clearInput()">
+      <img src="../../../../../assets/icons/cancel-circle-grey.svg" alt="" />
+    </a>
+  </div>
+</div>
+<ion-content>
+  <ion-list class="ion-padding">
+    <app-campo-card
+      *ngFor="let campo of searchedCampos"
+      [campo]="campo"
+    ></app-campo-card>
+  </ion-list>
+</ion-content>

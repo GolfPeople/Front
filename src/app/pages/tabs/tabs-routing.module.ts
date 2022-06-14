@@ -74,6 +74,13 @@ const routes: Routes = [
             (m) => m.CreateFieldPageModule
           ),
       },
+      {
+        path: 'campus',
+        loadChildren: () =>
+          import('./pages/campus/campus.module').then(
+            (m) => m.CampusPageModule
+          ),
+      },
     ],
   },
 ];
