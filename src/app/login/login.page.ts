@@ -111,6 +111,7 @@ export class LoginPage implements OnInit {
       const user = await this.authSvc.loginGoogle();
       if (user) {
         //Todo: CheckEmail
+        console.log('Usuario registrado -->', user);
         const isVerified = this.authSvc.isEmailVerified(user)
         // this.redirectUser(isVerified)
       }
