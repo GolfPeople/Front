@@ -30,7 +30,7 @@ export class PersonalChatPage implements OnInit {
     private _location: Location
   ) {
     this.myId = localStorage.getItem('user_id');
-    setTimeout(() => {
+    setInterval(() => {
       this.chatSvc.getChat(this.room).subscribe((room) => {
         console.log(room);
         this.messages = room;
