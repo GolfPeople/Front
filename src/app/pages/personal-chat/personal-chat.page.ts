@@ -12,7 +12,7 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./personal-chat.page.scss'],
 })
 export class PersonalChatPage implements OnInit {
-  @ViewChild(IonContent) content: IonContent
+  @ViewChild(IonContent) content: IonContent;
   id;
   myId;
   username: string = '';
@@ -56,28 +56,33 @@ export class PersonalChatPage implements OnInit {
           return null;
         })
       )
-      .subscribe((user) => {
-        this.user = user;
-        if (user.profile.photo) {
-          this.avatar = user.profile.photo;
-        }
-        this.chatSvc.getChat(this.room).subscribe((room) => {
-          console.log(room);
+      .subscribe(
+        (user) => {
+          this.user = user;
+          if (user.profile.photo) {
+            this.avatar = user.profile.photo;
+          }
+          this.chatSvc.getChat(this.room).subscribe((room) => {
+            console.log(room);
+            loading.dismiss();
+            this.messages = room;
+            this.content.scrollToBottom();
+            console.log(this.myId);
+          });
+        },
+        (error) => {
           loading.dismiss();
-          this.messages = room;
-          this.content.scrollToBottom();
-          console.log(this.myId);
-        });
-      });
+          console.log('Error -->', error);
+        }
+      );
   }
 
   goBack() {
     this._location.back();
   }
 
-
   captureValue(value) {
-    console.log(value)
+    console.log(value);
   }
 
   onSendMessage() {
@@ -87,10 +92,10 @@ export class PersonalChatPage implements OnInit {
         user_id: this.myId,
       };
       this.messages.push(msg);
-      this.content.scrollToBottom()
+      this.content.scrollToBottom();
       this.chatSvc.sendMessage(this.id, this.message).subscribe((res) => {
         this.message = '';
-        
+
         console.log(res);
         console.log(this.messages);
       });
