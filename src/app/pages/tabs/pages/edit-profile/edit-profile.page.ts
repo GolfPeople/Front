@@ -22,7 +22,7 @@ export class EditProfilePage implements OnInit {
   userName: string;
   imageAvatarDefault: string = 'assets/img/default-avatar.png';
   isOpen: boolean = false;
-  profileUrl: string = 'https://golf-people.web.app/website/user-profile';
+  profileUrl: string = 'https://golf-people.web.app/tabs/user-profile';
   level: boolean;
   bolsa: boolean;
   campos: boolean;
