@@ -79,7 +79,7 @@ export class DesignerAvatarComponent implements OnInit {
 
   async addImage(source: CameraSource) {
     const image = await Camera.getPhoto({
-      quality: 60,
+      quality: 30,
       allowEditing: true,
       resultType: CameraResultType.DataUrl,
       source,
