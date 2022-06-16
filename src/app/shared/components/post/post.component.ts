@@ -246,7 +246,7 @@ export class PostComponent implements OnInit {
     navigator.share({
       title: 'Publicación',
       text: 'Mira esta publicación',
-      url: `https://golf-people.web.app/website/post/${this.post.user.name}/${this.post.id}'`,
+      url: `https://golf-people.web.app/tabs/post/${this.post.user.name}/${this.post.id}'`,
     });
   }
 
