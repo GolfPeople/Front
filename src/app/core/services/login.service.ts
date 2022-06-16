@@ -5,6 +5,7 @@ import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 import { UserResponse } from '../models/user.interface';
+import { AuthService } from './auth.service';
 import { TokenService } from './token.service';
 import { UserService } from './user.service';
 
@@ -26,7 +27,8 @@ export class LoginService {
   constructor(
     private http: HttpClient,
     private tokenService: TokenService,
-    private userSvc: UserService
+    private userSvc: UserService,
+    private authSvc: AuthService
   ) {
     if (this.tokenService.getToken()) {
       this.isLogged.next(true);
@@ -65,8 +67,35 @@ export class LoginService {
       );
   }
 
+  socialLogin(driver, email, name, provider_id) {
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('name', name);
+    formData.append('provider_id', provider_id);
+
+    return this.http
+      .post<LoginResponseData>(
+        `https://api.app.golfpeople.com/api/authorize/callback/${driver}`,
+        formData
+      )
+      .pipe(
+        tap((res) => {
+          this.tokenService.saveToken(res.access_token);
+          this.userSvc.getUserID();
+          console.log(localStorage.getItem('token'));
+          console.log(res);
+        }),
+        catchError(({ error }) => {
+          console.log(error.message);
+          const message = error.message;
+          return throwError(message);
+        })
+      );
+  }
+
   logout() {
     this.isLogged.next(false);
     this.tokenService.removeToken();
+    this.authSvc.logout();
   }
 }

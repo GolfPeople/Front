@@ -322,3 +322,15 @@ ion-input {
   text-align: left;
   color: #000;
 }
+
+
+.validation-errors {
+  font-size: small;
+  color: #f1453d;
+}
+.error-message {
+  padding: 0 5px;
+  text-align: right;
+  font-size: 1.2rem;
+  color: #f1453d;
+}

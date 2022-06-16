@@ -111,8 +111,18 @@ export class LoginPage implements OnInit {
       const user = await this.authSvc.loginGoogle();
       if (user) {
         //Todo: CheckEmail
+        const userInformation = user.multiFactor.user;
+        const { email, displayName, uid } = userInformation;
+        console.log('Email del usuario', email)
+        console.log('Nombre del usuario', displayName)
+        console.log('id del usuario', uid)
+        this.loginService.socialLogin('google', email,displayName, uid ).subscribe(res => {
+          console.log(res)
+          this.userService.getUserInfoToSave();
+          this.router.navigate(['/tabs']);
+        })
         console.log('Usuario registrado -->', user);
-        const isVerified = this.authSvc.isEmailVerified(user)
+        const isVerified = this.authSvc.isEmailVerified(user);
         // this.redirectUser(isVerified)
       }
     } catch (error) {
@@ -121,12 +131,12 @@ export class LoginPage implements OnInit {
   }
 
   private redirectUser(isVerified: boolean) {
-    // redirect --> admin 
+    // redirect --> admin
     // else VerificationPage
-    if(isVerified) {
-      this.router.navigate(['/tabs'])
+    if (isVerified) {
+      this.router.navigate(['/tabs']);
     } else {
-      this.router.navigate(['/verify-email'])
+      this.router.navigate(['/verify-email']);
     }
   }
 

@@ -37,7 +37,7 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
   page = 1;
   isLoadingMore: boolean = false;
 
-  profileUrl: string = 'https://golf-people.web.app/website/user-profile';
+  profileUrl: string = 'https://golf-people.web.app/tabs/user-profile';
   value: string;
 
   // Swiper pages
@@ -114,15 +114,15 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
                 if (connectItem.user_id == this.myId) {
                   console.log('tienes conexion');
                   // if (friend.connections) {
-                    if (friend.connections.status === 1) {
-                      this.sentFriendRequest = true;
-                      console.log('Ya has enviado una solicitud e amistad.');
-                    } else if (friend.connections.status === 2) {
-                      this.following = true;
-                      console.log('Solicitud de amistad aprobada');
-                    } else {
-                      this.following = false;
-                    }
+                  if (friend.connections.status === 1) {
+                    this.sentFriendRequest = true;
+                    console.log('Ya has enviado una solicitud e amistad.');
+                  } else if (friend.connections.status === 2) {
+                    this.following = true;
+                    console.log('Solicitud de amistad aprobada');
+                  } else {
+                    this.following = false;
+                  }
                   // } else {
                   //   this.following = false;
                   // }

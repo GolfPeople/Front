@@ -32,13 +32,13 @@
   <ion-list lines="none">
     <ion-item
       *ngFor="let room of searchedRooms; index as i"
-      [routerLink]="['/personal-chat', room.user.length ? room.user[0].profile.user_id : 0  , room.pivot.sale_id,]"
+      [routerLink]="['/personal-chat', room.user_id , room.sale_id]"
     >
       <ion-avatar>
-        <img [src]="  room.user.length ? room.user[0].profile.photo : avatar" />
+        <img [src]="  room.photo ? room.photo : avatar" />
       </ion-avatar>
       <ion-label class="ion-margin-start">
-        <h3>{{room.user.length ? room.user[0].name : ''}}</h3>
+        <h3>{{room.name}}</h3>
         <p>Last message</p>
       </ion-label>
     </ion-item>

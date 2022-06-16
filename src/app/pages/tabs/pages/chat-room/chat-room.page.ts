@@ -25,7 +25,7 @@ export class ChatRoomPage implements OnInit {
     });
     await loading.present();
     this.chatSvc.getRoom().subscribe((rooms) => {
-      console.log('Salas de shat', rooms);
+      console.log('Salas de chat', rooms);
       this.rooms = rooms;
       this.searchedRooms = rooms;
       loading.dismiss();

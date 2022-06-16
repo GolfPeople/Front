@@ -37,7 +37,7 @@ export class CampusPage implements OnInit {
 
     this.campusSvg.getData(this.page).subscribe(
       ({ data }) => {
-        this.campos = data;
+        this.campos = data.reverse();
         this.searchedCampos = this.campos;
         this.searchCampo(this.text);
         console.log(data);
@@ -53,6 +53,7 @@ export class CampusPage implements OnInit {
 
   clearInput() {
     this.text = '';
+    this.searchCampo(this.text)
   }
 
   searchCampo(value) {

@@ -9,6 +9,14 @@ export class MyValidations {
     return null;
   }
 
+  static year(control: AbstractControl) {
+    const value = parseInt(control.value);
+    if (value > 2020) {
+      return { yearInvalid: true };
+    }
+    return null;
+  }
+
   static decimal(control: AbstractControl) {
     const value = parseInt(control.value);
     if (value > 99) {

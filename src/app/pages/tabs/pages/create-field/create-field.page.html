@@ -85,6 +85,9 @@
         max="2100"
       />
     </div>
+    <ion-item *ngIf="year.errors?.yearInvalid" lines="none">
+      <ion-label class="validation-text">Valor máximo 2022</ion-label>
+    </ion-item>
     <div class="section_title">
       <h3>Horario</h3>
     </div>

@@ -22,7 +22,7 @@
     <span> HCP {{ user.profile.handicap }} </span>
   </ion-label>
   <div class="actions">
-    <a class="action">
+    <a [routerLink]="['/chat', user.profile.user_id]" class="action">
       <img src="../../../../../../assets/icons/message-alt.svg" alt="" />
     </a>
     <a  *ngIf="following" >

@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { GeolocationService } from 'src/app/core/services/geolocation.service';
+import { MyValidations } from 'src/app/utils/my-validations';
 import { environment } from 'src/environments/environment';
 import { SuccessModalComponent } from './components/success-modal/success-modal.component';
 
@@ -141,7 +142,7 @@ export class CreateFieldPage implements OnInit {
     const information = new FormControl('', {});
     const name = new FormControl('', {});
     const title = new FormControl('', {});
-    const year = new FormControl('', {});
+    const year = new FormControl('', MyValidations.year);
 
     return { information, name, title, year };
   }
@@ -172,44 +173,24 @@ export class CreateFieldPage implements OnInit {
   }
 
   showValueA(value) {
-    // console.log(this.dayA, this.dayB);
     this.timeA = value;
 
     console.log(this.timeA);
   }
   showValueB(value) {
-    // console.log(this.dayA, this.dayB);
     this.timeB = value;
-    console.log(this.timeB);
-  }
-
-  addDay(dayA: string, dayB: string) {
-    if (dayA && dayB) {
-      console.log(dayA.split(':'));
-      console.log(dayB.split(':'));
-    }
-  }
-
-  removeDay(i) {
-    this.days.splice(i, 1);
   }
 
   addTime(timeA, timeB, dayA, dayB) {
     if (timeA.length > 0 && timeB.length > 0) {
       const hourA = timeA.split(':')[0];
-      console.log('hourA', hourA);
       const minuteA = timeA.split(':')[1];
-      console.log('minuteA', minuteA);
       const hourB = timeB.split(':')[0];
-      console.log('hourB', hourB);
 
       const minuteB = timeB.split(':')[1];
-      console.log('minuteB', minuteB);
 
       const hourValueA = this.conditionTimeA(hourA);
       const hourValueB = this.conditionTimeA(hourB);
-
-      console.log(hourA);
 
       const hourSelectedA = `${hourValueA}:${minuteA} ${
         parseInt(hourA) >= 12 ? 'pm' : 'am'
@@ -226,11 +207,6 @@ export class CreateFieldPage implements OnInit {
       this.selectedTimes.push(
         `${dayA} a ${dayB} - ${hourSelectedA} a ${hourSelectedB}`
       );
-
-      console.log('Esta es la primera hora: -->', hourSelectedA);
-      console.log('Esta es la segunda hora: -->', hourSelectedB);
-      console.log('Esta es la hora selecionada A: -->', hourSelectedA);
-      console.log('Esta es la hora selecionada B: -->', hourSelectedB);
 
       this.dayA = '';
       this.dayB = '';
@@ -297,12 +273,14 @@ export class CreateFieldPage implements OnInit {
     this.hours.forEach((item) => {
       formData.append('hour[]', item);
     });
+    formData.append('lat', this.userLatitude);
+    formData.append('long', this.userLongitude);
 
     formData.append('location', this.userAddress);
     this.http.post(URL, formData).subscribe((res) => {
       console.log(res);
       loading.dismiss();
-      this.openModal('Publicación creada con éxito');
+      this.openModal('Campo creado con éxito');
     });
   }
 }
