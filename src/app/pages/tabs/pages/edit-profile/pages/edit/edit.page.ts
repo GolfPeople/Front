@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../../../../core/services/user.service';
 
@@ -12,7 +13,7 @@ export class EditPage implements OnInit {
   privacy: boolean = false;
   avatar;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private _location: Location) {}
 
   src;
 
@@ -20,6 +21,10 @@ export class EditPage implements OnInit {
     this.userService.getUserInfo().subscribe((res) => {
       this.src = res.profile.photo;
     });
+  }
+
+  goBack() {
+    this._location.back();
   }
 
   selectPage(event: Event) {
