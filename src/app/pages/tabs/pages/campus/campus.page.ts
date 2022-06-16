@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { Campus } from 'src/app/core/models/campus.interface';
 import { GeolocationService } from 'src/app/core/services/geolocation.service';
+import { UserService } from 'src/app/core/services/user.service';
 import { CampusDataService } from './services/campus-data.service';
 
 declare var google: any;
@@ -18,13 +19,15 @@ export class CampusPage implements OnInit {
   searchedCampos: Campus[] = [];
   page = 1;
   text: string = '';
+  myAddress: string = '';
 
   coords;
 
   constructor(
     private loadingCtrl: LoadingController,
     private campusSvg: CampusDataService,
-    private geolocationSvc: GeolocationService
+    private geolocationSvc: GeolocationService,
+    private userSvc: UserService
   ) {}
 
   async ngOnInit() {
@@ -33,7 +36,12 @@ export class CampusPage implements OnInit {
     const coordinates = await this.geolocationSvc.currentPosition();
     const { latitude, longitude } = await coordinates.coords;
     this.coords = { lat: latitude, lng: longitude };
-    this.geoCodeLatLong(this.coords);
+    // this.geoCodeLatLong(this.coords);
+
+    this.userSvc.getUserInfo().subscribe((user) => {
+      console.log(user);
+      this.text = user.profile.address;
+    });
 
     this.campusSvg.getData(this.page).subscribe(
       ({ data }) => {
@@ -53,7 +61,7 @@ export class CampusPage implements OnInit {
 
   clearInput() {
     this.text = '';
-    this.searchCampo(this.text)
+    this.searchCampo(this.text);
   }
 
   searchCampo(value) {
@@ -62,7 +70,12 @@ export class CampusPage implements OnInit {
       this.searchedCampos = this.campos;
     } else {
       this.searchedCampos = this.campos.filter((campo) =>
-        campo.location?.toLowerCase().includes(value.toLowerCase())
+        // campo.location?.toLowerCase().includes(value.toLowerCase())
+        campo.location
+          ?.normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLowerCase()
+          .includes(value.toLowerCase())
       );
     }
   }

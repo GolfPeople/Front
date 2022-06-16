@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
     private userSvc: UserService,
     private postsSvc: PostsService
   ) {
-    this.userSvc.getUserInfoToSave();
+    // this.userSvc.getUserInfoToSave();
   }
 
   ngOnInit(): void {
@@ -29,7 +29,8 @@ export class AppComponent implements OnInit {
     });
     if (this.isLogged === true) {
       // this.router.navigate(['/website']);
+      this.userSvc.getUserInfoToSave();
     }
-    this.postsSvc.getPostsAction();
+    // this.postsSvc.getPostsAction();
   }
 }
