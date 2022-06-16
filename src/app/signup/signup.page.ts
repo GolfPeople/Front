@@ -238,7 +238,7 @@ export class SignupPage implements OnInit {
     // const rePassword = form.value.rePassword;
 
     this.signup(formValue);
-    this.register(f);
+    // this.register(f);
   }
 
   private showSuccessAlert(message: string) {
