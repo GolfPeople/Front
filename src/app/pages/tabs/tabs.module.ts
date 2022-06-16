@@ -13,11 +13,14 @@ import { TabsPage } from './tabs.page';
 import { QrComponent } from './components/qr/qr.component';
 import { EditPostComponent } from './components/edit-post/edit-post.component';
 import { SuccessComponent } from './components/success/success.component';
+import { PublicPostComponent } from './components/public-post/public-post.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 const myComponents = [
   QrComponent,
   SuccessComponent,
   EditPostComponent,
+  PublicPostComponent,
 ];
 
 @NgModule({
@@ -27,8 +30,9 @@ const myComponents = [
     IonicModule,
     TabsPageRoutingModule,
     NgxQRCodeModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule,
   ],
-  declarations: [TabsPage, myComponents]
+  declarations: [TabsPage, myComponents],
 })
 export class TabsPageModule {}

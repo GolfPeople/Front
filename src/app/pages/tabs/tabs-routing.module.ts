@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { PublicPostComponent } from './components/public-post/public-post.component';
 
 import { TabsPage } from './tabs.page';
 
@@ -82,6 +83,10 @@ const routes: Routes = [
           ),
       },
     ],
+  },
+  {
+    path: 'post/:user/:id',
+    component: PublicPostComponent,
   },
 ];
 
