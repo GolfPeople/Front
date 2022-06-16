@@ -33,9 +33,9 @@ export class CampusPage implements OnInit {
   async ngOnInit() {
     const loading = await this.loadingCtrl.create({ cssClass: 'loading-ctrl' });
     await loading.present();
-    const coordinates = await this.geolocationSvc.currentPosition();
-    const { latitude, longitude } = await coordinates.coords;
-    this.coords = { lat: latitude, lng: longitude };
+    // const coordinates = await this.geolocationSvc.currentPosition();
+    // const { latitude, longitude } = await coordinates.coords;
+    // this.coords = { lat: latitude, lng: longitude };
     // this.geoCodeLatLong(this.coords);
 
     this.userSvc.getUserInfo().subscribe((user) => {
