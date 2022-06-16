@@ -62,7 +62,7 @@ export class CampusPage implements OnInit {
       this.searchedCampos = this.campos;
     } else {
       this.searchedCampos = this.campos.filter((campo) =>
-        campo.location?.toLowerCase().includes(value)
+        campo.location?.toLowerCase().includes(value.toLowerCase())
       );
     }
   }
