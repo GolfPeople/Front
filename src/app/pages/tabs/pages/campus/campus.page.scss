@@ -1,4 +1,4 @@
-@import '../../../../scss/variables.scss';
+@import "../../../../scss/variables.scss";
 
 ion-content {
   --background: #fff;
@@ -31,7 +31,7 @@ ion-content {
     input {
       width: 100%;
       height: 100%;
-      padding: .5rem;
+      padding: 0.5rem;
       font-weight: 500;
       font-size: 1.3rem;
       line-height: 1.7rem;
@@ -39,8 +39,7 @@ ion-content {
       outline: none;
       color: #383838;
       background: none;
-  }
-
+    }
   }
 }
 ion-list {

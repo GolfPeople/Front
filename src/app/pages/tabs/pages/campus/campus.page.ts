@@ -40,14 +40,14 @@ export class CampusPage implements OnInit {
 
     this.userSvc.getUserInfo().subscribe((user) => {
       console.log(user);
-      this.text = user.profile.address;
+      // this.text = user.profile.address;
     });
 
     this.campusSvg.getData(this.page).subscribe(
       ({ data }) => {
         this.campos = data.reverse();
         this.searchedCampos = this.campos;
-        this.searchCampo(this.text);
+        // this.searchCampo(this.text);
         console.log(data);
         this.page += 1;
         loading.dismiss();
@@ -69,14 +69,15 @@ export class CampusPage implements OnInit {
     if (!(value.length >= 1)) {
       this.searchedCampos = this.campos;
     } else {
-      this.searchedCampos = this.campos.filter((campo) =>
-        // campo.location?.toLowerCase().includes(value.toLowerCase())
-        campo.location
-          ?.normalize('NFD')
+      this.searchedCampos = this.campos.filter((campo) => {
+        const designer = JSON.parse(campo.designer);
+
+        return designer.name
+          .normalize('NFD')
           .replace(/[\u0300-\u036f]/g, '')
           .toLowerCase()
-          .includes(value.toLowerCase())
-      );
+          .includes(value.toLowerCase());
+      });
     }
   }
 
