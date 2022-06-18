@@ -61,13 +61,13 @@ const routes: Routes = [
             (m) => m.ChatRoomPageModule
           ),
       },
-      {
-        path: 'admin-panel',
-        loadChildren: () =>
-          import('./pages/admin-panel/admin-panel.module').then(
-            (m) => m.AdminPanelPageModule
-          ),
-      },
+      // {
+      //   path: 'admin-panel',
+      //   loadChildren: () =>
+      //     import('./pages/admin-panel/admin-panel.module').then(
+      //       (m) => m.AdminPanelPageModule
+      //     ),
+      // },
       {
         path: 'create-field',
         loadChildren: () =>

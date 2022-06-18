@@ -4,9 +4,18 @@
   padding: 2.5rem 0;
   border-bottom: 1px solid #dddddd;
 
+  .edit {
+    position: relative;
+    top: -5px;
+    right: calc((-100% + 25px));
+  }
+
   &-image {
     width: 100%;
     margin-bottom: 1.2rem;
+    img {
+      width: 100%;
+    }
   }
 
   ion-item {
@@ -45,9 +54,6 @@
       color: #ffffff;
       --background: #009dd6;
       text-transform: capitalize;
-    }
-
-    .reaction-buttons {
     }
   }
 }

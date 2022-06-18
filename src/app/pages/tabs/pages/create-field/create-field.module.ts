@@ -12,6 +12,8 @@ import { CreateFieldPage } from './create-field.page';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CropperComponent } from './components/cropper/cropper.component';
 import { SuccessModalComponent } from './components/success-modal/success-modal.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { SwiperModule } from 'swiper/angular';
 
 @NgModule({
   entryComponents: [CropperComponent],
@@ -23,6 +25,8 @@ import { SuccessModalComponent } from './components/success-modal/success-modal.
     SharedModule,
     ReactiveFormsModule,
     GooglePlaceModule,
+    ImageCropperModule,
+    SwiperModule,
   ],
   declarations: [CreateFieldPage, CropperComponent, SuccessModalComponent],
 })

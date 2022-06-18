@@ -23,6 +23,10 @@ export class CropperComponent implements OnInit {
     this.croppedImage = event.base64;
   }
 
+  dismissModalWithoutData() {
+    this.modalCtrl.dismiss();
+  }
+
   dismissModal() {
     this.modalCtrl.dismiss(this.croppedImage);
   }

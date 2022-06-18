@@ -1,4 +1,4 @@
-@import "../../../../scss/variables.scss";
+@import "../../../../../../../../scss/variables.scss";
 
 ion-content {
   --background: #fff;
@@ -31,6 +31,7 @@ ion-content {
     color: #fff;
   }
 }
+
 
 .pick-image-container {
   display: flex;
@@ -82,11 +83,12 @@ ion-content {
   }
 }
 
-
 .section-1 {
   display: flex;
   flex-direction: column;
   color: #000;
+
+  
 
   .section_title {
     display: flex;
@@ -307,7 +309,7 @@ ion-list {
 }
 
 ion-label {
-  --color: #383838 !important;
+  --color: #383838 ;
   font-family: "Montserrat" !important;
 
   font-size: 13px !important;
@@ -375,20 +377,20 @@ ion-input {
 }
 
 
+.validation-errors {
+  font-size: small;
+  color: #f1453d;
+}
+
+
 .validation-text {
   font-size: 12px;
   color: red !important;
 }
 
-
-
-.validation-errors {
-  font-size: small;
-  color: #f1453d !important;
-}
 .error-message {
   padding: 0 5px;
   text-align: right;
   font-size: 1.2rem;
-  color: #f1453d !important;
+  color: #f1453d;
 }

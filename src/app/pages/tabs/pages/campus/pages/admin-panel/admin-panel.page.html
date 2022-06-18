@@ -1,10 +1,10 @@
 <ion-content>
-  <app-header no img="assets/icons/admin-panel.svg" text="admin panel">
+  <app-header defaultHref="/tabs/campus" img="assets/icons/admin-panel.svg" text="admin panel">
   </app-header>
   <div class="banner">
     <app-avatar></app-avatar>
-    <h3>real club valderrama</h3>
-    <p class="address">Av. los Cortijos, s/n, 11310 Sotogrande, Cádiz</p>
+    <h3>{{(campus.designer | jsonToData).name}}</h3>
+    <p class="address">{{campus.location}}</p>
     <a>
       <img src="../../../../../assets/icons/edit-pencil.svg" alt="" />
       Editar

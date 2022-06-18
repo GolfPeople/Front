@@ -1,37 +1,36 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import {
   ActionSheetController,
+  AlertController,
   LoadingController,
   ModalController,
   Platform,
 } from '@ionic/angular';
+import { Campus } from 'src/app/core/models/campus.interface';
+import { CampusService } from 'src/app/core/services/campus/campus.service';
+import { EditCampusService } from 'src/app/core/services/edit-campus.service';
 import { GeolocationService } from 'src/app/core/services/geolocation.service';
 import { MyValidations } from 'src/app/utils/my-validations';
-import { environment } from 'src/environments/environment';
 import { SwiperComponent } from 'swiper/angular';
 import { CropperComponent } from './components/cropper/cropper.component';
-import { SuccessModalComponent } from './components/success-modal/success-modal.component';
-
-const URL = `${environment.golfpeopleAPI}/api/campus/create/1`;
 
 @Component({
-  selector: 'app-create-field',
-  templateUrl: './create-field.page.html',
-  styleUrls: ['./create-field.page.scss'],
+  selector: 'app-description',
+  templateUrl: './description.page.html',
+  styleUrls: ['./description.page.scss'],
 })
-export class CreateFieldPage implements OnInit {
+export class DescriptionPage implements OnInit {
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
   @ViewChild('swiper') swiper: SwiperComponent;
 
+  selectedCampus: Campus;
+
   backgroundImages = [];
+  designerImage;
 
   //Crop image
   imageDAtaUrl: any;
@@ -39,9 +38,9 @@ export class CreateFieldPage implements OnInit {
 
   selectedFiles: FileList;
   blobArrayData: Blob[] = [];
-  campusPhoto;
 
   form: FormGroup;
+  existingImage: string = '';
 
   // Valores del formulario
 
@@ -86,7 +85,8 @@ export class CreateFieldPage implements OnInit {
       selected: false,
     },
   ];
-  designerImage;
+  campusPhoto;
+  designerPhoto;
 
   daysA = [
     'Lunes',
@@ -123,6 +123,9 @@ export class CreateFieldPage implements OnInit {
     private loadingCtrl: LoadingController,
     private modalCtrl: ModalController,
     private geolocationSvg: GeolocationService,
+    private alertCtrl: AlertController,
+    private router: Router,
+    private campusSvg: CampusService,
     private platform: Platform,
     private actionSheetCtrl: ActionSheetController
   ) {}
@@ -139,21 +142,57 @@ export class CreateFieldPage implements OnInit {
       await this.geolocationSvg.currentPosition()
     ).coords;
     this.coords = { latitude, longitude };
-  }
 
-  async openModal(message) {
-    const modal = await this.modalCtrl.create({
-      component: SuccessModalComponent,
-      backdropDismiss: false,
-      cssClass: 'request-modal',
-      componentProps: {
-        message,
-        route: '/tabs/profile',
-      },
+    this.campusSvg.campus$.subscribe((data) => {
+      this.selectedCampus = data;
+      const designer = JSON.parse(data.designer);
+      console.log(data);
+      this.information.setValue(data.information);
+      this.services = JSON.parse(data.services);
+      this.userAddress = data.location;
+      this.hours = JSON.parse(data.hour);
+      this.days = JSON.parse(data.day);
+      this.year.setValue(designer.year);
+      this.name.setValue(designer.name);
+      this.title.setValue(designer.title);
+      if (designer.url) {
+        console.log(designer.url);
+        this.existingImage = designer.url;
+      }
     });
 
-    await modal.present();
+    this.hours.forEach((hour, index) => {
+      this.days.forEach((day, i) => {
+        this.selectedTimes.push(`${day} - ${hour}`);
+        console.log(this.selectedTimes);
+      });
+    });
+
+    this.optionButtons.forEach((option) => {
+      this.services.forEach((service) => {
+        if (option.text === service) {
+          option.selected = true;
+        }
+      });
+    });
+
+    console.log(this.days);
+    console.log(this.hours);
   }
+
+  // async openModal(message) {
+  //   const modal = await this.modalCtrl.create({
+  //     component: SuccessModalComponent,
+  //     backdropDismiss: false,
+  //     cssClass: 'request-modal',
+  //     componentProps: {
+  //       message,
+  //       route: '/tabs/profile',
+  //     },
+  //   });
+
+  //   await modal.present();
+  // }
 
   initForm(): any {
     // return this.fb.group({
@@ -165,7 +204,7 @@ export class CreateFieldPage implements OnInit {
     const information = new FormControl('', {});
     const name = new FormControl('', {});
     const title = new FormControl('', {});
-    const year = new FormControl(0, MyValidations.year);
+    const year = new FormControl('', MyValidations.year);
 
     return { information, name, title, year };
   }
@@ -261,7 +300,6 @@ export class CreateFieldPage implements OnInit {
     });
     croppperModal.onDidDismiss().then((data) => {
       if (data.data) {
-        console.log('Cropper test -->', data);
         this.croppedImage = data.data;
         this.backgroundImages.push(this.croppedImage);
         // console.log(this.backgroundImages);
@@ -405,6 +443,9 @@ export class CreateFieldPage implements OnInit {
     this.hours.splice(i, 1);
     this.days.splice(i, 1);
     this.selectedTimes.splice(i, 1);
+    console.log(this.hours);
+    console.log(this.days);
+    console.log(this.selectedTimes);
   }
 
   conditionTimeA(time) {
@@ -442,32 +483,39 @@ export class CreateFieldPage implements OnInit {
       cssClass: 'loading-ctrl',
     });
     loading.present();
-    // const { information, name, title, year } = this.form.value;
-    // console.log( this.services, this.day, this.hour, this.designerImage);
-    const formData = new FormData();
-    formData.append('information', this.information.value);
-    this.services.forEach((item) => {
-      formData.append('services[]', item);
+    const alert = await this.alertCtrl.create({
+      cssClass: 'success-alert-action',
+      message: 'Campo editado con éxito',
+      buttons: [
+        {
+          text: 'Aceptar',
+          handler: () => {
+            this.router.navigate(['/tabs/campus']);
+          },
+        },
+      ],
     });
-    formData.append('photo', this.designerImage);
-    formData.append('campusPhoto', this.campusPhoto);
-    formData.append('name', this.name.value);
-    formData.append('title', this.title.value);
-    formData.append('year', this.year.value);
-    this.days.forEach((item) => {
-      formData.append('day[]', item);
-    });
-    this.hours.forEach((item) => {
-      formData.append('hour[]', item);
-    });
-    formData.append('lat', this.userLatitude);
-    formData.append('long', this.userLongitude);
 
-    formData.append('location', this.userAddress);
-    this.http.post(URL, formData).subscribe((res) => {
-      console.log(res);
-      loading.dismiss();
-      this.openModal('Campo creado con éxito');
-    });
+    this.campusSvg
+      .edit(
+        15,
+        this.information.value,
+        this.services,
+        this.designerImage,
+        this.name.value,
+        this.title.value,
+        this.year.value,
+        this.days,
+        this.hours,
+        this.userAddress,
+        this.userLatitude,
+        this.userLongitude,
+        this.campusPhoto
+      )
+      .subscribe((res) => {
+        console.log(res);
+
+        alert.present();
+      });
   }
 }

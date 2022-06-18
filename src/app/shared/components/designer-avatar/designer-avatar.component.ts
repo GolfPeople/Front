@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { ActionSheetController, ModalController } from '@ionic/angular';
 import { PostsService } from 'src/app/core/services/posts.service';
@@ -19,7 +19,7 @@ export class DesignerAvatarComponent implements OnInit {
   // @Input() src;
   imageAvatarDefault = 'assets/img/default-avatar.png';
 
-  imageAvatar;
+  @Input() imageAvatar;
   @Output() image = new EventEmitter();
 
   //Crop image

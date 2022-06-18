@@ -6,8 +6,15 @@ import { CampusPage } from './campus.page';
 const routes: Routes = [
   {
     path: '',
-    component: CampusPage
-  }
+    component: CampusPage,
+  },
+  {
+    path: 'admin-panel',
+    loadChildren: () =>
+      import('./pages/admin-panel/admin-panel.module').then(
+        (m) => m.AdminPanelPageModule
+      ),
+  },
 ];
 
 @NgModule({

@@ -35,7 +35,7 @@
       *ngIf="!backgroundImages.length"
       class="text ion-text-center ion-margin-bottom"
     >
-      Elige una foto para tu campo
+      ¿Alguna foto/vídeo que quieras compartir con la comunidad?
     </p>
     <swiper
       *ngIf="backgroundImages.length > 0"
@@ -101,7 +101,7 @@
       <h3>Diseñador</h3>
     </div>
 
-    <app-designer-avatar (image)="captureImage($event)"></app-designer-avatar>
+    <app-designer-avatar  [imageAvatar]="existingImage"  (image)="captureImage($event)"></app-designer-avatar>
 
     <div class="campus-input">
       <label for="name">Nombre:</label>
@@ -150,87 +150,83 @@
         max="2100"
       />
     </div>
-    <ion-item class="ion-no-padding" *ngIf="year.value > 2022"lines="none">
+    <ion-item *ngIf="year.value > 2022" lines="none">
       <ion-label class="validation-text">Valor máximo 2022</ion-label>
     </ion-item>
     <div class="section_title">
       <h3>Horario</h3>
     </div>
     <!-- <div class="itinerary"> -->
-    <div class="times">
-      <h3 class="time-title">Dia:</h3>
-      <div class="select-time">
-        <div class="time">
-          <label for="day1">Desde: </label>
-          <ion-select [(ngModel)]="dayA" type="time" name="day1" id="">
-            <ion-select-option *ngFor="let d of daysA" [value]="d"
-              >{{d}}</ion-select-option
-            >
-          </ion-select>
-        </div>
-        <div class="time">
-          <label for="day2">Hasta: </label>
-          <ion-select [(ngModel)]="dayB" type="time" name="day1" id="">
-            <ion-select-option *ngFor="let dB of daysA" [value]="dB"
-              >{{dB}}</ion-select-option
-            >
-          </ion-select>
-        </div>
-        <!-- <ion-button size="small" (click)="addDay()" >
+      <div class="times">
+        <h3 class="time-title">Dia:</h3>
+        <div class="select-time">
+          <div class="time">
+            <label for="day1">Desde: </label>
+            <ion-select [(ngModel)]="dayA" type="time" name="day1" id="">
+              <ion-select-option *ngFor="let d of daysA" [value]="d"
+                >{{d}}</ion-select-option
+              >
+            </ion-select>
+          </div>
+          <div class="time ">
+            <label for="day2">Hasta: </label>
+            <ion-select [(ngModel)]="dayB" type="time" name="day1" id="">
+              <ion-select-option *ngFor="let dB of daysA" [value]="dB"
+                >{{dB}}</ion-select-option
+              >
+            </ion-select>
+          </div>
+          <!-- <ion-button size="small" (click)="addDay()" >
         <ion-icon slot="icon-only" name="add"></ion-icon>
       </ion-button> -->
-      </div>
-      <!-- <ion-row class="tags-row" *ngIf="days.length">
+        </div>
+        <!-- <ion-row class="tags-row" *ngIf="days.length">
           <div *ngFor="let d of days; index as i" class="hashtags">
             <p>{{ d }}</p>
             <a (click)="removeDay(i)">X</a>
           </div>
         </ion-row> -->
 
-      <h3 class="time-title">Hora:</h3>
-      <div class="select-time">
-        <div class="time">
-          <label for="hour1">Desde: </label>
-          <input
-            (ngModelChange)="showValueA($event)"
-            [(ngModel)]="timeA"
-            type="time"
-            name="hour1"
-            id=""
-          />
-        </div>
-        <div class="time">
-          <label for="hour2">Hasta: </label>
-          <input
-            (ngModelChange)="showValueB($event)"
-            [(ngModel)]="timeB"
-            type="time"
-            name="hour2"
-            id=""
-          />
-        </div>
-        <!-- <ion-button size="small" (click)="addTime(timeA, timeB)" >
+        <h3 class="time-title">Hora:</h3>
+        <div class="select-time">
+          <div class="time">
+            <label for="hour1">Desde: </label>
+            <input
+              (ngModelChange)="showValueA($event)"
+              [(ngModel)]="timeA"
+              type="time"
+              name="hour1"
+              id=""
+            />
+          </div>
+          <div class="time">
+            <label for="hour2">Hasta: </label>
+            <input
+              (ngModelChange)="showValueB($event)"
+              [(ngModel)]="timeB"
+              type="time"
+              name="hour2"
+              id=""
+            />
+          </div>
+          <!-- <ion-button size="small" (click)="addTime(timeA, timeB)" >
         <ion-icon slot="icon-only" name="add"></ion-icon>
       </ion-button> -->
-      </div>
-      <ion-row class="tags-row" *ngIf="selectedTimes.length">
-        <div *ngFor="let time of selectedTimes; index as i" class="hashtags">
-          <p>{{ time }}</p>
-          <a (click)="removeTime(i)">X</a>
         </div>
-      </ion-row>
-    </div>
-    <ion-button
-      [disabled]="!dayA || !dayB || !timeA || !timeB"
-      size="small"
-      (click)="addTime(timeA, timeB, dayA, dayB)"
-    >
-      <ion-icon slot="icon-only" name="add"></ion-icon>
-    </ion-button>
+        <ion-row class="tags-row" *ngIf="selectedTimes.length">
+          <div *ngFor="let time of selectedTimes; index as i" class="hashtags">
+            <p>{{ time }}</p>
+            <a (click)="removeTime(i)">X</a>
+          </div>
+        </ion-row>
+      </div>
+      <ion-button [disabled]="!dayA || !dayB || !timeA || !timeB" size="small" (click)="addTime(timeA, timeB, dayA, dayB)" >
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
     <!-- </div> -->
 
     <ion-button
-      [disabled]="(!information.value || !services.length || !name.value || !title.value || !year.value || year.value > 2022 ||!days.length || !hours.length || !userAddress) "
+    [disabled]="(!information.value || !services.length || !name.value || !title.value || !year.value  || year.value > 2022 ||!days.length || !hours.length || !userAddress) "
       class="submit-button"
       (click)="onSubmit()"
       expand="block"

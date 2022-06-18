@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Campus } from 'src/app/core/models/campus.interface';
+import { CampusService } from 'src/app/core/services/campus/campus.service';
+import { EditCampusService } from 'src/app/core/services/edit-campus.service';
 
 interface Designer {
   name: string;
@@ -23,11 +25,14 @@ export class CampoCardComponent implements OnInit {
   };
   cardTitle: string = '';
 
-  constructor() {}
+  constructor(private campusSvc: CampusService) {}
 
   ngOnInit() {
     this.designer = JSON.parse(this.campo.designer);
-    console.log(this.designer);
+  }
+
+  selectCampus(campus: Campus) {
+    this.campusSvc.setCampus(campus);
   }
 
   showCampo() {}

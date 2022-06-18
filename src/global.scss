@@ -76,6 +76,52 @@ body {
   background: #fff;
 }
 
+.success-alert-action {
+  --background: #fff;
+
+  .alert-wrapper {
+    min-width: 300px;
+    border-radius: 10px;
+
+    .alert-message {
+      width: 85%;
+      margin: 0 auto;
+      padding: 0 0 23px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 20px;
+
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+      color: #383838;
+    }
+
+    .alert-button-group {
+      justify-content: center;
+      margin-bottom: 24px;
+      padding: 0;
+
+      button {
+        height: 63.86px;
+        margin: 0;
+
+        padding: 20px 16px;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 20px;
+        color: #009838;
+        text-transform: uppercase;
+      }
+
+      .alert-button-role-cancel {
+        color: #383838;
+        border-left: 1px solid #ddd;
+      }
+    }
+  }
+}
+
 // delete-confirmation {
 .delete-confirmation {
   --background: #fff;
