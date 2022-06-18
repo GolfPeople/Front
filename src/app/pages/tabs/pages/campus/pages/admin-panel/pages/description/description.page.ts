@@ -490,7 +490,7 @@ export class DescriptionPage implements OnInit {
         {
           text: 'Aceptar',
           handler: () => {
-            this.router.navigate(['/tabs/campus']);
+            this.router.navigate(['/tabs']);
           },
         },
       ],
@@ -514,7 +514,7 @@ export class DescriptionPage implements OnInit {
       )
       .subscribe((res) => {
         console.log(res);
-
+        loading.dismiss();
         alert.present();
       });
   }

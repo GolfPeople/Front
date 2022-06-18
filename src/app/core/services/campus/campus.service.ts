@@ -65,6 +65,6 @@ export class CampusService {
     formData.append('long', long);
     formData.append('photoCampus', photoCampus);
 
-    return this.http.post(`${URL}/edit/1/${id}`, formData);
+    return this.http.post(`${URL}/campus/edit/1/${id}`, formData);
   }
 }
