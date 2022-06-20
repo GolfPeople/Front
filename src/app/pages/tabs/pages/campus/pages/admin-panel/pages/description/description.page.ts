@@ -143,23 +143,41 @@ export class DescriptionPage implements OnInit {
     ).coords;
     this.coords = { latitude, longitude };
 
-    this.campusSvg.campus$.subscribe((data) => {
-      this.selectedCampus = data;
-      const designer = JSON.parse(data.designer);
-      console.log(data);
-      this.information.setValue(data.information);
-      this.services = JSON.parse(data.services);
-      this.userAddress = data.location;
-      this.hours = JSON.parse(data.hour);
-      this.days = JSON.parse(data.day);
-      this.year.setValue(designer.year);
-      this.name.setValue(designer.name);
-      this.title.setValue(designer.title);
-      if (designer.url) {
-        console.log(designer.url);
-        this.existingImage = designer.url;
-      }
-    });
+    // this.campusSvg.campus$.subscribe((data) => {
+    this.selectedCampus = JSON.parse(localStorage.getItem('edit_campus'));
+    const designer = JSON.parse(this.selectedCampus.designer);
+    console.log(this.selectedCampus);
+    this.information.setValue(this.selectedCampus.information);
+    this.services = JSON.parse(this.selectedCampus.services);
+    this.userAddress = this.selectedCampus.location;
+    this.hours = JSON.parse(this.selectedCampus.hour);
+    this.days = JSON.parse(this.selectedCampus.day);
+    this.year.setValue(designer.year);
+    this.name.setValue(designer.name);
+    this.title.setValue(designer.title);
+    if (designer.url) {
+      console.log(designer.url);
+      this.existingImage = designer.url;
+    }
+    // });
+
+    // this.campusSvg.campus$.subscribe((data) => {
+    //   this.selectedCampus = data;
+    //   const designer = JSON.parse(data.designer);
+    //   console.log(data);
+    //   this.information.setValue(data.information);
+    //   this.services = JSON.parse(data.services);
+    //   this.userAddress = data.location;
+    //   this.hours = JSON.parse(data.hour);
+    //   this.days = JSON.parse(data.day);
+    //   this.year.setValue(designer.year);
+    //   this.name.setValue(designer.name);
+    //   this.title.setValue(designer.title);
+    //   if (designer.url) {
+    //     console.log(designer.url);
+    //     this.existingImage = designer.url;
+    //   }
+    // });
 
     this.hours.forEach((hour, index) => {
       this.days.forEach((day, i) => {
