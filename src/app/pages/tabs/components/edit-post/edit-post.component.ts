@@ -127,7 +127,9 @@ export class EditPostComponent implements OnInit {
     private actionSheetCtrl: ActionSheetController,
     private platform: Platform,
     private domSanitizer: DomSanitizer,
-    private friendsSvc: FriendsService
+    private friendsSvc: FriendsService,
+    private alertCtrl: AlertController,
+    private router: Router
   ) {
     // this.initAutoComplete();
   }
@@ -338,9 +340,6 @@ export class EditPostComponent implements OnInit {
   }
 
   async edit(description, ubication) {
-    // const descriptionConcat = description.concat(
-    //   ` ${this.hashtagsString ? this.hashtagsString : ''}`
-    // );
     let descriptionConcat;
     this.hashtagsString === undefined
       ? (descriptionConcat = description)
@@ -350,27 +349,40 @@ export class EditPostComponent implements OnInit {
 
     if (ubication === '') ubication = 'En algún lugar';
 
-    console.log(ubication)
-
-
     const loading = await this.loadingCtrl.create({
       cssClass: 'loading-ctrl',
       spinner: 'crescent',
     });
     await loading.present();
+
+    const alert = await this.alertCtrl.create({
+      cssClass: 'success-alert-action ',
+      message: 'Su publicación ha sido editada con éxito',
+      buttons: [
+        {
+          text: 'OK, GRACIAS',
+          handler: () => {
+            this.router.navigate(['/tabs']);
+          },
+        },
+      ],
+    });
+
     await this.postsSvc
       .editPost(descriptionConcat, [], ubication, this.post.id)
-      .subscribe(() => {
-        this.postsSvc.getPostsAction();
-        loading.dismiss();
-        this.openModal('Su publicación ha sido editada con éxito');
-      },
-      error => {
-        console.log('Error -->',error)
-        loading.dismiss();
+      .subscribe(
+        () => {
+          this.postsSvc.getPostsAction();
+          loading.dismiss();
+          alert.present();
+          // this.openModal('Su publicación ha sido editada con éxito');
+        },
+        (error) => {
+          console.log('Error -->', error);
+          loading.dismiss();
+        }
+      );
 
-      });
-
-    this.closeModal();
+    // this.closeModal();
   }
 }

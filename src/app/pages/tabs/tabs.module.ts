@@ -8,7 +8,6 @@ import { TabsPageRoutingModule } from './tabs-routing.module';
 
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 
-
 import { TabsPage } from './tabs.page';
 import { QrComponent } from './components/qr/qr.component';
 import { EditPostComponent } from './components/edit-post/edit-post.component';

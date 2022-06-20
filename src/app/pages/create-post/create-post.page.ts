@@ -32,6 +32,7 @@ import { Observable } from 'rxjs';
 import { Friend } from 'src/app/core/models/friend.interface';
 import { FriendsService } from 'src/app/core/services/friends.service';
 import { finalize, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 declare var google: any;
 declare var window: any;
@@ -122,7 +123,8 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     private platform: Platform,
     private _location: Location,
     private cmra: cmra,
-    private friendsSvc: FriendsService
+    private friendsSvc: FriendsService,
+    private router: Router
   ) {}
 
   async ngAfterViewInit() {
@@ -181,7 +183,6 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     this.selectedVideo = null;
     this.uploadedVideo = null;
   }
-
 
   initFormControls() {
     const description = new FormControl('', {});
@@ -564,6 +565,19 @@ export class CreatePostPage implements OnInit, AfterViewInit {
         spinner: 'crescent',
       });
       await loading.present();
+
+      const alert = await this.alertCtrl.create({
+        cssClass: 'success-alert-action ',
+        message: 'Publicación creada con éxito',
+        buttons: [
+          {
+            text: 'OK, GRACIAS',
+            handler: () => {
+              this.router.navigate(['/tabs']);
+            },
+          },
+        ],
+      });
       await this.postsSvc
         .createPostWithImageFile(
           descriptionConcat,
@@ -576,8 +590,8 @@ export class CreatePostPage implements OnInit, AfterViewInit {
         .subscribe((res) => {
           console.log(res);
           loading.dismiss();
-
-          this.openModal('Publicación creada con éxito');
+          alert.present();
+          // this.openModal('Publicación creada con éxito');
         });
 
       return;
