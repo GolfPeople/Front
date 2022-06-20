@@ -22,7 +22,7 @@ export class NotificationsComponent implements OnInit {
   notifications: Notification[] = [];
   noReadedNotifications: any = [];
   notificationCounter: number;
-  buttonsCondition: string = 'te envió una solicitud de amistad'
+  buttonsCondition: string = 'te envió una solicitud de amistad';
 
   noRead: boolean = true;
   all: boolean = false;
@@ -87,17 +87,17 @@ export class NotificationsComponent implements OnInit {
   }
 
   onAccept(connectionId, i) {
-    this.noReadedNotifications.splice(i, 1)
-    this.friendsSvc.acceptRequest(connectionId).subscribe(res => {
-      console.log(res)
-    })
+    this.noReadedNotifications.splice(i, 1);
+    this.friendsSvc.acceptRequest(connectionId).subscribe((res) => {
+      console.log(res);
+    });
   }
 
   onDecline(connectionId, i) {
-    this.noReadedNotifications.splice(i, 1)
-    this.friendsSvc.declineRequest(connectionId).subscribe(res => {
-      console.log(res)
-    })
+    this.noReadedNotifications.splice(i, 1);
+    this.friendsSvc.declineRequest(connectionId).subscribe((res) => {
+      console.log(res);
+    });
   }
 
   next() {
@@ -115,7 +115,7 @@ export class NotificationsComponent implements OnInit {
   }
 
   show(user, id) {
-    this.router.navigate(['/website/post', user, id]);
+    this.router.navigate(['/tabs/post', user, id]);
     this.modalCtrl.dismiss();
   }
 
