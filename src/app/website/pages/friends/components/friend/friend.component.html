@@ -3,7 +3,7 @@
     <img [src]="user.profile.photo || avatarDefault" />
   </ion-avatar> -->
   <a
-    [routerLink]="['/website/user-profile', user.profile.user_id]"
+    [routerLink]="['/tabs/user-profile', user.profile.user_id]"
     class="avatar"
     [ngStyle]="{
       'background-image':
