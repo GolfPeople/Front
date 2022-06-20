@@ -85,8 +85,8 @@ export class DescriptionPage implements OnInit {
       selected: false,
     },
   ];
-  campusPhoto;
-  designerPhoto;
+  campusPhoto = null;
+  designerPhoto = null;
 
   daysA = [
     'Lunes',
@@ -495,6 +495,8 @@ export class DescriptionPage implements OnInit {
         },
       ],
     });
+
+    console.log('Foto del campo -->', this.campusPhoto);
 
     this.campusSvg
       .edit(
