@@ -25,7 +25,7 @@ import { PostsService } from '../../../core/services/posts.service';
 import { switchMap } from 'rxjs/operators';
 import { ReactionsService } from 'src/app/core/services/reactions.service';
 import { Like, PostsResponse } from 'src/app/core/interfaces/interfaces';
-import { EditPostComponent } from 'src/app/website/components/edit-post/edit-post.component';
+import { EditPostComponent } from 'src/app/pages/tabs/components/edit-post/edit-post.component';
 import { LikesComponent } from '../likes/likes.component';
 import { CommentsComponent } from '../comments/comments.component';
 
@@ -45,7 +45,7 @@ export class PostComponent implements OnInit {
 
   @Input() userName: string;
   @Input() likes: Like[];
-  @Output() delete = new EventEmitter()
+  @Output() delete = new EventEmitter();
   userID;
   count: number = 0;
 
@@ -144,19 +144,18 @@ export class PostComponent implements OnInit {
                 buttons: [
                   {
                     text: 'aceptar',
-                    handler: async  () => {
+                    handler: async () => {
                       const loading = await this.loadingCtrl.create({
-                        cssClass: 'loading-ctrl'
-                      })
-                      await loading.present()
-                      this.postsSvc.deletePost(this.post.id).subscribe(
-                        res => {
-                          console.log('Delete --> ', res)
-                          this.delete.emit()
-                          loading.dismiss()
-                        }
-
-                      )
+                        cssClass: 'loading-ctrl',
+                      });
+                      await loading.present();
+                      this.postsSvc
+                        .deletePost(this.post.id)
+                        .subscribe((res) => {
+                          console.log('Delete --> ', res);
+                          this.delete.emit();
+                          loading.dismiss();
+                        });
                     },
                   },
                   {
