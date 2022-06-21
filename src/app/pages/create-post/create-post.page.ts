@@ -153,6 +153,10 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     this.geoCodeLatLong(this.coords);
   }
 
+  clearInput() {
+    this.userAddress = '';
+  }
+
   ngAfterContentChecked(): void {
     if (this.swiper) {
       this.swiper.updateSwiper({});
