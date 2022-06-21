@@ -1,7 +1,7 @@
 @import "../../../../scss/variables.scss";
 
 ion-content {
-  --background: #fff;
+  --background: #00388b;
   //   background: linear-gradient(
   //       to bottom,
   //       rgba(0, 56, 139, 0.56) 38%,
@@ -107,7 +107,7 @@ ion-content {
   position: relative;
   width: 100%;
   padding: 27.5px 0 0;
-  top: -30px;
+  // top: -30px;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
   background-color: $color-white;

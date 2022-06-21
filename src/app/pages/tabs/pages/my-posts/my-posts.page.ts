@@ -32,6 +32,7 @@ export class MyPostsPage implements OnInit {
     await loading.present();
     this.postsSvc.myPosts(this.page).subscribe(({ data }) => {
       this.posts = data.filter((item) => item.files.length);
+      this.page = this.page + 1;
       console.log(data);
       loading.dismiss();
     });

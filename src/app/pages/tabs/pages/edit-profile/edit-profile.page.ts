@@ -156,9 +156,7 @@ export class EditProfilePage implements OnInit {
     this.isLoadingMore = true;
     this.postsSvc.myPosts(this.postsPage).subscribe(
       ({ data }) => {
-        this.postsData = this.postsData.concat(
-          data.filter((item) => item.files.length)
-        );
+        this.postsData = this.postsData.concat(data);
         this.isLoadingMore = false;
         if (data.length) {
           this.postsPage += 1;

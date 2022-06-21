@@ -86,9 +86,7 @@ export class HomePage implements OnInit {
     this.isLoadingMore = true;
     this.postsSvc.all(this.page).subscribe(
       ({ data }) => {
-        this.posts = this.posts.concat(
-          data.filter((item) => item.files.length)
-        );
+        this.posts = this.posts.concat(data);
         this.isLoadingMore = false;
         if (data.length) {
           this.page += 1;
