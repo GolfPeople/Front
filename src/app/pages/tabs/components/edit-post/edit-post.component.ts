@@ -362,7 +362,8 @@ export class EditPostComponent implements OnInit {
         {
           text: 'OK, GRACIAS',
           handler: () => {
-            this.router.navigate(['/tabs']);
+            this.router.navigate(['/tabs/profile']);
+            this.closeModal();
           },
         },
       ],

@@ -16,7 +16,6 @@ import {
   ModalController,
 } from '@ionic/angular';
 import { UserService } from 'src/app/core/services/user.service';
-import { CreatePostComponent } from 'src/app/website/components/create-post/create-post.component';
 import { SwiperOptions } from 'swiper';
 import { SwiperComponent } from 'swiper/angular';
 import SwiperCore, { Pagination, Lazy } from 'swiper';
@@ -41,6 +40,8 @@ export class PostComponent implements OnInit {
   @ViewChild('swiper') swiper: SwiperComponent;
 
   @Input() post: PostsResponse;
+  avatarDefault = 'assets/img/default-avatar.png';
+
   userPhoto: string = '';
 
   @Input() userName: string;

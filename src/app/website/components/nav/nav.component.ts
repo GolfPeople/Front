@@ -7,7 +7,6 @@ import {
 import { QrComponent } from 'src/app/website/components/qr/qr.component';
 import { LoginService } from '../../../core/services/login.service';
 import { UserService } from '../../../core/services/user.service';
-import { CreatePostComponent } from '../create-post/create-post.component';
 
 @Component({
   selector: 'app-nav',
@@ -44,16 +43,16 @@ export class NavComponent implements OnInit {
     this.loginService.logout();
   }
 
-  async openModal() {
-    const modal = await this.modalCtrl.create({
-      component: CreatePostComponent,
-      backdropDismiss: true,
-      cssClass: 'create-post-modal',
-      componentProps: {},
-    });
+  // async openModal() {
+  //   const modal = await this.modalCtrl.create({
+  //     component: CreatePostComponent,
+  //     backdropDismiss: true,
+  //     cssClass: 'create-post-modal',
+  //     componentProps: {},
+  //   });
 
-    await modal.present();
-  }
+  //   await modal.present();
+  // }
 
   async openQR() {
     const modal = await this.modalCtrl.create({

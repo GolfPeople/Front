@@ -8,7 +8,7 @@
           'url(' +
           (this.userID == post.user_id && userPhoto.length > 0
             ? userPhoto
-            : post.user.profile.photo) +
+            : post.user.profile.photo || avatarDefault) +
           ')'
       }"
     ></div>

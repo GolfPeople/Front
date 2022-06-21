@@ -41,6 +41,12 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'posts/:hashtag',
+        loadChildren: () =>
+          import('./pages/posts/posts.module').then((m) => m.PostsPageModule),
+      },
+
+      {
         path: 'friends',
         loadChildren: () =>
           import('./pages/friends/friends.module').then(
