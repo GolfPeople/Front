@@ -369,20 +369,24 @@ export class EditPostComponent implements OnInit {
     });
 
     await this.postsSvc
-      .editPost(descriptionConcat, [], ubication, this.post.id)
+      .editPost(
+        descriptionConcat,
+        [],
+        ubication,
+        this.taggedFriends,
+        this.taggedFriendsId,
+        this.post.id
+      )
       .subscribe(
         () => {
           this.postsSvc.getPostsAction();
           loading.dismiss();
           alert.present();
-          // this.openModal('Su publicación ha sido editada con éxito');
         },
         (error) => {
           console.log('Error -->', error);
           loading.dismiss();
         }
       );
-
-    // this.closeModal();
   }
 }

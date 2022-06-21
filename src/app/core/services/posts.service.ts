@@ -146,7 +146,14 @@ export class PostsService {
   }
 
   //Edita una publicación
-  editPost(description, files, ubication, id) {
+  editPost(
+    description,
+    files,
+    ubication,
+    friendsName: string[],
+    friendsId: string[],
+    id
+  ) {
     const formData: any = new FormData();
 
     files.forEach((file, index) => {
@@ -180,12 +187,11 @@ export class PostsService {
     const option = '3';
 
     formData.append('option', option);
-    return this.http
-      .post(`${URL}/publish/my_publish/toogle/${id}`, formData)
-      // .subscribe((res) => {
-      //   console.log('delete -->', res);
-      //   this.getPosts();
-      // });
+    return this.http.post(`${URL}/publish/my_publish/toogle/${id}`, formData);
+    // .subscribe((res) => {
+    //   console.log('delete -->', res);
+    //   this.getPosts();
+    // });
   }
 
   //Guardar una publicación
