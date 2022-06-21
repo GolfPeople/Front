@@ -1,4 +1,4 @@
-<ion-row class="ion-justify-content-center ion-align-items-start">
+<ion-row #list class="ion-justify-content-center ion-align-items-start">
   <ion-col class="ion-justify-content-center ion-align-items-start" size="12">
     <p class="no-posts" *ngIf="!posts.length">No tienes publicaciones.</p>
 
@@ -16,14 +16,22 @@
     >
       Cargar más
     </ion-button> -->
-    <ion-button
+    <!-- <ion-button
       (click)="onLoadMore()"
       [ngClass]="{ 'show-button': posts.length }"
       expand="block"
       *ngIf="!loadingMore"
       shape="round"
-    >
+      >
       Cargar más
-    </ion-button>
+    </ion-button> -->
   </ion-col>
 </ion-row>
+<!-- <ion-infinite-scroll threshold="100px" [disabled]="true" position="bottom" (ionInfinite)="onLoadMore($event)">
+  <ion-infinite-scroll-content loadingSpinner="circular" loadingText="Loading more data...">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll> -->
+<ion-infinite-scroll threshold="100px" (ionInfinite)="onLoadMore($event)">
+  <ion-infinite-scroll-content loadingSpinner="circular">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
