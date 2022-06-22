@@ -8,6 +8,7 @@ export interface Campus {
   created_at?: Date;
   updated_at?: Date;
   location: string;
+  photo?: string;
 }
 
 export interface Link {

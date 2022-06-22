@@ -19,6 +19,8 @@ SwiperCore.use([Navigation]);
 export class NotificationsComponent implements OnInit {
   @ViewChild('swiper') swiper: SwiperComponent;
 
+  avatarDefault: string = 'assets/img/default-avatar.png';
+
   notifications: Notification[] = [];
   noReadedNotifications: any = [];
   notificationCounter: number;

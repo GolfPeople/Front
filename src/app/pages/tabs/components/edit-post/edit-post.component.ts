@@ -309,6 +309,10 @@ export class EditPostComponent implements OnInit {
     console.log(this.tagsString);
   }
 
+  showValue(value) {
+    console.log(value);
+  }
+
   handleAddressChange(address: any) {
     this.userAddress = address.formatted_address;
     this.userLatitude = address.geometry.location.lat();
@@ -332,7 +336,13 @@ export class EditPostComponent implements OnInit {
   }
 
   closeModal() {
-    this.modalCtrl.dismiss();
+    this.modalCtrl.dismiss({
+      description: this.textArea.value,
+      hashtags: this.hashtags,
+      taggedFriends: this.taggedFriends,
+      taggedFriendsId: this.taggedFriendsId,
+      userAddress: this.userAddress,
+    });
   }
 
   descriptionValue() {
@@ -340,6 +350,10 @@ export class EditPostComponent implements OnInit {
   }
 
   async edit(description, ubication) {
+    const loading = await this.loadingCtrl.create({
+      cssClass: 'loading-ctrl',
+      spinner: 'crescent',
+    });
     let descriptionConcat;
     this.hashtagsString === undefined
       ? (descriptionConcat = description)
@@ -347,12 +361,12 @@ export class EditPostComponent implements OnInit {
 
     console.log('description -->', descriptionConcat);
 
-    if (ubication === '') ubication = 'En algún lugar';
+    if (ubication === '') {
+      this.userAddress = 'En algún lugar';
 
-    const loading = await this.loadingCtrl.create({
-      cssClass: 'loading-ctrl',
-      spinner: 'crescent',
-    });
+      ubication = 'En algún lugar';
+    }
+
     await loading.present();
 
     const alert = await this.alertCtrl.create({
@@ -362,7 +376,7 @@ export class EditPostComponent implements OnInit {
         {
           text: 'OK, GRACIAS',
           handler: () => {
-            this.router.navigate(['/tabs/profile']);
+            this.router.navigate(['/tabs/home']);
             this.closeModal();
           },
         },

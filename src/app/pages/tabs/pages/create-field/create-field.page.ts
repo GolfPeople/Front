@@ -13,6 +13,7 @@ import {
   ModalController,
   Platform,
 } from '@ionic/angular';
+import { CampusService } from 'src/app/core/services/campus/campus.service';
 import { GeolocationService } from 'src/app/core/services/geolocation.service';
 import { MyValidations } from 'src/app/utils/my-validations';
 import { environment } from 'src/environments/environment';
@@ -39,7 +40,7 @@ export class CreateFieldPage implements OnInit {
 
   selectedFiles: FileList;
   blobArrayData: Blob[] = [];
-  campusPhoto;
+  campusPhoto: Blob;
 
   form: FormGroup;
 
@@ -124,7 +125,8 @@ export class CreateFieldPage implements OnInit {
     private modalCtrl: ModalController,
     private geolocationSvg: GeolocationService,
     private platform: Platform,
-    private actionSheetCtrl: ActionSheetController
+    private actionSheetCtrl: ActionSheetController,
+    private campusSvc: CampusService
   ) {}
 
   async ngOnInit() {
@@ -449,8 +451,16 @@ export class CreateFieldPage implements OnInit {
     this.services.forEach((item) => {
       formData.append('services[]', item);
     });
-    formData.append('photo', this.designerImage);
-    formData.append('campusPhoto', this.campusPhoto);
+    formData.append(
+      'photo',
+      this.designerImage,
+      `${this.designerImage.size}${new Date().getTime()}`
+    );
+    formData.append(
+      'photoCampus',
+      this.campusPhoto,
+      `${this.campusPhoto.size}${new Date().getTime()}`
+    );
     formData.append('name', this.name.value);
     formData.append('title', this.title.value);
     formData.append('year', this.year.value);
@@ -469,5 +479,20 @@ export class CreateFieldPage implements OnInit {
       loading.dismiss();
       this.openModal('Campo creado con éxito');
     });
+
+    this.campusSvc.createCamp(
+      this.information.value,
+      this.services,
+      this.designerImage,
+      this.campusPhoto,
+      this.name.value,
+      this.title.value,
+      this.year.value,
+      this.days,
+      this.hours,
+      this.userLatitude,
+      this.userLongitude,
+      this.userAddress
+    );
   }
 }

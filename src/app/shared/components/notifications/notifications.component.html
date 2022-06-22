@@ -26,7 +26,12 @@
           *ngFor="let notificacion of noReadedNotifications; index as i"
         >
           <ion-avatar class="ion-margin-end">
-            <img [src]="notificacion.data.data.user_sender.profile.photo" />
+            <img
+              [src]="
+                notificacion.data.data.user_sender.profile.photo ||
+                avatarDefault
+              "
+            />
           </ion-avatar>
           <ion-label
             (click)="

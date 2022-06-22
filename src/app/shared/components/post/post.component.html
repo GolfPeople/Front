@@ -15,7 +15,7 @@
 
     <div class="header-text">
       <h3>{{ post.user.name }}</h3>
-      <p>{{ post.ubication }}</p>
+      <p>{{ address || post.ubication }}</p>
     </div>
     <a (click)="onClick()" class="three-dots">
       <img src="../../../../assets/post/points.png" alt="" />
@@ -65,9 +65,10 @@
         >{{ count }} {{ count > 1 ? "likes" : "like" }}</a
       > -->
       <p>
-        <strong>{{ post.user.name }}</strong> {{ post.description }}
+        <strong>{{ post.user.name }}</strong>
+        {{ description || post.description }}
         <a
-          *ngFor="let hashtag of post.hashtags | jsonToData"
+          *ngFor="let hashtag of hashtags"
           [routerLink]="['/tabs/posts/', hashtag]"
           >#{{ hashtag }}
         </a>

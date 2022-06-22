@@ -29,6 +29,45 @@ export class CampusService {
     console.log('Campo selecionado', campus);
   }
 
+  createCamp(
+    information: string,
+    services: string[],
+    photo: Blob,
+    photoCampus: Blob,
+    name: string,
+    title: string,
+    year: string,
+    days: string[],
+    hours: string[],
+    lat: any,
+    long: any,
+    location: string
+  ) {
+    const formData = new FormData();
+    formData.append('information', information);
+    services.forEach((item) => {
+      formData.append('services[]', item);
+    });
+    formData.append('photo', photo, `${photo.size}${new Date().getTime()}`);
+    formData.append(
+      'photoCampus',
+      photoCampus,
+      `${photoCampus.size}${new Date().getTime()}`
+    );
+    formData.append('name', name);
+    formData.append('title', title);
+    formData.append('year', year);
+    days.forEach((item) => {
+      formData.append('day[]', item);
+    });
+    hours.forEach((item) => {
+      formData.append('hour[]', item);
+    });
+    formData.append('lat', lat);
+    formData.append('long', long);
+    formData.append('location', location);
+  }
+
   edit(
     id,
     information: string,

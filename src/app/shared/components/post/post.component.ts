@@ -27,6 +27,7 @@ import { Like, PostsResponse } from 'src/app/core/interfaces/interfaces';
 import { EditPostComponent } from 'src/app/pages/tabs/components/edit-post/edit-post.component';
 import { LikesComponent } from '../likes/likes.component';
 import { CommentsComponent } from '../comments/comments.component';
+import { threadId } from 'worker_threads';
 
 SwiperCore.use([Lazy, Pagination]);
 
@@ -40,6 +41,9 @@ export class PostComponent implements OnInit {
   @ViewChild('swiper') swiper: SwiperComponent;
 
   @Input() post: PostsResponse;
+  description: string = '';
+  hashtags: string[];
+  address: string = '';
   avatarDefault = 'assets/img/default-avatar.png';
 
   userPhoto: string = '';
@@ -78,6 +82,7 @@ export class PostComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.hashtags = JSON.parse(this.post.hashtags);
     if (this.post.likes.length > 0) {
       this.count = this.post.likes.length;
       this.post.likes.forEach((item) => {
@@ -186,6 +191,29 @@ export class PostComponent implements OnInit {
                 componentProps: {
                   post: this.post,
                 },
+              });
+
+              modal.onDidDismiss().then(async ({ data }) => {
+                this.description = data.description;
+                this.hashtags = data.hashtags;
+                // this.taggedFriends = data.taggedFriends;
+                // this.taggedFriendsId = data.taggedFriendsId;
+                if (data.taggedFriends.length) {
+                  for (let i = 0; i < data.taggedFriends.length; i++) {
+                    const name = data.taggedFriends[i];
+                    const id = data.taggedFriendsId[i];
+                    const obj = {
+                      name,
+                      id,
+                    };
+                    this.tagged.push(obj);
+                  }
+                } else {
+                  this.tagged = [];
+                }
+
+                this.address = data.userAddress;
+                console.log('Data TEST -->', data);
               });
 
               await modal.present();

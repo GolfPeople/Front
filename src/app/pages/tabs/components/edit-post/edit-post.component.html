@@ -94,6 +94,7 @@
             name="location"
             ngx-google-places-autocomplete
             (onAddressChange)="handleAddressChange($event)"
+            (ngModelChange)="showValue($event)"
           />
         </ion-item>
         <br />

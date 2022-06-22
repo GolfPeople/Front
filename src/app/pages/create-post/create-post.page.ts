@@ -577,7 +577,7 @@ export class CreatePostPage implements OnInit, AfterViewInit {
           {
             text: 'OK, GRACIAS',
             handler: () => {
-              this.router.navigate(['/tabs/profile']);
+              this.router.navigate(['/tabs/home']);
             },
           },
         ],

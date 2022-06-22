@@ -1,13 +1,13 @@
 <div class="card">
-  <a
+  <!-- <a
     [routerLink]="['/tabs/campus/admin-panel']"
     (click)="selectCampus(campo)"
     class="edit"
   >
     <img src="../../../../assets/icons/edit-pencil-grey.svg" alt="" />
-  </a>
+  </a> -->
   <div class="card-image">
-    <img src="../../../../assets/img/campo-image-card.svg" alt="" />
+    <img [src]="campo.photo" alt="" />
   </div>
   <ion-item class="ion-no-padding" lines="none">
     <ion-label>
@@ -17,7 +17,11 @@
   </ion-item>
 
   <div class="card-buttons">
-    <ion-button (click)="showCampo()" shape="round">
+    <ion-button
+      shape="round"
+      [routerLink]="['/tabs/campus/admin-panel']"
+      (click)="selectCampus(campo)"
+    >
       Administrar campo
     </ion-button>
     <div slot="end" class="reaction-buttons">
