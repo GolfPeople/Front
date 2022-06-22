@@ -88,17 +88,24 @@ export class NotificationsComponent implements OnInit {
     });
   }
 
-  onAccept(connectionId, i) {
+  onAccept(connectionId, notificationId, i) {
     this.noReadedNotifications.splice(i, 1);
     this.friendsSvc.acceptRequest(connectionId).subscribe((res) => {
       console.log(res);
     });
+    this.notifocationsSvc
+      .markAsReadOne(notificationId)
+      .subscribe((res) => console.log(res));
   }
 
-  onDecline(connectionId, i) {
+  onDecline(connectionId, notificationId, i) {
     this.noReadedNotifications.splice(i, 1);
     this.friendsSvc.declineRequest(connectionId).subscribe((res) => {
       console.log(res);
+
+      this.notifocationsSvc
+        .markAsReadOne(notificationId)
+        .subscribe((res) => console.log(res));
     });
   }
 
