@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { Campus } from 'src/app/core/models/campus.interface';
 import { GeolocationService } from 'src/app/core/services/geolocation.service';
 import { UserService } from 'src/app/core/services/user.service';
+import { CreateFieldPage } from '../create-field/create-field.page';
 import { CampusDataService } from './services/campus-data.service';
 
 declare var google: any;
@@ -27,7 +29,9 @@ export class CampusPage implements OnInit {
     private loadingCtrl: LoadingController,
     private campusSvg: CampusDataService,
     private geolocationSvc: GeolocationService,
-    private userSvc: UserService
+    private userSvc: UserService,
+    private router: Router,
+    private modalCtrl: ModalController
   ) {}
 
   async ngOnInit() {
@@ -57,6 +61,13 @@ export class CampusPage implements OnInit {
         loading.dismiss();
       }
     );
+  }
+
+  async createCamp() {
+    const modal = await this.modalCtrl.create({
+      component: CreateFieldPage,
+    });
+    await modal.present();
   }
 
   clearInput() {

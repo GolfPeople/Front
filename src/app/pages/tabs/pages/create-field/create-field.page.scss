@@ -1,5 +1,49 @@
 @import "../../../../scss/variables.scss";
 
+ion-header {
+  border: 0 !important;
+  ion-toolbar {
+    --background: #00388b !important;
+    ion-title {
+      margin-right: 50px;
+
+      h2 {
+        font-weight: 700;
+        font-size: 1.6rem;
+        line-height: 2.2rem;
+        /* identical to box height, or 22px */
+
+        font-variant: small-caps;
+        display: flex;
+        justify-content: center;
+
+        color: #ffffff;
+        text-transform: uppercase;
+
+        img {
+          width: 18px;
+          height: 18px;
+          object-fit: cover;
+          margin-right: 0.8rem;
+        }
+      }
+    }
+  }
+
+  ion-button {
+    width: 54px;
+    height: 100%;
+
+    ion-icon {
+      color: #fff;
+    }
+  }
+
+  &::after {
+    display: none;
+  }
+}
+
 ion-content {
   --background: #fff;
 }
@@ -81,7 +125,6 @@ ion-content {
     }
   }
 }
-
 
 .section-1 {
   display: flex;
@@ -234,10 +277,9 @@ ion-content {
         color: #383838;
         outline: none;
         border: 1px solid rgb(129, 129, 129);
-        
       }
 
-      input[type=time] {
+      input[type="time"] {
         // border: none;
         border-radius: 8px;
         padding: 5px;
@@ -247,10 +289,11 @@ ion-content {
         font-family: helvetica;
         // width: 180px;
       }
-      input[type="time"]::-webkit-calendar-picker-indicator{
+      input[type="time"]::-webkit-calendar-picker-indicator {
         // width: 100%;
         // background: transparent;
-        filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(130deg) brightness(95%) contrast(80%);
+        filter: invert(48%) sepia(13%) saturate(3207%) hue-rotate(130deg)
+          brightness(95%) contrast(80%);
       }
     }
     // ion-button {
@@ -263,7 +306,7 @@ ion-content {
   .tags-row {
     margin: 1rem 0;
   }
-  
+
   .hashtags {
     display: flex;
     align-items: center;
@@ -273,8 +316,8 @@ ion-content {
     padding: 0.5rem;
     border-radius: 0.5rem;
     border: 1px solid #ddd;
-    margin: .25rem;
-  
+    margin: 0.25rem;
+
     p {
       font-size: 1.3rem;
       font-weight: 500;
@@ -374,13 +417,10 @@ ion-input {
   color: #000;
 }
 
-
 .validation-text {
   font-size: 12px;
   color: red !important;
 }
-
-
 
 .validation-errors {
   font-size: small;

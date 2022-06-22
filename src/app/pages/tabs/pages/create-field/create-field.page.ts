@@ -157,6 +157,10 @@ export class CreateFieldPage implements OnInit {
     await modal.present();
   }
 
+  closeCreate() {
+    this.modalCtrl.dismiss();
+  }
+
   initForm(): any {
     // return this.fb.group({
     //   information: ['', [Validators.required]],

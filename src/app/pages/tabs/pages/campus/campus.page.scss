@@ -1,5 +1,40 @@
 @import "../../../../scss/variables.scss";
 
+ion-header {
+  border: 0 !important;
+  ion-toolbar {
+    --background: #00388b !important;
+    ion-title {
+      h2 {
+        font-weight: 700;
+        font-size: 1.4rem;
+        line-height: 2.2rem;
+        /* identical to box height, or 22px */
+
+        font-variant: small-caps;
+        display: flex;
+        justify-content: center;
+
+        color: #ffffff;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  ion-button {
+    // width: 54px;
+    // height: 100%;
+
+    ion-icon {
+      color: #fff;
+    }
+  }
+
+  &::after {
+    display: none;
+  }
+}
+
 ion-content {
   --background: #fff;
 }

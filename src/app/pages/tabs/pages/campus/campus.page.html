@@ -1,4 +1,27 @@
-<app-header text="campos"></app-header>
+<!-- <app-header text="administración de campos"></app-header> -->
+<ion-header>
+  <ion-toolbar mode="md" class="ion-no-border ion-no-margin">
+    <ion-buttons slot="start">
+      <ion-back-button mode="md" defaultHref="/tabs">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+        <!-- <img src="assets/icons/arrow-back.svg" alt=""> -->
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <h2>{{'administración de campos' | uppercase}}</h2>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="createCamp()">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-fab-list side="start">
+  <ion-fab-button><ion-icon name="logo-ionic"></ion-icon></ion-fab-button>
+  <ion-fab-button><ion-icon name="logo-angular"></ion-icon></ion-fab-button>
+</ion-fab-list>
 <div class="search-container">
   <h3>Resultados de tu búsqueda</h3>
   <div class="search">

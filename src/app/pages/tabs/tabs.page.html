@@ -90,7 +90,7 @@
                     alt=""
                   />
                 </div>
-                MIS PUBLICAIONES
+                MIS PUBLICACIONES
               </a>
             </ion-item>
           </ion-menu-toggle>
@@ -132,24 +132,13 @@
                     src="../../../../assets/icons/tab/guardados.svg"
                     alt=""
                   /> -->
-                  <ion-icon color="dark" size="large" name="layers-outline"></ion-icon>
+                  <ion-icon
+                    color="dark"
+                    size="large"
+                    name="layers-outline"
+                  ></ion-icon>
                 </div>
                 CAMPOS
-              </a>
-            </ion-item>
-          </ion-menu-toggle>
-          <ion-menu-toggle>
-            <ion-item lines="none" class="list-item">
-              <a [routerLink]="['/tabs/create-field']">
-                <div class="logo-container">
-                  <!-- <img
-                    class="save"
-                    src="../../../../assets/icons/tab/guardados.svg"
-                    alt=""
-                  /> -->
-                  <ion-icon color="dark" size="large" name="leaf-outline"></ion-icon>
-                </div>
-                CREAR CAMPO
               </a>
             </ion-item>
           </ion-menu-toggle>
@@ -170,7 +159,10 @@
         </ion-list>
         <!-- <div> -->
         <ion-menu-toggle>
-          <ion-button  [routerLink]="['/tabs/campus']" class="next-button" expand="block"
+          <ion-button
+            [routerLink]="['/tabs/campus']"
+            class="next-button"
+            expand="block"
             >Admin panel</ion-button
           >
         </ion-menu-toggle>

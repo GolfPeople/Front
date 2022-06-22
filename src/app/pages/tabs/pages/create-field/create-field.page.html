@@ -1,6 +1,24 @@
 <ion-content>
-  <app-header no img="assets/icons/admin-panel.svg" text="admin panel">
-  </app-header>
+  <!-- <app-header
+    defaultHref="/tabs/campus"
+    img="assets/icons/admin-panel.svg"
+    text="admin panel"
+  >
+  </app-header> -->
+
+  <ion-header>
+    <ion-toolbar mode="md" class="ion-no-border ion-no-margin">
+      <ion-buttons slot="start">
+        <ion-button mode="md" (click)="closeCreate()">
+          <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+          <!-- <img src="assets/icons/arrow-back.svg" alt=""> -->
+        </ion-button>
+      </ion-buttons>
+      <ion-title>
+        <h2>{{'crear campo' | uppercase}}</h2>
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
   <div class="banner">
     <img src="assets/img/admin-avatar.svg" />
     <h3>DESCRICIÓN DEL CAMPO</h3>
@@ -150,7 +168,7 @@
         max="2100"
       />
     </div>
-    <ion-item class="ion-no-padding" *ngIf="year.value > 2022"lines="none">
+    <ion-item class="ion-no-padding" *ngIf="year.value > 2022" lines="none">
       <ion-label class="validation-text">Valor máximo 2022</ion-label>
     </ion-item>
     <div class="section_title">

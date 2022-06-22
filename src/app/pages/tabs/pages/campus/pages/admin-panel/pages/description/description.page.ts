@@ -145,6 +145,7 @@ export class DescriptionPage implements OnInit {
 
     // this.campusSvg.campus$.subscribe((data) => {
     this.selectedCampus = JSON.parse(localStorage.getItem('edit_campus'));
+    this.backgroundImages.push(this.selectedCampus.photo);
     const designer = JSON.parse(this.selectedCampus.designer);
     console.log(this.selectedCampus);
     this.information.setValue(this.selectedCampus.information);
