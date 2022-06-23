@@ -24,7 +24,8 @@ export class NotificationsComponent implements OnInit {
   notifications: Notification[] = [];
   noReadedNotifications: any = [];
   notificationCounter: number;
-  buttonsCondition: string = 'te envió una solicitud de amistad';
+  friendRequest: string = 'te envió una solicitud de amistad';
+  friends: string = 'ha aceptado la solicitud de amistad';
 
   noRead: boolean = true;
   all: boolean = false;
@@ -86,6 +87,44 @@ export class NotificationsComponent implements OnInit {
       });
       this.notifocationsSvc.noReaedCount();
     });
+  }
+
+  markOneAsRead(notificationId, index) {
+    this.noReadedNotifications.splice(index, 1);
+    this.notifocationsSvc
+      .markAsReadOne(notificationId)
+      .subscribe((res) => console.log(res));
+    this.modalCtrl.dismiss();
+  }
+
+  // showProfile(notificacion.data.data.user_sender.id)
+
+  showReaction(
+    userId: number,
+    publicationId: string,
+    notificationId: string,
+    index: number,
+    markAsRead: boolean
+  ) {
+    console.log(userId, notificationId, index, markAsRead);
+
+    this.router.navigate(['/tabs/post', userId, publicationId]);
+    markAsRead
+      ? this.markOneAsRead(notificationId, index)
+      : this.modalCtrl.dismiss();
+  }
+
+  showProfile(
+    userId: number,
+    notificationId: string,
+    index: number,
+    markAsRead: boolean
+  ) {
+    console.log(userId, notificationId, index, markAsRead);
+    this.router.navigate(['/tabs/user-profile', userId]);
+    markAsRead
+      ? this.markOneAsRead(notificationId, index)
+      : this.modalCtrl.dismiss();
   }
 
   onAccept(connectionId, notificationId, i) {

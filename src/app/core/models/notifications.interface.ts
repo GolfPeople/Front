@@ -44,6 +44,7 @@ export interface NotificationData {
 
 export interface Data {
   data: NotificationData;
+  id: string;
 }
 
 export interface Notification {

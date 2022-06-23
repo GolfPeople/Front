@@ -24,6 +24,31 @@
         </ion-item>
         <ion-item
           *ngFor="let notificacion of noReadedNotifications; index as i"
+          (click)="
+            notificacion.data.data.type === 'Like'
+              ? showReaction(
+                  notificacion.data.data.user_sender.id,
+                  notificacion.data.data.publication_id,
+                  notificacion.id,
+                  i,
+                  true
+                )
+              : notificacion.data.data.detail.includes(friendRequest)
+              ? showProfile(
+                  notificacion.data.data.user_sender.id,
+                  notificacion.id,
+                  i,
+                  false
+                )
+              : notificacion.data.data.detail.includes(friends)
+              ? showProfile(
+                  notificacion.data.data.user_id,
+                  notificacion.id,
+                  i,
+                  true
+                )
+              : null
+          "
         >
           <ion-avatar class="ion-margin-end">
             <img
@@ -33,19 +58,11 @@
               "
             />
           </ion-avatar>
-          <ion-label
-            (click)="
-              show(
-                notificacion.data.data.user_sender.name,
-                notificacion.data.data.publication_id
-              )
-            "
-            class="normal"
-          >
+          <ion-label class="normal">
             {{ notificacion.data.data.detail }}
           </ion-label>
           <ion-buttons
-            *ngIf="notificacion.data.data.detail.includes(buttonsCondition)"
+            *ngIf="notificacion.data.data.detail.includes(friendRequest)"
             slot="end"
           >
             <ion-button
@@ -81,19 +98,38 @@
     </ng-template>
     <ng-template swiperSlide>
       <ion-list>
-        <ion-item *ngFor="let notificacion of notifications">
+        <ion-item
+          *ngFor="let notificacion of notifications"
+          (click)="
+            notificacion.data.data.type === 'Like' || 'Comment'
+              ? showReaction(
+                  notificacion.data.data.user_sender.id,
+                  notificacion.data.data.publication_id,
+                  notificacion.id,
+                  i,
+                  false
+                )
+              : notificacion.data.data.detail.includes(friendRequest)
+              ? showProfile(
+                  notificacion.data.data.user_sender.id,
+                  notificacion.id,
+                  i,
+                  false
+                )
+              : notificacion.data.data.detail.includes(friends)
+              ? showProfile(
+                  notificacion.data.data.user_sender.id,
+                  notificacion.id,
+                  i,
+                  false
+                )
+              : null
+          "
+        >
           <ion-avatar class="ion-margin-end">
             <img [src]="notificacion.data.data.user_sender.profile.photo" />
           </ion-avatar>
-          <ion-label
-            (click)="
-              show(
-                notificacion.data.data.user_sender.name,
-                notificacion.data.data.publication_id
-              )
-            "
-            class="normal"
-          >
+          <ion-label class="normal">
             {{ notificacion.data.data.detail }}
             <div class="footer-notification">
               <!-- <a (click)="markAsread(notificacion.id)"> Responder</a> -->
