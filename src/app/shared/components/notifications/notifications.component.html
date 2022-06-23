@@ -101,7 +101,7 @@
         <ion-item
           *ngFor="let notificacion of notifications; index as in"
           (click)="
-            notificacion.data.data.type === 'Like' || 'Comment'
+            notificacion.data.data.type === 'Like'
               ? showReaction(
                   notificacion.data.data.user_sender.id,
                   notificacion.data.data.publication_id,
