@@ -23,7 +23,7 @@
           <ion-checkbox (ionChange)="markAsread()" slot="end"></ion-checkbox>
         </ion-item>
         <ion-item
-          *ngFor="let notificacion of noReadedNotifications; index as in"
+          *ngFor="let notificacion of noReadedNotifications; index as i"
           (click)="
             notificacion.data.data.type === 'Like'
               ? showReaction(
@@ -99,7 +99,7 @@
     <ng-template swiperSlide>
       <ion-list>
         <ion-item
-          *ngFor="let notificacion of notifications; index as in"
+          *ngFor="let notificacion of notifications; index as i"
           (click)="
             notificacion.data.data.type === 'Like' || 'Comment'
               ? showReaction(
