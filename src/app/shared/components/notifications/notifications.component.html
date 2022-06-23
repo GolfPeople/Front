@@ -99,7 +99,7 @@
     <ng-template swiperSlide>
       <ion-list>
         <ion-item
-          *ngFor="let notificacion of notifications; index as i"
+          *ngFor="let notificacion of notifications; index as in"
           (click)="
             notificacion.data.data.type === 'Like' || 'Comment'
               ? showReaction(
