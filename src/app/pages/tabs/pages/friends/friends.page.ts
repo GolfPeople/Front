@@ -25,8 +25,8 @@ export class FriendsPage implements OnInit {
   following: boolean = true;
 
   searchItem: string = '';
-  public users$: Observable<Friend[]> | any;
-  public friends$: Observable<Friend[]> | any;
+  public users$: Observable<Friend[]>;
+  public friends$: Observable<Friend[]>;
   usersArray: Friend[];
   friendsArray: Friend[];
   friendsData: boolean = true;

@@ -42,27 +42,25 @@
     <ng-template swiperSlide>
       <p class="searching" *ngIf="isLoading">Buscando...</p>
 
-      <ion-list class="Searched-friends" lines="none">
-        <h3 *ngIf=" !friendsData" class="list-title">Tus amigos</h3>
+      <ion-list
+        *ngIf="friends$ | async as fr"
+        class="Searched-friends"
+        lines="none"
+      >
+        <p class="searching" *ngIf="!searchItem && !fr.length">
+          No tienes amigos
+        </p>
+        <p class="searching" *ngIf="searchItem &&  !fr.length">
+          No se ha encontrado usuarios
+        </p>
+        <h3 *ngIf="fr.length" class="list-title">Tus amigos</h3>
+
         <app-friend
           *ngFor="let data of friends$ | async"
           [user]="data"
           [isFriend]="true"
         ></app-friend>
       </ion-list>
-
-      <!-- <ion-list
-        class="friends1"
-        *ngIf="friendsData && friends.length"
-        lines="none"
-      >
-        <h3 class="list-title">Tus amigos</h3>
-        <app-friend
-          *ngFor="let data of friends; index as i"
-          [user]="data.to"
-          [isFriend]="true"
-        ></app-friend>
-      </ion-list> -->
     </ng-template>
     <ng-template swiperSlide>
       <p class="searching" *ngIf="isLoading">Buscando...</p>
