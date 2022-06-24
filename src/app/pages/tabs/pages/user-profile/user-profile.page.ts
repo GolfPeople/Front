@@ -36,6 +36,7 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
   posts: PostsResponse[] = [];
   page = 1;
   isLoadingMore: boolean = false;
+  isMyProfile: boolean = false;
 
   profileUrl: string = 'https://golf-people.web.app/tabs/user-profile';
   value: string;
@@ -99,6 +100,12 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
       .subscribe((res) => {
         console.log(res);
         this.userInfo = res;
+
+        if (this.userInfo.id == this.myId) {
+          this.isMyProfile = true;
+          // loading.dismiss();
+          // return;
+        }
 
         if (this.userInfo.friends.length) {
           console.log('Frends test -->');

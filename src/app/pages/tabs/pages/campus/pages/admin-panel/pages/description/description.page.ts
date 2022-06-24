@@ -53,6 +53,9 @@ export class DescriptionPage implements OnInit {
   days: string[] = [];
   hours: string[] = [];
 
+  campusPhoto = null;
+  designerPhoto = null;
+
   selectedTimes: string[] = [];
 
   optionButtons = [
@@ -85,8 +88,6 @@ export class DescriptionPage implements OnInit {
       selected: false,
     },
   ];
-  campusPhoto = null;
-  designerPhoto = null;
 
   daysA = [
     'Lunes',
@@ -114,8 +115,8 @@ export class DescriptionPage implements OnInit {
 
   // Autocomplete address
   userAddress: string | any = '';
-  userLatitude: string = '';
-  userLongitude: string = '';
+  userLatitude: any = '';
+  userLongitude: any = '';
 
   constructor(
     private fb: FormBuilder,
@@ -156,6 +157,8 @@ export class DescriptionPage implements OnInit {
     this.year.setValue(designer.year);
     this.name.setValue(designer.name);
     this.title.setValue(designer.title);
+    this.userLatitude = this.selectedCampus.lat;
+    this.userLongitude = this.selectedCampus.long;
     if (designer.url) {
       console.log(designer.url);
       this.existingImage = designer.url;
@@ -516,10 +519,9 @@ export class DescriptionPage implements OnInit {
     });
 
     console.log('Foto del campo -->', this.campusPhoto);
-
     this.campusSvg
       .edit(
-        15,
+        this.selectedCampus.id,
         this.information.value,
         this.services,
         this.designerImage,

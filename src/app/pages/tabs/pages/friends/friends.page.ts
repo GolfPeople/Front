@@ -41,49 +41,26 @@ export class FriendsPage implements OnInit {
   ) {}
 
   async ngOnInit() {
-    const loading = await this.loadingCtrl.create({
-      cssClass: 'loading-ctrl',
-    });
-    await loading.present();
-    this.friendsSvc.following(this.friendsPage).subscribe(({ data }) => {
-      this.friendsPage += 1;
-      this.friends = data;
-      loading.dismiss();
-    });
+    this.search('');
   }
 
   search(value: string) {
-    this.isLoading = true;
-
-    console.log(value);
-    if (this.searchItem === '') {
-      this.friendsData = true;
-      this.isLoading = false;
-      console.log(this.friendsData);
-
-      this.users$ = new Observable();
-      this.friends$ = new Observable();
-
-      return;
+    console.log('Buscando...');
+    if (!this.isLoading) {
+      this.isLoading = true;
     }
-
-    if (value) {
-      this.friends$ = this.friendsSvc.searchFriend(value).pipe(
-        // debounceTime(500),
-        map((data) => data.data),
-        finalize(() => {
-          this.friendsData = false;
-        })
-      );
-      this.users$ = this.friendsSvc.search(value).pipe(
-        // debounceTime(500),
-        map((data) => data.data),
-        finalize(() => {
-          this.isLoading = false;
-        })
-      );
-    }
-    return;
+    this.friends$ = this.friendsSvc.searchFriend(value).pipe(
+      map((data) => data.data),
+      finalize(() => {
+        this.friendsData = false;
+      })
+    );
+    this.users$ = this.friendsSvc.search(value).pipe(
+      map((data) => data.data),
+      finalize(() => {
+        this.isLoading = false;
+      })
+    );
   }
 
   addedFriend(friend, index) {
@@ -101,17 +78,11 @@ export class FriendsPage implements OnInit {
     this.all = true;
     this.following = false;
     this.search(this.searchItem);
-    this.friendsSvc.following(1).subscribe(({ data }) => {
-      this.friends = data;
-    });
   }
   prev() {
     this.swiper.swiperRef.slidePrev(500);
     this.all = false;
     this.following = true;
     this.search(this.searchItem);
-    this.friendsSvc.following(1).subscribe(({ data }) => {
-      this.friends = data;
-    });
   }
 }

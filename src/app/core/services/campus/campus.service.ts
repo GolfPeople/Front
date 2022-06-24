@@ -88,7 +88,7 @@ export class CampusService {
     services.forEach((item) => {
       formData.append('services[]', item);
     });
-    formData.append('photo', photo);
+
     formData.append('name', name);
     formData.append('title', title);
     formData.append('year', year);
@@ -102,7 +102,16 @@ export class CampusService {
 
     formData.append('lat', lat);
     formData.append('long', long);
-    formData.append('photoCampus', photoCampus);
+    if (photo) {
+      formData.append('photo', photo, `${new Date().getTime()}${photo.size}`);
+    }
+    if (photoCampus) {
+      formData.append(
+        'photoCampus',
+        photoCampus,
+        `${new Date().getTime()}${photoCampus.size}`
+      );
+    }
 
     return this.http.post(`${URL}/campus/edit/1/${id}`, formData);
   }

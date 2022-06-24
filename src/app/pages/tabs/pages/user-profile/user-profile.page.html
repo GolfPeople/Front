@@ -18,7 +18,7 @@
         >
           {{following ? 'Unfollow' : 'Follow'}}
         </ion-button> -->
-        <a class="favorite" (click)="favorite()">
+        <a *ngIf="!isMyProfile" class="favorite" (click)="favorite()">
           <img
             class="share-icon"
             src="../../../../assets/icons/user-profile/save.svg"
@@ -50,7 +50,7 @@
       <img src="../../../../assets/icons/user-profile/king.svg" />
       <p>Socio Real Club Valderrama</p>
     </div>
-    <div class="header-buttons">
+    <div *ngIf="!isMyProfile" class="header-buttons">
       <ion-button
         [routerLink]="['/chat', id]"
         *ngIf="following"

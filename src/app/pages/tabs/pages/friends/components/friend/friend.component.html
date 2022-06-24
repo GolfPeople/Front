@@ -1,7 +1,4 @@
 <ion-item lines="none">
-  <!-- <ion-avatar [routerLink]="['/website/user-profile', user.profile.user_id]">
-    <img [src]="user.profile.photo || avatarDefault" />
-  </ion-avatar> -->
   <a
     [routerLink]="['/tabs/user-profile', user.profile.user_id]"
     class="avatar"
@@ -10,7 +7,6 @@
         'url(' + (user.profile.photo ? user.profile.photo : avatarDefault) + ')'
     }"
   >
-    <!-- <img [src]="user.profile.photo || avatarDefault" /> -->
   </a>
   <ion-label>
     <h4>
@@ -48,15 +44,5 @@
         name="time-outline"
       ></ion-icon>
     </a>
-    <!-- <ion-button
-      *ngIf="following"
-      (click)="unfollow(user.id)"
-      color="danger"
-      expand="block"
-      fill="clear"
-      shape="round"
-    >
-      <ion-icon name="trash"></ion-icon>
-    </ion-button> -->
   </div>
 </ion-item>
