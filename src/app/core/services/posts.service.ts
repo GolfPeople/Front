@@ -160,8 +160,8 @@ export class PostsService {
       const fileName = `${file.size}${index}`;
       formData.append('files[]', file, fileName);
     });
-
-    // formData.append('files[]', files);
+    formData.append('friends_name', friendsName);
+    formData.append('friends_id', friendsId);
     formData.append('description', description);
     formData.append('ubication', ubication);
     const headers = {
@@ -170,11 +170,7 @@ export class PostsService {
         'X-Requested-With': 'XMLHttpRequest',
       }),
     };
-    return this.http.post<Post>(
-      `${URL}/publish/my_publish/${id}`,
-      { description, files, ubication },
-      headers
-    );
+    return this.http.post<Post>(`${URL}/publish/my_publish/${id}`, formData);
     // .subscribe(() => {
     //   this.getPosts();
     //   this.getPosts();

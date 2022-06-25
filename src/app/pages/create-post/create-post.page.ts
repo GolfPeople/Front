@@ -553,10 +553,6 @@ export class CreatePostPage implements OnInit, AfterViewInit {
       ? (descriptionConcat = description)
       : (descriptionConcat = description.concat(` ${this.hashtagsString} `));
 
-    // this.tagsString === undefined
-    //   ? descriptionConcat
-    //   : (descriptionConcat = descriptionConcat.concat(` ${this.tagsString} `));
-
     console.log('description -->', descriptionConcat);
 
     if (ubication === '') ubication = 'En algún lugar';
@@ -577,7 +573,7 @@ export class CreatePostPage implements OnInit, AfterViewInit {
           {
             text: 'OK, GRACIAS',
             handler: () => {
-              this.router.navigate(['/tabs/home']);
+              this.router.navigate(['/tabs/profile']);
             },
           },
         ],
@@ -591,12 +587,17 @@ export class CreatePostPage implements OnInit, AfterViewInit {
           this.taggedFriends,
           this.taggedFriendsId
         )
-        .subscribe((res) => {
-          console.log(res);
-          loading.dismiss();
-          alert.present();
-          // this.openModal('Publicación creada con éxito');
-        });
+        .subscribe(
+          (res) => {
+            console.log(res);
+            loading.dismiss();
+            alert.present();
+          },
+          (error) => {
+            console.log('Error -->', error);
+            loading.dismiss();
+          }
+        );
 
       return;
     }

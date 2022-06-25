@@ -199,6 +199,7 @@ export class PostComponent implements OnInit {
                 // this.taggedFriends = data.taggedFriends;
                 // this.taggedFriendsId = data.taggedFriendsId;
                 if (data.taggedFriends.length) {
+                  this.tagged = [];
                   for (let i = 0; i < data.taggedFriends.length; i++) {
                     const name = data.taggedFriends[i];
                     const id = data.taggedFriendsId[i];

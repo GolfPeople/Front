@@ -145,7 +145,7 @@ export class EditPostComponent implements OnInit {
     this.hashtagsInput = hashtags;
     this.tagsInput = tags;
     this.editPost = true;
-    this.textArea.setValue(this.post.description);
+    this.textArea.setValue(this.post.description ? this.post.description : ' ');
     this.address.setValue(this.post.ubication);
     this.blobArrayData = this.post.files;
     this.backgroundImagesEdit = this.post.files;
@@ -167,6 +167,8 @@ export class EditPostComponent implements OnInit {
 
     if (this.post.friends_name !== null) {
       this.tags = JSON.parse(this.post.friends_name).split(',');
+      this.taggedFriends = JSON.parse(this.post.friends_name).split(',');
+      this.taggedFriendsId = JSON.parse(this.post.friends_id).split(',');
       console.log(this.taggedFriends);
     }
   }
@@ -178,7 +180,7 @@ export class EditPostComponent implements OnInit {
   }
 
   initFormControls() {
-    const description = new FormControl('', {});
+    const description = new FormControl(' ', {});
     const location = new FormControl('', {});
     const hashtags = new FormControl('', {});
     const tags = new FormControl('', {});
@@ -201,8 +203,6 @@ export class EditPostComponent implements OnInit {
       return data.indexOf(item) === index;
     });
     this.hashtagsString = this.hashtags
-      // .join(' ')
-      // .split(' ')
       .map((item) => {
         if (item.includes('#')) {
           return item;
@@ -215,21 +215,22 @@ export class EditPostComponent implements OnInit {
     console.log('hashtagsString', this.hashtagsString);
   }
 
-  removeHashtag(hashtag: string) {
-    // if (this.type === 2) {
-    //   const newHashtags = this.postHashtags.filter((item) => item !== hashtag);
-    //   this.postHashtags = [...newHashtags];
-    //   console.log(hashtag, newHashtags, this.postHashtags);
-    //   return;
-    // }
-    const newHashtags = this.hashtags.filter((item) => item !== hashtag);
-    this.hashtags = [...newHashtags];
+  removeHashtag(hashtag: string, index) {
+    this.hashtags.splice(index, 1);
+    this.hashtagsString = this.hashtags
+      .map((item) => {
+        if (item.includes('#')) {
+          return item;
+        }
+
+        return `#${item}`;
+      })
+      .filter((item) => item !== `#${hashtag}`)
+      .join(' ');
+    console.log('hashtagsString', this.hashtagsString);
   }
 
   tag(value) {
-    // const element = event.target as HTMLInputElement;
-    // const value = element.value;
-    console.log(value);
     this.tasgsInputValue = value;
 
     if (value === '') {
@@ -239,8 +240,6 @@ export class EditPostComponent implements OnInit {
     }
 
     if (value) {
-      console.log('Valor valido', value);
-
       this.users$ = this.friendsSvc.search(value).pipe(
         map((data) => data.data),
         finalize(() => {
@@ -288,9 +287,11 @@ export class EditPostComponent implements OnInit {
     console.log(this.tagsString);
   }
 
-  removeTag(tag: string) {
+  removeTag(tag: string, index) {
     const newTags = this.tags.filter((item) => item !== tag);
     this.tags = [...newTags];
+    this.taggedFriends.splice(index, 1);
+    this.taggedFriendsId.splice(index, 1);
 
     this.tags.length
       ? (this.tagsString = this.tags
@@ -349,19 +350,19 @@ export class EditPostComponent implements OnInit {
     console.log(this.textArea.value);
   }
 
-  async edit(description, ubication) {
+  async edit(description = ' ', ubication) {
     const loading = await this.loadingCtrl.create({
       cssClass: 'loading-ctrl',
       spinner: 'crescent',
     });
     let descriptionConcat;
-    this.hashtagsString === undefined
+    !this.hashtagsString
       ? (descriptionConcat = description)
       : (descriptionConcat = description.concat(` ${this.hashtagsString} `));
 
     console.log('description -->', descriptionConcat);
 
-    if (ubication === '') {
+    if (ubication === '' || null || undefined) {
       this.userAddress = 'En algún lugar';
 
       ubication = 'En algún lugar';
@@ -376,14 +377,14 @@ export class EditPostComponent implements OnInit {
         {
           text: 'OK, GRACIAS',
           handler: () => {
-            this.router.navigate(['/tabs/home']);
+            this.router.navigate(['/tabs/profile']);
             this.closeModal();
           },
         },
       ],
     });
 
-    await this.postsSvc
+    this.postsSvc
       .editPost(
         descriptionConcat,
         [],

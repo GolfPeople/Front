@@ -45,9 +45,9 @@
           </ion-button>
         </ion-item>
         <ion-row class="tags-row" *ngIf="hashtags.length">
-          <div *ngFor="let hashtag of hashtags" class="hashtags">
+          <div *ngFor="let hashtag of hashtags; index as i" class="hashtags">
             <p>#{{ hashtag }}</p>
-            <a (click)="removeHashtag(hashtag)">X</a>
+            <a (click)="removeHashtag(hashtag, i)">X</a>
           </div>
         </ion-row>
         <ion-item class="tags-input">
@@ -75,9 +75,9 @@
           </ion-item>
         </ion-list>
         <ion-row class="tags-row" *ngIf="tags.length">
-          <div *ngFor="let tag of tags" class="hashtags">
+          <div *ngFor="let tag of tags; index as i" class="hashtags">
             <p>@{{ tag }}</p>
-            <a (click)="removeTag(tag)">X</a>
+            <a (click)="removeTag(tag, i)">X</a>
           </div>
         </ion-row>
 
