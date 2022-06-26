@@ -45,6 +45,15 @@ ion-content {
       // }
     }
 
+    .start {
+      display: flex;
+      align-items: center;
+
+      a {
+        margin-right: 1.5rem;
+      }
+    }
+
     .end {
       display: flex;
       align-items: center;
@@ -66,6 +75,8 @@ ion-content {
       // }
       .favorite,
       .share {
+        display: flex;
+        align-items: center;
         margin-right: 1.7rem;
       }
 

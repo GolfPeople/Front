@@ -1,13 +1,23 @@
 <ion-content>
   <div class="header" [ngClass]="{'my-header': isMyProfile}">
     <div class="header-links">
-      <a (click)="goBack()"
-        ><img
-          class="profile-icon"
-          src="../../../../assets/icons/user-profile/arrow-back.svg"
-          alt=""
-        />
-      </a>
+      <div class="start">
+        <a (click)="goBack()"
+          ><img
+            class="profile-icon"
+            src="../../../../assets/icons/user-profile/arrow-back.svg"
+            alt=""
+          />
+        </a>
+        <a *ngIf="isMyProfile" [routerLink]="['/tabs/profile/edit']"
+          ><img
+            class="profile-icon"
+            src="../../../../assets/icon/perfil.png"
+            alt=""
+          />
+          Editar Cuenta</a
+        >
+      </div>
 
       <div class="end">
         <!-- <ion-button
@@ -40,8 +50,11 @@
     </div>
 
     <app-public-avatar
+      *ngIf="!isMyProfile"
       [imageAvatar]="userInfo.profile.photo"
     ></app-public-avatar>
+    <app-avatar *ngIf="isMyProfile"></app-avatar>
+
     <div class="user-profile">
       <h3 class="profile-name text-center">{{userInfo.name}}</h3>
       <h5 class="profile-golfer text-center">Perfil Golfer</h5>

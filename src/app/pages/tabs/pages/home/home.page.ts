@@ -51,6 +51,7 @@ export class HomePage implements OnInit, AfterViewInit {
       (res) => (this.notifications = res.length)
     );
     // this.notifications = this.notificationsSvc.counter$;
+    // this.cdr.detach();
   }
 
   async ngOnInit() {
@@ -81,17 +82,17 @@ export class HomePage implements OnInit, AfterViewInit {
     );
   }
   ngAfterViewInit(): void {
-    this.postsSvc.all(this.page).subscribe(
-      ({ data }) => {
-        this.posts = data;
-        console.log(this.posts);
-        this.page += 1;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-    this.cdr.detectChanges();
+    // this.postsSvc.all(this.page).subscribe(
+    //   ({ data }) => {
+    //     this.posts = data;
+    //     console.log(this.posts);
+    //     this.page += 1;
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //   }
+    // );
+    // this.cdr.detectChanges();
   }
 
   async openNotifications() {
