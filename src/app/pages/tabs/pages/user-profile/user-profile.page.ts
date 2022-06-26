@@ -7,7 +7,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { switchMap } from 'rxjs/operators';
 import {
   PostsResponse,
@@ -20,6 +20,7 @@ import { SwiperComponent } from 'swiper/angular';
 import SwiperCore, { Pagination, Lazy, Navigation } from 'swiper';
 import { PostsService } from 'src/app/core/services/posts.service';
 import { FriendsService } from 'src/app/core/services/friends.service';
+import { QrModalComponent } from './components/qr-modal/qr-modal.component';
 
 SwiperCore.use([Navigation]);
 
@@ -74,7 +75,8 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
     private userSvc: UserService,
     private location: Location,
     private friendsSvc: FriendsService,
-    private postsSvc: PostsService
+    private postsSvc: PostsService,
+    private modalCtrl: ModalController
   ) {
     this.myId = localStorage.getItem('user_id');
   }
@@ -218,6 +220,20 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
     //     .then(() => console.log('Successful share'))
     //     .catch((error) => console.log('Error sharing', error));
     // }
+  }
+
+  async openModal() {
+    // this.isOpen = true;
+    const modal = await this.modalCtrl.create({
+      component: QrModalComponent,
+      backdropDismiss: true,
+      cssClass: 'options_modal',
+      componentProps: {
+        qr: this.value,
+      },
+    });
+
+    await modal.present();
   }
 
   next() {

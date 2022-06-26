@@ -164,6 +164,10 @@ ion-content {
     }
   }
 }
+
+.my-header {
+  margin-bottom: 5rem;
+}
 .isPrivate {
   display: flex;
   flex-direction: column;
@@ -191,9 +195,9 @@ ion-content {
 }
 
 .profile-card {
-  position: absolute;
-  left: 0px;
-  top: 331px;
+  position: relative;
+  // left: 0px;
+  // top: 331px;
   width: 100%;
   height: auto;
   min-width: 100%;

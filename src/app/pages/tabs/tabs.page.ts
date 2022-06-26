@@ -11,14 +11,13 @@ import { QrComponent } from './components/qr/qr.component';
   styleUrls: ['./tabs.page.scss'],
 })
 export class TabsPage implements OnInit {
-
   user: UserPublicData;
 
   userName: string;
   imageAvatarDefault = 'assets/img/default-avatar.png';
 
   profileImage;
-  profileUrl: string = 'https://api.app.golfpeople.com/api/profile';
+  profileUrl: string = 'https://golf-people.web.app/tabs/user-profile';
 
   value;
   constructor(
@@ -42,8 +41,6 @@ export class TabsPage implements OnInit {
     this.loginService.logout();
   }
 
-
-
   async openQR() {
     const modal = await this.modalCtrl.create({
       component: QrComponent,
@@ -58,8 +55,7 @@ export class TabsPage implements OnInit {
   }
 
   openMenu() {
-    this.menuCtrl.enable(true, 'main-menu')
-    this.menuCtrl.open('main-menu')
+    this.menuCtrl.enable(true, 'main-menu');
+    this.menuCtrl.open('main-menu');
   }
-
 }

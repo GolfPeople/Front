@@ -1,5 +1,5 @@
 <ion-content>
-  <div class="header">
+  <div class="header" [ngClass]="{'my-header': isMyProfile}">
     <div class="header-links">
       <a (click)="goBack()"
         ><img
@@ -84,6 +84,16 @@
   <div class="profile-card">
     <!-- <div *ngIf="!following && !isPrivate" class="edit-nav"> -->
     <div *ngIf="following" class="edit-nav">
+      <div *ngIf="isMyProfile" class="qr-container">
+        <div class="qr-info">
+          <h3>MyGolfPass</h3>
+          <h4>5768 2948 4872 9692</h4>
+          <p>{{userInfo.name}}</p>
+        </div>
+        <div class="qr" (click)="openModal()">
+          <img src="../../../../assets/icon/qr.png" alt="" />
+        </div>
+      </div>
       <ul>
         <li>
           <a (click)="prev()" id="4" [ngClass]="{'active': postsTab}"

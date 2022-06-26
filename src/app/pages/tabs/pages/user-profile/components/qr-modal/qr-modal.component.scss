@@ -1,0 +1,29 @@
+ion-toolbar {
+  // --color: #3880ff;
+  --min-height: 56px;
+  --opacity: 1;
+  --padding-bottom: 4px;
+  --padding-end: 4px;
+  --padding-start: 4px;
+  --padding-top: 4px;
+}
+
+.qr-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+// ngx-qrcode {
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   width: 100%;
+// }
+
+.qr-code {
+  width: 200px;
+  height: 200px;
+}

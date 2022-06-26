@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { take, takeLast } from 'rxjs/operators';
@@ -14,8 +20,9 @@ import { UserService } from '../../../../core/services/user.service';
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, AfterViewInit {
   userName: string = '';
   cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   posts: PostsResponse[] = [];
@@ -31,7 +38,8 @@ export class HomePage implements OnInit {
     private modalCtrl: ModalController,
     private notificationsSvc: NotificationsService,
     private friendsSvc: FriendsService,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private cdr: ChangeDetectorRef
   ) {
     this.userService.user$.subscribe((data) => {
       this.userName = data.name;
@@ -71,6 +79,19 @@ export class HomePage implements OnInit {
         console.log(error);
       }
     );
+  }
+  ngAfterViewInit(): void {
+    this.postsSvc.all(this.page).subscribe(
+      ({ data }) => {
+        this.posts = data;
+        console.log(this.posts);
+        this.page += 1;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    this.cdr.detectChanges();
   }
 
   async openNotifications() {
