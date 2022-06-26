@@ -1,13 +1,10 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   OnInit,
 } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
-import { Observable } from 'rxjs';
-import { take, takeLast } from 'rxjs/operators';
 import { PostsResponse } from 'src/app/core/interfaces/interfaces';
 import { Friend } from 'src/app/core/models/friend.interface';
 import { FriendsService } from 'src/app/core/services/friends.service';
@@ -22,7 +19,7 @@ import { UserService } from '../../../../core/services/user.service';
   styleUrls: ['./home.page.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomePage implements OnInit, AfterViewInit {
+export class HomePage implements OnInit {
   userName: string = '';
   cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   posts: PostsResponse[] = [];
@@ -44,14 +41,9 @@ export class HomePage implements OnInit, AfterViewInit {
     this.userService.user$.subscribe((data) => {
       this.userName = data.name;
     });
-    // this.postsSvc.posts$.subscribe((data) => {
-    //   this.posts = data.slice(0, 3);
-    // });
     this.notificationsSvc.noReadedNotifications$.subscribe(
       (res) => (this.notifications = res.length)
     );
-    // this.notifications = this.notificationsSvc.counter$;
-    // this.cdr.detach();
   }
 
   async ngOnInit() {
@@ -80,19 +72,6 @@ export class HomePage implements OnInit, AfterViewInit {
         console.log(error);
       }
     );
-  }
-  ngAfterViewInit(): void {
-    // this.postsSvc.all(this.page).subscribe(
-    //   ({ data }) => {
-    //     this.posts = data;
-    //     console.log(this.posts);
-    //     this.page += 1;
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //   }
-    // );
-    // this.cdr.detectChanges();
   }
 
   async openNotifications() {
