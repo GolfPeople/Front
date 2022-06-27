@@ -73,22 +73,6 @@ export class HomePage implements OnInit {
     );
   }
 
-  ionViewWillEnter() {
-    console.log('ionViewWillEnter');
-    // setTimeout(() => {
-    //   this.postsSvc.all(1).subscribe(
-    //     ({ data }) => {
-    //       this.posts = data;
-    //       console.log(this.posts);
-    //       this.page = 2;
-    //     },
-    //     (error) => {
-    //       console.log(error);
-    //     }
-    //   );
-    // }, 1000);
-  }
-
   ionViewDidEnter() {
     console.log('ionViewDidEnter');
     setTimeout(() => {
