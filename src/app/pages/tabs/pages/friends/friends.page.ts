@@ -44,6 +44,11 @@ export class FriendsPage implements OnInit {
     this.search('');
   }
 
+  ionViewWillLeave() {
+    this.searchItem = '';
+    this.search('');
+  }
+
   search(value: string) {
     console.log('Buscando...');
     if (!this.isLoading) {
