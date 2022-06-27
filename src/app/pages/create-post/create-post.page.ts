@@ -146,7 +146,7 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     this.hashtagsInput = hashtags;
     this.tagsInput = tags;
 
-    console.log('Addres input -->', direccion);
+    // console.log('Addres input -->', direccion);
     const coordinates = await this.geolocationService.currentPosition();
     const { latitude, longitude } = await coordinates.coords;
     this.coords = { lat: latitude, lng: longitude };
@@ -201,9 +201,9 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     this.userAddress = address.formatted_address;
     this.userLatitude = address.geometry.location.lat();
     this.userLongitude = address.geometry.location.lng();
-    console.log(this.userAddress);
-    console.log(this.userLatitude);
-    console.log(this.userLongitude);
+    // console.log(this.userAddress);
+    // console.log(this.userLatitude);
+    // console.log(this.userLongitude);
   }
 
   //Capturar el valor del hashtag
@@ -216,9 +216,9 @@ export class CreatePostPage implements OnInit, AfterViewInit {
   //Agregar un hashtag  a lista
   addHashtags() {
     this.hashtagsInput.reset();
-    console.log(this.inputValue);
+    // console.log(this.inputValue);
     const data = [...this.hashtags, ...this.inputValue.split(' ')];
-    console.log(data);
+    // console.log(data);
     this.hashtags = data.filter((item, index) => {
       return data.indexOf(item) === index;
     });
@@ -233,8 +233,8 @@ export class CreatePostPage implements OnInit, AfterViewInit {
         return `#${item}`;
       })
       .join(' ');
-    console.log(this.hashtags);
-    console.log(this.hashtagsString);
+    // console.log(this.hashtags);
+    // console.log(this.hashtagsString);
   }
 
   //Remover un hastag de la lista
@@ -256,11 +256,11 @@ export class CreatePostPage implements OnInit, AfterViewInit {
           .join(' '))
       : (this.hashtagsString = '');
 
-    console.log(this.hashtagsString);
+    // console.log(this.hashtagsString);
   }
 
   tag(value) {
-    console.log(value);
+    // console.log(value);
     this.tasgsInputValue = value;
 
     if (value === '') {
@@ -270,7 +270,7 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     }
 
     if (value) {
-      console.log('Valor valido', value);
+      // console.log('Valor valido', value);
 
       this.users$ = this.friendsSvc.search(value).pipe(
         map((data) => data.data),
@@ -288,17 +288,17 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     this.taggedFriends.push(tag);
     this.taggedFriendsId.push(id.toString());
 
-    console.log('nombres -->', this.taggedFriends);
+    // console.log('nombres -->', this.taggedFriends);
 
-    console.log('IDs -->', this.taggedFriendsId);
+    // console.log('IDs -->', this.taggedFriendsId);
 
-    console.log(this.tagsArray);
+    // console.log(this.tagsArray);
     this.tagsInput.reset();
     this.users$ = new Observable();
 
-    console.log(this.tasgsInputValue);
+    // console.log(this.tasgsInputValue);
     const data = [...this.tags, ...tag.split(' ')];
-    console.log(data);
+    // console.log(data);
     this.tags = data.filter((item, index) => {
       return data.indexOf(item) === index;
     });
@@ -313,8 +313,8 @@ export class CreatePostPage implements OnInit, AfterViewInit {
         return `@${item}`;
       })
       .join(' ');
-    console.log(this.tags);
-    console.log(this.tagsString);
+    // console.log(this.tags);
+    // console.log(this.tagsString);
   }
 
   removeTag(tag: string) {
@@ -335,16 +335,16 @@ export class CreatePostPage implements OnInit, AfterViewInit {
           .join(' '))
       : (this.tagsString = '');
 
-    console.log(this.tagsString);
+    // console.log(this.tagsString);
   }
 
   //Método para remover una imagen selecionada
   removeImage(index) {
-    console.log('index -->', index);
+    // console.log('index -->', index);
     this.backgroundImages.splice(index, 1);
     this.blobArrayData.splice(index, 1);
 
-    console.log(this.backgroundImages.length, this.blobArrayData.length);
+    // console.log(this.backgroundImages.length, this.blobArrayData.length);
   }
 
   // Simon Grimm method
@@ -353,7 +353,7 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     const target: HTMLInputElement = event.target as HTMLInputElement;
     const files: FileList = target.files;
     this.selectedFiles = files;
-    console.log('selected files -->', this.selectedFiles);
+    // console.log('selected files -->', this.selectedFiles);
     const filesTobase64 = [];
 
     for (let index = 0; index < files.length; index++) {
@@ -370,7 +370,7 @@ export class CreatePostPage implements OnInit, AfterViewInit {
 
     for (let index = 0; index < files.length; index++) {
       this.blobArrayData.push(files[index]);
-      console.log('Archivos seleccionados desde en input', this.blobArrayData);
+      // console.log('Archivos seleccionados desde en input', this.blobArrayData);
     }
   }
 
@@ -429,7 +429,7 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     croppperModal.onDidDismiss().then((data) => {
       this.croppedImage = data.data;
       this.backgroundImages.push(this.croppedImage);
-      // console.log(this.backgroundImages);
+      // // console.log(this.backgroundImages);
       const blobData = this.b64toBlob(
         this.croppedImage,
         `image/${image.format}`
@@ -448,7 +448,7 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     });
     modal.onDidDismiss().then((data) => {
       this.croppedImage = data.data;
-      console.log('image cropped', this.croppedImage);
+      // console.log('image cropped', this.croppedImage);
     });
     return await modal.present();
   }
@@ -500,7 +500,7 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     // This is making the Geocode request
     // const address = this.address;
     let address;
-    console.log('TEST LAt Long', latlng);
+    // console.log('TEST LAt Long', latlng);
     await this.geocoder.geocode(
       { location: latlng },
       function (results, status) {
@@ -508,16 +508,16 @@ export class CreatePostPage implements OnInit, AfterViewInit {
           alert(status);
         }
         if (status == google.maps.GeocoderStatus.OK) {
-          console.log('resultados de geolocalización -->', results);
+          // console.log('resultados de geolocalización -->', results);
           address = `${results[0].address_components[3]?.long_name} ${
             results[0].address_components[6]?.long_name || ''
           }`;
-          console.log('Tu ubucación -->', address);
+          // console.log('Tu ubucación -->', address);
         }
       }
     );
     this.userAddress = address;
-    console.log(this.userAddress);
+    // console.log(this.userAddress);
   }
 
   async openModal(message) {
@@ -539,18 +539,18 @@ export class CreatePostPage implements OnInit, AfterViewInit {
   }
 
   async onSubmit(description, files, ubication) {
-    console.log('ubicación -->', ubication);
+    // console.log('ubicación -->', ubication);
     let descriptionConcat;
     this.hashtagsString === undefined
       ? (descriptionConcat = description)
       : (descriptionConcat = description.concat(` ${this.hashtagsString} `));
 
-    console.log('description -->', descriptionConcat);
+    // console.log('description -->', descriptionConcat);
 
     if (ubication === '') ubication = 'En algún lugar';
 
     if (!this.platform.is('hybrid')) {
-      console.log('ubicación -->', ubication);
+      // console.log('ubicación -->', ubication);
 
       const loading = await this.loadingCtrl.create({
         cssClass: 'loading-ctrl',
@@ -589,12 +589,12 @@ export class CreatePostPage implements OnInit, AfterViewInit {
         )
         .subscribe(
           (res) => {
-            console.log(res);
+            // console.log(res);
             loading.dismiss();
             alert.present();
           },
           (error) => {
-            console.log('Error -->', error);
+            // console.log('Error -->', error);
             loading.dismiss();
           }
         );
@@ -611,9 +611,9 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     loading.dismiss();
 
     this.openModal('Su publicación ha sido creada exitosamente').then((res) => {
-      console.log(res);
+      // console.log(res);
     });
-    console.log('se cerró');
+    // console.log('se cerró');
     // this.closeModal();
   }
 }

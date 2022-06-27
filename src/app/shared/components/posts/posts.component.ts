@@ -39,6 +39,7 @@ export class PostsComponent implements OnInit {
 
     setTimeout(() => {
       console.log('Done');
+      this.loadingMore = false;
       event.target.complete();
 
       // App logic to determine if all data is loaded
@@ -59,43 +60,4 @@ export class PostsComponent implements OnInit {
       console.log('Estás haciendo scroll');
     } catch (err) {}
   }
-
-  // @HostListener('window: scroll', [])
-  // onWindowScroll(): void {
-  //   const yOffSet = window.pageYOffset;
-  //   if (
-  //     (yOffSet ||
-  //       this.document.documentElement.scrollTop ||
-  //       this.document.body.scrollTop) > this.showScrollheight
-  //   ) {
-  //     console.log('Se hizo el scroll');
-  //     this.loadingMore = true;
-  //   } else if (
-  //     (yOffSet ||
-  //       this.document.documentElement.scrollTop ||
-  //       this.document.body.scrollTop) < this.showScrollheight
-  //   ) {
-  //     this.loadingMore = false;
-  //   }
-  // }
-
-  // @HostListener('window: scroll', [])
-  // onWindowScroll(): void {
-  //   if (
-  //     window.innerHeight + window.scrollY >= this.document.body.offsetHeight &&
-  //     !this.loadingMore
-  //   ) {
-  //     console.log('bottom of the page');
-  //     this.loadingMore = true;
-  //     this.onLoadMore();
-  //   }
-  // }
-
-  // onScrollDown(): void {
-  //   this.onLoadMore();
-  //   // if (this.info.next) {
-  //   //   this.pageNum++;
-  //   //   this.getDataFromService();
-  //   // }
-  // }
 }

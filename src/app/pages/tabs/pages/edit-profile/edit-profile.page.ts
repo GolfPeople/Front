@@ -61,6 +61,20 @@ export class EditProfilePage implements OnInit {
 
   ionViewWillEnter() {
     console.log('ionViewWillEnter');
+    // setTimeout(() => {
+    //   this.postsSvc.myPosts(1).subscribe(
+    //     ({ data }) => {
+    //       this.postsPage += 1;
+    //       this.postsData = data;
+    //     },
+    //     (error) => {
+    //       console.log(error);
+    //     }
+    //   );
+    // }, 1000);
+  }
+  ionViewDidEnter() {
+    console.log('ionViewDidEnter');
     setTimeout(() => {
       this.postsSvc.myPosts(1).subscribe(
         ({ data }) => {
