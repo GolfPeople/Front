@@ -1,5 +1,5 @@
 <div class="card">
-  <ion-avatar>
+  <ion-avatar [routerLink]="['/tabs/user-profile', user.profile.user_id]">
     <img [src]="user.profile.photo || avatarDefault" />
   </ion-avatar>
   <h2 class="card-text">{{ user.name }}</h2>
