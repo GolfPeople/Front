@@ -63,7 +63,6 @@ export class HomePage implements OnInit {
     this.postsSvc.all(this.page).subscribe(
       ({ data }) => {
         this.posts = data;
-        console.log(this.posts);
         this.page += 1;
         loading.dismiss();
       },
@@ -72,6 +71,21 @@ export class HomePage implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  ionViewWillEnter() {
+    console.log('ionViewWillEnter');
+    setTimeout(() => {
+      this.postsSvc.all(1).subscribe(
+        ({ data }) => {
+          this.posts = data;
+          this.page += 1;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }, 1000);
   }
 
   async openNotifications() {

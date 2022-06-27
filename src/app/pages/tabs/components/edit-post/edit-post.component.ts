@@ -372,6 +372,7 @@ export class EditPostComponent implements OnInit {
 
     const alert = await this.alertCtrl.create({
       cssClass: 'success-alert-action ',
+      backdropDismiss: false,
       message: 'Su publicación ha sido editada con éxito',
       buttons: [
         {

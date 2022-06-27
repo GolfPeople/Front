@@ -504,28 +504,20 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     await this.geocoder.geocode(
       { location: latlng },
       function (results, status) {
-        // console.log('TEST results', results);
         if (status !== google.maps.GeocoderStatus.OK) {
           alert(status);
         }
-        // This is checking to see if the Geoeode Status is OK before proceeding
         if (status == google.maps.GeocoderStatus.OK) {
-          // var address = results[0].formatted_address;
-
-          //This is placing the returned address in the 'Address' field on the HTML form
-
-          // address.setValue(
-          //   `${results[0].address_components[3].long_name} ${results[0].address_components[6].long_name}`
-          // );
-          // console.log(address.value);
-          address = `${results[0].address_components[3].long_name} ${results[0].address_components[6].long_name}`;
+          console.log('resultados de geolocalización -->', results);
+          address = `${results[0].address_components[3]?.long_name} ${
+            results[0].address_components[6]?.long_name || ''
+          }`;
           console.log('Tu ubucación -->', address);
         }
       }
     );
     this.userAddress = address;
     console.log(this.userAddress);
-    // this.address.setValue(address.value);
   }
 
   async openModal(message) {
@@ -568,12 +560,20 @@ export class CreatePostPage implements OnInit, AfterViewInit {
 
       const alert = await this.alertCtrl.create({
         cssClass: 'success-alert-action ',
+        backdropDismiss: false,
         message: 'Publicación creada con éxito',
         buttons: [
           {
             text: 'OK, GRACIAS',
             handler: () => {
               this.router.navigate(['/tabs/profile']);
+              this.backgroundImages = [];
+              this.textArea.setValue('');
+              this.hashtagsInput.setValue('');
+              this.hashtags = [];
+              (this.hashtagsString = ''), this.tagsInput.setValue('');
+              this.tags = [];
+              this.tagsString = '';
             },
           },
         ],
