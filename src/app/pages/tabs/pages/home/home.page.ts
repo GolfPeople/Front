@@ -38,9 +38,9 @@ export class HomePage implements OnInit {
     private loadingCtrl: LoadingController,
     private cdr: ChangeDetectorRef
   ) {
-    this.userService.user$.subscribe((data) => {
-      this.userName = data.name;
-    });
+    // this.userService.user$.subscribe((data) => {
+    //   this.userName = data.name;
+    // });
     this.notificationsSvc.noReadedNotifications$.subscribe(
       (res) => (this.notifications = res.length)
     );

@@ -37,11 +37,25 @@ export class CommentsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    const loading = await this.loadingCtrl.create({});
+    const loading = await this.loadingCtrl.create({
+      cssClass: 'loading-ctrl',
+    });
     await loading.present();
-    console.log(this.post);
-    this.loadComments();
-    loading.dismiss();
+    this.commentSvc.getComments(this.post.id).subscribe(
+      (res) => {
+        if (res.length) {
+          this.comments = res;
+          console.log(res);
+          loading.dismiss();
+          return;
+        }
+        loading.dismiss();
+      },
+      (error) => {
+        loading.dismiss();
+        console.log('Error --> ', error);
+      }
+    );
   }
 
   onClick() {
@@ -49,18 +63,17 @@ export class CommentsComponent implements OnInit {
   }
 
   loadComments() {
-    // const loading = await this.loadingCtrl.create({});
-    // await loading.present();
-
-    this.commentSvc.getComments(this.post.id).subscribe((res) => {
-      if (res.length) {
-        this.comments = res;
-        console.log(res);
-        // loading.dismiss();
-        return;
+    this.commentSvc.getComments(this.post.id).subscribe(
+      (res) => {
+        if (res.length) {
+          this.comments = res;
+          return;
+        }
+      },
+      (error) => {
+        console.log('Error --> ', error);
       }
-      // loading.dismiss();
-    });
+    );
   }
 
   async comment() {
