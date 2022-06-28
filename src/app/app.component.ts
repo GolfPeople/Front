@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
     private userSvc: UserService,
     private postsSvc: PostsService
   ) {
-    // this.userSvc.getUserInfoToSave();
+    this.userSvc.getUserInfoToSave();
   }
 
   ngOnInit(): void {

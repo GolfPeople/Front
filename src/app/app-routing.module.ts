@@ -112,6 +112,13 @@ const routes: Routes = [
         (m) => m.PersonalChatPageModule
       ),
   },
+  {
+    path: 'comments/:postId',
+    loadChildren: () =>
+      import('./pages/comments/comments.module').then(
+        (m) => m.CommentsPageModule
+      ),
+  },
 ];
 
 @NgModule({

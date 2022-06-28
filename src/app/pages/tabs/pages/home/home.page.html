@@ -20,7 +20,7 @@
         <ion-badge color="danger">{{notifications}}</ion-badge>
       </a> -->
       <a
-        *ngIf="notifications"
+        *ngIf="notifications | async"
         (click)="openNotifications()"
         class="notifications"
       >

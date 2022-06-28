@@ -54,8 +54,8 @@ export class LoginService {
         tap((response) => {
           this.tokenService.saveToken(response.access_token);
           this.userSvc.getUserID();
-          console.log(localStorage.getItem('token'));
-          console.log(response);
+          // console.log(localStorage.getItem('token'));
+          // console.log(response);
           this.isLogged.next(true);
           return response;
         }),
@@ -82,8 +82,8 @@ export class LoginService {
         tap((res) => {
           this.tokenService.saveToken(res.access_token);
           this.userSvc.getUserID();
-          console.log(localStorage.getItem('token'));
-          console.log(res);
+          // console.log(localStorage.getItem('token'));
+          // console.log(res);
         }),
         catchError(({ error }) => {
           console.log(error.message);

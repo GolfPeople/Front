@@ -1,16 +1,16 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="closeModal()">
+      <ion-back-button defaultHref="/tabs">
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
-      </ion-button>
+      </ion-back-button>
     </ion-buttons>
     <ion-title>Comentarios</ion-title>
   </ion-toolbar>
   <ion-item>
     <ion-label
-      >{{ post.user.name }}
-      <p>{{ post.description }}</p>
+      >{{ post?.user?.name }}
+      <p>{{ post?.description }}</p>
     </ion-label>
   </ion-item>
 </ion-header>
@@ -27,8 +27,8 @@
         <a
           (click)="createResponse(comment)"
           *ngIf="comment.responses.length > 0"
-          >{{ comment.responses.length }}
-          {{ comment.responses.length > 1 ? "respuestas" : "respuesta" }}
+          >{{ comment.responses.length }} {{ comment.responses.length > 1 ?
+          "respuestas" : "respuesta" }}
         </a>
         <a (click)="createResponse(comment)"> Responder</a>
       </div>

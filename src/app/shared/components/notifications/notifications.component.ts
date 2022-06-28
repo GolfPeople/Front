@@ -47,7 +47,7 @@ export class NotificationsComponent implements OnInit {
       cssClass: 'loading-ctrl',
     });
     await loading.present();
-    this.notifocationsSvc.noReaed().subscribe((data) => {
+    this.notifocationsSvc.noRead().subscribe((data) => {
       this.noReadedNotifications = data;
       console.log('REs-->', data);
     });
@@ -76,7 +76,7 @@ export class NotificationsComponent implements OnInit {
     await loading.present();
     this.notifocationsSvc.markAsRead().subscribe((res) => {
       console.log(res);
-      this.notifocationsSvc.noReaed().subscribe((data) => {
+      this.notifocationsSvc.noRead().subscribe((data) => {
         this.noReadedNotifications = data;
         console.log('REs-->', data);
       });
@@ -109,6 +109,18 @@ export class NotificationsComponent implements OnInit {
     console.log(userId, notificationId, index, markAsRead);
 
     this.router.navigate(['/tabs/post', userId, publicationId]);
+    markAsRead
+      ? this.markOneAsRead(notificationId, index)
+      : this.modalCtrl.dismiss();
+  }
+
+  showComment(
+    publicationId: string,
+    notificationId: string,
+    index: number,
+    markAsRead: boolean
+  ) {
+    this.router.navigate(['/comments', publicationId]);
     markAsRead
       ? this.markOneAsRead(notificationId, index)
       : this.modalCtrl.dismiss();

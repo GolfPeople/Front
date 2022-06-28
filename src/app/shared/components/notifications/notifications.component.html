@@ -33,6 +33,13 @@
                   i,
                   true
                 )
+              : notificacion.data.data.type === 'Comment'
+              ? showComment(
+                  notificacion.data.data.publication_id,
+                  notificacion.id,
+                  i,
+                  true
+                )
               : notificacion.data.data.detail.includes(friendRequest)
               ? showProfile(
                   notificacion.data.data.user_sender.id,

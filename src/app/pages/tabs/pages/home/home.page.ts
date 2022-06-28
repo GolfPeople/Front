@@ -5,6 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
+import { Observable } from 'rxjs';
 import { PostsResponse } from 'src/app/core/interfaces/interfaces';
 import { Friend } from 'src/app/core/models/friend.interface';
 import { FriendsService } from 'src/app/core/services/friends.service';
@@ -27,7 +28,7 @@ export class HomePage implements OnInit {
   isLoadingMore: boolean = false;
   people: Friend[] = [];
   peoplePage = 1;
-  notifications: any;
+  notifications: Observable<any>;
 
   constructor(
     private userService: UserService,
@@ -41,9 +42,9 @@ export class HomePage implements OnInit {
     // this.userService.user$.subscribe((data) => {
     //   this.userName = data.name;
     // });
-    this.notificationsSvc.noReadedNotifications$.subscribe(
-      (res) => (this.notifications = res.length)
-    );
+    // this.notificationsSvc.noReadedNotifications$.subscribe(
+    //   (res) => (this.notifications = res.length)
+    // );
   }
 
   async ngOnInit() {
@@ -84,6 +85,7 @@ export class HomePage implements OnInit {
         console.log(error);
       }
     );
+    this.notifications = this.notificationsSvc.noRead();
   }
 
   async openNotifications() {

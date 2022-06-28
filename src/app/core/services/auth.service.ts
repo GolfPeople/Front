@@ -20,8 +20,11 @@ export class AuthService {
     this.user$ = this.afAuth.authState.pipe(
       switchMap((user) => {
         if (user) {
-          console.log('Service -->',user)
-          return this.afs.collection('users').doc<UserAuth>(user.uid).valueChanges();
+          // console.log('Service -->',user)
+          return this.afs
+            .collection('users')
+            .doc<UserAuth>(user.uid)
+            .valueChanges();
         }
         return of(null);
       })
@@ -94,10 +97,10 @@ export class AuthService {
   }
 
   private updateUserData(user: UserAuth) {
-    const userRef: AngularFirestoreDocument<UserAuth> =  this.afs.collection('users').doc(
-      user.uid
-    );
-    console.log('userRef -->', userRef)
+    const userRef: AngularFirestoreDocument<UserAuth> = this.afs
+      .collection('users')
+      .doc(user.uid);
+    // console.log('userRef -->', userRef)
     const data: UserAuth = {
       uid: user.uid,
       email: user.email,

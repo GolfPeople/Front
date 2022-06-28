@@ -19,7 +19,7 @@ export class NotificationsService {
 
   constructor(private http: HttpClient) {}
 
-  noReaed() {
+  noRead() {
     return this.http.get<Notification[]>(`${URL}/notifications/my/notread`);
   }
   noReaedCount() {

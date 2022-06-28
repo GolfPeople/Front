@@ -1,6 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Location } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoadingController, ModalController } from '@ionic/angular';
+import { switchMap } from 'rxjs/operators';
 import {
   PostsResponse,
   UserPublicData,
@@ -8,15 +11,16 @@ import {
 import { CommentService } from 'src/app/core/services/comment.service';
 import { PostsService } from 'src/app/core/services/posts.service';
 import { UserService } from 'src/app/core/services/user.service';
-import { CommentResponseComponent } from '../comment-response/comment-response.component';
+import { CommentResponseComponent } from 'src/app/shared/components/comment-response/comment-response.component';
 
 @Component({
   selector: 'app-comments',
-  templateUrl: './comments.component.html',
-  styleUrls: ['./comments.component.scss'],
+  templateUrl: './comments.page.html',
+  styleUrls: ['./comments.page.scss'],
 })
-export class CommentsComponent implements OnInit {
-  @Input() post: PostsResponse;
+export class CommentsPage implements OnInit {
+  postId: any;
+  post: PostsResponse;
 
   commentary: string = '';
   comments = [];
@@ -27,11 +31,12 @@ export class CommentsComponent implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
-    private FirebaseStorage: AngularFirestore,
     private commentSvc: CommentService,
     private loadingCtrl: LoadingController,
     private postsSvc: PostsService,
-    private userSvc: UserService
+    private userSvc: UserService,
+    private actRoute: ActivatedRoute,
+    private location: Location
   ) {
     this.userSvc.user$.subscribe((res) => (this.user = res));
   }
@@ -41,25 +46,45 @@ export class CommentsComponent implements OnInit {
       cssClass: 'loading-ctrl',
     });
     await loading.present();
-    this.commentSvc.getComments(this.post.id).subscribe(
-      (res) => {
-        if (res.length) {
-          this.comments = res;
-          console.log(res);
-          loading.dismiss();
-          return;
-        }
-        loading.dismiss();
-      },
-      (error) => {
-        loading.dismiss();
-        console.log('Error --> ', error);
-      }
-    );
+
+    this.actRoute.paramMap
+      .pipe(
+        switchMap((param) => {
+          this.postId = param.get('postId');
+          if (this.postId) {
+            return this.postsSvc.getPost(this.postId);
+          }
+          // loading.dismiss();
+          return null;
+        })
+      )
+      .subscribe((post) => {
+        this.post = post;
+        console.log('Publicacion recibida', this.post);
+        this.commentSvc.getComments(post.id).subscribe(
+          (comments) => {
+            if (comments.length) {
+              this.comments = comments;
+              console.log(comments);
+              loading.dismiss();
+              return;
+            }
+            loading.dismiss();
+          },
+          (error) => {
+            loading.dismiss();
+            throw new Error(`Error --> ${error}`);
+          }
+        );
+      });
   }
 
   closeModal() {
     this.modalCtrl.dismiss();
+  }
+
+  goBack() {
+    this.location.back();
   }
 
   loadComments() {
