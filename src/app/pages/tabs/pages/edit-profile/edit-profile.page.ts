@@ -59,27 +59,14 @@ export class EditProfilePage implements OnInit {
     });
   }
 
-  ionViewWillEnter() {
-    console.log('ionViewWillEnter');
-    // setTimeout(() => {
-    //   this.postsSvc.myPosts(1).subscribe(
-    //     ({ data }) => {
-    //       this.postsPage += 1;
-    //       this.postsData = data;
-    //     },
-    //     (error) => {
-    //       console.log(error);
-    //     }
-    //   );
-    // }, 1000);
-  }
   ionViewDidEnter() {
-    console.log('ionViewDidEnter');
+    console.log('ionViewDidEnter TEST');
     setTimeout(() => {
       this.postsSvc.myPosts(1).subscribe(
         ({ data }) => {
-          this.postsPage += 1;
           this.postsData = data;
+          this.postsPage = 2;
+          console.log(this.postsData);
         },
         (error) => {
           console.log(error);
@@ -96,16 +83,6 @@ export class EditProfilePage implements OnInit {
         url: this.value,
       });
     }
-    // if (navigator.share) {
-    //   navigator
-    //     .share({
-    //       title: 'Mi Perfil Golfer',
-    //       text: 'Check my profile golfer',
-    //       url: this.value,
-    //     })
-    //     .then(() => console.log('Successful share'))
-    //     .catch((error) => console.log('Error sharing', error));
-    // }
   }
 
   async openModal() {

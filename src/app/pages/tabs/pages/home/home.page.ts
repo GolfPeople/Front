@@ -75,24 +75,15 @@ export class HomePage implements OnInit {
 
   ionViewDidEnter() {
     console.log('ionViewDidEnter');
-    setTimeout(() => {
-      this.postsSvc.all(1).subscribe(
-        ({ data }) => {
-          this.posts = data;
-          console.log(this.posts);
-          this.page = 2;
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    }, 1000);
-  }
-
-  ionViewWillLeave() {
-    console.log('ionViewWillLeave');
-
-    // this.posts = [];
+    this.postsSvc.all(1).subscribe(
+      ({ data }) => {
+        this.posts = data;
+        this.page = 2;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   async openNotifications() {
