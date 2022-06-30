@@ -16,12 +16,14 @@ import { SuccessComponent } from './components/success/success.component';
 import { PublicPostComponent } from './components/public-post/public-post.component';
 
 import { SharedModule } from 'src/app/shared/shared.module';
+import { ChatMessagesComponent } from './components/chat-messages/chat-messages.component';
 
 const myComponents = [
   QrComponent,
   SuccessComponent,
   EditPostComponent,
   PublicPostComponent,
+  ChatMessagesComponent
 ];
 
 @NgModule({

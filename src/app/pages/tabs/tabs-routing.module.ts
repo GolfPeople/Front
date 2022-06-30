@@ -94,6 +94,7 @@ const routes: Routes = [
     path: 'post/:user/:id',
     component: PublicPostComponent,
   },
+ 
 ];
 
 @NgModule({

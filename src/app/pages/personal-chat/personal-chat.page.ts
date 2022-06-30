@@ -41,10 +41,10 @@ export class PersonalChatPage implements OnInit {
   }
 
   async ngOnInit() {
-    const loading = await this.loadingCtrl.create({
-      cssClass: 'loading-ctrl',
-    });
-    await loading.present();
+    // const loading = await this.loadingCtrl.create({
+    //   cssClass: 'loading-ctrl',
+    // });
+    // await loading.present();
     this.actRoute.paramMap
       .pipe(
         switchMap((params) => {
@@ -64,14 +64,14 @@ export class PersonalChatPage implements OnInit {
           }
           this.chatSvc.getChat(this.room).subscribe((room) => {
             console.log(room);
-            loading.dismiss();
+            // loading.dismiss();
             this.messages = room;
             this.content.scrollToBottom();
             console.log(this.myId);
           });
         },
         (error) => {
-          loading.dismiss();
+          // loading.dismiss();
           console.log('Error -->', error);
         }
       );

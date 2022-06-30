@@ -48,10 +48,10 @@ export class HomePage implements OnInit {
   }
 
   async ngOnInit() {
-    const loading = await this.loadingCtrl.create({
-      cssClass: 'loading-ctrl',
-    });
-    await loading.present();
+    // const loading = await this.loadingCtrl.create({
+    //   cssClass: 'loading-ctrl',
+    // });
+    // await loading.present();
     this.userService.getUserInfo().subscribe((res) => {
       this.userName = res.name;
     });
@@ -65,10 +65,10 @@ export class HomePage implements OnInit {
       ({ data }) => {
         this.posts = data;
         this.page += 1;
-        loading.dismiss();
+        // loading.dismiss();
       },
       (error) => {
-        loading.dismiss();
+        // loading.dismiss();
         console.log(error);
       }
     );

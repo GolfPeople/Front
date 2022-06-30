@@ -20,7 +20,7 @@
   <div class="actions">
     <a
       *ngIf="following"
-      [routerLink]="['/chat', user.profile.user_id]"
+      (click)="openChat()"
       class="action"
     >
       <img src="../../../../../../assets/icons/message-alt.svg" alt="" />

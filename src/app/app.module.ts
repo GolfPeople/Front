@@ -34,7 +34,7 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
   imports: [
     BrowserModule,
     HttpClientModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({mode:'md'}),
     AppRoutingModule,
     GooglePlaceModule,
     NgxQRCodeModule,

@@ -1,0 +1,42 @@
+<ion-header class="ion-text-center">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="close()" shape="round">
+        <ion-icon color="light" style="font-size: 25px;" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      <h2>
+        <img src="../../../../assets/icons/message.svg" alt="" /> mensajes
+      </h2>
+    </ion-title>
+  </ion-toolbar>
+  <ion-item class="user-info-chat ion-no-padding">
+    <ion-avatar class="ion-margin">
+      <img [src]="data.photo ? data.photo :  avatarDefault" />
+    </ion-avatar>
+    <ion-label>
+      <h3>{{data.name}}</h3>
+    </ion-label>
+  </ion-item>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="chat">
+    <p
+      *ngFor="let msg of messages"
+      class="message"
+      [ngClass]="{'my-message': user_id == msg.user_id, 'other-message':user_id != msg.user_id }"
+    >
+      <span>{{msg.message}}</span>
+    </p>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-item lines="none" class="text-area-container ion-no-border">
+    <textarea class="ion-no-margin ion-no-border" placeholder="Escribe algo" [(ngModel)]="message"></textarea>
+    <a (click)="newMessage()">
+      <img src="../../../../assets/icons/grey-message.svg" alt="" />
+    </a>
+  </ion-item>
+</ion-footer>

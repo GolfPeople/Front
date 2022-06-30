@@ -1,9 +1,7 @@
 <ion-header class="ion-text-center">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs">
-        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
-      </ion-back-button>
+      <ion-back-button color="light" defaultHref="/tabs"></ion-back-button>        
     </ion-buttons>
     <ion-title>
       <h2>
@@ -29,17 +27,31 @@
       (ngModelChange)="searchRoom($event)"
     />
   </div>
-  <ion-list lines="none">
+  <ion-list *ngIf="!loading" lines="none">
     <ion-item
       *ngFor="let room of searchedRooms; index as i"
-      [routerLink]="['/personal-chat', room.user_id , room.sale_id]"
+      (click)="openChat(room)"
     >
       <ion-avatar>
         <img [src]="  room.photo ? room.photo : avatar" />
       </ion-avatar>
       <ion-label class="ion-margin-start">
         <h3>{{room.name}}</h3>
-        <p>Last message</p>
+        <p>{{room.lastmsg}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="loading" lines="none">
+    <ion-item
+      *ngFor="let room of [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]">    
+    
+      <ion-avatar>
+        <ion-skeleton-text animated style="width: 100%;height: 100%;"></ion-skeleton-text>
+      </ion-avatar>
+      <ion-label class="ion-margin-start">
+        <h3><ion-skeleton-text animated style="width: 70%"></ion-skeleton-text></h3>
+        <p><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></p>
       </ion-label>
     </ion-item>
   </ion-list>
