@@ -6,11 +6,13 @@
   <!-- <a class="conect-button">Conectar</a> -->
   <ion-button
     (click)="
-      following ? unfollow(user.profile.user_id) : follow(user.profile.user_id)
+      sentRequest
+        ? unfollow(user.profile.user_id)
+        : sendFriendRequest(user.profile.user_id)
     "
-    [ngClass]="{ connected: following }"
+    [ngClass]="{ connected: sentRequest }"
     shape="round"
   >
-    {{ following ? "Conectado" : "Conectar" }}
+    {{ sentRequest ? "En espera" : "Conectar" }}
   </ion-button>
 </div>

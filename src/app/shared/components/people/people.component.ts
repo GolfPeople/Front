@@ -10,12 +10,20 @@ export class PeopleComponent implements OnInit {
   @Input() user: any;
 
   following: boolean = false;
+  sentRequest: boolean = false;
 
   avatarDefault: string = 'assets/img/default-avatar.png';
 
   constructor(private friendsSvc: FriendsService) {}
 
   ngOnInit() {}
+
+  sendFriendRequest(userId: number) {
+    this.sentRequest = true;
+    this.friendsSvc.friendRequest(userId).subscribe((res) => {
+      console.log(res);
+    });
+  }
 
   follow(id) {
     this.following = true;

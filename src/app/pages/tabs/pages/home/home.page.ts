@@ -59,6 +59,7 @@ export class HomePage implements OnInit {
 
     this.friendsSvc.mayKnow(this.peoplePage).subscribe(({ data }) => {
       this.people = data;
+      console.log(data);
     });
 
     this.postsSvc.all(this.page).subscribe(
