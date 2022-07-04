@@ -5,8 +5,6 @@ import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
-import { Camera } from '@awesome-cordova-plugins/camera/ngx';
-import { FileTransfer } from '@awesome-cordova-plugins/file-transfer/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -52,9 +50,7 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
     provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore()),
   ],
-  providers: [
-    Camera,
-    FileTransfer,
+  providers: [   
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],

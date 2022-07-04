@@ -197,8 +197,8 @@
       </ion-tab-button>
       <ion-tab-button tab="chat-room">
         <img src="../../../assets/icons/tab/messages.svg" />
-
         <ion-label>MENSAJES</ion-label>
+        <ion-badge color="danger" *ngIf="chatSvc.unread$.value"></ion-badge>
       </ion-tab-button>
       <ion-tab-button (click)="openMenu() ">
         <img class="menu-icon" src="../../../assets/icons/tab/menu.svg" />

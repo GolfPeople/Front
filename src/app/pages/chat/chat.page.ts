@@ -26,7 +26,7 @@ export class ChatPage implements OnInit {
   user: any = {};
 
   constructor(
-    private chatSvc: ChatService,
+    public chatSvc: ChatService,
     private actRoute: ActivatedRoute,
     private userSvc: UserService
   ) {

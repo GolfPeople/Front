@@ -19,11 +19,14 @@
   </ion-label>
   <div class="actions">
     <a
-      *ngIf="following"
+      *ngIf="following && chatData"
       (click)="openChat()"
-      class="action"
+      class="action"     
     >
       <img src="../../../../../../assets/icons/message-alt.svg" alt="" />
+    </a>
+    <a>
+      <ion-spinner class="ion-padding-horizontal" color="secondary" *ngIf="loading"></ion-spinner>
     </a>
     <a *ngIf="following">
       <img src="../../../../../../assets/icons/play.svg" alt="" />

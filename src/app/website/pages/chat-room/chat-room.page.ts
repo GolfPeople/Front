@@ -15,7 +15,7 @@ export class ChatRoomPage implements OnInit {
 
 
   constructor(
-    private chatSvc: ChatService
+    public chatSvc: ChatService
   ) { }
 
   ngOnInit() {

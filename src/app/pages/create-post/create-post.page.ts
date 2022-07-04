@@ -26,8 +26,7 @@ import SwiperCore, { Pagination, Lazy } from 'swiper';
 import { VideoService } from 'src/app/core/services/video.service';
 import { CapacitorVideoPlayer } from 'capacitor-video-player';
 
-import { CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
-import { Camera as cmra } from '@awesome-cordova-plugins/camera/ngx';
+
 import { Observable } from 'rxjs';
 import { Friend } from 'src/app/core/models/friend.interface';
 import { FriendsService } from 'src/app/core/services/friends.service';
@@ -122,7 +121,6 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     private actionSheetCtrl: ActionSheetController,
     private platform: Platform,
     private _location: Location,
-    private cmra: cmra,
     private friendsSvc: FriendsService,
     private router: Router
   ) {}

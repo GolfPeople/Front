@@ -1,0 +1,15 @@
+
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button *ngIf="backButton" defaultHref="/tabs/home"></ion-back-button>
+      <ion-button *ngIf="backButtonModal" (click)="close()" shape="round">
+             <ion-icon  color="light" style="font-size: 25px;" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title [class.m-optional]="backButton || backButtonModal" class="ion-text-center">
+      <ion-icon color="light" [src]="icon"></ion-icon>
+     <span>{{title}}</span>
+    </ion-title>
+   
+  </ion-toolbar>
+

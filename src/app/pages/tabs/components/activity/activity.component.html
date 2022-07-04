@@ -1,0 +1,23 @@
+<div *ngIf="notificationSvc.userNotifications$.value.length > 0">
+  <div class="pt-notification" *ngFor="let n of notificationSvc.userNotifications$ | async">
+    <ion-item lines="none" class="ion-no-padding">
+  <ion-avatar slot="start">
+    <img [src]="n.user_sender.profile.photo" />
+  </ion-avatar>
+  <ion-label class="ion-text-wrap">{{n.detail}}</ion-label>
+  <ion-buttons *ngIf="n.type == 'friends'" slot="end">
+    <ion-button color="success" (click)="acceptRequest(n.connection_id)">
+      <ion-icon  name="checkmark-circle"></ion-icon>
+    </ion-button>
+    <ion-button color="danger" (click)="declineRequest(n.connection_id)">
+      <ion-icon  name="close-circle"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-item>
+  </div>
+  
+</div>
+<div class="empty" *ngIf="notificationSvc.userNotifications$.value.length == 0">
+  <ion-icon name="notifications-outline"></ion-icon>
+  <h3>No hay actividad reciente</h3>
+</div>

@@ -1,42 +1,30 @@
-ion-header {
-  ion-toolbar {
-    --background: #00388b !important;
-    ion-title {
-      margin-right: 50px;
+.chat-pt {
+  padding-top: 10px;
+}
 
-      h2 {
-        font-weight: 700;
-        font-size: 1.6rem;
-        line-height: 2.2rem;
+.new-msg-btn {
+  text-transform: capitalize;
+  color: white;
+  position: relative;
+  bottom: 10px;
+}
 
-        font-variant: small-caps;
-        display: flex;
-        justify-content: center;
+.new-msg-btn span {
+  padding-left: 5px; 
+}
 
-        color: #ffffff;
-        text-transform: uppercase;
+ion-toolbar {
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
 
-        img {
-          margin-right: 0.8rem;
-        }
-      }
-    }
-  }
+.unread{
+  font-weight: bold;
+  color: black;
+}
 
-  .user-info-chat {
-    --background: #fff;
-    --min-height: 85px;
-    color: #000000;
-    --border-color: #ddd;
-
-    h3 {
-      font-weight: 600;
-      font-size: 20px;
-      line-height: 125%;
-    }
-  }
-
- 
+ion-badge{
+  padding: 4px 6px 4px 6px;
 }
 
 ion-content {
@@ -94,8 +82,8 @@ ion-content {
           line-height: 150%;
           color: #000;
         }
-        p {
-          font-weight: 600;
+
+        p {        
           font-size: 12px;
           line-height: 150%;
           color: rgba(0, 0, 0, 0.4);

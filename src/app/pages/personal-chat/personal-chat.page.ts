@@ -23,7 +23,7 @@ export class PersonalChatPage implements OnInit {
   room: any;
 
   constructor(
-    private chatSvc: ChatService,
+    public chatSvc: ChatService,
     private actRoute: ActivatedRoute,
     private userSvc: UserService,
     private loadingCtrl: LoadingController,

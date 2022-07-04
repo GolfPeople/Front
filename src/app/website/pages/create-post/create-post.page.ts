@@ -26,8 +26,7 @@ import SwiperCore, { Pagination, Lazy } from 'swiper';
 import { VideoService } from 'src/app/core/services/video.service';
 import { CapacitorVideoPlayer } from 'capacitor-video-player';
 
-import { CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
-import { Camera as cmra } from '@awesome-cordova-plugins/camera/ngx';
+
 import { Observable } from 'rxjs';
 import { Friend } from 'src/app/core/models/friend.interface';
 import { FriendsService } from 'src/app/core/services/friends.service';
@@ -121,7 +120,6 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     private actionSheetCtrl: ActionSheetController,
     private platform: Platform,
     private _location: Location,
-    private cmra: cmra,
     private friendsSvc: FriendsService
   ) {}
 
@@ -182,26 +180,7 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     this.uploadedVideo = null;
   }
 
-  selectVideo() {
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.cmra.PictureSourceType.PHOTOLIBRARY,
-      mediaType: this.cmra.MediaType.VIDEO,
-    };
-
-    this.cmra.getPicture(options).then(
-      (imageData) => {
-        // imageData is either a base64 encoded string or a file URI
-        // If it's base64 (DATA_URL):
-        console.log(imageData);
-        let base64Image = 'data:image/jpeg;base64,' + imageData;
-      },
-      (err) => {
-        // Handle error
-      }
-    );
-  }
-
+ 
   initFormControls() {
     const description = new FormControl('', {});
     const location = new FormControl(this.userAddress, {});
@@ -418,7 +397,7 @@ export class CreatePostPage implements OnInit, AfterViewInit {
         text: 'Subir video',
         icon: 'attach',
         handler: () => {
-          this.selectVideo();
+     
         },
       });
       // buttons.push({

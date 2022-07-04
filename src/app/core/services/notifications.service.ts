@@ -17,6 +17,8 @@ export class NotificationsService {
   private counter = new BehaviorSubject<number>(0);
   counter$ = this.counter.asObservable();
 
+
+  userNotifications$ = new BehaviorSubject([])
   constructor(private http: HttpClient) {}
 
   noRead() {

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingController, ModalController } from '@ionic/angular';
+import { BehaviorSubject } from 'rxjs';
 import { ChatService } from 'src/app/core/services/chat/chat.service';
+import { FriendsService } from 'src/app/core/services/friends.service';
+import { NotificationsService } from 'src/app/core/services/notifications.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { ChatMessagesComponent } from '../../components/chat-messages/chat-messages.component';
 
@@ -10,25 +13,53 @@ import { ChatMessagesComponent } from '../../components/chat-messages/chat-messa
   styleUrls: ['./chat-room.page.scss'],
 })
 export class ChatRoomPage implements OnInit {
+
   avatar: string = 'assets/img/default-avatar.png';
 
-  rooms: any = [];
-  searchedRooms: any = []
-  searchValue: string = ''
-  waiting: boolean;
-  chats = [];
-  uid: string;
+  toggleOptions = { one: 'Mensajes', two: 'Actividad' }
+  toggle$ = new BehaviorSubject(false);
   loading: boolean;
-  lastMessage;
+  uid: number;
   constructor(
-    private chatSvc: ChatService,
-    private loadingCtrl: LoadingController,
+    public chatSvc: ChatService,
     private firebaseService: FirebaseService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private friendsSvc: FriendsService,
+    public notificationSvc: NotificationsService
   ) { }
 
   async ngOnInit() {
+    this.getChatRooms();
+    this.getFriends();
+    this.getNotifications();
+  }
 
+  ionViewWillEnter() {
+    this.uid = JSON.parse(localStorage.getItem('user_id'));
+  }
+
+  getNotifications() {
+    this.notificationSvc.all().subscribe(res => {
+      this.notificationSvc.userNotifications$.next(res.map(notification => {
+        return (notification.data.data)
+      }))      
+    })
+  }
+
+  doRefresh(event) {
+    setTimeout(() => {
+      this.ngOnInit();
+      event.target.complete();
+    }, 500)
+  }
+
+  getFriends() {
+    this.friendsSvc.searchFriend('').subscribe(res => {
+      this.chatSvc.friends$.next(res.data);
+    })
+  }
+
+  getChatRooms() {
     this.loading = true;
     this.chatSvc.getRoom().subscribe((rooms: any) => {
       this.loading = false;
@@ -36,60 +67,43 @@ export class ChatRoomPage implements OnInit {
       for (let r of rooms) {
         this.firebaseService.getCollectionConditional('messages',
           ref => ref
-            .where('chatId', '==', r.sale_id)
-            .orderBy('created_at')
-            .limit(1))
+            .where('chatId', '==', r.id)
+            .orderBy('created_at', 'desc')
+            .limit(5))
           .subscribe(data => {
-
             let msg = data.map(e => {
               return {
+                user_id: e.payload.doc.data()['user_id'],
+                read: e.payload.doc.data()['read'],
                 message: e.payload.doc.data()['message'],
+                created_at: e.payload.doc.data()['created_at'],
               };
             });
             r.lastmsg = msg[0].message
+            r.unreadMsg = msg.filter(message => message.read == false && message.user_id !== this.uid).length;            
           })
       }
-
-      this.rooms = rooms;
-      this.searchedRooms = rooms;
+      this.chatSvc.rooms$.next(rooms); 
       console.log(rooms);
-
+            
     });
   }
 
-  searchRoom(value: string) {
-    if (!(value.length >= 1)) {
-      this.searchedRooms = this.rooms
-    } else {
-      this.searchedRooms = this.rooms.filter(room => room.user[0]?.name.includes(value))
-    }
-  }
 
-  async openChat(data) {
+  async openChat(room, index) {
     const modal = await this.modalController.create({
       component: ChatMessagesComponent,
-      componentProps: { data },
+      componentProps: { data: room },
       cssClass: 'messages-modal'
     });
-    await modal.present();
+    modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.chatSvc.rooms$.value[index].lastmsg = data.lastmsg
+    }
+
   }
 
-  getMessages(sale_id) {
 
-    this.firebaseService.getCollectionConditional('messages',
-      ref => ref
-        .where('chatId', '==', sale_id)
-        .orderBy('created_at')
-        .limit(1))
-      .subscribe(data => {
-
-        let msg = data.map(e => {
-          return {
-            message: e.payload.doc.data()['message'],
-          };
-        });
-
-
-      });
-  }
 }

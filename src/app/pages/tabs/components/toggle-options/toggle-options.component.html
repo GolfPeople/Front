@@ -1,0 +1,9 @@
+<div class="toggle-tab">
+  <div [ngClass]="{'active': toggle.value}" class="fondo"></div>
+  <div class="toggle-buttons">
+    <button [ngClass]="{'active': toggle.value}" (click)="toggle.next(false)">
+      {{options.one}}
+    </button>
+    <button [ngClass]="{'active': !toggle.value}" (click)="toggle.next(true)">{{options.two}}</button>
+  </div>
+</div>

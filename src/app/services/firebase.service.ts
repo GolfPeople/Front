@@ -79,6 +79,24 @@ export class FirebaseService {
     return this.db.doc(collection + '/' + id).delete();
   }
 
+  /**
+   * Marca los mensajes como leídos una vez el usuario entra al chat
+     **/
+  markAsRead(user_id, chatId) {
+
+    return this.db.firestore.collection('messages').get().then(function (querySnapshot) {
+      querySnapshot.query.where('chatId', '==', chatId).get()
+        .then(function (querySnapshot) {
+          querySnapshot.query.where('user_id', '!=', user_id).get()
+            .then(function (querySnapshot) {
+              querySnapshot.forEach(function (doc) {
+                doc.ref.update({ read: true })
+              })
+            })
+        })
+    });
+  }
+
   /**Elimina todos los elementos con un campo similar
    * Se utiliza para hacer eliminaciones relacionales
    * Ejemplo: Todos los productos pertenecientes a una categoría. 
@@ -95,8 +113,8 @@ export class FirebaseService {
 
   }
 
-  countCollectionElements(collection){
-   return this.db.collection(collection).get();
+  countCollectionElements(collection) {
+    return this.db.collection(collection).get();
   }
 
   //====Subir imagenes=================

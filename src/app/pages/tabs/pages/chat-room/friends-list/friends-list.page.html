@@ -1,0 +1,81 @@
+<app-header backButton="true" icon="../../../../assets/icons/message.svg" title="Nuevo Chat"></app-header>
+<ion-content class="ion-padding">
+  <app-toggle-options [toggle]="toggle$" [options]="toggleOptions"></app-toggle-options>
+  <!--============== Refrescar friends============== -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-grid style="padding-bottom: 15px;" fixed>
+    <ion-row>
+      <ion-col class="to" size="2">Para:</ion-col>
+      <ion-col size="10">
+        <ion-searchbar mode="ios" placeholder="Buscar"></ion-searchbar>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div *ngIf="!loading">
+    <div *ngIf="!toggle$.value">
+      <div class="pb-sm" (click)="openSingleChatRoom(f)" *ngFor="let f of chatSvc.friends$ | async">
+        <div class="card-user">
+          <ion-item lines="none">
+            <ion-avatar slot="start">
+              <img [src]="f.profile.photo ? f.profile.photo : '../../../../../assets/img/default-avatar.png'" />
+            </ion-avatar>
+            <ion-label>
+              <div class="name">{{f.name}}</div>
+              <div class="country">{{f.profile.address ? f.profile.address : 'Caracas, Venezuela'}}</div>
+              <div class="hcp">HCP 2.5</div>
+            </ion-label>
+          </ion-item>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="toggle$.value">
+      <div class="pb-sm" *ngFor="let f of chatSvc.friends$ | async">
+        <div class="card-user">
+          <ion-item lines="none">
+            <ion-avatar slot="start">
+              <img [src]="f.profile.photo ? f.profile.photo : '../../../../../assets/img/default-avatar.png'" />
+            </ion-avatar>
+            <ion-label>
+              <div class="name">{{f.name}}</div>
+              <div class="country">{{f.profile.address ? f.profile.address : 'Caracas, Venezuela'}}</div>
+              <div class="hcp">HCP 2.5</div>
+            </ion-label>
+            <ion-checkbox [(ngModel)]="f.isChecked"></ion-checkbox>
+          </ion-item>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="loading">
+    <div class="pb-sm" *ngFor="let f of [1,1,1,1,1,1,1,1,1]">
+      <div class="card-user">
+        <ion-item lines="none">
+          <ion-avatar slot="start">
+            <ion-skeleton-text animated style="width: 65px;height: 65px;"></ion-skeleton-text>
+          </ion-avatar>
+          <ion-label class="ion-padding">
+            <div class="pb-sm">
+              <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+            </div>
+            <div>
+              <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+            </div>
+          </ion-label>
+        </ion-item>
+      </div>
+    </div>
+
+  </div>
+
+<ion-fab *ngIf="toggle$.value" vertical="bottom" horizontal="end" slot="fixed">
+ <ion-button class="group-btn" (click)="createGrupalChatRoom()"  shape="round">
+  Crear Grupo
+  <ion-icon slot="end" name="people"></ion-icon>
+ </ion-button>
+</ion-fab>
+</ion-content>

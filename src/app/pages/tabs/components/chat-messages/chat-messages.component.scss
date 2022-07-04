@@ -131,6 +131,18 @@ ion-header {
       }
     }
   }
+
+  .online-text{
+    color: #000000;
+    font-size: 12px;
+  }
+
+  .online-mark{
+    color: #68D391;
+    font-size: 10px;
+    padding-right: 4px; 
+  }
+
   
   ion-footer::before {
     width: 0;

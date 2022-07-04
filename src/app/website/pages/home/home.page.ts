@@ -39,9 +39,7 @@ export class HomePage implements OnInit {
     // this.postsSvc.posts$.subscribe((data) => {
     //   this.posts = data.slice(0, 3);
     // });
-    this.notificationsSvc.noReadedNotifications$.subscribe(
-      (res) => (this.notifications = res.length)
-    );
+  
     // this.notifications = this.notificationsSvc.counter$;
   }
 
@@ -69,6 +67,13 @@ export class HomePage implements OnInit {
       (error) => {
         loading.dismiss();
         console.log(error);
+      }
+    );
+
+    this.notificationsSvc.noRead().subscribe(
+      (res) => {
+        console.log(res);
+        this.notifications = res.length
       }
     );
   }

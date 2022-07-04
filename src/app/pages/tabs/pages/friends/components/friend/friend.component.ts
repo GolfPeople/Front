@@ -20,10 +20,11 @@ export class FriendComponent implements OnInit {
   avatarDefault: string = 'assets/img/default-avatar.png';
   sentFriendRequest: boolean = false;
   chatData;
+  loading = false;
   constructor(
     private friendsSvc: FriendsService,
     private modalController: ModalController,
-    private chatSvc: ChatService) {
+    public chatSvc: ChatService) {
     this.myId = localStorage.getItem('user_id');
   }
 
@@ -66,11 +67,13 @@ export class FriendComponent implements OnInit {
   }
 
   getChat(){
+    this.loading = true;
     this.chatSvc
     .getRoom()
     .subscribe((res:any) => {
       let chats = res;
-      this.chatData = chats.filter(chat => chat.user_id == this.user.id)[0];      
+      this.chatData = chats.filter(chat => chat.user_id == this.user.id)[0];  
+      this.loading = false;    
     })
   }
 

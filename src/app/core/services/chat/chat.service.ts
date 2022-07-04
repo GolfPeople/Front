@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import firebase from 'firebase/compat/app';
+import { BehaviorSubject } from 'rxjs';
+import { FirebaseService } from 'src/app/services/firebase.service';
 import { environment } from 'src/environments/environment';
 import { Message, User } from '../../models/chat.interface';
 
@@ -12,13 +14,18 @@ const API = `${environment.golfpeopleAPI}/api`
 export class ChatService {
   // currentUser: User = null
 
+  rooms$ = new BehaviorSubject([]);
+  friends$ = new BehaviorSubject([]);
+  unread$ = new BehaviorSubject(false);
+
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private firebaseService: FirebaseService
   ) { }
 
   // Mensaje nuevo
-  sendMessage(id, message){
-    return this.http.post(`${API}/chat/new/${id}`, {message})
+  sendMessage(id, message) {
+    return this.http.post(`${API}/chat/new/${id}`, { message })
   }
 
   // Mis salas de chat
@@ -32,7 +39,8 @@ export class ChatService {
   }
 
 
-
-
+  createChatRoom(users) {
+    return this.http.post<any>(`${API}${environment.createChatRoom}`, { users })
+  }
 
 }

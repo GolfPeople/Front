@@ -17,13 +17,14 @@ import { PublicPostComponent } from './components/public-post/public-post.compon
 
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ChatMessagesComponent } from './components/chat-messages/chat-messages.component';
+import { HeaderComponent } from './components/header/header.component';
+
 
 const myComponents = [
   QrComponent,
   SuccessComponent,
   EditPostComponent,
-  PublicPostComponent,
-  ChatMessagesComponent
+  PublicPostComponent
 ];
 
 @NgModule({
@@ -35,7 +36,7 @@ const myComponents = [
     NgxQRCodeModule,
     ReactiveFormsModule,
     SharedModule,
-    GooglePlaceModule,
+    GooglePlaceModule
   ],
   declarations: [TabsPage, myComponents],
 })

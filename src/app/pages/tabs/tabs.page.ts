@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController, ModalController } from '@ionic/angular';
 import { UserPublicData } from 'src/app/core/interfaces/interfaces';
+import { ChatService } from 'src/app/core/services/chat/chat.service';
 import { LoginService } from 'src/app/core/services/login.service';
 import { UserService } from 'src/app/core/services/user.service';
+import { FirebaseService } from 'src/app/services/firebase.service';
 import { QrComponent } from './components/qr/qr.component';
 
 @Component({
@@ -24,7 +26,9 @@ export class TabsPage implements OnInit {
     private loginService: LoginService,
     private userService: UserService,
     private modalCtrl: ModalController,
-    private menuCtrl: MenuController
+    private menuCtrl: MenuController,
+    public chatSvc: ChatService,
+    private firebaseService: FirebaseService
   ) {
     this.userService.user$.subscribe((data) => {
       this.user = data;
@@ -35,10 +39,45 @@ export class TabsPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getChatRooms()
+  }
 
   onLogout() {
     this.loginService.logout();
+  }
+
+  getChatRooms() {
+
+    this.chatSvc.getRoom().subscribe((rooms: any) => {
+      let messages = [];
+      for (let r of rooms) {
+        this.firebaseService.getCollectionConditional('messages',
+          ref => ref
+            .where('chatId', '==', r.id)  
+            .where('read','==',false)      
+            .where('user_id', '!=', JSON.parse(localStorage.getItem('user_id'))))
+          .subscribe(data => {
+
+            let msg = data.map(e => {
+              return {
+                user_id: e.payload.doc.data()['user_id'],
+                read: e.payload.doc.data()['read'],
+                message: e.payload.doc.data()['message'],
+              };
+            })        
+          
+                      
+
+            if(msg.length > 0){
+              this.chatSvc.unread$.next(true)             
+            }else{
+              this.chatSvc.unread$.next(false) 
+            }
+            
+          })      
+      }
+    });
   }
 
   async openQR() {

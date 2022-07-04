@@ -42,6 +42,7 @@ export class FriendsPage implements OnInit {
 
   async ngOnInit() {
     this.search('');
+  
   }
 
   ionViewWillLeave() {
@@ -50,6 +51,8 @@ export class FriendsPage implements OnInit {
   }
 
   search(value: string) {
+    console.log(value);
+    
     console.log('Buscando...');
     if (!this.isLoading) {
       this.isLoading = true;

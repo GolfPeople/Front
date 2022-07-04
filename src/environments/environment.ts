@@ -15,6 +15,14 @@ export const environment = {
   },
   production: false,
   golfpeopleAPI: 'https://www.api.app.golfpeople.com',
+
+
+
+
+  //===========Endpoints==============
+  createChatRoom: '/chat/create/room'
+
+  
   // firebaseConfig: {
   //   apiKey: 'AIzaSyC0OsRsAPOyimEggpzSGd_rfm6N_Hfrz2w',
   //   authDomain: 'golf-people.firebaseapp.com',

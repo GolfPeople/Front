@@ -7,7 +7,12 @@ const routes: Routes = [
   {
     path: '',
     component: ChatRoomPage
-  }
+  },   {
+    path: 'friends-list',
+    loadChildren: () => import('./friends-list/friends-list.module').then( m => m.FriendsListPageModule)
+  },
+
+
 ];
 
 @NgModule({
