@@ -49,10 +49,10 @@ export class CampusPage implements OnInit {
 
     this.campusSvg.getData(this.page).subscribe(
       ({ data }) => {
+             
         this.campos = data.reverse();
         this.searchedCampos = this.campos;
-        // this.searchCampo(this.text);
-        console.log(data);
+        // this.searchCampo(this.text);    
         this.page += 1;
         loading.dismiss();
       },

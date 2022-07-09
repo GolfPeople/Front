@@ -69,12 +69,6 @@ const routes: Routes = [
     canLoad: [AuthGuard],
   },
   {
-    path: 'website',
-    loadChildren: () =>
-      import('./website/website.module').then((m) => m.WebsiteModule),
-    canLoad: [AuthGuard],
-  },
-  {
     path: 'verify-email',
     loadChildren: () =>
       import('./verify-email/verify-email.module').then(
