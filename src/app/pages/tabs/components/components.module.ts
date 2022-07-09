@@ -6,6 +6,11 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToggleOptionsComponent } from './toggle-options/toggle-options.component';
 import { ActivityComponent } from './activity/activity.component';
+import {SearchMessagesComponent} from './search-messages/search-messages.component';
+import { SelectFriendComponent } from './select-friend/select-friend.component';
+import { DateInputComponent } from './date-input/date-input.component';
+import { DatepickerComponent } from './date-input/datepicker/datepicker.component';
+import { StepperComponent } from './stepper/stepper.component';
 
 
 
@@ -14,13 +19,23 @@ import { ActivityComponent } from './activity/activity.component';
     ChatMessagesComponent, 
     HeaderComponent,   
     ToggleOptionsComponent,
-    ActivityComponent
+    ActivityComponent,
+    SearchMessagesComponent,
+    SelectFriendComponent,
+    DateInputComponent,
+    DatepickerComponent,
+    StepperComponent
   ],
   declarations: [
     ChatMessagesComponent, 
     HeaderComponent,
     ToggleOptionsComponent,
-    ActivityComponent
+    ActivityComponent,  
+    SearchMessagesComponent,
+    SelectFriendComponent,
+    DateInputComponent,
+    DatepickerComponent,
+    StepperComponent  
   ],
   imports: [
     CommonModule, 

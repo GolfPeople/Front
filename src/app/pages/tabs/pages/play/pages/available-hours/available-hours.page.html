@@ -1,0 +1,55 @@
+<app-header backButton="true" title="Crear una Partida" icon="../../../../../assets/icons/golf-flag.svg">
+</app-header>
+<ion-content *ngIf="this.gameSvc.game.value.campus">
+<ion-grid fixed>
+  <ion-row>
+    <ion-col class="ps-col" size="8">
+      <div class="campus-name">{{gameSvc.game.value.campus.information}}</div>
+      <div class="subtext">{{gameSvc.game.value.campus.location}}</div>
+      <div class="subtext"><ion-icon slot="start" color="success" name="star-outline"></ion-icon> 9,5/10</div>
+    </ion-col>
+    <ion-col class="ion-text-center pe-col" size="4">
+      <div class="day-str">{{ gameSvc.game.value.date | date:'EEEE'}}</div>
+      <div class="day-numb">{{ gameSvc.game.value.date | date:'dd'}}</div>
+      <div class="month">{{gameSvc.game.value.date | date:'MMMM' | slice:0:3}}.</div>
+      <ion-button (click)="datePicker()" mode="ios" color="secondary" size="small" shape="round">
+        Cambiar
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+<div class="date-content">
+<label>Horarios Disponibles</label>
+
+<ion-grid fixed>
+  <ion-row>
+    <ion-col *ngFor="let h of alter" class="date-col-p" size="4">
+      <div class="date-card ion-activatable ripple-parent" (click)="selectHour(h)" [ngClass]="{'selected': h.isChecked}">
+        <div class="hour">{{h.hour}}</div>
+        <div class="name">Greenfee 18 Hoyos</div>
+        <div class="hole">{{ h.price | currency: 'EUR'}}</div>
+        <ion-ripple-effect></ion-ripple-effect>
+      </div>
+    </ion-col>    
+  </ion-row>
+</ion-grid>
+
+<div class="ion-text-center btn-submit-container">
+  <div class="ion-padding-vertical">
+    <ion-button  class="submit-btn" (click)="nextGotReservation()" mode="ios" color="success" expand="block" shape="round">
+    <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
+    Ya tengo mi Reserva
+  </ion-button>
+  </div>  
+
+  <ion-button [disabled]="!gameSvc.game.value.hours.length" (click)="nextDontGotReservation()" class="submit-btn" mode="ios" color="secondary" expand="block" shape="round">
+    <ion-icon slot="end" name="arrow-forward"></ion-icon>
+    Reservar
+  </ion-button>
+
+</div>
+</div>
+
+
+</ion-content>
+

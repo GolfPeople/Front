@@ -1,0 +1,86 @@
+<app-header title="Jugar" icon="../../../../assets/icons/tab/play.svg">
+</app-header>
+
+<ion-toolbar class="toggle-toolbar" color="primary">
+  <app-toggle-options [toggle]="toggleGameType$" [options]="toggleOptionsGameType"></app-toggle-options>
+
+  <ion-button *ngIf="!toggleGameType$.value" class="create-btn" routerLink="/tabs/play/create-game" fill="clear"
+    shape="round">
+    <ion-icon color="secondary" slot="start" name="add-circle-outline"></ion-icon>
+    <span class="create-btn-name">Crear Partida</span>
+  </ion-button>
+  <ion-button *ngIf="toggleGameType$.value" class="create-btn" routerLink="/tabs/play/create-game" fill="clear"
+    shape="round">
+    <ion-icon color="secondary" slot="start" name="add-circle-outline"></ion-icon>
+    <span class="create-btn-name">Crear Torneo</span>
+  </ion-button>
+</ion-toolbar>
+
+<ion-content class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <app-toggle-options [toggle]="toggleUserGames$" color="#009838" [options]="toggleOptionsUserGames">
+  </app-toggle-options>
+
+  <app-date-input placeholder="Filtrar partidas por fecha" [date]="date$"></app-date-input>
+
+  <div *ngIf="!loading">
+  <div *ngFor="let g of games" class="game-container">
+    <ion-item lines="none" class="ion-no-padding">
+      <span class="date" slot="start">
+        <div class="day">{{g.created_at | date:'dd'}}</div>
+        <div class="month">{{g.created_at | date:'MMMM' | slice:0:3}}</div>
+      </span>
+      <ion-label class="ion-text-wrap">
+        <div class="club-name">{{g.name}}</div>
+        <div class="location">{{g.address}}</div>
+      </ion-label>
+      <span slot="end">
+        <ion-icon class="item-icon" (click)="fav = !fav" [color]="fav ? 'danger' :'medium'"
+          [name]="fav ? 'heart' : 'heart-outline'"></ion-icon>
+        <ion-icon class="item-icon" color="medium" name="share-social-outline"></ion-icon>
+      </span>
+    </ion-item>
+
+    <ion-item lines="none" class="ion-no-padding">
+      <ion-avatar class="group-avatars" [ngClass]="{'first':i == 0,'second':i == 1}"
+        *ngFor="let u of g.users; index as i">
+        <img [src]="u.data.profile.photo ? u.data.profile.photo : avatar" />
+      </ion-avatar>
+      <ion-buttons slot="end">
+        <ion-button class="join-btn" color="secondary" shape="round" fill="solid">
+          Solicitar unirme
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+    <div class="players-length">Jugadores: {{g.users.length}}</div>
+  </div>
+</div>
+
+<div *ngIf="loading">
+  <div *ngFor="let g of [1,1,1,1,1,1,1,1,1]" class="game-container">
+    <ion-item lines="none" class="ion-no-padding">     
+      <ion-label class="ion-text-wrap">
+        <div style="padding-bottom: 5px;" class="club-name"><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></div>
+        <div class="location"><ion-skeleton-text animated style="width: 40%"></ion-skeleton-text></div>
+      </ion-label>
+      <span slot="end">
+        <ion-skeleton-text animated style="width: 40px"></ion-skeleton-text>      
+      </span>
+    </ion-item>
+
+    <ion-item lines="none" class="ion-no-padding">
+      <ion-avatar class="group-avatars" [ngClass]="{'first':i == 0,'second':i == 1}"
+        *ngFor="let u of [1,1,1]; index as i">
+        <ion-skeleton-text animated style="width: 100%;height: 100%;"></ion-skeleton-text>
+      </ion-avatar>
+      <ion-buttons slot="end">
+        <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+      </ion-buttons>
+    </ion-item>
+    <div style="padding: 5px 5px 0px 5px;"><ion-skeleton-text animated style="width: 30%"></ion-skeleton-text></div>
+    <div class="players-length"><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></div>    
+  </div>
+</div>
+</ion-content>

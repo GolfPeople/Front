@@ -87,6 +87,10 @@ const routes: Routes = [
           import('./pages/campus/campus.module').then(
             (m) => m.CampusPageModule
           ),
+      },      
+      {
+        path: 'play',
+        loadChildren: () => import('./pages/play/play.module').then( m => m.PlayPageModule)
       },
     ],
   },
@@ -94,6 +98,9 @@ const routes: Routes = [
     path: 'post/:user/:id',
     component: PublicPostComponent,
   },
+  
+
+
  
 ];
 

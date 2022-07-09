@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { ChatService } from 'src/app/core/services/chat/chat.service';
 import { FriendsService } from 'src/app/core/services/friends.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { ChatMessagesComponent } from '../../../components/chat-messages/chat-messages.component';
-
-
+import * as firebase from 'firebase/compat/app'
+import { UserService } from "src/app/core/services/user.service";
 @Component({
   selector: 'app-friends-list',
   templateUrl: './friends-list.page.html',
@@ -15,18 +15,27 @@ import { ChatMessagesComponent } from '../../../components/chat-messages/chat-me
 export class FriendsListPage implements OnInit {
 
   loading: boolean;
-  toggleOptions = {one: 'Nuevo Chat', two:'Nuevo Grupo'}
+  toggleOptions = { one: 'Nuevo Chat', two: 'Nuevo Grupo' }
   toggle$ = new BehaviorSubject(false);
-  
+
+  groupName: string;
+  currentUserData;
   constructor(
     public chatSvc: ChatService,
     private friendsSvc: FriendsService,
     private modalController: ModalController,
-    private firebaseService: FirebaseService  
+    private firebaseService: FirebaseService,
+    private alertCtrl: AlertController,
+    private userSvc: UserService
   ) { }
 
   ngOnInit() {
-    if(this.chatSvc.rooms$.value.length == 0){
+
+    this.userSvc.getUser(JSON.parse(localStorage.getItem('user_id'))).subscribe(res => {
+      this.currentUserData = res;
+    })   
+
+    if (this.chatSvc.rooms$.value.length == 0) {
       this.getChatRooms();
       this.getFriends();
     }
@@ -46,16 +55,16 @@ export class FriendsListPage implements OnInit {
       this.loading = false;
     })
   }
-  
 
-  getChatRooms(){
- 
+
+  getChatRooms() {
+
     this.chatSvc.getRoom().subscribe((rooms: any) => {
       for (let r of rooms) {
         this.firebaseService.getCollectionConditional('messages',
           ref => ref
-            .where('chatId', '==', r.sale_id)
-            .orderBy('created_at','desc')
+            .where('chatId', '==', r.id)
+            .orderBy('created_at', 'desc')
             .limit(5))
           .subscribe(data => {
             let msg = data.map(e => {
@@ -64,22 +73,27 @@ export class FriendsListPage implements OnInit {
                 read: e.payload.doc.data()['read'],
                 message: e.payload.doc.data()['message'],
               };
-            });              
-              r.lastmsg = msg[0].message 
-              r.unreadMsg = msg.filter(message => message.read == false && message.user_id !== JSON.parse(localStorage.getItem('user_id'))).length;                             
+            });
+            r.lastmsg = msg[0].message
+            r.unreadMsg = msg.filter(message => message.read == false && message.user_id !== JSON.parse(localStorage.getItem('user_id'))).length;
           })
-      }     
-      this.chatSvc.rooms$.next(rooms);  
+      }
+      this.chatSvc.rooms$.next(rooms);
       console.log(rooms);
-           
+
     });
   }
 
   openSingleChatRoom(friend) {
     let roomOpened;
+
     for (let s of friend.salas) {
-      roomOpened = this.chatSvc.rooms$.value.filter(room => room.sale_id == s.id)[0];
+      let exist = this.chatSvc.rooms$.value.filter(room => { return room.id == s.id && s.type_id == 2 })[0];
+      if (exist) {
+        roomOpened = exist
+      }
     }
+
     if (roomOpened) {
       this.openChat(roomOpened)
     } else {
@@ -87,18 +101,35 @@ export class FriendsListPage implements OnInit {
     }
   }
 
-  createSingleRoom(friend) {
-    let user = [];
-    let room = {}
-    user.push(friend.id)
-    this.chatSvc.createChatRoom(user).subscribe(res => {
+  async createSingleRoom(friend) {
+  
+    let room = {}   
+
+    const loading = await this.firebaseService.loader().create();
+    await loading.present();
+
+    this.chatSvc.sendMessage(friend.id, 'ㅤ').subscribe((res: any) => {
       console.log(res);
       room = {
-        name: friend.name,
-        photo: friend.profile.photo,
-        sale_id: res.sala_id
+        user: [friend,this.currentUserData],
+        id: res.sala_id,
+        type_id: 2,
+        lastmsg: 'ㅤ'
       }
-      this.openChat(room);
+      let message = {
+        chatId: res.sala_id,
+        user_id: JSON.parse(localStorage.getItem('user_id')),
+        created_at: firebase.default.firestore.FieldValue.serverTimestamp(),
+        message: 'ㅤ',
+        read: true
+      }
+      this.firebaseService.addToCollection('messages', message).then(res => {
+        this.openChat(room);
+        this.firebaseService.routerLink('/tabs/chat-room');
+        loading.dismiss();
+      }, error => {
+        loading.dismiss();
+      })   
     }, error => {
       console.log(error);
     })
@@ -114,23 +145,74 @@ export class FriendsListPage implements OnInit {
 
   }
 
-  createGrupalChatRoom() {
-    let users = this.chatSvc.friends$.value;
+
+
+  async createGroupName() {
+    let users = this.chatSvc.friends$.value.filter(e => { return e.isChecked == true });
+    if (users.length > 1) {
+      const alert = await this.alertCtrl.create({
+        cssClass: 'my-custom-class',
+        header: 'Ingresa el nombre del grupo',
+        backdropDismiss: false,
+        inputs: [
+          {
+            name: 'name',
+            type: 'text',
+            placeholder: 'Nombre del grupo'
+          },
+        ],
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+            cssClass: 'secondary'
+          }, {
+            text: 'Aceptar',
+            handler: (res) => {
+              this.createGrupalChatRoom(res.name, users);
+            }
+          }
+        ]
+      });
+      await alert.present();
+    }
+    else {
+      this.firebaseService.Toast('El grupo debe tener al menos 2 miembros')
+    }
+  }
+
+  async createGrupalChatRoom(groupName, users) {
     let usersId = [];
-    users = users.filter(e => {return e.isChecked == true})
-    usersId = users.map(u => {return (u.id)})
-    if(users.length > 1){    
-     this.chatSvc.createChatRoom(usersId).subscribe(res => {
-      console.log(res);
-      //{sala_id: 26, message: 'Registro exitoso'}
+    usersId = users.map(u => { return (u.id) })
+    let data = { users: usersId, name: groupName }
+    const loading = await this.firebaseService.loader().create();
+    await loading.present();
+
+    this.chatSvc.createChatRoom(data).subscribe(res => {
+      let room = {
+        id: res.sala_id,
+        lastmsg: 'ㅤ',
+        name: groupName,
+        user: users,
+        type_id: 1
+      }
+      let message = {
+        chatId: res.sala_id,
+        user_id: JSON.parse(localStorage.getItem('user_id')),
+        created_at: firebase.default.firestore.FieldValue.serverTimestamp(),
+        message: 'ㅤ',
+        read: true
+      }
+      this.firebaseService.addToCollection('messages', message).then(res => {
+        this.openChat(room);
+        this.firebaseService.routerLink('/tabs/chat-room');
+        loading.dismiss();
+      })
+
     }, error => {
+      loading.dismiss();
       console.log(error);
     })
-    }else{
-      this.firebaseService.Toast('El grupo debe tener al menos 2 miembros')
-    }  
-    
-    
   }
 
 }

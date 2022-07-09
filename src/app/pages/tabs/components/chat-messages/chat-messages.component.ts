@@ -9,8 +9,9 @@ import { ChatService } from 'src/app/core/services/chat/chat.service';
   styleUrls: ['./chat-messages.component.scss'],
 })
 export class ChatMessagesComponent implements OnInit {
-  @ViewChild(IonContent) content: IonContent;
-  @Input() data;
+  @ViewChild(IonContent, { static: true }) content: IonContent;
+  
+  @Input() data: any;
   avatarDefault = 'assets/img/default-avatar.png';
   message = '';
   messages = [];
@@ -22,52 +23,58 @@ export class ChatMessagesComponent implements OnInit {
 
   ngOnInit() {
     this.user_id = JSON.parse(localStorage.getItem('user_id'));
-    if(this.data.sale_id){
+    if (this.data.id) {
       this.getMessages();
       this.markAsRead();
-    }    
+      setTimeout(() => {
+        this.content.scrollToBottom(10);
+      }, 2000);
+    }
   }
 
-  ionViewWillLeave(){
+  ionViewWillLeave() {
     this.markAsRead();
   }
 
-  markAsRead(){      
-    this.firebaseService.markAsRead(this.user_id,this.data.sale_id)
+  markAsRead() {
+    this.firebaseService.markAsRead(this.user_id, this.data.id)
   }
 
- 
+
   newMessage() {
-    let message = {
-      chatId: this.data.sale_id,
-      user_id: this.user_id,
-      created_at: firebase.default.firestore.FieldValue.serverTimestamp(),
-      message: this.message,
-      read: false
-    }
-    this.newMessageDB(message.message);
-    this.firebaseService.addToCollection('messages', message).then(res => {
-      
-    }, error => {
-      this.firebaseService.Toast('El mensaje no se pudo enviar, intenta de nuevo.')
-    })
+    if (this.message) {
 
-    this.message = '';
-    this.content.scrollToBottom();
+      let message = {
+        chatId: this.data.id,
+        user_id: this.user_id,
+        created_at: firebase.default.firestore.FieldValue.serverTimestamp(),
+        message: this.message,
+        read: false
+      }
+      this.newMessageDB(message.message);
+      this.firebaseService.addToCollection('messages', message).then(res => {
+        
+      }, error => {
+        this.firebaseService.Toast('El mensaje no se pudo enviar, intenta de nuevo.')
+      })
+      
+      this.message = '';    
+    }
   }
 
-  newMessageDB(message){
-   this.chatSvc.sendMessage(this.data.user_id, message).subscribe(res =>{
-    console.log(res);    
-   })
+  newMessageDB(message) {
+    let userId = this.data.user.filter(u => { return u.id !== this.user_id })[0].id;
+    this.chatSvc.sendMessage(userId, message).subscribe(res => {
+      console.log(res);
+    })
   }
 
   getMessages() {
     this.firebaseService.getCollectionConditional('messages',
       ref => ref
-        .where('chatId', '==', this.data.sale_id)
-        .orderBy('created_at')
-        .limit(50))
+        .where('chatId', '==', this.data.id)
+        .orderBy('created_at', 'desc')
+        .limit(20))
       .subscribe(data => {
 
         this.messages = data.map(e => {
@@ -78,15 +85,25 @@ export class ChatMessagesComponent implements OnInit {
             created_at: e.payload.doc.data()['created_at'],
             message: e.payload.doc.data()['message'],
           };
-        });
-      
+        }).filter(msg => {return msg.message !== 'ㅤ'}).reverse()
+         
+      setTimeout(() => {
+        this.content.scrollToBottom(10);
+      }, 1500);
+        
+        
       }, error => {
         console.log(error)
       });
   }
 
   close() {
-    this.modalController.dismiss({ lastmsg: this.messages[this.messages.length - 1].message });
+    if (this.messages.length > 0) {
+      this.modalController.dismiss({ lastmsg: this.messages[this.messages.length - 1].message });
+    } else {
+      this.modalController.dismiss();
+    }
+
   }
 
 }

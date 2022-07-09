@@ -20,6 +20,7 @@ export class ChatRoomPage implements OnInit {
   toggle$ = new BehaviorSubject(false);
   loading: boolean;
   uid: number;
+  
   constructor(
     public chatSvc: ChatService,
     private firebaseService: FirebaseService,
@@ -38,11 +39,21 @@ export class ChatRoomPage implements OnInit {
     this.uid = JSON.parse(localStorage.getItem('user_id'));
   }
 
+  ionViewDidEnter(){
+    this.getChatRooms();
+    this.getNotifications();
+  }
+
   getNotifications() {
-    this.notificationSvc.all().subscribe(res => {
+    this.notificationSvc.noRead().subscribe(res => {    
+          
       this.notificationSvc.userNotifications$.next(res.map(notification => {
-        return (notification.data.data)
-      }))      
+        return {
+          id: notification.id,
+          data: notification.data.data
+        }
+      }))     
+      
     })
   }
 
@@ -79,12 +90,13 @@ export class ChatRoomPage implements OnInit {
                 created_at: e.payload.doc.data()['created_at'],
               };
             });
-            r.lastmsg = msg[0].message
-            r.unreadMsg = msg.filter(message => message.read == false && message.user_id !== this.uid).length;            
+        
+            r.lastmsg = msg[0].message            
+            r.unreadMsg = msg.filter(message =>{return message.read == false && message.user_id !== this.uid}).length;             
+          
           })
       }
-      this.chatSvc.rooms$.next(rooms); 
-      console.log(rooms);
+      this.chatSvc.rooms$.next(rooms);         
             
     });
   }
@@ -94,7 +106,7 @@ export class ChatRoomPage implements OnInit {
     const modal = await this.modalController.create({
       component: ChatMessagesComponent,
       componentProps: { data: room },
-      cssClass: 'messages-modal'
+      cssClass: 'fullscreen-modal'
     });
     modal.present();
 
@@ -102,7 +114,16 @@ export class ChatRoomPage implements OnInit {
     if (data) {
       this.chatSvc.rooms$.value[index].lastmsg = data.lastmsg
     }
+    this.ionViewDidEnter();
+  }
 
+  async searchMessage(value) {
+    const modal = await this.modalController.create({
+      component: ChatMessagesComponent,
+      componentProps: { value },
+      cssClass: 'messages-modal'
+    });
+    modal.present();
   }
 
 

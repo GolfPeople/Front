@@ -2,7 +2,7 @@
   [icon]="!toggle$.value ? '../../../../assets/icons/message.svg' : '../../../../assets/icons/notifications.svg'">
 </app-header>
 
-<ion-toolbar color="primary">
+<ion-toolbar class="toggle-toolbar" color="primary">
   <app-toggle-options [toggle]="toggle$" [options]="toggleOptions"></app-toggle-options>
   <ion-button *ngIf="!toggle$.value" class="new-msg-btn" routerLink="/tabs/chat-room/friends-list" fill="clear"
     shape="round">
@@ -18,20 +18,19 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-
   <div *ngIf="!toggle$.value">
     <div class="search">
-      <img src="../../../../assets/messages/blue-message.svg" alt="" />
+      <img  src="../../../../assets/messages/blue-message.svg" alt="" />
       <input placeholder="Buscar conversación" type="text" />
     </div>
     <ion-list *ngIf="!loading" lines="none">
-      <div class="chat-pt" *ngFor="let room of chatSvc.rooms$ | async; index as i">
-        <ion-item *ngIf="room.type_id == 1" (click)="openChat(room, i)">
-          <ion-avatar>
-            <img [src]="  room.photo ? room.photo : avatar" />
+      <div class="chat-pt" *ngFor="let room of chatSvc.rooms$.value; index as i">
+        <ion-item *ngIf="room.type_id == 1" (click)="openChat(room, i)">        
+          <ion-avatar class="group" [ngClass]="{'group-avatars': i !== 0}" *ngFor="let u of room.user; index as i" >
+            <img [src]="u.profile.photo ? u.profile.photo :  avatar" />
           </ion-avatar>
-          <ion-label class="ion-margin-start">
-            <h3>{{room.name}}</h3>
+          <ion-label>
+            <h3>{{room.name_chat}}</h3>
             <p *ngIf="room.lastmsg" [ngClass]="room.unreadMsg ? 'unread' : ''">{{room.lastmsg}}</p>
           </ion-label>
           <ion-badge *ngIf="room.unreadMsg" color="danger" slot="end">{{room.unreadMsg}}</ion-badge>
@@ -43,11 +42,11 @@
             <div *ngIf="u.id !== uid">
               <ion-item (click)="openChat(room, i)">
                 <ion-avatar>
-                  <img [src]="  u.profile.photo ? u.profile.photo : avatar" />
+                  <img [src]="u.profile.photo ? u.profile.photo : avatar" />
                 </ion-avatar>
                 <ion-label class="ion-margin-start">
                   <h3>{{u.name}}</h3>
-                  <p *ngIf="room.lastmsg" [ngClass]="room.unreadMsg ? 'unread' : ''">{{room.lastmsg}}</p>
+                  <p *ngIf="room.lastmsg !== 'ㅤ'" [ngClass]="room.unreadMsg ? 'unread' : ''">{{room.lastmsg}}</p>
                 </ion-label>
                 <ion-badge *ngIf="room.unreadMsg" color="danger" slot="end">{{room.unreadMsg}}</ion-badge>
               </ion-item>

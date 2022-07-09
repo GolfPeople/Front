@@ -1,5 +1,5 @@
 <div class="toggle-tab">
-  <div [ngClass]="{'active': toggle.value}" class="fondo"></div>
+  <div [ngClass]="{'active': toggle.value}" [style.background]="color ? color : 'var(--ion-color-secondary)'" class="fondo"></div>
   <div class="toggle-buttons">
     <button [ngClass]="{'active': toggle.value}" (click)="toggle.next(false)">
       {{options.one}}

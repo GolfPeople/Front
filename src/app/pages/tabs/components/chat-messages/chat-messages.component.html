@@ -1,43 +1,57 @@
-<ion-header class="ion-text-center">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="close()" shape="round">
-        <ion-icon color="light" style="font-size: 25px;" name="arrow-back"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>
-      <h2>
-        <img src="../../../../assets/icons/message.svg" alt="" /> mensajes
-      </h2>
-    </ion-title>
-  </ion-toolbar>
-  <ion-item class="user-info-chat ion-no-padding">
-    <ion-avatar class="ion-margin">
-      <img [src]="data.photo ? data.photo :  avatarDefault" />
-    </ion-avatar>
-    <ion-label>
-      <h3>{{data.name}}</h3>
-      <span class="online-mark"><ion-icon name="logo-pinterest"></ion-icon></span><span class="online-text">En línea</span>      
-    </ion-label>
-  </ion-item>
-</ion-header>
-
-<ion-content class="ion-padding">
-  <div class="chat">
-    <p
-      *ngFor="let msg of messages"
-      class="message"
-      [ngClass]="{'my-message': user_id == msg.user_id, 'other-message':user_id != msg.user_id }"
-    >
-      <span>{{msg.message}}</span>
-    </p>
+<ion-header class="ion-no-border">
+  <app-header backButtonModal="true" title="Mensajes" icon="../../../../../assets/icons/message.svg">
+  </app-header>
+  <div *ngIf="data.type_id == 2">
+    <div *ngFor="let u of data.user">
+      <ion-item *ngIf="user_id !== u.id" class="ion-no-padding">
+        <ion-avatar class="ion-margin">
+          <img [src]="u.profile.photo ? u.profile.photo :  avatarDefault" />
+        </ion-avatar>
+        <ion-label>
+          <h3>{{u.name}}</h3>
+          <span class="online-mark">
+            <ion-icon name="ellipse"></ion-icon>
+          </span>
+          <span class="online-text">En línea</span>
+        </ion-label>
+      </ion-item>
+    </div>
   </div>
+  <div *ngIf="data.type_id == 1">
+    <ion-item class="ion-no-padding">
+      <ion-avatar class="ion-margin-vertical group-avatars" [ngClass]="{'first':i == 0,'second':i == 1}"
+        *ngFor="let u of data.user; index as i">
+        <img [src]="u.profile.photo ? u.profile.photo :  avatarDefault" />
+      </ion-avatar>
+      <ion-label>
+        <h3>{{data.name_chat}}</h3>
+      </ion-label>
+    </ion-item>
+
+  </div>
+</ion-header>
+<ion-content slot="fixed" [scrollEvents]="true" class="ion-padding">
+
+  <div style="padding-bottom: 15px;" *ngFor="let msg of messages">
+    <ion-item lines="none" [ngClass]="{'current-user': msg.user_id == user_id}" class="ion-no-padding msg-item">
+      <span slot="start" style="padding-right: 5px;" *ngFor="let u of data.user">
+        <ion-avatar *ngIf="msg.user_id == u.id && msg.user_id !== user_id">
+          <img [src]="u.profile.photo ? u.profile.photo :  avatarDefault" />
+        </ion-avatar>
+      </span>
+      <ion-label [ngClass]="{'current-user': msg.user_id == user_id}" [slot]="msg.user_id == user_id ? 'end' : 'start'"
+        class="ion-text-wrap ">{{msg.message}}</ion-label>
+    </ion-item>
+    <div class="msg-date" *ngIf="msg.created_at" [ngClass]="{'current-user': msg.user_id == user_id}">{{msg.created_at.toDate() | date:'shortTime'}}
+    </div>
+  </div>
+
 </ion-content>
-<ion-footer>
-  <ion-item lines="none" class="text-area-container ion-no-border">
-    <textarea class="ion-no-margin ion-no-border" placeholder="Escribe algo" [(ngModel)]="message"></textarea>
-    <a (click)="newMessage()">
-      <img src="../../../../assets/icons/grey-message.svg" alt="" />
-    </a>
-  </ion-item>
+<ion-footer class="ion-no-border">
+
+  <div class="msg-input">
+    <textarea placeholder="Escribe un mensaje..." [(ngModel)]="message"></textarea>
+    <ion-icon (click)="newMessage()" class="msg-btn" [color]="message ? 'primary' : 'medium'" name="send-outline"></ion-icon>
+  </div>
+
 </ion-footer>

@@ -1,0 +1,31 @@
+
+<ion-grid (click)="datePicker()" style="width: 100%;" class="ion-text-center" fixed>
+  <ion-row *ngIf="!date.value" class="select-container">  
+    <ion-col class="placeholder" size="10">
+    {{ placeholder ? placeholder : 'Selecciona una fecha'}} 
+    </ion-col>
+    <ion-col class="date" size="2">                
+      <ion-icon name="calendar-outline"></ion-icon>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="date.value" class="select-container">
+    <ion-col class="separator" *ngIf="day" size="4">
+      {{ date.value | date:'EEEE. d'}}
+    </ion-col>
+    <ion-col class="separator" [size]="day ? '3' : '7'">
+      {{ date.value | date:'MMMM'}}
+    </ion-col>
+    <ion-col size="3">
+      {{ date.value | date:'yyyy'}}
+    </ion-col>
+    <ion-col class="date" size="2">                
+      <ion-icon name="calendar-outline"></ion-icon>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+
+
+
+

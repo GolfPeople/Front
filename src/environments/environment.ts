@@ -20,8 +20,9 @@ export const environment = {
 
 
   //===========Endpoints==============
-  createChatRoom: '/chat/create/room'
-
+  createChatRoom: '/chat/create/room',
+  createGame: '/games/create',
+  games: '/games/show/all'
   
   // firebaseConfig: {
   //   apiKey: 'AIzaSyC0OsRsAPOyimEggpzSGd_rfm6N_Hfrz2w',

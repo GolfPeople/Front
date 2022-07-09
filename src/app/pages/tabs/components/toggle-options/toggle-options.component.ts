@@ -15,6 +15,7 @@ export class ToggleOptionsComponent implements OnInit {
 
   @Input() toggle: BehaviorSubject<boolean>;
   @Input() options = {} as Options;
+  @Input() color: string;
 
   constructor() { }
 

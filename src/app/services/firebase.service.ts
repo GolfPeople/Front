@@ -133,40 +133,11 @@ export class FirebaseService {
         console.log(error);
       }
     }
-  }
-
-  //============Creación de Usuarios=========
-
-  /* 
-   SECONDARY FIREBASE
-   Se utiliza para retornar una segunda sesión de firebase, esto evita que ocurran
-   conflictos con la sesión primaria en curso. */
-  // secondaryFirebase() {
-  //   return firebase.default.app('Secondary');
-  // }
-
-  // CreateUser(user) {
-  //   return this.secondaryFirebase().auth().createUserWithEmailAndPassword(user.email, user.password);
-  // }
-
-  // AuthForDelete(email, password) {
-  //   return this.secondaryFirebase().auth().signInWithEmailAndPassword(email, password)
-  // }
-
-  // DeleteUserAuth() {
-  //   return this.secondaryFirebase().auth().currentUser.delete();
-  // }
-
-
-  // =========Cerrar Sesión===========
-  /* Cierra sesión y borra datos almacenados en localstorage. */
+  }  
 
   logout() {
     this.auth.signOut().then(() => {
-      localStorage.removeItem('uid');
-      localStorage.removeItem('sessionId');
-      localStorage.removeItem('openingId');
-      localStorage.removeItem('role');
+      localStorage.removeItem('user_id');     
       this.router.navigate(['login']);
     });
   }
@@ -177,8 +148,8 @@ export class FirebaseService {
     return this.loadingController;
   }
 
-  routerLink() {
-    return this.router;
+  routerLink(url: string) {
+    return this.router.navigateByUrl(url);
   }
 
   async Toast(message) {

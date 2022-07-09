@@ -1,15 +1,15 @@
 <div *ngIf="notificationSvc.userNotifications$.value.length > 0">
-  <div class="pt-notification" *ngFor="let n of notificationSvc.userNotifications$ | async">
+  <div class="pt-notification" *ngFor="let n of notificationSvc.userNotifications$.value; index as i">
     <ion-item lines="none" class="ion-no-padding">
   <ion-avatar slot="start">
-    <img [src]="n.user_sender.profile.photo" />
+    <img [src]="n.data.user_sender.profile.photo ? n.data.user_sender.profile.photo : avatar" />
   </ion-avatar>
-  <ion-label class="ion-text-wrap">{{n.detail}}</ion-label>
-  <ion-buttons *ngIf="n.type == 'friends'" slot="end">
-    <ion-button color="success" (click)="acceptRequest(n.connection_id)">
+  <ion-label class="ion-text-wrap">{{n.data.detail}}</ion-label>
+  <ion-buttons *ngIf="n.data.type == 'friends'" slot="end">
+    <ion-button color="success" (click)="acceptRequest(n,i)">
       <ion-icon  name="checkmark-circle"></ion-icon>
     </ion-button>
-    <ion-button color="danger" (click)="declineRequest(n.connection_id)">
+    <ion-button color="danger" (click)="declineRequest(n,i)">
       <ion-icon  name="close-circle"></ion-icon>
     </ion-button>
   </ion-buttons>

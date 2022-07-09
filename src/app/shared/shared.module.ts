@@ -26,6 +26,7 @@ import { PostsComponent } from './components/posts/posts.component';
 import { HeaderComponent } from './components/header/header.component';
 import { DesignerAvatarComponent } from './components/designer-avatar/designer-avatar.component';
 import { CampoCardComponent } from './components/campo-card/campo-card.component';
+import { WebsiteModule } from '../website/website.module';
 
 const components = [
   SelectDateComponent,
@@ -59,7 +60,7 @@ const components = [
     SwiperModule,
     FormsModule,
     RouterModule,
-    ImageCropperModule,
+    ImageCropperModule,   
   ],
   exports: [components, JsonToDataPipe],
 })

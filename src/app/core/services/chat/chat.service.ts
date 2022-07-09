@@ -39,8 +39,9 @@ export class ChatService {
   }
 
 
-  createChatRoom(users) {
-    return this.http.post<any>(`${API}${environment.createChatRoom}`, { users })
+  createChatRoom(data) {    
+    console.log(data);    
+    return this.http.post<any>(`${API}${environment.createChatRoom}`,  data )
   }
 
 }

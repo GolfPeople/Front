@@ -12,6 +12,9 @@ export class HeaderComponent implements OnInit {
   @Input() backButton: any;
   @Input() backButtonModal: any;
   @Input() icon: string;
+  @Input() start: any;
+  @Input() stepper: any;
+  @Input() confirmation: any;
   constructor(private modalController: ModalController){ 
       }  
    

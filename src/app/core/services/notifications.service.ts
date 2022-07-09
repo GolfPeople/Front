@@ -64,9 +64,8 @@ export class NotificationsService {
   }
 
   // Marca una notificacion como leidas
-  markAsReadOne(id) {
-    const key = id;
-    return this.http.post(`${URL}/notifications/my/markreadone`, { key });
+  markAsReadOne(id) {     
+    return this.http.post(`${URL}/notifications/my/markreadone`, { key: id });
   }
 
   delete() {

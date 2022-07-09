@@ -22,6 +22,8 @@ export class TabsPage implements OnInit {
   profileUrl: string = 'https://golf-people.web.app/tabs/user-profile';
 
   value;
+
+  notification = new Audio('../../../assets/sounds/notification.mp3');
   constructor(
     private loginService: LoginService,
     private userService: UserService,
@@ -66,11 +68,11 @@ export class TabsPage implements OnInit {
                 message: e.payload.doc.data()['message'],
               };
             })        
-          
-                      
+                             
 
             if(msg.length > 0){
-              this.chatSvc.unread$.next(true)             
+              this.chatSvc.unread$.next(true)  
+              this.notification.play();
             }else{
               this.chatSvc.unread$.next(false) 
             }

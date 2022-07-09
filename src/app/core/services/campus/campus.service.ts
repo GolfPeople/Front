@@ -29,6 +29,10 @@ export class CampusService {
     console.log('Campo selecionado', campus);
   }
 
+  getAllCampus(){
+    return this.http.get<any>(`${URL}/campus/show/all`);
+  }
+
   createCamp(
     information: string,
     services: string[],

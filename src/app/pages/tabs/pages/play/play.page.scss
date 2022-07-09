@@ -1,0 +1,78 @@
+.create-btn {
+    text-transform: capitalize;
+    color: white;
+    position: relative;
+    bottom: 10px;
+}
+
+.create-btn-name {
+    padding-left: 5px;
+}
+
+h3 {
+    line-height: 10px;
+}
+.group-avatars {
+    width: 55px;
+    height: 55px;
+    position: relative;
+    right: 30px;
+    &.first{
+      left: 0;
+    }
+    &.second{
+      right: 15px;
+    }
+  }
+
+.game-container{
+padding-top: 30px;
+border-bottom: 1px solid #DDDDDD;
+}
+
+.club-name {
+    font-size: 15px;
+    line-height: 15px;
+    font-weight: 700;
+    color: #383838;
+}
+
+.location {
+    font-size: 12px;
+}
+
+.item-icon {
+    font-size: 26px;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.date {
+    color: #383838;
+    padding-right: 10px;
+
+    .day {
+        font-size: 18px;
+        font-weight: bold;
+        line-height: 20px;
+        border-bottom: 2px solid var(--ion-color-secondary);
+        text-align: center;
+    }
+
+    .month {
+        font-size: 18px;
+        font-weight: bold;
+        line-height: 20px;
+        text-align: center;
+    }
+}
+
+.join-btn{
+    text-transform: capitalize;
+    font-size: 13px;
+}
+
+.players-length{
+    font-size: 13x;
+    padding: 10px 0 20px 5px;    
+}

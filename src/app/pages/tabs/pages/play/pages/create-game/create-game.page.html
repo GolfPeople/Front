@@ -1,0 +1,91 @@
+<app-header backButton="true" title="Crear una Partida" icon="../../../../../assets/icons/golf-flag.svg">
+</app-header>
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-grid>
+    <ion-row>
+      <div>
+        <ion-col class="col-title">
+          <div class="header-title">
+            <h1 style="color: white;font-weight: 600;">¿Con quien <br> quieres jugar?</h1>
+          </div>
+        </ion-col>
+      </div>
+    </ion-row>
+    <ion-row class="vertical-align-center">
+      <div>
+        <ion-col class="col-content">
+
+          <div class="players-container">
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col size="3">
+                  <ion-button (click)="selectPlayers()" class="add-btn">
+                    <ion-icon src="../../../../../../assets/icons/tab/create.svg"></ion-icon>
+                  </ion-button>
+                </ion-col>
+                <ion-col class="ion-text-center" *ngFor="let p of players$ | async"
+                  [size]="players$.value.length ? '3' : '0'">
+                  <ion-avatar style="margin: 0 auto;">
+                    <img [src]="p.profile.photo ? p.profile.photo : avatar" />
+                  </ion-avatar>
+                  <div style="padding-top: 10px;text-transform: capitalize;">{{p.name}}</div>
+                </ion-col>
+                <ion-col class="ion-text-center" *ngIf="players$.value.length == 0" size="9">
+                  <ion-text color="medium">
+                    <h5>Agrega jugadores a la partida</h5>
+                  </ion-text>
+
+                </ion-col>
+
+              </ion-row>
+            </ion-grid>
+          </div>
+          <div class="ion-text-end players-length">{{players$.value.length}} jugadores</div>
+
+          <div class="label">¿Cuando?</div>
+
+          <app-date-input day="true" [date]="date$"></app-date-input>
+
+          <div class="label">
+            <ion-icon color="secondary" name="location-outline"></ion-icon> ¿Donde?
+          </div>
+          <div style="padding: 15px;" class="select-container">
+            <ion-skeleton-text *ngIf="loading" animated style="width: 60%"></ion-skeleton-text>
+            <ion-select *ngIf="!loading" [(ngModel)]="campusSelected" cancel-text="" interface="popover"
+              placeholder="Selecciona un campo">
+              <ion-select-option class="ion-text-wrap" *ngFor="let c of campus" [value]="c">
+                <ion-icon src="../../../../../../assets/icons/golf-flag.svg"></ion-icon>
+                {{c.information}}
+              </ion-select-option>
+            </ion-select>
+          </div>
+
+
+          <div class="label">
+            Nombre de la partida
+          </div>
+          <ion-input type="text" [(ngModel)]="gameSvc.game.value.name" class="select-container input-name"
+            placeholder="Ingresa un nombre para la partida"></ion-input>
+
+          <div class="ion-text-center btn-submit-container">
+            <ion-button *ngIf="!creating" [disabled]="!validator()" (click)="createGame()" class="game-btn" mode="ios" color="secondary" expand="block" shape="round">
+              <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
+              Crear Partida
+            </ion-button>
+
+            <ion-button *ngIf="creating" disabled  class="game-btn ion-text-center" mode="ios"
+              color="secondary" expand="block" shape="round">
+              <ion-spinner></ion-spinner>
+            </ion-button>
+
+          </div>
+
+
+        </ion-col>
+      </div>
+    </ion-row>
+  </ion-grid>
+</ion-content>
