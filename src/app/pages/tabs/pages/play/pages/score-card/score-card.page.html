@@ -1,0 +1,72 @@
+<ion-toolbar color="primary">
+  <ion-buttons slot="start">
+    <ion-back-button  defaultHref="/tabs/play"></ion-back-button>
+  </ion-buttons>
+
+  <ion-title class="ion-text-center">SCORECARD</ion-title>
+
+  <ion-buttons slot="end">
+    <ion-button>
+      <ion-icon style="font-size: 23px;" src="../../../../../../../assets/icons/clipboard.svg"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>
+<ion-toolbar class="ion-text-center hole-toolbar" color="primary">
+    <ion-icon name="chevron-back"></ion-icon>
+    <span class="hole">HOYO 1</span>
+    <ion-icon name="chevron-forward"></ion-icon>
+</ion-toolbar>
+<ion-toolbar class="data-toolbar" color="primary">
+<ion-buttons slot="start">
+  <ion-button>
+    <ion-icon  src="../../../../../../../assets/icons/chat-points.svg"></ion-icon> 
+  </ion-button>
+</ion-buttons>
+  <ion-title>
+    <div>PAR 4 | HCP 14</div> 
+  <div class="level">Dificultad: Media</div> 
+  </ion-title>
+  <ion-buttons slot="end">
+    <ion-button>
+      <ion-icon  name="heart-outline"></ion-icon> 
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>
+<ion-content class="ion-padding">
+
+  <table>
+    <tr>
+      <th class="ion-text-center">ㅤ</th>
+      <th class="ion-text-center">ㅤ</th>
+      <th class="ion-text-center">Golpes</th>
+      <th class="ion-text-center"></th>
+      <th class="ion-text-center">ㅤ</th>
+      <th class="ion-text-center">Puntos</th>
+    </tr>
+    <tr *ngFor="let item of [1,1,1,1,1,1]; index as i" class="bb">     
+      <td>
+        <ion-avatar>
+          <img src="../../../../../../../assets/img/profile-image.png" />
+        </ion-avatar>
+      </td>
+      <td style="width: 100px;">
+        <div class="username">Carlos Martin</div>
+        <div class="hcp">HCP 14</div>
+      </td>
+      <td>
+       <div class="hits">2</div> 
+      </td>
+      <td>      
+         <ion-icon src="../../../../../../../assets/icons/edit-pencil-grey.svg"></ion-icon>
+       </td>
+       <td [ngClass]="{'border-top': i == 0}" class="score">
+        <div>*</div>
+        <div class="active">*</div>
+        <div class="active">*</div>
+       </td>
+       <td>
+        <div class="hits">2</div> 
+       </td>
+    </tr>
+  </table>
+</ion-content>

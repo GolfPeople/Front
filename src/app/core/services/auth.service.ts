@@ -10,13 +10,21 @@ import {
 } from '@angular/fire/compat/firestore';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+import { Platform } from '@ionic/angular';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   public user$: Observable<UserAuth>;
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {
+
+
+  constructor(
+    private afAuth: AngularFireAuth,
+    private afs: AngularFirestore,
+    private platform: Platform
+  ) {
+
     this.user$ = this.afAuth.authState.pipe(
       switchMap((user) => {
         if (user) {
@@ -39,13 +47,63 @@ export class AuthService {
     }
   }
 
+  async googleSignInMobile() {
+
+    let googleUser = await GoogleAuth.signIn();
+    const credential = firebase.auth.GoogleAuthProvider.credential(googleUser.authentication.idToken);
+    const { user } = await this.afAuth.signInWithCredential(credential)
+    this.updateUserData(user);
+    return user;
+
+  }
+
   async loginGoogle(): Promise<any> {
     try {
-      const { user } = await this.afAuth.signInWithPopup(
-        new firebase.auth.GoogleAuthProvider()
-      );
-      this.updateUserData(user);
-      return user;
+
+      if (this.platform.is('capacitor')) {
+        
+        let googleUser = await GoogleAuth.signIn();
+        const credential = firebase.auth.GoogleAuthProvider.credential(googleUser.authentication.idToken);
+        const { user } = await this.afAuth.signInWithCredential(credential)
+        this.updateUserData(user);
+        return user;
+
+      } else {
+
+        const { user } = await this.afAuth.signInWithPopup(
+          new firebase.auth.GoogleAuthProvider()
+        );
+        this.updateUserData(user);
+        return user;
+
+      }
+
+    } catch (error) {
+      console.log('Error -->', error);
+    }
+  }
+
+  async loginFacebook(): Promise<any> {
+    try {
+
+      if (this.platform.is('capacitor')) {
+        
+        // let googleUser = await GoogleAuth.signIn();
+        // const credential = firebase.auth.GoogleAuthProvider.credential(googleUser.authentication.idToken);
+        // const { user } = await this.afAuth.signInWithCredential(credential)
+        // this.updateUserData(user);
+        // return user;
+
+      } else {
+
+        const { user } = await this.afAuth.signInWithPopup(
+          new firebase.auth.FacebookAuthProvider()
+        );
+        this.updateUserData(user);
+        return user;
+
+      }
+
     } catch (error) {
       console.log('Error -->', error);
     }

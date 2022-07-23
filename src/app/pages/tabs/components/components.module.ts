@@ -11,6 +11,8 @@ import { SelectFriendComponent } from './select-friend/select-friend.component';
 import { DateInputComponent } from './date-input/date-input.component';
 import { DatepickerComponent } from './date-input/datepicker/datepicker.component';
 import { StepperComponent } from './stepper/stepper.component';
+import { TimeAgoPipe } from 'src/app/shared/pipes/time-ago.pipe';
+import { AlertConfirmComponent } from './alert-confirm/alert-confirm.component';
 
 
 
@@ -24,7 +26,9 @@ import { StepperComponent } from './stepper/stepper.component';
     SelectFriendComponent,
     DateInputComponent,
     DatepickerComponent,
-    StepperComponent
+    StepperComponent,
+    TimeAgoPipe,
+    AlertConfirmComponent  
   ],
   declarations: [
     ChatMessagesComponent, 
@@ -35,7 +39,9 @@ import { StepperComponent } from './stepper/stepper.component';
     SelectFriendComponent,
     DateInputComponent,
     DatepickerComponent,
-    StepperComponent  
+    StepperComponent,
+    TimeAgoPipe,
+    AlertConfirmComponent  
   ],
   imports: [
     CommonModule, 

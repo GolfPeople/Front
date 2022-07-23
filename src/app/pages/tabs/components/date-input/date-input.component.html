@@ -1,6 +1,6 @@
 
-<ion-grid (click)="datePicker()" style="width: 100%;" class="ion-text-center" fixed>
-  <ion-row *ngIf="!date.value" class="select-container">  
+<ion-grid (click)="datePicker()" class="ion-text-center" fixed>
+  <ion-row *ngIf="!date.value" [ngClass]="{'round': round}" class="select-container">  
     <ion-col class="placeholder" size="10">
     {{ placeholder ? placeholder : 'Selecciona una fecha'}} 
     </ion-col>
@@ -9,7 +9,7 @@
     </ion-col>
   </ion-row>
 
-  <ion-row *ngIf="date.value" class="select-container">
+  <ion-row *ngIf="date.value" [ngClass]="{'round': round}"  class="select-container">
     <ion-col class="separator" *ngIf="day" size="4">
       {{ date.value | date:'EEEE. d'}}
     </ion-col>

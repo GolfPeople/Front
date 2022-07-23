@@ -97,7 +97,11 @@ const routes: Routes = [
   {
     path: 'post/:user/:id',
     component: PublicPostComponent,
+  },  {
+    path: 'maps',
+    loadChildren: () => import('./pages/maps/maps.module').then( m => m.MapsPageModule)
   },
+
   
 
 

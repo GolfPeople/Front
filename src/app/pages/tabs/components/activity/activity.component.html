@@ -1,21 +1,56 @@
 <div *ngIf="notificationSvc.userNotifications$.value.length > 0">
   <div class="pt-notification" *ngFor="let n of notificationSvc.userNotifications$.value; index as i">
-    <ion-item lines="none" class="ion-no-padding">
-  <ion-avatar slot="start">
-    <img [src]="n.data.user_sender.profile.photo ? n.data.user_sender.profile.photo : avatar" />
-  </ion-avatar>
-  <ion-label class="ion-text-wrap">{{n.data.detail}}</ion-label>
-  <ion-buttons *ngIf="n.data.type == 'friends'" slot="end">
-    <ion-button color="success" (click)="acceptRequest(n,i)">
-      <ion-icon  name="checkmark-circle"></ion-icon>
-    </ion-button>
-    <ion-button color="danger" (click)="declineRequest(n,i)">
-      <ion-icon  name="close-circle"></ion-icon>
-    </ion-button>
-  </ion-buttons>
-</ion-item>
+    <ion-item style="padding-left: 10px;" lines="none" class="ion-no-padding">
+      <ion-avatar (click)="goToUserProfile(n.data.user_sender.id)" slot="start">
+        <img [src]="n.data.user_sender.profile && n.data.user_sender.profile.photo ? n.data.user_sender.profile.photo : avatar" />
+      </ion-avatar>
+      <ion-label class="ion-text-wrap">
+        {{n.data.detail}}
+
+
+        <div *ngIf="n.data.type == 'friends'">
+          <ion-button color="secondary" mode="ios" fill="solid" (click)="acceptFriendRequest(n,i)">
+            Aceptar
+            <ion-icon class="friendship-icon" name="checkmark-circle-outline"></ion-icon>
+          </ion-button>
+          <span style="padding: 0px 2px 2px 0px;"></span>
+          <ion-button color="medium" mode="ios" fill="solid" (click)="declineFriendRequest(n,i)">
+            Rechazar
+            <ion-icon class="friendship-icon" name="close-circle-outline"></ion-icon>
+          </ion-button>
+        </div>
+
+        <div *ngIf="n.data.type == 'games'">
+          <ion-button color="secondary" mode="ios" fill="solid" (click)="acceptGameRequest(n,i)">
+            Aceptar
+            <ion-icon class="friendship-icon" name="checkmark-circle-outline"></ion-icon>
+          </ion-button>
+          <span style="padding: 0px 2px 2px 0px;"></span>
+          <ion-button color="medium" mode="ios" fill="solid" (click)="declineGameRequest(n,i)">
+            Rechazar
+            <ion-icon class="friendship-icon" name="close-circle-outline"></ion-icon>
+          </ion-button>
+        </div>
+
+        <div *ngIf="n.data.type == 'RequestGames'">
+          <ion-button color="secondary" mode="ios" fill="solid" (click)="acceptJoinRequest(n,i)">
+            Aceptar
+            <ion-icon class="friendship-icon" name="checkmark-circle-outline"></ion-icon>
+          </ion-button>
+          <span style="padding: 0px 2px 2px 0px;"></span>
+          <ion-button color="medium" mode="ios" fill="solid" (click)="declineJoinRequest(n,i)">
+            Rechazar
+            <ion-icon class="friendship-icon" name="close-circle-outline"></ion-icon>
+          </ion-button>
+        </div>
+    
+      </ion-label>
+      <span slot="end">
+      <div class="time-ago">{{n.date | timeAgo}} </div> 
+      </span> 
+    </ion-item>
   </div>
-  
+
 </div>
 <div class="empty" *ngIf="notificationSvc.userNotifications$.value.length == 0">
   <ion-icon name="notifications-outline"></ion-icon>

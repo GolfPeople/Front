@@ -8,6 +8,7 @@ import { ChatRoomPageRoutingModule } from './chat-room-routing.module';
 
 import { ChatRoomPage } from './chat-room.page';
 import { ComponentsModule } from '../../components/components.module';
+import { SwiperModule } from 'swiper/angular';
 
 
 
@@ -17,7 +18,8 @@ import { ComponentsModule } from '../../components/components.module';
     FormsModule,
     IonicModule,
     ChatRoomPageRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    SwiperModule  
   ],
   declarations: [ChatRoomPage]
 })

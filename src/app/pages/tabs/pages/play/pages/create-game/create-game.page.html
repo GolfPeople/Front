@@ -58,7 +58,7 @@
               placeholder="Selecciona un campo">
               <ion-select-option class="ion-text-wrap" *ngFor="let c of campus" [value]="c">
                 <ion-icon src="../../../../../../assets/icons/golf-flag.svg"></ion-icon>
-                {{c.information}}
+                {{c.courseName ? c.courseName : c.address}}
               </ion-select-option>
             </ion-select>
           </div>

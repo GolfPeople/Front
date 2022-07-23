@@ -1,0 +1,88 @@
+<app-header backButton="true" title="Resumen de la Partida" icon="../../../../../../../assets/icons/calendar.svg">
+</app-header>
+<ion-content class="ion-padding">
+
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+
+    <div *ngIf="game">
+        <div class="title">Partida: "{{game.name}}"</div>
+
+        <ion-item lines="none">
+            <ion-avatar>
+                <img src="../../../../../../../assets/img/profile-image.png" />
+            </ion-avatar>
+            <ion-label class="p-label ion-text-wrap">
+                <!-- <div class="club">{{game.campus.information}}</div> -->
+                <div class="location">{{game.address}}</div>
+            </ion-label>
+        </ion-item>
+
+
+        <div class="date">
+            {{ game.date | date:'EEEE'}} <br>
+            {{ game.date | date:'dd'}} de {{game.date | date:'MMMM'}} <br>
+
+        </div>
+        <div class="players">Jugadores: {{ game.users.length}}</div>
+
+        <ion-grid fixed>
+            <ion-row>
+                <ion-col class="ion-text-center" *ngFor="let u of game.users">
+                    <ion-avatar style="margin: 0 auto;">
+                        <img [src]="u.data.profile.photo ? u.data.profile.photo : avatar" />
+                    </ion-avatar>
+                    <div style="padding-top: 10px;text-transform: capitalize;">{{u.data.name}}</div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <ion-item>
+            <ion-label>
+                <div>Código de Confirmación</div>
+                <strong>NOSBNFFODMCC</strong>
+            </ion-label>
+            <span slot="end">
+                <ngx-qrcode style="width: 30px;height: 30px;" value="NOSBNFFODMCC" >
+                </ngx-qrcode>
+            </span>
+        </ion-item>
+
+        <div style="padding-bottom: 0;" class="title">Como llegar:</div>
+        <ion-item class="ion-no-padding">
+            <ion-buttons slot="start">
+                <ion-button>
+                    <ion-icon name="copy-outline"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+
+            <ion-label style="padding-left: 10px;">{{game.address}}</ion-label>
+        </ion-item>
+
+        <div style="padding-top: 15px;">
+            <iframe class="map" id="gmap_canvas" [src]="map()" frameborder="0" scrolling="no" marginheight="0"
+                marginwidth="0"></iframe>
+        </div>
+
+        <div style="padding-top: 15px;" class="ion-text-center">
+            <ion-button *ngIf="!game.pending" (click)="wantToJoin()" class="join-btn" mode="ios" color="success" shape="round">
+               <span style="padding-left: 10px;padding-right: 10px;">Solicitar Unirme</span> 
+            </ion-button>
+            <ion-button *ngIf="game.pending" class="join-btn" mode="ios" color="medium" shape="round">
+                <span style="padding-left: 10px;padding-right: 10px;">Pendiente...</span> 
+             </ion-button>
+            <ion-button *ngIf="game.isOwner" routerLink="/tabs/play/start-game" class="join-btn" mode="ios" color="success" shape="round">
+                <span style="padding-left: 10px;padding-right: 10px;">Comenzar Partida</span> 
+             </ion-button>
+        </div>
+
+    </div>
+
+    <div class="ion-text-center" color="primary" style="padding-top: 30vh;" *ngIf="!game">
+        <ion-spinner></ion-spinner>
+    </div>
+
+   
+
+</ion-content>

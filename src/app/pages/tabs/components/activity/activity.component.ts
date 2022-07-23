@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FriendsService } from 'src/app/core/services/friends.service';
+import { GameService } from 'src/app/core/services/game.service';
 import { NotificationsService } from 'src/app/core/services/notifications.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 
@@ -14,12 +15,21 @@ export class ActivityComponent implements OnInit {
   constructor(
     public notificationSvc: NotificationsService,
     private friendService: FriendsService,
-    private firebaseService: FirebaseService
+    private firebaseService: FirebaseService,
+    private gameSvc: GameService
   ) { }
 
   ngOnInit() { }
 
-  async acceptRequest(e, index) {
+  goToUserProfile(id){   
+    this.firebaseService.routerLink('/tabs/user-profile/'+id);   
+  }
+
+  goToPost(id){   
+    this.firebaseService.routerLink('/tabs/post/'+id);   
+  }
+
+  async acceptFriendRequest(e, index) {
     const loading = await this.firebaseService.loader().create();
     await loading.present();
     this.friendService.acceptRequest(e.connection_id).subscribe(res => {
@@ -29,7 +39,7 @@ export class ActivityComponent implements OnInit {
     })
   }
 
-  async declineRequest(e, index) {
+  async declineFriendRequest(e, index) {
     const loading = await this.firebaseService.loader().create();
     await loading.present();
     this.friendService.declineRequest(e.connection_id).subscribe(res => {
@@ -38,6 +48,93 @@ export class ActivityComponent implements OnInit {
       loading.dismiss();
     })
   }
+
+
+/**
+ * 
+ * @param e 
+ * @param index 
+ * Aceptar solicitud de juego. (Usuario que solicitó unirse a una partida)
+ * ===========================================
+ */
+ async acceptJoinRequest(e, index) { 
+       
+  const loading = await this.firebaseService.loader().create();
+  await loading.present();
+  
+  this.gameSvc.acceptOrDeclineJoinRequest(1,e.data.game_id, e.data.user_sender.id).subscribe(res => {
+    console.log(res);      
+    this.firebaseService.Toast('Solicitud de juego aceptada')
+    this.markOneAsRead(e.id, index)
+    loading.dismiss();
+  }, error =>{
+    this.firebaseService.Toast('Ha ocurrido un error, intente de nuevo.');
+    console.log(error);      
+    loading.dismiss();
+  })
+}
+
+
+async declineJoinRequest(e, index) {
+  
+  const loading = await this.firebaseService.loader().create();
+  await loading.present();
+  this.gameSvc.acceptOrDeclineJoinRequest(2,e.data.game_id, e.data.user_sender.id).subscribe(res => {
+    this.firebaseService.Toast('Solicitud de juego rechazada')
+    console.log(res);
+    this.markOneAsRead(e.id, index)
+    loading.dismiss();
+  }, error =>{
+    this.firebaseService.Toast('Ha ocurrido un error, intente de nuevo.');
+    console.log(error);    
+    loading.dismiss();
+  })
+}
+//================================================================
+
+
+
+/**
+ * 
+ * @param e 
+ * @param index 
+ * Aceptar solicitud de juego. (Usuario que se añadió a una partida)
+ * ===========================================
+ */
+  async acceptGameRequest(e, index) {       
+    const loading = await this.firebaseService.loader().create();
+    await loading.present();
+    console.log(e.data.game_id);
+    
+    this.gameSvc.acceptOrDeclineGameRequest(2,e.data.game_id).subscribe(res => {
+      console.log(res);      
+      this.firebaseService.Toast('Solicitud de juego aceptada')
+      this.markOneAsRead(e.id, index)
+      loading.dismiss();
+    }, error =>{
+      this.firebaseService.Toast('Ha ocurrido un error, intente de nuevo.');
+      console.log(error);      
+      loading.dismiss();
+    })
+  }
+
+
+  async declineGameRequest(e, index) {
+    const loading = await this.firebaseService.loader().create();
+    await loading.present();
+    this.gameSvc.acceptOrDeclineGameRequest(3,e.data.game_id).subscribe(res => {
+      this.firebaseService.Toast('Solicitud de juego rechazada')
+      console.log(res);
+      this.markOneAsRead(e.id, index)
+      loading.dismiss();
+    }, error =>{
+      console.log(error);
+      this.firebaseService.Toast('Ha ocurrido un error, intente de nuevo.');
+      loading.dismiss();
+    })
+  }
+//================================================================
+
 
   async markOneAsRead(notificationId, index) {
     const loading = await this.firebaseService.loader().create();

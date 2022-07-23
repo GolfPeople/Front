@@ -8,14 +8,15 @@ import { PlayPageRoutingModule } from './play-routing.module';
 
 import { PlayPage } from './play.page';
 import { ComponentsModule } from '../../components/components.module';
-
+import { SwiperModule } from 'swiper/angular';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     PlayPageRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    SwiperModule  
   ],
   declarations: [PlayPage]
 })

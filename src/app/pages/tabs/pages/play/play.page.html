@@ -16,71 +16,185 @@
   </ion-button>
 </ion-toolbar>
 
-<ion-content class="ion-padding">
+<ion-content>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <app-toggle-options [toggle]="toggleUserGames$" color="#009838" [options]="toggleOptionsUserGames">
-  </app-toggle-options>
-
-  <app-date-input placeholder="Filtrar partidas por fecha" [date]="date$"></app-date-input>
 
   <div *ngIf="!loading">
-  <div *ngFor="let g of games" class="game-container">
-    <ion-item lines="none" class="ion-no-padding">
-      <span class="date" slot="start">
-        <div class="day">{{g.created_at | date:'dd'}}</div>
-        <div class="month">{{g.created_at | date:'MMMM' | slice:0:3}}</div>
-      </span>
-      <ion-label class="ion-text-wrap">
-        <div class="club-name">{{g.name}}</div>
-        <div class="location">{{g.address}}</div>
-      </ion-label>
-      <span slot="end">
-        <ion-icon class="item-icon" (click)="fav = !fav" [color]="fav ? 'danger' :'medium'"
-          [name]="fav ? 'heart' : 'heart-outline'"></ion-icon>
-        <ion-icon class="item-icon" color="medium" name="share-social-outline"></ion-icon>
-      </span>
-    </ion-item>
 
-    <ion-item lines="none" class="ion-no-padding">
-      <ion-avatar class="group-avatars" [ngClass]="{'first':i == 0,'second':i == 1}"
-        *ngFor="let u of g.users; index as i">
-        <img [src]="u.data.profile.photo ? u.data.profile.photo : avatar" />
-      </ion-avatar>
-      <ion-buttons slot="end">
-        <ion-button class="join-btn" color="secondary" shape="round" fill="solid">
-          Solicitar unirme
+    <div style="padding-bottom: 10px;" class="ion-padding">
+      <app-toggle-options (click)="filterGames()" [toggle]="toggleUserGames$" color="#009838"
+        [options]="toggleOptionsUserGames">
+      </app-toggle-options>
+      <app-date-input round="true" placeholder="Filtrar partidas por fecha" [date]="date$"></app-date-input>
+
+    </div>
+    <div class="searchbar-container">
+      <ion-searchbar class="search-location" search-icon="location-outline" show-clear-button="focus" mode="ios"
+        placeholder="Cerca de mi - Marbella +10km"></ion-searchbar>
+    </div>
+    <div class="searchbar-container">
+      <ion-searchbar class="search-name" [(ngModel)]="searchResult" (ionChange)="filterGames()"
+        show-clear-button="never" mode="ios" placeholder="Introduce el nombre de la partida"></ion-searchbar>
+    </div>
+
+
+
+    <swiper *ngIf="toggleUserGames$.value" class="p-swipper" [config]="config">
+      <ng-template *ngFor="let c of gameFilters" swiperSlide>
+        <ion-button (click)="filterGamesByCategory(c.id)" expand="block"
+          [color]="filterSelected == c.id ? 'secondary' : 'light'" shape="round">
+          {{c.name}}
         </ion-button>
-      </ion-buttons>
-    </ion-item>
-    <div class="players-length">Jugadores: {{g.users.length}}</div>
-  </div>
-</div>
+      </ng-template>
+    </swiper>
 
-<div *ngIf="loading">
-  <div *ngFor="let g of [1,1,1,1,1,1,1,1,1]" class="game-container">
-    <ion-item lines="none" class="ion-no-padding">     
-      <ion-label class="ion-text-wrap">
-        <div style="padding-bottom: 5px;" class="club-name"><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></div>
-        <div class="location"><ion-skeleton-text animated style="width: 40%"></ion-skeleton-text></div>
-      </ion-label>
-      <span slot="end">
-        <ion-skeleton-text animated style="width: 40px"></ion-skeleton-text>      
-      </span>
-    </ion-item>
 
-    <ion-item lines="none" class="ion-no-padding">
-      <ion-avatar class="group-avatars" [ngClass]="{'first':i == 0,'second':i == 1}"
-        *ngFor="let u of [1,1,1]; index as i">
-        <ion-skeleton-text animated style="width: 100%;height: 100%;"></ion-skeleton-text>
-      </ion-avatar>
-      <ion-buttons slot="end">
-        <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-      </ion-buttons>
-    </ion-item>
-    <div style="padding: 5px 5px 0px 5px;"><ion-skeleton-text animated style="width: 30%"></ion-skeleton-text></div>
-    <div class="players-length"><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></div>    
+    <div class="ion-padding ion-text-center not-found" *ngIf="searchResult && !filteredGames.length">No se han
+      encontrado resultados.</div>
+
+    <div style="padding-top: 0;" class="ion-padding">
+      <div *ngFor="let g of filteredGames" class="game-container">
+        <ion-item lines="none" class="ion-no-padding">
+          <span [ngClass]="{'canceled': g.status == '3'}" class="date" slot="start">
+            <div [ngClass]="{'canceled': g.status == '3'}" class="day">{{g.date | date:'dd'}}</div>
+            <div class="month">{{g.date | date:'MMMM' | slice:0:3}}</div>
+          </span>
+          <ion-label class="ion-text-wrap">
+            <div [ngClass]="{'canceled': g.status == '3'}" class="club-name">{{g.name}}</div>
+            <div [ngClass]="{'canceled': g.status == '3'}" class="location">{{g.address}}</div>
+          </ion-label>
+          <span *ngIf="g.status == '1'" slot="end">
+            <ion-icon class="item-icon" (click)="g.fav = !g.fav" [color]="g.fav ? 'danger' :'medium'"
+              [name]="g.fav ? 'heart' : 'heart-outline'"></ion-icon>
+            <ion-icon (click)="share(g.id)" class="item-icon" color="medium" name="share-social-outline"></ion-icon>
+          </span>
+        </ion-item>
+
+        <ion-item lines="none" style="padding-top: 10px;" class="ion-no-padding">
+          <div class="avatar-group">
+            <div [ngClass]="{'canceled': g.status == '3'}" *ngFor="let u of g.users; index as i " class="avatar">
+              <img [ngClass]="{'canceled': g.status == '3'}"
+                [src]="u.data.profile.photo ? u.data.profile.photo : avatar" />
+            </div>
+          </div>
+
+          <!--================Partidas en pendiente que no son del usuario================-->
+          <ion-buttons *ngIf="!toggleUserGames$.value && g.status == '1' && !g.pending && !g.isInvited" slot="end">
+            <ion-button routerLink="/tabs/play/game-detail/{{g.id}}/join" class="join-btn" color="secondary"
+              shape="round" fill="solid">
+              Solicitar unirme
+            </ion-button>
+          </ion-buttons>
+
+           
+            <!--================Si el usuario fue invitado a la partida================-->
+          <span class="ion-text-center" *ngIf="!toggleUserGames$.value && g.isInvited" slot="end">
+            <div style="font-size: 12px;font-weight: 600;color: var(--ion-color-medium);padding-bottom: 5px;">¡Has sido invitado <br> a esta partida!</div>            
+            <div>
+              <ion-button style="width: 90px;" (click)="acceptGameRequest(g)" class="join-btn" mode="ios" color="secondary" shape="round" fill="solid">
+                Unirme
+              </ion-button>
+            </div>
+            <ion-button style="width: 90px;" (click)="declineGameRequest(g)" class="btn-group" color="medium" shape="round" size="small" mode="ios">              
+              Rechazar
+            </ion-button>
+          </span>
+
+          <!--================Partidas en pendiente que no son del usuario================-->
+          <ion-buttons *ngIf="!toggleUserGames$.value && g.status == '1' && g.pending" slot="end">
+            <ion-button routerLink="/tabs/play/game-detail/{{g.id}}/pending" class="join-btn" color="medium"
+              shape="round" fill="solid">
+              Pendiente...
+            </ion-button>
+          </ion-buttons>
+
+          <!--================Si la partida fue anulada y es del usuario================-->
+          <span class="ion-text-center" *ngIf="toggleUserGames$.value && g.status == '3'" slot="end">
+            <ion-button style="width: 120px;" class="btn-group" (click)="confirmRestore(g.id)" fill="solid" size="small" mode="ios" shape="round" color="secondary">              
+             Restaurar Partida
+            </ion-button> <br>
+            <ion-button (click)="confirmRemove(g.id)" class="btn-group" color="medium" fill="clear" size="small">
+              <ion-icon slot="start" name="remove-circle-outline"></ion-icon>
+              Eliminar
+            </ion-button>
+          </span>
+
+          <!--================Si la partida finalizó y es del usuario================-->
+          <span class="ion-text-center" *ngIf="toggleUserGames$.value && g.status == '2'" slot="end">
+            <div>
+              <ion-button class="join-btn" mode="ios" color="secondary" shape="round" fill="solid">
+                Ver Resultados
+              </ion-button>
+            </div>
+            <ion-button (click)="confirmRemove(g.id)" class="btn-group" color="medium" fill="clear" size="small">
+              <ion-icon slot="start" name="remove-circle-outline"></ion-icon>
+              Eliminar
+            </ion-button>
+          </span>
+        </ion-item>
+        <div [ngClass]="{'less-pb': toggleUserGames$.value}" class="players-length">Jugadores: {{g.users.length}}</div>
+
+
+        <!--================Si la partida está en pendiente y es del usuario================-->
+
+        <ion-item style="padding-bottom: 10px;" lines="none" *ngIf="toggleUserGames$.value && g.status == '1'"
+          class="ion-no-padding">
+          <ion-buttons>
+            <ion-button class="btn-group" fill="solid" size="small" shape="round" color="secondary"
+              routerLink="/tabs/play/game-detail/{{g.id}}/owner">
+              <span>Ver Partida</span>
+            </ion-button>
+            <ion-button  routerLink="/tabs/play/start-game" class="btn-group" fill="solid" size="small" shape="round" color="success">
+              <span>Iniciar Partida</span>
+            </ion-button>
+            <ion-button (click)="confirmCancel(g.id)" class="btn-group" color="medium" size="small">
+              <ion-icon  slot="start" name="remove-circle-outline"></ion-icon>
+              Anular
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+        <!--===========================================================================-->
+
+
+      </div>
+    </div>
   </div>
-</div>
+
+  <div class="ion-padding">
+    <div *ngIf="loading">
+      <div *ngFor="let g of [1,1,1,1,1,1,1,1,1]" class="game-container">
+        <ion-item lines="none" class="ion-no-padding">
+          <ion-label class="ion-text-wrap">
+            <div style="padding-bottom: 5px;" class="club-name">
+              <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+            </div>
+            <div class="location">
+              <ion-skeleton-text animated style="width: 40%"></ion-skeleton-text>
+            </div>
+          </ion-label>
+          <span slot="end">
+            <ion-skeleton-text animated style="width: 40px"></ion-skeleton-text>
+          </span>
+        </ion-item>
+
+        <ion-item lines="none" class="ion-no-padding">
+          <ion-avatar class="group-avatars" [ngClass]="{'first':i == 0,'second':i == 1}"
+            *ngFor="let u of [1,1,1]; index as i">
+            <ion-skeleton-text animated style="width: 100%;height: 100%;"></ion-skeleton-text>
+          </ion-avatar>
+          <ion-buttons slot="end">
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </ion-buttons>
+        </ion-item>
+        <div style="padding: 5px 5px 0px 5px;">
+          <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+        </div>
+        <div class="players-length">
+          <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+        </div>
+      </div>
+    </div>
+  </div>
 </ion-content>

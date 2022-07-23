@@ -4,6 +4,8 @@
     <button [ngClass]="{'active': toggle.value}" (click)="toggle.next(false)">
       {{options.one}}
     </button>
-    <button [ngClass]="{'active': !toggle.value}" (click)="toggle.next(true)">{{options.two}}</button>
+    <button [ngClass]="{'active': !toggle.value}" (click)="toggle.next(true)">{{options.two}}    
+      <ion-icon *ngIf="options.two == 'Actividad' && chatSvc.unreadActivity$.value" class="notification" color="danger" name="ellipse"></ion-icon>
+    </button>
   </div>
 </div>

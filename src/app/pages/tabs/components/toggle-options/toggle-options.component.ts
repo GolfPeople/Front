@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { ChatService } from 'src/app/core/services/chat/chat.service';
 
 interface Options{
   one: string;
@@ -17,7 +18,7 @@ export class ToggleOptionsComponent implements OnInit {
   @Input() options = {} as Options;
   @Input() color: string;
 
-  constructor() { }
+  constructor(public chatSvc: ChatService) { }
 
   ngOnInit() {}
 

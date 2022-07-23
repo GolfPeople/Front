@@ -1,13 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { GoogleMap, Marker } from '@capacitor/google-maps';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { Campus } from 'src/app/core/models/campus.interface';
 import { GeolocationService } from 'src/app/core/services/geolocation.service';
 import { UserService } from 'src/app/core/services/user.service';
+import { environment } from 'src/environments/environment';
 import { CreateFieldPage } from '../create-field/create-field.page';
+import { CampusMapModalComponent } from './components/campus-map-modal/campus-map-modal.component';
 import { CampusDataService } from './services/campus-data.service';
 
-declare var google: any;
+declare let google: any;
 
 @Component({
   selector: 'app-campus',
@@ -17,52 +20,108 @@ declare var google: any;
 export class CampusPage implements OnInit {
   geocoder = new google.maps.Geocoder();
 
-  campos: Campus[] = [];
-  searchedCampos: Campus[] = [];
-  page = 1;
+  golfCourses = [];
+  searchedCampos
   text: string = '';
   myAddress: string = '';
 
   coords;
 
+  loading: boolean;
+  @ViewChild('map') mapRef: ElementRef;
+  map: GoogleMap;
+
+  hiddenMap: boolean = true;
+  hiddenCourses: boolean = false;
   constructor(
-    private loadingCtrl: LoadingController,
-    private campusSvg: CampusDataService,
-    private geolocationSvc: GeolocationService,
-    private userSvc: UserService,
-    private router: Router,
+    private campusSvg: CampusDataService,   
     private modalCtrl: ModalController
-  ) {}
+  ) { }
 
   async ngOnInit() {
-    const loading = await this.loadingCtrl.create({ cssClass: 'loading-ctrl' });
-    await loading.present();
-    // const coordinates = await this.geolocationSvc.currentPosition();
-    // const { latitude, longitude } = await coordinates.coords;
-    // this.coords = { lat: latitude, lng: longitude };
-    // this.geoCodeLatLong(this.coords);
+    this.getGolfCourses();
+  }
 
-    this.userSvc.getUserInfo().subscribe((user) => {
-      console.log(user);
-      // this.text = user.profile.address;
-    });
 
-    this.campusSvg.getData(this.page).subscribe(
-      ({ data }) => {
-             
-        this.campos = data.reverse();
-        this.searchedCampos = this.campos;
-        // this.searchCampo(this.text);    
-        this.page += 1;
-        loading.dismiss();
+  hideGolfCourses(){
+    this.hiddenMap = !this.hiddenMap;
+    if(!this.hiddenMap){
+      setTimeout(() => {
+        this.hiddenCourses = !this.hiddenCourses;
+      }, 600);
+    }else{
+      this.hiddenCourses = !this.hiddenCourses;
+    }
+  }
+
+  ionViewDidEnter() {
+   
+  }
+
+  async createMap(markers) {
+   
+    let firstLocation = markers.map(r => {
+      return (r.coordinate)
+    })[1]
+
+    this.map = await GoogleMap.create({
+      id: 'map',
+      apiKey: environment.mapsKey,
+      element: this.mapRef.nativeElement,
+      forceCreate: true,
+      config: {
+        center: firstLocation,
+        zoom: 3,
+      }
+    })
+
+    this.addMarkers(markers)
+  }
+
+  doRefresh(event) {
+    setTimeout(() => {
+      this.ngOnInit();
+      event.target.complete();
+    }, 500)
+  }
+
+ async addMarkers(markers) { 
+    await this.map.addMarkers(markers);  
+    this.map.setOnMarkerClickListener(async (marker) => {
+      console.log(marker);   
+    })
+  }
+
+  getGolfCourses() {
+    this.loading = true;
+    this.campusSvg.getData(1).subscribe(async ({ data }) => {  
+      this.golfCourses = data.reverse();
+      this.loading = false;
+
+      let markers: Marker[] = data.map(m => {
+        return {
+          coordinate: {
+            lat: parseInt(m.latitude),
+            lng: parseInt(m.longitude)
+          },
+          title: JSON.stringify(m),
+          iconUrl: '../../../../../assets/img/marker-golfp.png'
+        }
+      })
+
+      if (markers) {
+         this.createMap(markers);   
+      }
+
       },
       (error) => {
         console.log('Error -->', error);
-        loading.dismiss();
       }
     );
   }
 
+
+  
   async createCamp() {
     const modal = await this.modalCtrl.create({
       component: CreateFieldPage,
@@ -70,44 +129,5 @@ export class CampusPage implements OnInit {
     await modal.present();
   }
 
-  clearInput() {
-    this.text = '';
-    this.searchCampo(this.text);
-  }
 
-  searchCampo(value) {
-    console.log(value);
-    if (!(value.length >= 1)) {
-      this.searchedCampos = this.campos;
-    } else {
-      this.searchedCampos = this.campos.filter((campo) => {
-        const designer = JSON.parse(campo.designer);
-
-        return designer.name
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-          .toLowerCase()
-          .includes(value.toLowerCase());
-      });
-    }
-  }
-
-  async geoCodeLatLong(latlng) {
-    let address;
-    console.log('TEST LAt Long', latlng);
-    await this.geocoder.geocode(
-      { location: latlng },
-      function (results, status) {
-        if (status !== google.maps.GeocoderStatus.OK) {
-          alert(status);
-        }
-        if (status == google.maps.GeocoderStatus.OK) {
-          address = `${results[0].address_components[3].long_name} ${results[0].address_components[6].long_name}`;
-          console.log('Tu ubucación -->', address);
-        }
-      }
-    );
-    console.log(address);
-    this.text = address;
-  }
 }

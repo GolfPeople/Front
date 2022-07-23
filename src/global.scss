@@ -48,6 +48,9 @@
 @import "~swiper/scss/lazy";
 @import 'animate.css';
 
+.modal-campus{
+  padding: 30px;
+}
 
 *:not(ion-icon) {
   font-family: "Montserrat";
@@ -59,10 +62,25 @@
   // box-sizing: border-box;
 }
 
+.alert-confirm{
+  --border-radius: 20px;
+  --max-width: 270px;
+  --height: 30%;
+}
+
 .play-next-btn{
   font-size: 13px;
   ion-icon{
       padding-left: 10px;
+  }
+}
+
+.p-swipper{
+  padding: 15px 0px 5px 15px;
+
+  ion-button{
+    text-transform: capitalize;
+    font-size: 12px;
   }
 }
 
@@ -90,6 +108,16 @@
     border-bottom-right-radius: 10px;
     border-top-right-radius: 10px;
   }
+
+  &.round{    
+    border-radius: 50px;   
+   
+    .date {     
+      border-bottom-right-radius: 25px;
+      border-top-right-radius: 25px;
+    }
+  }
+
 }
 
 
@@ -97,7 +125,7 @@
 ion-searchbar {
   .searchbar-input-container {
       input{
-          font-size: 14px !important;
+          font-size: 13px !important;
       }
   }
 }

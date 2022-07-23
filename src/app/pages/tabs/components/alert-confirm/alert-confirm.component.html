@@ -1,0 +1,24 @@
+<ion-content class="ion-text-center">
+  <div class="center">
+    {{content}}
+  </div>
+  
+</ion-content>
+<ion-footer>
+  <ion-grid class="ion-padding-vertical" fixed>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button (click)="cancel()" expand="block" fill="clear" shape="round">
+          Cancelar
+        </ion-button>
+      </ion-col>
+      <ion-col style="border-left: 1px #DDD solid;" size="6">
+        <ion-button (click)="confirm()" color="success" expand="block" fill="clear" shape="round">
+          {{confirmText}}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+</ion-footer>

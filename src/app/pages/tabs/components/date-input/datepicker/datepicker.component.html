@@ -12,7 +12,7 @@
 <ion-datetime presentation="date" *ngIf="!min" [(ngModel)]="date"  display-format="DD.MM.YYYY">
 </ion-datetime> 
 </ion-content>
-<ion-footer>
+<ion-footer class="ion-no-border">
   <ion-footer class="ion-text-center ion-padding">
     <ion-button [disabled]="!date" color="secondary" (click)="saveDate()" mode="ios" shape="round">
      Aceptar

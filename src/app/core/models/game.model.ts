@@ -9,4 +9,5 @@ export interface Game {
     extra: any[];
     hours:any[];
     campus: any;  
+    skipExtra: boolean;
   }

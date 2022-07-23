@@ -75,7 +75,6 @@ export class HomePage implements OnInit {
   }
 
   ionViewDidEnter() {
-    console.log('ionViewDidEnter');
     this.postsSvc.all(1).subscribe(
       ({ data }) => {
         this.posts = data;

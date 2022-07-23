@@ -450,7 +450,7 @@ export class CreateFieldPage implements OnInit {
     loading.present();
     // const { information, name, title, year } = this.form.value;
     // console.log( this.services, this.day, this.hour, this.designerImage);
-    const formData = new FormData();
+    const formData: any = new FormData();
     formData.append('information', this.information.value);
     this.services.forEach((item) => {
       formData.append('services[]', item);
@@ -478,6 +478,11 @@ export class CreateFieldPage implements OnInit {
     formData.append('long', this.userLongitude);
 
     formData.append('location', this.userAddress);
+
+    for (const value of formData.values()) {
+      console.log(value);
+    }
+    
     this.http.post(URL, formData).subscribe((res) => {
       console.log(res);
       loading.dismiss();

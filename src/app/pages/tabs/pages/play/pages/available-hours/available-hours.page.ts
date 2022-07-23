@@ -49,10 +49,12 @@ export class AvailableHoursPage implements OnInit {
   }
 
   nextGotReservation(){
+    this.gameSvc.game.value.skipExtra = true;
     this.firebaseSvc.routerLink('tabs/play/resumen');
   }
 
   nextDontGotReservation(){
+    this.gameSvc.game.value.skipExtra = false;
     this.firebaseSvc.routerLink('tabs/play/extras');
   }
 

@@ -10,14 +10,14 @@
     <ion-row>
       <ion-col class="to" size="2">Para:</ion-col>
       <ion-col size="10">
-        <ion-searchbar mode="ios" placeholder="Buscar"></ion-searchbar>
+        <ion-searchbar (ionChange)="filterUsers()" [(ngModel)]="searchResult" mode="ios" placeholder="Buscar"></ion-searchbar>
       </ion-col>
     </ion-row>
   </ion-grid>
 
   <div *ngIf="!loading">
     <div *ngIf="!toggle$.value">
-      <div class="pb-sm" (click)="openSingleChatRoom(f)" *ngFor="let f of chatSvc.friends$ | async">
+      <div class="pb-sm" (click)="openSingleChatRoom(f)" *ngFor="let f of usersFiltered">
         <div class="card-user">
           <ion-item lines="none">
             <ion-avatar slot="start">
@@ -33,7 +33,7 @@
       </div>
     </div>
     <div *ngIf="toggle$.value">
-      <div class="pb-sm" *ngFor="let f of chatSvc.friends$ | async">
+      <div class="pb-sm" *ngFor="let f of usersFiltered">
         <div class="card-user">
           <ion-item lines="none">
             <ion-avatar slot="start">

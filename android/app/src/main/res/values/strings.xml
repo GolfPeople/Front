@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">golf-people-app</string>
-    <string name="title_activity_main">golf-people-app</string>
+    <string name="app_name">Golf People</string>
+    <string name="title_activity_main">Golf People</string>
     <string name="package_name">com.golfpeople.app</string>
     <string name="custom_url_scheme">com.golfpeople.app</string>
+    <string name="server_client_id">248337356424-rga3dmm2ejeoj5v5m1o5fnian9213jjq.apps.googleusercontent.com</string>
 </resources>

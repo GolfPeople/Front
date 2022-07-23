@@ -6,7 +6,7 @@ import { FriendsService } from 'src/app/core/services/friends.service';
 import { NotificationsService } from 'src/app/core/services/notifications.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { ChatMessagesComponent } from '../../components/chat-messages/chat-messages.component';
-
+import { SwiperOptions } from 'swiper';
 @Component({
   selector: 'app-chat-room',
   templateUrl: './chat-room.page.html',
@@ -20,7 +20,24 @@ export class ChatRoomPage implements OnInit {
   toggle$ = new BehaviorSubject(false);
   loading: boolean;
   uid: number;
-  
+
+  config: SwiperOptions = {
+    slidesPerView: 3.5,
+    spaceBetween: 10,
+  };
+
+  filterSelected = 0;
+  filteredChats = [];
+
+  chatFilters = [
+    { id: 0, name: 'Todo' },
+    { id: 2, name: 'Amigos' },
+    { id: 1, name: 'Grupos' },
+    { id: 3, name: 'Clases' },
+    { id: 4, name: 'Club' },
+    { id: 5, name: 'Promoción' },
+  ]
+
   constructor(
     public chatSvc: ChatService,
     private firebaseService: FirebaseService,
@@ -39,21 +56,45 @@ export class ChatRoomPage implements OnInit {
     this.uid = JSON.parse(localStorage.getItem('user_id'));
   }
 
-  ionViewDidEnter(){
+  ionViewDidEnter() {
     this.getChatRooms();
     this.getNotifications();
   }
 
+  ionViewWillLeave() {
+    let activity = { id: this.uid.toString(), user_id: this.uid, notification: false }
+    this.firebaseService.UpdateCollection('activity', activity);
+  }
+
+  filterChats(id) {
+    this.filterSelected = id;
+    if (id == 0) {
+      this.filteredChats = this.chatSvc.rooms$.value
+    } else {
+      this.filteredChats = this.chatSvc.rooms$.value.filter(c => { return c.type_id == id });
+    }
+
+  }
+
+
+  cleanActivityNotifications() {
+    if (this.toggle$.value) {
+      let activity = { id: this.uid.toString(), user_id: this.uid, notification: false }
+      this.firebaseService.UpdateCollection('activity', activity);
+    }
+  }
+
   getNotifications() {
-    this.notificationSvc.noRead().subscribe(res => {    
-          
+    this.notificationSvc.noRead().subscribe(res => {
+
       this.notificationSvc.userNotifications$.next(res.map(notification => {
         return {
           id: notification.id,
+          date: notification.created_at,
           data: notification.data.data
         }
-      }))     
-      
+      }))
+
     })
   }
 
@@ -71,10 +112,12 @@ export class ChatRoomPage implements OnInit {
   }
 
   getChatRooms() {
-    this.loading = true;
+    if (!this.filteredChats.length) {
+      this.loading = true;
+    }
     this.chatSvc.getRoom().subscribe((rooms: any) => {
       this.loading = false;
-      
+
       for (let r of rooms) {
         this.firebaseService.getCollectionConditional('messages',
           ref => ref
@@ -90,14 +133,16 @@ export class ChatRoomPage implements OnInit {
                 created_at: e.payload.doc.data()['created_at'],
               };
             });
-        
-            r.lastmsg = msg[0].message            
-            r.unreadMsg = msg.filter(message =>{return message.read == false && message.user_id !== this.uid}).length;             
-          
+
+            r.lastmsg = msg[0].message
+            r.lastDate = msg[0].created_at.toDate();
+            r.unreadMsg = msg.filter(message => { return message.read == false && message.user_id !== this.uid }).length;
+
           })
       }
-      this.chatSvc.rooms$.next(rooms);         
-            
+      this.chatSvc.rooms$.next(rooms);
+      this.filteredChats = rooms;
+
     });
   }
 

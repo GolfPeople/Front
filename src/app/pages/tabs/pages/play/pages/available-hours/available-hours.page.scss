@@ -8,13 +8,11 @@ ion-item {
 
 .date-content {
     position: absolute;
-    transform: translate(-50%, -50%);
-    top: 440px;
-    left: 50%;
+    bottom: 0;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     width: 100%;
-    height: 100%;
+    height: 70%;
     background: white;
     overflow: auto;
     padding: 15px;

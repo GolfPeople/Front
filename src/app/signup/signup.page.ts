@@ -38,7 +38,7 @@ export class SignupPage implements OnInit {
   isLoading = false;
   isSignedUp = true;
   form: FormGroup;
-  checked: boolean = false;
+  termsChecked = false;
   checkPasswords: ValidatorFn = (
     group: AbstractControl
   ): ValidationErrors | null => {
@@ -60,7 +60,6 @@ export class SignupPage implements OnInit {
 
   ngOnInit() {
     this.form = this.initForm();
-    console.log(this.form);
   }
 
   initForm() {
@@ -82,14 +81,11 @@ export class SignupPage implements OnInit {
         '',
         [Validators.required, MyValidations.matchValues('password')],
       ],
-      checked: [this.checked],
+      checked: [false, Validators.requiredTrue],
     });
   }
-  onclick() {
-    this.checked = !this.checked;
-    console.log(this.checked);
-  }
-
+ 
+ 
   togglePasswordMode() {
     this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
     this.eye = this.eye === 'eye-off' ? 'eye' : 'eye-off';
@@ -228,7 +224,9 @@ export class SignupPage implements OnInit {
   // }
 
   onSubmit(f: FormGroup) {
-    const formValue = f.value;
+    console.log(f.value);
+    
+    // const formValue = f.value;
     // if (!form.valid) {
     //   return;
     // }
@@ -237,7 +235,7 @@ export class SignupPage implements OnInit {
     // const password = form.value.password;
     // const rePassword = form.value.rePassword;
 
-    this.signup(formValue);
+    // this.signup(formValue);
     // this.register(f);
   }
 

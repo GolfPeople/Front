@@ -43,6 +43,7 @@ export class TabsPage implements OnInit {
 
   ngOnInit() {
     this.getChatRooms()
+    this.getActivityNotification();
   }
 
   onLogout() {
@@ -50,7 +51,6 @@ export class TabsPage implements OnInit {
   }
 
   getChatRooms() {
-
     this.chatSvc.getRoom().subscribe((rooms: any) => {
       let messages = [];
       for (let r of rooms) {
@@ -80,6 +80,30 @@ export class TabsPage implements OnInit {
           })      
       }
     });
+  }
+
+
+  getActivityNotification(){
+    this.firebaseService.getCollectionConditional('activity',
+    ref => ref
+      .where('notification','==',true)      
+      .where('user_id', '==', JSON.parse(localStorage.getItem('user_id'))))
+    .subscribe(data => {
+
+      let notification = data.map(e => {
+        return {
+          user_id: e.payload.doc.data()['user_id'],        
+        };
+      })                        
+
+      if(notification.length > 0){
+        this.chatSvc.unreadActivity$.next(true)  
+        this.notification.play();
+      }else{
+        this.chatSvc.unreadActivity$.next(false) 
+      }
+      
+    })
   }
 
   async openQR() {

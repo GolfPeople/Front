@@ -15,6 +15,7 @@ export class DateInputComponent implements OnInit {
   @Input() date;
   @Input() placeholder;
   @Input() min;
+  @Input() round;
   constructor(private modalController: ModalController) { }
 
   ngOnInit() {

@@ -50,7 +50,10 @@ export class CreateGamePage implements OnInit {
     this.loading = true;
     this.campusSvc.getAllCampus().subscribe(res => {
       this.loading = false;
-      this.campus = res.data;                     
+      console.log(res.data);
+      
+      this.campus = res.data;       
+ 
     })
   }
 
@@ -60,9 +63,9 @@ export class CreateGamePage implements OnInit {
     this.gameSvc.game.value.long = this.campusSelected.long;
     this.gameSvc.game.value.date = this.date$.value;
     this.gameSvc.game.value.campus = this.campusSelected;
-    this.gameSvc.game.value.campus.hour = JSON.parse(this.gameSvc.game.value.campus.hour);  
-    this.gameSvc.game.value.campus.day = JSON.parse(this.gameSvc.game.value.campus.day);
-    this.gameSvc.game.value.campus.services = JSON.parse(this.gameSvc.game.value.campus.services);
+    this.gameSvc.game.value.campus.hour = this.gameSvc.game.value.campus.hour;  
+    this.gameSvc.game.value.campus.day = this.gameSvc.game.value.campus.day;
+    this.gameSvc.game.value.campus.services = this.gameSvc.game.value.campus.services;
     this.gameSvc.game.value.users = this.players$.value;
    
     this.firebaseSvc.routerLink('/tabs/play/available-hours');    

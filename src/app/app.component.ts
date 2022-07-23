@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Platform } from '@ionic/angular';
 
 import { LoginService } from './core/services/login.service';
 import { PostsService } from './core/services/posts.service';
@@ -16,15 +17,18 @@ export class AppComponent implements OnInit {
     private loginService: LoginService,
     private router: Router,
     private userSvc: UserService,
-    private postsSvc: PostsService
+    private postsSvc: PostsService,
+    private platform: Platform
   ) {
     this.userSvc.getUserInfoToSave();
+
   }
+
+ 
 
   ngOnInit(): void {
     // this.userSvc.getUserID();
     this.loginService.isLogged$.subscribe((res) => {
-      console.log('El usuario está logueado: ', res);
       this.isLogged = res;
     });
     if (this.isLogged === true) {

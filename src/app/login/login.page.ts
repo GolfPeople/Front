@@ -12,6 +12,7 @@ import {
   LoadingController,
   AlertController,
   ModalController,
+  Platform,
 } from '@ionic/angular';
 import {
   LoginService,
@@ -26,6 +27,11 @@ import { AuthService } from '../core/services/auth.service';
 
 const TOKEN_DIR = 'session';
 
+
+import firebase from 'firebase/compat/app';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+import { FirebaseService } from '../services/firebase.service';
 interface LocalFile {
   name: string;
   path: string;
@@ -52,8 +58,9 @@ export class LoginPage implements OnInit {
     private modalCtrl: ModalController,
     private userService: UserService,
     private fb: FormBuilder,
-    private authSvc: AuthService
-  ) {}
+    private authSvc: AuthService,
+    private firebaseSvc: FirebaseService
+  ) { }
 
   ngOnInit() {
     this.form = this.initForm();
@@ -70,6 +77,7 @@ export class LoginPage implements OnInit {
       password: ['', [, Validators.required]],
     });
   }
+
 
   login({ email, password }) {
     this.loadingSvc.presentLoading();
@@ -93,13 +101,32 @@ export class LoginPage implements OnInit {
       }
     );
   }
-  async onLoginFb({ email, password }) {
+ 
+  async onLoginFacebook() {
+
     try {
-      const user = await this.authSvc.login(email, password);
-      if (user) {
-        //Todo: CheckEmail
+      const user = await this.authSvc.loginFacebook();
+      if (user) {       
+        
+        let userInformation = user.multiFactor.user;
+        console.log(userInformation);
+        const { email, displayName, uid } = userInformation;
+
+        const loading = await this.firebaseSvc.loader().create();
+        await loading.present();
+
+        this.loginService
+          .socialLogin('facebook', email, displayName, uid)
+          .subscribe((res) => {
+            loading.dismiss();
+            this.userService.getUserInfoToSave();
+            this.router.navigate(['/tabs']);      
+          }, error =>{
+            loading.dismiss();
+          });
+
         const isVerified = this.authSvc.isEmailVerified(user);
-        // this.redirectUser(isVerified)
+
       }
     } catch (error) {
       console.log('Error -->', error);
@@ -107,25 +134,29 @@ export class LoginPage implements OnInit {
   }
 
   async onLoginGoogle() {
+
     try {
       const user = await this.authSvc.loginGoogle();
       if (user) {
-        //Todo: CheckEmail
-        const userInformation = user.multiFactor.user;
+
+        let userInformation = user.multiFactor.user;
         const { email, displayName, uid } = userInformation;
-        // console.log('Email del usuario', email)
-        // console.log('Nombre del usuario', displayName)
-        // console.log('id del usuario', uid)
+
+        const loading = await this.firebaseSvc.loader().create();
+        await loading.present();
+
         this.loginService
           .socialLogin('google', email, displayName, uid)
           .subscribe((res) => {
-            // console.log(res);
+            loading.dismiss();
             this.userService.getUserInfoToSave();
-            this.router.navigate(['/tabs']);
+            this.router.navigate(['/tabs']);      
+          }, error =>{
+            loading.dismiss();
           });
-        // console.log('Usuario registrado -->', user);
+
         const isVerified = this.authSvc.isEmailVerified(user);
-        // this.redirectUser(isVerified)
+
       }
     } catch (error) {
       console.log('Error -->', error);
@@ -144,9 +175,7 @@ export class LoginPage implements OnInit {
 
   onSubmit(f: FormGroup) {
     const form = f.value;
-
-    this.login(form);
-    this.onLoginFb(form);
+    this.login(form); 
   }
 
   async errorAlert(message) {

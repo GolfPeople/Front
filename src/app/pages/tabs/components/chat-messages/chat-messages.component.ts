@@ -40,6 +40,10 @@ export class ChatMessagesComponent implements OnInit {
     this.firebaseService.markAsRead(this.user_id, this.data.id)
   }
 
+  goToUserProfile(id){   
+    this.firebaseService.routerLink('/tabs/user-profile/'+id);
+    this.close();
+  }
 
   newMessage() {
     if (this.message) {

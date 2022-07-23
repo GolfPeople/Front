@@ -45,13 +45,20 @@ export class ConfirmationPage implements OnInit {
 
     this.gameSvc.createGame(object).subscribe(res => {
       loading.dismiss();
-      
+      users.map(id => {
+        this.activityNotification(id);
+      })
       this.firebaseSvc.routerLink('tabs/play');
       this.gameSvc.step$.next(1);
       this.gameSvc.game.next({} as Game);
       this.gameSvc.game.value.extra = [];
       this.gameSvc.game.value.hours = [];      
     })
+  }
+
+  activityNotification(user_id){
+    let activity = {id: user_id.toString(), user_id: user_id, notification: true}
+    this.firebaseSvc.addToCollectionById('activity', activity);
   }
 
 }

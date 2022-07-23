@@ -13,6 +13,6 @@ export class CampusDataService {
 
   getData(page) {
     const params = new HttpParams().set('page', page);
-    return this.http.get<CampusResponse>(`${URL}/campus/show/all`, { params });
+    return this.http.get<any>(`${URL}/campus/show/all`, { params });
   }
 }

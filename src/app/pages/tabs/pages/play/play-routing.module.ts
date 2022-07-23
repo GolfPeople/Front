@@ -32,6 +32,22 @@ const routes: Routes = [
     path: 'resumen',
     loadChildren: () => import('./pages/resumen/resumen.module').then( m => m.ResumenPageModule),canActivate:[InProccessGuard]
   },
+  {
+    path: 'game-detail/:id/:type',
+    loadChildren: () => import('./pages/game-detail/game-detail.module').then( m => m.GameDetailPageModule)
+  },
+  {
+    path: 'success-request',
+    loadChildren: () => import('./pages/success-request/success-request.module').then( m => m.SuccessRequestPageModule)
+  },
+  {
+    path: 'start-game',
+    loadChildren: () => import('./pages/start-game/start-game.module').then( m => m.StartGamePageModule)
+  },
+  {
+    path: 'score-card',
+    loadChildren: () => import('./pages/score-card/score-card.module').then( m => m.ScoreCardPageModule)
+  },
 
 ];
 

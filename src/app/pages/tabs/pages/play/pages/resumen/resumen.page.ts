@@ -19,13 +19,30 @@ export class ResumenPage implements OnInit {
   ngOnInit() {
   }
 
-  ionViewWillEnter(){
+  ionViewWillEnter() {
     this.gameSvc.step$.next(2);
   }
 
-  next(){
-    this.gameSvc.step$.next(3);
-    this.firebaseSvc.routerLink('/tabs/play/payment');
+  next() {
+    if (!this.gameSvc.game.value.skipExtra) {
+      this.gameSvc.step$.next(3);
+      this.firebaseSvc.routerLink('/tabs/play/payment');
+    } else {
+      this.gameSvc.step$.next(4);
+      this.firebaseSvc.routerLink('/tabs/play/confirmation');
+    }
+
   }
 
+  getHoursTotal() {
+    return this.gameSvc.getHoursTotal();
+  }
+
+  getExtrasTotal() {
+    return this.gameSvc.getExtrasTotal();
+  }
+
+  getTotal() {
+    return this.gameSvc.getTotal();
+  }
 }

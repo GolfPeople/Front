@@ -2,8 +2,10 @@
 
 ion-header {
   border: 0 !important;
+  background: #8ab4f8;
   ion-toolbar {
     --background: #00388b !important;
+
     ion-title {
       h2 {
         font-weight: 700;
@@ -37,6 +39,17 @@ ion-header {
 
 ion-content {
   --background: #fff;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+capacitor-google-map {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
 }
 
 .search-container {
@@ -77,6 +90,101 @@ ion-content {
     }
   }
 }
+
 ion-list {
   background: none;
+}
+
+
+.open-btn{
+  width: 50px;
+  height: 50px;
+  --border-radius: 100%;
+  --background: white;
+}
+
+.campus-container {
+  width: 100%;
+  position: absolute;
+  top: 5%;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background: white;
+  transition: 0.5s;
+  &.none{
+    top: 88%;
+    transition: 0.5s;
+    overflow-y: hidden;
+  }
+}
+
+.btn-field {
+  width: 120px;
+}
+
+.name {
+  font-weight: 600;
+  color: var(--ion-color-dark);
+  padding-right: 10px;
+}
+
+.av {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.street {
+  font-size: 13px;
+}
+
+.icon {
+  font-size: 24px;
+}
+
+.rating {
+  font-size: 17px;
+  color: white;
+  padding-left: 4px;
+}
+
+.distance {
+  color: red;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+
+.over-img {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 20%;
+  left: 50%;
+  --background: transparent;
+  width: 100%;
+  --padding-start: 0;
+  --padding-end: 0;
+}
+
+.square {
+  width: 100%;
+  height: 100px;
+  background: transparent;
+  overflow: hidden;
+  border-radius: 20px;
+  position: relative;
+  display: inline-block;
+  text-align: center;
+}
+
+.square img {
+  width: 100%;
+  height: auto;
+}
+
+@supports(object-fit: cover) {
+  .square img {
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+  }
 }

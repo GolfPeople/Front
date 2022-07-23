@@ -25,9 +25,7 @@ export class SelectFriendComponent implements OnInit {
     this.loading = true;
     this.friendsSvc.searchFriend('').subscribe(res => {
       this.chatSvc.friends$.next(res.data);
-      this.loading = false;  
-      console.log(res.data);
-          
+      this.loading = false;            
     })
   }
 

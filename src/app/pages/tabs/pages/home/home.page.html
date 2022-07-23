@@ -19,14 +19,14 @@
         <img src="../../../../assets/icon/notifications.svg" alt="" />
         <ion-badge color="danger">{{notifications}}</ion-badge>
       </a> -->
-      <a
+      <!-- <a
         *ngIf="notifications | async"
         (click)="openNotifications()"
         class="notifications"
       >
         <ion-icon name="notifications-outline"></ion-icon>
-        <!-- <ion-badge color="danger">{{notifications | async }}</ion-badge> -->
-      </a>
+        <ion-badge color="danger">{{notifications | async }}</ion-badge>
+      </a> -->
     </div>
   </section>
   <section class="main-section">

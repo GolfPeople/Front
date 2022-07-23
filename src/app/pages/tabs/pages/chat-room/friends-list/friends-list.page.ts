@@ -20,6 +20,9 @@ export class FriendsListPage implements OnInit {
 
   groupName: string;
   currentUserData;
+
+  usersFiltered = [];
+  searchResult: string = '';
   constructor(
     public chatSvc: ChatService,
     private friendsSvc: FriendsService,
@@ -35,27 +38,38 @@ export class FriendsListPage implements OnInit {
       this.currentUserData = res;
     })   
 
+    this.getUsers();
+
     if (this.chatSvc.rooms$.value.length == 0) {
-      this.getChatRooms();
-      this.getFriends();
+      this.getChatRooms();     
     }
   }
 
   doRefresh(event) {
     setTimeout(() => {
-      this.getFriends();
+      this.getUsers();
       event.target.complete();
     }, 500)
   }
 
-  getFriends() {
+  getUsers() {
     this.loading = true;
-    this.friendsSvc.searchFriend('').subscribe(res => {
+    this.friendsSvc.search('').subscribe(res => {
       this.chatSvc.friends$.next(res.data);
+      this.usersFiltered = this.chatSvc.friends$.value
       this.loading = false;
     })
   }
 
+  filterUsers(){
+    if(this.searchResult){
+      this.usersFiltered = this.chatSvc.friends$.value.filter(user => {
+       return user.name.toLocaleLowerCase().includes(this.searchResult) 
+     }) 
+    }else{
+      this.usersFiltered = this.chatSvc.friends$.value
+    }    
+  }
 
   getChatRooms() {
 
@@ -79,7 +93,6 @@ export class FriendsListPage implements OnInit {
           })
       }
       this.chatSvc.rooms$.next(rooms);
-      console.log(rooms);
 
     });
   }

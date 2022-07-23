@@ -2,6 +2,17 @@
   padding-top: 10px;
 }
 
+.time-ago{
+  color: rgb(185, 185, 185);
+  font-size: 13px;
+  font-weight: 500;
+
+  &.no-msg{
+    position: relative;
+    bottom: 20px;
+  }
+}
+
 .new-msg-btn {
   text-transform: capitalize;
   color: white;
@@ -22,9 +33,15 @@ ion-badge{
   padding: 4px 6px 4px 6px;
 }
 
-.group-avatars{
+.group-avatars {
   position: relative;
-  right: 15px;
+  right: 13px;
+  &.first{
+    left: 8px;
+  }
+  &.second{
+    right: 3px;
+  }
 }
 
 
@@ -60,11 +77,17 @@ ion-content {
     }
   }
 
+  ion-chip{
+    padding: 6px 10px 6px 10px;
+    ion-label{
+      font-size: 13px;
+    }
+  }
+
   ion-list {
     background: transparent;
 
-    ion-item {
-      --background: #f9f9f9;
+    ion-item {   
       --padding-bottom: 10px;
       --padding-top: 10px;
       --padding-start: 10px;
@@ -94,6 +117,10 @@ ion-content {
           color: rgba(0, 0, 0, 0.4);
         }
       }
+    }
+
+    ion-item:hover{
+      --background: rgb(238, 237, 237);
     }
   }
 }

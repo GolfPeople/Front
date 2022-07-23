@@ -32,16 +32,15 @@ export class PaymentPage implements OnInit {
   }
 
   getHoursTotal(){
-    return this.gameSvc.game.value.hours.reduce((i, j) => i + j.price * 1, 0);
+    return this.gameSvc.getHoursTotal();
   }
 
   getExtrasTotal(){
-    return this.gameSvc.game.value.extra.reduce((i, j) => i + j.price * 1, 0);
+    return this.gameSvc.getExtrasTotal();
   }
 
   getTotal(){
-    this.gameSvc.game.value.total = this.getHoursTotal() + this.getExtrasTotal();
-    return this.gameSvc.game.value.total;
+    return this.gameSvc.getTotal();
   }
 
   next(){    
