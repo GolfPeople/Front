@@ -1,0 +1,44 @@
+<div class="ion-padding section-container">
+  <div class="title">Comentarios sobre el Hoyo {{selectedHole.value}}</div>
+
+  <div style="width: 32%;" class="ion-padding-vertical">
+    <ion-select style="font-size: 13px;" interface="popover" [(ngModel)]="filterSelected">
+      <ion-select-option *ngFor="let f of filters" [value]="f.id">{{f.name}}</ion-select-option>
+    </ion-select>
+  </div>
+
+
+  <div class="comment-container" *ngFor="let r of reviews.value">
+    <ion-item lines="none" class="ion-no-padding">
+      <ion-avatar>
+        <img
+          [src]="r.user.profile.photo ? r.user.profile.photo : '../../../../../../../../../assets/img/default-avatar.png'" />
+      </ion-avatar>
+      <ion-label class="ion-padding-start">
+        <div class="username">{{r.user.name}}</div>
+        <div class="role">Golfista</div>
+        <div>
+          <ion-icon *ngFor="let s of r.stars" [color]="s.color" name="star"></ion-icon>
+        </div>
+      </ion-label>
+      <span class="level" slot="end">
+        <div>Dificultad</div>
+        <div *ngIf="r.difficulty == 1" class="level-value very-easy">Muy Fácil</div>
+        <div *ngIf="r.difficulty == 2" class="level-value easy">Fácil</div>
+        <div *ngIf="r.difficulty == 3" class="level-value medium">Media</div>
+        <div *ngIf="r.difficulty == 4" class="level-value hard">Difícil</div>
+        <div *ngIf="r.difficulty == 5" class="level-value very-hard">Muy Difícil</div>
+      </span>
+    </ion-item>
+    <p class="comment">
+      {{r.description}}
+    </p>
+
+    <div class="date">{{ r.created_at | timeAgo}}</div>
+  </div>
+
+  <div class="no-comments" *ngIf="reviews.value.length == 0">
+    <ion-icon name="chatbox-outline"></ion-icon>
+    <h3>No hay comentarios disponibles</h3>
+  </div>
+</div>

@@ -83,12 +83,13 @@ export class LoginPage implements OnInit {
     this.loadingSvc.presentLoading();
 
     this.loginService.login({ email, password }).subscribe(
-      () => {
+      (res) => {
+        localStorage.setItem('token', res.access_token);
         // this.loginService.isLogged$.subscribe((data) => console.log(data));
         this.isLoading = false;
-        this.userService.getUserInfoToSave();
+        this.getUserInfo();
         this.loadingCtrl.dismiss();
-        this.router.navigate(['/tabs']);
+
       },
       (errRes) => {
         this.loadingCtrl.dismiss();
@@ -101,13 +102,26 @@ export class LoginPage implements OnInit {
       }
     );
   }
- 
+
+  getUserInfo() {
+    this.loadingSvc.presentLoading();
+    this.userService.getUserInfoToSave().subscribe((data) => {
+      this.userService.user.next(data);
+      this.userService.userPhoto.next(data.profile.photo);
+      this.loadingCtrl.dismiss();
+      this.router.navigate(['/tabs']);
+    }, error => {
+      this.firebaseSvc.Toast('Ha ocurrido un error, intenta de nuevo')
+      this.loadingCtrl.dismiss();
+    });
+  }
+
   async onLoginFacebook() {
 
     try {
       const user = await this.authSvc.loginFacebook();
-      if (user) {       
-        
+      if (user) {
+
         let userInformation = user.multiFactor.user;
         console.log(userInformation);
         const { email, displayName, uid } = userInformation;
@@ -120,8 +134,8 @@ export class LoginPage implements OnInit {
           .subscribe((res) => {
             loading.dismiss();
             this.userService.getUserInfoToSave();
-            this.router.navigate(['/tabs']);      
-          }, error =>{
+            this.router.navigate(['/tabs']);
+          }, error => {
             loading.dismiss();
           });
 
@@ -150,8 +164,8 @@ export class LoginPage implements OnInit {
           .subscribe((res) => {
             loading.dismiss();
             this.userService.getUserInfoToSave();
-            this.router.navigate(['/tabs']);      
-          }, error =>{
+            this.router.navigate(['/tabs']);
+          }, error => {
             loading.dismiss();
           });
 
@@ -175,7 +189,7 @@ export class LoginPage implements OnInit {
 
   onSubmit(f: FormGroup) {
     const form = f.value;
-    this.login(form); 
+    this.login(form);
   }
 
   async errorAlert(message) {

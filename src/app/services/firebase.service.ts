@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
 // import * as firebase from 'firebase/compat';
 
-
+import { getStorage, ref, uploadString } from "firebase/storage";
 @Injectable({
   providedIn: 'root'
 })
@@ -119,25 +119,33 @@ export class FirebaseService {
 
   //====Subir imagenes=================
 
+  // async uploadPhoto(id, file): Promise<any> {
+
+  //   if (file && file.length) {
+  //     try {
+  //       const loading = await this.loadingController.create();
+  //       await loading.present();
+
+  //       const task = await this.storage.ref(id).child(id).put(file[0])
+  //       loading.dismiss();
+  //       return this.storage.ref(`${id}/${id}`).getDownloadURL().toPromise();
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  // }  
+
   async uploadPhoto(id, file): Promise<any> {
-
-    if (file && file.length) {
-      try {
-        const loading = await this.loadingController.create();
-        await loading.present();
-
-        const task = await this.storage.ref(id).child(id).put(file[0])
-        loading.dismiss();
-        return this.storage.ref(`${id}/${id}`).getDownloadURL().toPromise();
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  }  
+    const storage = getStorage();
+    const storageRef = ref(storage, id);
+    return uploadString(storageRef, file, 'data_url').then(res =>{
+      return this.storage.ref(id).getDownloadURL().toPromise();
+    })    
+  }
 
   logout() {
     this.auth.signOut().then(() => {
-      localStorage.removeItem('user_id');     
+      localStorage.removeItem('user_id');
       this.router.navigate(['login']);
     });
   }

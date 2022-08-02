@@ -1,16 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { GoogleMap, Marker } from '@capacitor/google-maps';
-import { LoadingController, ModalController } from '@ionic/angular';
-import { Campus } from 'src/app/core/models/campus.interface';
-import { GeolocationService } from 'src/app/core/services/geolocation.service';
-import { UserService } from 'src/app/core/services/user.service';
+import {  ModalController } from '@ionic/angular';
+import { FirebaseService } from 'src/app/services/firebase.service';
 import { environment } from 'src/environments/environment';
 import { CreateFieldPage } from '../create-field/create-field.page';
-import { CampusMapModalComponent } from './components/campus-map-modal/campus-map-modal.component';
 import { CampusDataService } from './services/campus-data.service';
 
-declare let google: any;
+declare const google;
 
 @Component({
   selector: 'app-campus',
@@ -28,14 +24,15 @@ export class CampusPage implements OnInit {
   coords;
 
   loading: boolean;
-  @ViewChild('map') mapRef: ElementRef;
-  map: GoogleMap;
+  @ViewChild('mapElement', { static: false }) mapElement;
+  map;
 
   hiddenMap: boolean = true;
   hiddenCourses: boolean = false;
   constructor(
-    private campusSvg: CampusDataService,   
-    private modalCtrl: ModalController
+    public campusSvg: CampusDataService,   
+    private modalCtrl: ModalController,
+    private firebaseSvc: FirebaseService
   ) { }
 
   async ngOnInit() {
@@ -54,28 +51,35 @@ export class CampusPage implements OnInit {
     }
   }
 
-  ionViewDidEnter() {
-   
+  golfCourseDetail(id){ 
+    this.firebaseSvc.routerLink('/tabs/campus/campus-detail/'+id)
   }
 
+
   async createMap(markers) {
-   
-    let firstLocation = markers.map(r => {
-      return (r.coordinate)
-    })[1]
 
-    this.map = await GoogleMap.create({
-      id: 'map',
-      apiKey: environment.mapsKey,
-      element: this.mapRef.nativeElement,
-      forceCreate: true,
-      config: {
-        center: firstLocation,
-        zoom: 3,
+  let first = markers[1];
+
+    const map = new google.maps.Map(
+      this.mapElement.nativeElement,
+      {
+        zoom: 5,
+        center: first.position,
       }
-    })
+    );
+  
+    for(let m of markers){
+     let marker = new google.maps.Marker({
+        position: m.position,
+        map,
+        title: m.title,   
+        icon: m.icon 
+      });
 
-    this.addMarkers(markers)
+      marker.addListener("click", () => {
+        this.golfCourseDetail(m.title)
+      });
+    }    
   }
 
   doRefresh(event) {
@@ -85,34 +89,27 @@ export class CampusPage implements OnInit {
     }, 500)
   }
 
- async addMarkers(markers) { 
-    await this.map.addMarkers(markers);  
-    this.map.setOnMarkerClickListener(async (marker) => {
-      console.log(marker);   
-    })
-  }
 
   getGolfCourses() {
     this.loading = true;
-    this.campusSvg.getData(1).subscribe(async ({ data }) => {  
-      this.golfCourses = data.reverse();
+    this.campusSvg.getData().subscribe(async ({ data }) => {  
+      this.campusSvg.golfCourses.next(data.reverse());
       this.loading = false;
-
+        
       let markers: Marker[] = data.map(m => {
         return {
-          coordinate: {
+          position: {
             lat: parseInt(m.latitude),
             lng: parseInt(m.longitude)
           },
-          title: JSON.stringify(m),
-          iconUrl: '../../../../../assets/img/marker-golfp.png'
+          title: m.id.toString(),
+          icon: '../../../../../assets/img/marker-golfp.png'
         }
       })
 
       if (markers) {
          this.createMap(markers);   
-      }
-
+      }       
       },
       (error) => {
         console.log('Error -->', error);

@@ -52,6 +52,7 @@
   padding: 30px;
 }
 
+
 *:not(ion-icon) {
   font-family: "Montserrat";
 }
@@ -60,6 +61,28 @@
   margin: 0;
   padding: 0;
   // box-sizing: border-box;
+}
+
+.level-range{
+  --bar-height: 8px;
+  --knob-size: 0px;
+  --bar-background: #dddddd;
+  opacity: 100%;
+  &.very-easy{
+      --bar-background-active:linear-gradient(to left,  #baff3a 45%, green 100%);
+  }
+  &.easy{
+      --bar-background-active:linear-gradient(to left, #ffdb3a 0%, #baff3a 45%, green 100%);
+  }
+  &.medium{
+      --bar-background-active:linear-gradient(to left, #e59840 0%, #ffdb3a 45%, green 100%);
+  }
+  &.hard{
+      --bar-background-active:linear-gradient(to left, #e5405e 0%, #ffdb3a 45%, green 100%);
+  }
+  &.very-hard{
+      --bar-background-active:linear-gradient(to left, #e5405e 0%, #ffdb3a 45%, green 100%);
+  }
 }
 
 .alert-confirm{

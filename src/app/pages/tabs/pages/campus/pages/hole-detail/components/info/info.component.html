@@ -1,0 +1,70 @@
+<div>
+
+  <div class="table-container">
+    <div style="padding-bottom: 5px;" class="ion-padding">
+      <table>
+        <tr>
+          <td style="padding-right: 5px;">
+            <div class="td-init">PAR {{parHole}}</div>
+          </td>
+          <td class="td-first">Metros</td>
+          <td *ngFor="let y of yds" class="td-medium">{{(y.yds/0.9144).toFixed(0)}}</td>   
+        </tr>
+      </table>
+    </div>
+  
+    <div class="ion-padding-horizontal">
+      <table>
+        <tr>
+          <td style="padding-right: 5px;">
+            <div class="td-init">HCP {{hcpHole}}</div>
+          </td>
+          <td style="padding-right: 2px;" class="td-first">Yardas <span style="color: #f8f8f8;">s</span></td>
+          <td *ngFor="let y of yds" class="td-medium">{{y.yds}}</td>      
+        </tr>
+      </table>
+    </div>
+  </div>
+  
+
+
+
+  <div class="ion-padding colors-yds" [ngClass]="{'two-el': yds.length < 4}">
+    <div [ngClass]="{'ion-padding-end': yds.length < 4}" *ngFor="let y of yds">
+      <ion-icon class="circle-icon" *ngIf="y.color == 'FFFFFF'" color="light" name="ellipse"></ion-icon>
+      <ion-icon class="circle-icon" *ngIf="y.color !== 'FFFFFF'" [style.color]="'#'+y.color" name="ellipse"></ion-icon>
+     <span class="yds-text">{{y.yds}} </span>  
+    </div>
+  </div>
+<div *ngIf="reviews.value.length" >
+  <div class="level ion-padding-horizontal">Dificultad 
+    <strong *ngIf="levelRange.value == 1">Muy Fácil</strong>
+    <strong *ngIf="levelRange.value == 2">Fácil</strong>
+    <strong *ngIf="levelRange.value == 3">Media</strong>
+    <strong *ngIf="levelRange.value == 4">Difícil</strong>
+    <strong *ngIf="levelRange.value == 5">Muy Difícil</strong>
+  </div>
+
+  <div class="ion-padding-horizontal ion-padding-bottom">
+    <ion-range
+      [ngClass]="{'very-easy': levelRange.value == 1,'easy': levelRange.value == 2,'medium': levelRange.value == 3,'hard': levelRange.value == 4,'very-hard': levelRange.value == 5}"
+      [value]="levelRange.value" disabled class="level-range" ticks="true" mode="ios" snaps="true" min="0" max="5"></ion-range>
+    <div style="display: flex;justify-content: space-between;">
+      <div>Muy Fácil</div>
+      <div>Fácil</div>
+      <div>Media</div>
+      <div>Difícil</div>
+      <div>Muy Difícil</div>
+    </div>
+  </div>
+</div>
+  <p class="ion-padding" style="font-size: 13px;color: gray;">
+    Para tener éxito en el hoyo, le recomendamos que apunte su golpe de salida al lado izquierdo de la calle. Esto le
+    permitirá tener una buena vista del green en el segundo golpe.
+  </p>
+
+  <div class="ion-text-center">
+    <img src="../../../../../../../assets/img/golf-map.png" style="max-width: 300px;" alt="">
+  </div>
+
+</div>

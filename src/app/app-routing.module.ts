@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { CheckLoginGuard } from './guards/check-login.guard';
+import { LoginGuard } from './guards/login.guard';
+import { NoLoginGuard } from './guards/no-login.guard';
 
 const routes: Routes = [
   {
@@ -12,12 +14,12 @@ const routes: Routes = [
   {
     path: 'welcome',
     loadChildren: () =>
-      import('./welcome/welcome.module').then((m) => m.WelcomePageModule),
+      import('./welcome/welcome.module').then((m) => m.WelcomePageModule),canActivate: [LoginGuard]
   },
   {
     path: 'login',
     loadChildren: () =>
-      import('./login/login.module').then((m) => m.LoginPageModule),
+      import('./login/login.module').then((m) => m.LoginPageModule),canActivate: [LoginGuard]
   },
   {
     path: 'signup',
@@ -85,7 +87,7 @@ const routes: Routes = [
   {
     path: 'tabs',
     loadChildren: () =>
-      import('./pages/tabs/tabs.module').then((m) => m.TabsPageModule),
+      import('./pages/tabs/tabs.module').then((m) => m.TabsPageModule),canActivate:[NoLoginGuard]
   },
   {
     path: 'create-post',

@@ -1,0 +1,83 @@
+<ion-content class="background" *ngIf="detail">
+  <ion-grid style="width: 100%; padding-bottom: 15px;" fixed>
+    <ion-row>
+      <ion-col size="12">
+        <ion-toolbar style="--background: transparent;">
+          <ion-buttons slot="start">
+            <ion-back-button color="light" defaultHref="/tabs/home"></ion-back-button>
+          </ion-buttons>
+          <ion-buttons slot="end">
+            <ion-button>
+              <ion-icon class="icon" color="light" name="heart-outline"></ion-icon>
+            </ion-button>
+            <ion-button>
+              <ion-icon class="icon" color="light" name="share-social-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-padding-start" size="9">
+        <div class="hole-name">HOYO {{selectedHole.value}}</div>
+        <div class="subtext">PAR {{parHole}} | HCP {{hcpHole}}</div>
+        <div *ngIf="reviews.value.length" class="subtext">Dificultad:
+
+          <span *ngIf="averageLevel.value == 1">Muy Fácil</span>
+          <span *ngIf="averageLevel.value == 2">Fácil</span>
+          <span *ngIf="averageLevel.value == 3">Media</span>
+          <span *ngIf="averageLevel.value == 4">Difícil</span>
+          <span *ngIf="averageLevel.value == 5">Muy Difícil</span>
+
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="content">
+    <div class="campus-name ion-padding">{{detail.courseName}}</div>
+
+    <swiper class="p-swipper" [config]="config">
+      <ng-template *ngFor="let h of holes; index as i" swiperSlide>
+        <div (click)="changeHole(h.holeNumber)" [ngClass]="{'selected': selectedHole.value == h.holeNumber}"
+          class="hole-card ion-activatable ripple-parent">
+          <ion-icon src="../../../../../../../../assets/icons/golf-ball.svg"></ion-icon>
+          <div class="name">HOYO {{h.holeNumber}}</div>
+          <ion-ripple-effect></ion-ripple-effect>
+        </div>
+      </ng-template>
+    </swiper>
+
+    <ion-segment [(ngModel)]="selectedSegment">
+      <ion-segment-button *ngFor="let s of segments" [value]="s.id">
+        <ion-label class="segment-name">{{s.name}}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+
+    <app-info [hcpHole]="hcpHole" [reviews]="reviews" [levelRange]="averageLevel" [parHole]="parHole" [yds]="yds"
+      *ngIf="selectedSegment == '1'"></app-info>
+    <app-comments [selectedHole]="selectedHole" [reviews]="reviews" *ngIf="selectedSegment == '2'"></app-comments>
+    <app-pics [photos]="photos" *ngIf="selectedSegment == '3'"></app-pics>
+
+
+  </div>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button *ngIf="selectedSegment == '1'" color="secondary">
+      <ion-icon name="clipboard-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button (click)="newReview()" *ngIf="selectedSegment == '2'" color="secondary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button (click)="addImages()" *ngIf="selectedSegment == '3'" color="secondary">
+      <ion-icon name="image-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
+
+<ion-content class="ion-text-center background" *ngIf="!detail">
+  <div  style="padding-top: 50%;">
+      <ion-spinner color="light"></ion-spinner>
+  </div>
+  </ion-content>

@@ -24,10 +24,8 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-
-  <div class="container">
-    <capacitor-google-map #map></capacitor-google-map>
-  </div>
+  
+  <div #mapElement class="map"></div>
 
   <div [ngClass]="{'none': !hiddenMap}" class="campus-container">
     <div *ngIf="!loading">
@@ -38,7 +36,7 @@
       </div>
 
       <div *ngIf="!hiddenCourses">
-      <div *ngFor="let g of golfCourses" style="padding-top: 5px;" class="ion-padding">
+      <div *ngFor="let g of campusSvg.golfCourses.value" style="padding-top: 5px;" class="ion-padding">
         <div style="border-bottom: 1px solid #DDD;padding-bottom: 10px;">
           <div>
             <div class="square">
@@ -48,10 +46,10 @@
                     <ion-icon class="icon" style="color:red;" name="heart"></ion-icon>
                   </ion-button>
                 </ion-buttons>
-                <ion-buttons slot="end">
+                <ion-buttons *ngIf="g.recommendRating && g.recommendRating !== '0'" slot="end">
                   <ion-button>
                     <ion-icon class="icon" color="warning" name="star"></ion-icon>
-                    <span class="rating">8,36</span>
+                    <span class="rating">{{g.recommendRating}}</span>
                   </ion-button>
                 </ion-buttons>
               </ion-item>
@@ -64,11 +62,11 @@
               <div class="av">{{g.address}}</div>
               <!-- <div class="street">11310 Sotogrande, Cadiz</div> -->
             </ion-label>
-            <span class="distance" slot="end">0.50 km</span>
+            <!-- <span class="distance" slot="end">0.50 km</span> -->
           </ion-item>
           <ion-item class="ion-no-padding" lines="none">
             <ion-buttons slot="start">
-              <ion-button class="btn-field" color="secondary" fill="solid" shape="round" mode="ios">
+              <ion-button (click)="golfCourseDetail(g.id)" class="btn-field" color="secondary" fill="solid" shape="round" mode="ios">
                 Ver campo
               </ion-button>
             </ion-buttons>

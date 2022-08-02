@@ -42,8 +42,16 @@ export class TabsPage implements OnInit {
   }
 
   ngOnInit() {
+    this.getUserInfo();
     this.getChatRooms()
     this.getActivityNotification();
+  }
+
+  getUserInfo() {   
+    this.userService.getUserInfoToSave().subscribe((data) => {
+      this.userService.user.next(data);
+      this.userService.userPhoto.next(data.profile.photo);  
+    });
   }
 
   onLogout() {

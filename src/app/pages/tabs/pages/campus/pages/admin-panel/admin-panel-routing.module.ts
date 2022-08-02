@@ -7,11 +7,7 @@ const routes: Routes = [
   {
     path: '',
     component: AdminPanelPage
-  },
-  {
-    path: 'description',
-    loadChildren: () => import('./pages/description/description.module').then( m => m.DescriptionPageModule)
-  }
+  },  
 ];
 
 @NgModule({

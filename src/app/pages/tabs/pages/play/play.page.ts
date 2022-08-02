@@ -247,6 +247,7 @@ export class PlayPage implements OnInit {
           owner_id: g.users.filter(u => u.status == '4')[0].user_id,
           users: g.users.filter(u => { return ['2', '4'].includes(u.status) }),
           fav: false,
+          isMember: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.status == '2').length ? true : false),
           status: g.status,
           request_users: g.request_users,
           isInvited: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.status == '1').length ? true : false),
@@ -254,8 +255,7 @@ export class PlayPage implements OnInit {
         }
       }))
 
-      console.log(this.gameSvc.games$.value);
-      
+          
       this.filterGames();
     })
   }

@@ -10,46 +10,36 @@ import { CampusService } from 'src/app/core/services/campus/campus.service';
 export class AdminPanelPage implements OnInit {
   items: any = [
     {
-      text: 'DESCRICIÓN DEL CAMPO',
+      name: 'DESCRICIÓN DEL CAMPO',
       route: ['description'],
     },
     {
-      text: 'HOYOS',
+      name: 'HOYOS',
       route: ['hoyos'],
     },
     {
-      text: 'RESEÑAS',
+      name: 'RESEÑAS',
       route: ['resenas'],
     },
     {
-      text: 'PUBLICACIONES',
+      name: 'PUBLICACIONES',
       route: ['posts'],
     },
     {
-      text: 'MENSAJES',
+      name: 'MENSAJES',
       route: ['messages'],
     },
     {
-      text: 'MIEMBROS',
+      name: 'MIEMBROS',
       route: ['members'],
     },
   ];
   campus: Campus;
   designer: any;
-
+  imageAvatarDefault = 'assets/img/default-img.png';
   constructor(private campusSvc: CampusService) {}
 
   ngOnInit() {
-    this.campusSvc.campus$.subscribe((data) => {
-      this.campus = data;
-      // console.log('Campus', data);
-      // this.designer = JSON.parse(data.designer);
-      // console.log(this.designer);
-    });
-
-    this.campus = JSON.parse(localStorage.getItem('edit_campus'));
-    this.designer = JSON.parse(this.campus.designer);
-    // console.log('campus', this.campus);
-    // console.log('designer', this.designer);
+   
   }
 }

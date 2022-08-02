@@ -84,17 +84,9 @@ export class HomePage implements OnInit {
         console.log(error);
       }
     );
-    this.notifications = this.notificationsSvc.noRead();
   }
 
-  async openNotifications() {
-    const modal = await this.modalCtrl.create({
-      component: NotificationsComponent,
-      backdropDismiss: true,
-      cssClass: 'create-post-modal',
-    });
-    await modal.present();
-  }
+  
 
   onLoadMore() {
     this.isLoadingMore = true;

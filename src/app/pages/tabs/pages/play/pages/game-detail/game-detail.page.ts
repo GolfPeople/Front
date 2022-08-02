@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { AlertController, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { GameService } from 'src/app/core/services/game.service';
 import { AlertConfirmComponent } from 'src/app/pages/tabs/components/alert-confirm/alert-confirm.component';
 import { FirebaseService } from 'src/app/services/firebase.service';
@@ -22,8 +22,7 @@ export class GameDetailPage implements OnInit {
   constructor(
     private actRoute: ActivatedRoute,
     public gameSvc: GameService,
-    private sanitizer: DomSanitizer,
-    private alertController: AlertController,
+    private sanitizer: DomSanitizer,  
     private firebaseSvc: FirebaseService,
     private modalController: ModalController
   ) {

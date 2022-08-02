@@ -1,0 +1,40 @@
+<ion-content>
+
+  <div class="ion-padding">
+  <div class="label">Calificación:</div>
+  <ion-icon class="star" (click)="selectRating(1)" [color]="[1,2,3,4,5].includes(rating) ? 'warning' : 'medium'" [name]="[1,2,3,4,5].includes(rating) ? 'star' : 'star-outline'"></ion-icon>
+  <ion-icon class="star" (click)="selectRating(2)" [color]="[2,3,4,5].includes(rating) ? 'warning' : 'medium'" [name]="[2,3,4,5].includes(rating) ? 'star' : 'star-outline'"></ion-icon>
+  <ion-icon class="star" (click)="selectRating(3)" [color]="[3,4,5].includes(rating) ? 'warning' : 'medium'" [name]="[3,4,5].includes(rating) ? 'star' : 'star-outline'"></ion-icon>
+  <ion-icon class="star" (click)="selectRating(4)" [color]="[4,5].includes(rating) ? 'warning' : 'medium'" [name]="[4,5].includes(rating) ? 'star' : 'star-outline'"></ion-icon>
+  <ion-icon class="star" (click)="selectRating(5)" [color]="[5].includes(rating) ? 'warning' : 'medium'" [name]="[5].includes(rating) ? 'star' : 'star-outline'"></ion-icon>
+
+  
+<div class="label">Dificultad:</div>
+
+<div class="ion-padding-horizontal">
+  <ion-range
+  style="--knob-size: 20px;"
+    [ngClass]="{'very-easy': levelRange == 1,'easy': levelRange == 2,'medium': levelRange == 3,'hard': levelRange == 4,'very-hard': levelRange == 5}"
+    [(ngModel)]="levelRange" class="level-range" ticks="true" mode="ios" snaps="true" min="0" max="5"></ion-range>
+  <div style="display: flex;justify-content: space-between;">
+    <div>Muy Fácil</div>
+    <div>Fácil</div>
+    <div>Media</div>
+    <div>Difícil</div>
+    <div>Muy Difícil</div>
+  </div>
+</div>
+
+<div class="label ion-padding-top">
+  Déjanos tu comentario
+</div>
+<ion-textarea type="text" [(ngModel)]="description" class="select-container input-name"
+  placeholder="Ingresa un comentario"></ion-textarea>
+</div>
+
+<div class="ion-text-center ion-text-vertical">
+<ion-button [disabled]="!validator()" (click)="sendReview()" mode="ios" color="secondary" shape="round">
+  Enviar
+</ion-button>
+</div>
+</ion-content>

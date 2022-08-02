@@ -15,6 +15,21 @@ const routes: Routes = [
         (m) => m.AdminPanelPageModule
       ),
   },
+  {
+    path: 'campus-detail/:detail',
+    loadChildren: () => import('./pages/campus-detail/campus-detail.module').then( m => m.CampusDetailPageModule)
+  },
+  {
+    path: 'hole-detail/:detail',
+    loadChildren: () => import('./pages/hole-detail/hole-detail.module').then( m => m.HoleDetailPageModule)
+  },
+  {
+    path: 'admin-request/:detail',
+    loadChildren: () => import('./pages/admin-request/admin-request.module').then( m => m.AdminRequestPageModule)
+  },
+
+
+
 ];
 
 @NgModule({

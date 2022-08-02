@@ -1,15 +1,10 @@
 import { Injectable } from '@angular/core';
 import {
-  ActivatedRouteSnapshot,
   CanActivate,
   Router,
-  RouterStateSnapshot,
-  UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
 
-import { LoginService } from '../core/services/login.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,14 +12,15 @@ import { LoginService } from '../core/services/login.service';
 export class CheckLoginGuard implements CanActivate {
   isLogged: boolean;
 
-  constructor(private loginService: LoginService, private router: Router) {}
+  constructor(private router: Router) { }
   canActivate(): Observable<boolean> | boolean {
-    this.loginService.isLogged$.subscribe((data) => {
-      this.isLogged = data;
-    });
-    if (this.isLogged === true) {
-      this.router.navigate(['/home']);
+    let user_id = localStorage.getItem('user_id');
+
+    if (user_id) {
+      this.router.navigateByUrl('/tabs')
+      return false;
+    } else {
+      return true;
     }
-    return this.isLogged;
   }
 }

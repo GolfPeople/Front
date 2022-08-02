@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { Campus } from 'src/app/core/models/campus.interface';
@@ -27,14 +28,21 @@ export class CreateGamePage implements OnInit {
   loading: boolean;
   creating: boolean;
 
+  campus_id;
   constructor(
     private modalController: ModalController,
     private campusSvc: CampusService,
     public gameSvc: GameService,
-    private firebaseSvc: FirebaseService   
-  ) { }
+    private firebaseSvc: FirebaseService,  
+    private actRoute: ActivatedRoute
+  ) { 
+    if(this.actRoute.snapshot.paramMap.get('id') !== 'x'){
+      this.campus_id = JSON.parse(this.actRoute.snapshot.paramMap.get('id'))
+    }
+    
+  }
 
-  ngOnInit() {
+  ngOnInit() { 
     this.getAllCampus();
     this.creating = false;
   }
@@ -50,10 +58,12 @@ export class CreateGamePage implements OnInit {
     this.loading = true;
     this.campusSvc.getAllCampus().subscribe(res => {
       this.loading = false;
-      console.log(res.data);
-      
-      this.campus = res.data;       
- 
+       
+      this.campus = res.data;   
+      if(this.campus_id !== 'x'){
+          this.campusSelected = this.campus.filter(res => res.id == this.campus_id)[0];                 
+      }    
+    
     })
   }
 

@@ -1,0 +1,125 @@
+ion-content.background{
+    --background: url(../../../../../../../assets/img/rectangle-2.jpg) 0 0/100% 100% no-repeat;
+}
+
+ion-item {
+    --background: transparent;
+}
+
+.icon {
+    font-size: 24px;
+}
+
+.icon-md{
+    font-size: 30px;
+}
+
+.map{
+    width: 100%;
+    height: 180px;
+}
+
+
+.contact-name{
+    padding-top: 5px;
+    font-size: 11px;
+}
+
+ion-segment-button {
+    min-width: auto;
+    --padding-start:2px;
+    --padding-end:2px;
+}
+
+.segment-name {
+    font-size: 12px;
+    text-transform: capitalize;
+  
+}
+
+.hole-card{
+    border-radius: 10px;
+    border: 1px solid #d6d6d6;
+    height: 95px;
+    text-align: center;
+    font-size: 11px;
+    padding: 5px;
+    padding-top: 15px;
+    font-weight: 500;
+   
+    ion-icon{
+        color: var(--ion-color-medium);
+        font-size: 40px;
+    }
+
+    .price{
+        font-size: 13px;
+    }
+
+    .name{
+        font-size: 11px;
+        &.long-name{
+            font-size: 10px;
+        }
+    }
+
+    &.selected{
+       border: 1px solid var(--ion-color-secondary);
+        ion-icon{
+            color: var(--ion-color-secondary);
+            font-size: 40px;
+        } 
+        .name{
+            color: var(--ion-color-secondary);
+        }
+    }   
+  
+}
+
+
+.content {
+    position: relative;
+    bottom: 0;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    width: 100%;
+    height: 100%;
+    background: white;
+    overflow: auto;    
+}
+
+label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+
+.hole-name {
+    font-size: 29px;
+    color: white;
+    font-weight: 600;
+    line-height: 25px;
+    padding-bottom: 15px;
+}
+
+.campus-name {
+    font-size: 24px;
+    color: var(--ion-color-dark);
+    font-weight: 600;
+    line-height: 28px;
+    padding-bottom: 15px;
+}
+
+
+.subtext {
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+    line-height: 15px;
+
+    ion-icon {
+        font-size: 23px;
+        position: relative;
+        top: 5px;
+    }
+}

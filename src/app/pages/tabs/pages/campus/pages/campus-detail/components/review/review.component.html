@@ -1,0 +1,73 @@
+<div *ngIf="reviews.value.length" class="ion-text-center content ion-padding-vertical">
+  <div class="rating-number">
+    {{average.value}}
+  </div>
+  <div>Basado en {{reviews.value.length}} reseñas</div>
+
+  <ion-grid class="ion-text-start" fixed>
+    <ion-row >
+      <ion-col style="padding-top: 10px;" size="5">Precio - Calidad</ion-col>
+      <ion-col size="7">
+        <ion-range  min="0" max="10" value="10" class="range"></ion-range>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col style="padding-top: 10px;" size="5">Localización</ion-col>
+      <ion-col size="7">
+        <ion-range  min="0" max="10" value="8" class="range"></ion-range>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col style="padding-top: 10px;" size="5">Tienda</ion-col>
+      <ion-col size="7">
+        <ion-range  min="0" max="10" value="3" class="range"></ion-range>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col style="padding-top: 10px;" size="5">Restaurante</ion-col>
+      <ion-col size="7">
+        <ion-range  min="0" max="10" value="9" class="range"></ion-range>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col style="padding-top: 10px;" size="5">Instalaciones</ion-col>
+      <ion-col size="7">
+        <ion-range  min="0" max="10" value="9" class="range"></ion-range>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-item lines="none" class="ion-no-padding ion-padding-vertical">
+    <ion-label class="review-label">Reseñas</ion-label>  
+      <ion-select style="font-size: 13px;" interface="popover" [(ngModel)]="filterSelected">
+        <ion-select-option *ngFor="let f of filters" [value]="f.id">{{f.name}}</ion-select-option>  
+      </ion-select>
+  </ion-item>
+
+  <div class="comment-container" *ngFor="let r of reviews.value">
+    <ion-item lines="none" class="ion-no-padding">
+    <ion-avatar>
+      <img [src]="r.user.profile.photo ? r.user.profile.photo : '../../../../../../../../../assets/img/default-avatar.png'" />
+    </ion-avatar>
+    <ion-label class="ion-padding-start">
+      <div class="username">{{r.user.name}}</div>
+       <div class="role">Golfista</div>
+      <div><ion-icon *ngFor="let s of r.stars" color="success" name="star"></ion-icon></div>
+    </ion-label>
+    <span class="level" slot="end">
+      <div>{{r.rating}}/5 <strong style="color: var(--ion-color-success);">Excelente</strong></div>   
+    </span>
+  </ion-item>
+  <p class="comment">
+    {{r.description}}
+  </p>
+  
+  <div class="date">{{ r.created_at | timeAgo}}</div>
+  </div>
+</div>
+
+
+<div class="no-comments" *ngIf="!reviews.value.length">
+  <ion-icon name="chatbox-outline"></ion-icon>
+  <h3>No hay comentarios disponibles</h3>
+</div>

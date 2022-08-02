@@ -1,0 +1,13 @@
+<ion-grid *ngIf="photos.value.length" fixed>
+  <ion-row>
+    <ion-col *ngFor="let p of photos.value" size="4">
+      <div class="square">
+            <img [src]="p.url" alt="">
+      </div>  
+    </ion-col> 
+  </ion-row>
+</ion-grid>
+<div class="no-photos" *ngIf="!photos.value.length">
+  <ion-icon name="image-outline"></ion-icon>
+  <h3>No hay fotos disponibles</h3>
+</div>

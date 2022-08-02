@@ -1,23 +1,37 @@
 <ion-content>
-  <app-header defaultHref="/tabs/campus" img="assets/icons/admin-panel.svg" text="admin panel">
+  <app-header backButton="true" icon="assets/icons/admin-panel.svg" title="admin panel">
   </app-header>
   <div class="banner">
-    <app-avatar></app-avatar>
-    <h3>{{(campus.designer | jsonToData).name}}</h3>
-    <p class="address">{{campus.location}}</p>
+    <div class="avatar-container">
+      <div class="avatar" [ngStyle]="{
+          'background-image':
+            'url(' + (imageAvatar ? imageAvatar : imageAvatarDefault) + ')'
+        }">
+        <div class="edit-avatar">
+          <ion-icon style="font-size: 15px;" src="../../../../../../../assets/icons/edit-pencil.svg"></ion-icon>
+        </div>
+      </div>
+    </div>
+
+    <div class="ion-padding">
+      <div class="name">Real Club Valderrama</div>
+      <div class="address">Av. los Cortijos, s/n 11310 Sotogrande, Cadiz</div>
+    </div>
+
     <a>
       <img src="../../../../../assets/icons/edit-pencil.svg" alt="" />
       Editar
     </a>
   </div>
-  <ion-list>
-    <ion-item   *ngFor="let item of items"  >
-      <ion-label >{{item.text}}</ion-label>
-      <ion-buttons slot="end">
-        <ion-button [routerLink]="item.route" >
-          <ion-icon slot="icon-only" name="chevron-forward"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-item>
-  </ion-list>
+
+<div style="padding-top: 10px;">
+  <ion-item detail *ngFor="let i of items">
+    <ion-label>{{i.name}}</ion-label>
+  </ion-item>
+</div>
+
+  
+
+
+
 </ion-content>

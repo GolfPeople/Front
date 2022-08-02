@@ -10,7 +10,7 @@ const routes: Routes = [
     component: PlayPage
   },
   {
-    path: 'create-game',
+    path: 'create-game/:id',
     loadChildren: () => import('./pages/create-game/create-game.module').then( m => m.CreateGamePageModule)
   },   {
     path: 'available-hours',

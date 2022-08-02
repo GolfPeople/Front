@@ -1,0 +1,76 @@
+.label{
+    font-size: 14px;
+    font-weight: 600;
+    padding-top: 15px;
+    
+}
+
+
+.game-container {
+    padding-top: 20px;
+    border-bottom: 1px solid #DDDD;
+  }
+  
+  .club-name {
+    font-size: 15px;
+    line-height: 15px;
+    font-weight: 700;
+    color: #383838;
+    &.canceled{
+      color: #DDDDDD;
+    }
+  
+    &.finalized{
+      color: #98aac4;
+    }
+  }
+  
+  
+.item-icon {
+    font-size: 26px;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+  
+  .date {
+    color: #383838;
+    padding-right: 10px;
+    &.finalized{
+      color: #98aac4;
+    }
+    &.canceled{
+      color: #DDDDDD;
+    }
+    .day {
+      font-size: 18px;
+      font-weight: bold;
+      line-height: 20px;
+      border-bottom: 2px solid var(--ion-color-secondary);
+      text-align: center;
+  
+      &.canceled{
+        border-bottom: 2px solid #DDDDDD;
+      }
+    
+      &.finalized{
+        border-bottom: 2px solid #98aac4;
+      }
+    }
+  
+    .month {
+      font-size: 18px;
+      font-weight: bold;
+      line-height: 20px;
+      text-align: center;
+    } 
+  }
+
+  .btn-group {
+    font-size: 12px;
+    text-transform: capitalize;
+  
+    span {
+      padding-left: 7px;
+      padding-right: 7px;
+    }
+  }
