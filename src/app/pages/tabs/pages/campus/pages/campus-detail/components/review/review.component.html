@@ -52,10 +52,16 @@
     <ion-label class="ion-padding-start">
       <div class="username">{{r.user.name}}</div>
        <div class="role">Golfista</div>
-      <div><ion-icon *ngFor="let s of r.stars" color="success" name="star"></ion-icon></div>
+      <div><ion-icon *ngFor="let s of r.stars" [color]="s.color" name="star"></ion-icon></div>
     </ion-label>
     <span class="level" slot="end">
-      <div>{{r.rating}}/5 <strong style="color: var(--ion-color-success);">Excelente</strong></div>   
+      <div>{{r.rating}}/5 
+        <strong *ngIf="r.rating == 5" style="color: var(--ion-color-success);">Excelente</strong>
+        <strong *ngIf="r.rating == 4" style="color: var(--ion-color-success);">Muy Bueno</strong>
+        <strong *ngIf="r.rating == 3" style="color: var(--ion-color-success);">Bueno</strong>
+        <strong *ngIf="r.rating == 2" style="color: var(--ion-color-success);">Regular</strong>
+        <strong *ngIf="r.rating == 1" style="color: var(--ion-color-success);">Malo</strong>
+      </div>   
     </span>
   </ion-item>
   <p class="comment">

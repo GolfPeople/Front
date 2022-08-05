@@ -1,0 +1,28 @@
+<ion-content>
+ <div class="label ion-padding">1) Selecciona los días correspondientes al horario</div> 
+  <ion-item *ngFor="let d of days">
+    <ion-label>{{d.name}}</ion-label>
+    <ion-checkbox [(ngModel)]="d.isChecked" slot="end"></ion-checkbox>
+  </ion-item>
+
+  <div class="label ion-padding">2) Selecciona los horas correspondientes al horario</div> 
+
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col class="ion-padding" size="6">
+        <div class="label ion-padding-bottom">Desde</div> 
+        <ion-input class="select-container input-name" [(ngModel)]="hourInit" type="time"></ion-input>
+      </ion-col>
+      <ion-col class="ion-padding" size="6">
+        <div class="label ion-padding-bottom">Hasta</div> 
+        <ion-input class="select-container input-name" [(ngModel)]="hourEnd" type="time"></ion-input>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="ion-text-center ion-padding-top">
+    <ion-button class="submit-btn" (click)="submit()" [disabled]="!validator()" type="submit" mode="ios" color="secondary" shape="round">
+      Aceptar
+    </ion-button>  
+  </div>
+</ion-content>

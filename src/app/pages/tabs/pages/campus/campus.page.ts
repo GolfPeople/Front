@@ -95,6 +95,7 @@ export class CampusPage implements OnInit {
     this.campusSvg.getData().subscribe(async ({ data }) => {  
       this.campusSvg.golfCourses.next(data.reverse());
       this.loading = false;
+      // console.log(this.campusSvg.golfCourses.value);
         
       let markers: Marker[] = data.map(m => {
         return {

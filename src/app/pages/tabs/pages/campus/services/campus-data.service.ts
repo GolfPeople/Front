@@ -34,4 +34,8 @@ export class CampusDataService {
     return this.http.post<any>(`${URL}/campus/images/holes/${data.course_id}`,imageData)
   }
 
+  updateGolfCourse(id, data){
+    return this.http.post<any>(`${URL}/campus/edit/${id}`,data)
+  }
+
 }

@@ -35,9 +35,7 @@ export class CampusDetailPage implements OnInit {
     public campusSvg: CampusDataService
   ) {
     this.id = this.actRoute.snapshot.paramMap.get('detail');
-    this.detail = this.campusSvg.golfCourses.value.filter(res => res.id == this.id)[0];
-    this.detail.teesList = JSON.parse(this.detail.teesList);
-    this.detail.scorecarddetails = JSON.parse(this.detail.scorecarddetails);
+    this.detail = this.campusSvg.golfCourses.value.filter(res => res.id == this.id)[0];  
   }
 
   ngOnInit() {
@@ -88,7 +86,14 @@ export class CampusDetailPage implements OnInit {
 
         let stars = []
         for (let i = 1; i < res.rating + 1; i++) {
-          stars.push(i)
+          stars.push({ color: 'success' })
+        }
+  
+        if (stars.length < 5) {
+          let reduce = 5 - stars.length;
+          for (let i = 1; i < reduce + 1; i++) {
+            stars.push({ color: 'medium' })
+          }
         }
         return {
           created_at: res.created_at,

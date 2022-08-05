@@ -20,10 +20,11 @@ export class TabsPage implements OnInit {
 
   profileImage;
   profileUrl: string = 'https://golf-people.web.app/tabs/user-profile';
-
   value;
 
   notification = new Audio('../../../assets/sounds/notification.mp3');
+
+
   constructor(
     private loginService: LoginService,
     private userService: UserService,

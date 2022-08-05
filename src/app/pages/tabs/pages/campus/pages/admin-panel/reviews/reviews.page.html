@@ -1,0 +1,102 @@
+<app-header-admin [image]="detail && detail.thumbnailImage ? detail.thumbnailImage : 'assets/img/default-img.png'"
+  title="{{'ADMIN_PANEL.reviews' | translate }}"></app-header-admin>
+<ion-content>
+
+  <div class="p-title">
+    <div class="title">Gestiona tus Reseñas</div>
+  <div class="indicator">Responde a los comentarios que los jugadores han dejado sobre tu campo.</div>
+  </div>
+
+  <div *ngIf="reviews.value.length" class="ion-text-center content ion-padding-vertical">
+    <div class="ion-padding">
+    <div class="rating-number">
+      {{average.value}}
+    </div>
+    <div>Basado en {{reviews.value.length}} reseñas</div>
+  
+    <ion-grid class="ion-text-start" fixed>
+      <ion-row >
+        <ion-col style="padding-top: 10px;" size="5">Precio - Calidad</ion-col>
+        <ion-col size="7">
+          <ion-range  min="0" max="10" value="10" class="range"></ion-range>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col style="padding-top: 10px;" size="5">Localización</ion-col>
+        <ion-col size="7">
+          <ion-range  min="0" max="10" value="8" class="range"></ion-range>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col style="padding-top: 10px;" size="5">Tienda</ion-col>
+        <ion-col size="7">
+          <ion-range  min="0" max="10" value="3" class="range"></ion-range>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col style="padding-top: 10px;" size="5">Restaurante</ion-col>
+        <ion-col size="7">
+          <ion-range  min="0" max="10" value="9" class="range"></ion-range>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col style="padding-top: 10px;" size="5">Instalaciones</ion-col>
+        <ion-col size="7">
+          <ion-range  min="0" max="10" value="9" class="range"></ion-range>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+
+    <swiper class="p-swipper" [config]="config">
+      <ng-template *ngFor="let c of filters" swiperSlide>
+        <ion-button (click)="filterReviews(c.id)" expand="block"
+          [color]="filterSelected == c.id ? 'secondary' : 'light'" shape="round">
+          {{c.name}}
+        </ion-button>
+      </ng-template>
+    </swiper>
+
+
+  <div class="ion-padding">
+    <div class="comment-container" *ngFor="let r of reviews.value">
+      <ion-item lines="none" class="ion-no-padding">
+      <ion-avatar>
+        <img [src]="r.user.profile.photo ? r.user.profile.photo : '../../../../../../../../../assets/img/default-avatar.png'" />
+      </ion-avatar>
+      <ion-label class="ion-padding-start">
+        <div class="username">{{r.user.name}}</div>
+         <div class="role">Golfista</div>
+        <div><ion-icon *ngFor="let s of r.stars" [color]="s.color" name="star"></ion-icon></div>
+      </ion-label>
+      <span class="level" slot="end">
+        <div class="ion-text-end">
+             <ion-icon class="ellipsis-icon" name="ellipsis-horizontal"></ion-icon> 
+        </div>
+    
+        <div>{{r.rating}}/5 
+          <strong *ngIf="r.rating == 5" style="color: var(--ion-color-success);">Excelente</strong>
+          <strong *ngIf="r.rating == 4" style="color: var(--ion-color-success);">Muy Bueno</strong>
+          <strong *ngIf="r.rating == 3" style="color: var(--ion-color-success);">Bueno</strong>
+          <strong *ngIf="r.rating == 2" style="color: var(--ion-color-success);">Regular</strong>
+          <strong *ngIf="r.rating == 1" style="color: var(--ion-color-success);">Malo</strong>
+        </div>   
+      </span>
+    </ion-item>
+    <p class="comment">
+      {{r.description}}
+    </p>
+    
+    <div class="date">{{ r.created_at | timeAgo}}</div>
+    <div class="answer">Responder</div>
+    </div>
+    </div>
+  </div>
+  
+  
+  <div class="no-comments" *ngIf="!reviews.value.length">
+    <ion-icon name="chatbox-outline"></ion-icon>
+    <h3>No hay reseñas disponibles</h3>
+  </div>
+</ion-content>

@@ -1,0 +1,30 @@
+ion-content{
+  font-size: 13px;
+  --background: white;
+}
+
+
+.banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 10px 20px 20px 20px;
+    background: var(--ion-color-primary);
+    color: #fff;
+    border-radius: 0px 0px 20px 20px;
+  }
+
+.icon-input{
+  margin-top: 15px;
+  margin-right: 10px;
+}
+
+ion-input{
+  font-size: 13px;
+  color: var(--ion-color-dark);
+}
+
+.submit-btn{
+  width: 170px;
+}

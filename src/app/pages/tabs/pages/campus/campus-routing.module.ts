@@ -9,11 +9,8 @@ const routes: Routes = [
     component: CampusPage,
   },
   {
-    path: 'admin-panel',
-    loadChildren: () =>
-      import('./pages/admin-panel/admin-panel.module').then(
-        (m) => m.AdminPanelPageModule
-      ),
+    path: 'admin-panel/:id',
+    loadChildren: () =>  import('./pages/admin-panel/admin-panel.module').then((m) => m.AdminPanelPageModule)
   },
   {
     path: 'campus-detail/:detail',

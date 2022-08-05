@@ -69,6 +69,9 @@
               <ion-button (click)="golfCourseDetail(g.id)" class="btn-field" color="secondary" fill="solid" shape="round" mode="ios">
                 Ver campo
               </ion-button>
+              <ion-button routerLink="admin-panel/{{g.id}}" class="btn-field" color="success" fill="solid" shape="round" mode="ios">
+                Administrar
+              </ion-button>
             </ion-buttons>
             <ion-buttons slot="end">
               <ion-button>

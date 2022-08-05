@@ -50,8 +50,8 @@ export class HoleDetailPage implements OnInit {
   ) {
     this.id = this.actRoute.snapshot.paramMap.get('detail');
     this.detail = this.campusSvg.golfCourses.value.filter(res => res.id == this.id)[0];
-    this.detail.teesList = JSON.parse(this.detail.teesList);
-    this.detail.scorecarddetails = JSON.parse(this.detail.scorecarddetails);
+    // this.detail.teesList = JSON.parse(this.detail.teesList);
+    // this.detail.scorecarddetails = JSON.parse(this.detail.scorecarddetails);
   }
   ngOnInit() {
     this.getGolfCourse()
@@ -69,7 +69,7 @@ export class HoleDetailPage implements OnInit {
 
   async addImages() {
     const image = await Camera.getPhoto({
-      quality: 10,
+      quality: 50,
       allowEditing: true,
       resultType: CameraResultType.DataUrl,
       promptLabelHeader: 'Imagen',

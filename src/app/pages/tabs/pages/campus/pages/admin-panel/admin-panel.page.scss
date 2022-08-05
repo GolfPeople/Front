@@ -1,14 +1,17 @@
 @import "../../../../../../scss/variables.scss";
 
-ion-content {
-  --background: #fff;
+ion-content{
+  font-size: 13px;
+  --background: white;
 }
+
 
 ion-item{
  padding-bottom: 5px;
  font-size: 15px;
  font-weight: 500;
  color: rgb(68, 68, 68);
+ text-transform: uppercase;
 }
 .name{
   font-size: 14px;
@@ -18,9 +21,15 @@ ion-item{
 }
 
 .address{
-  text-align: center;
-  width: 190px;
+  text-align: center;  
   font-size: 13px; 
+}
+
+.edit-btn{
+  text-transform: capitalize;
+  ion-icon{
+    padding-right: 5px;
+  }
 }
 
 .banner {
@@ -31,95 +40,6 @@ ion-item{
   padding: 10px 20px 20px 20px;
   background: $primary-color;
   color: #fff;
-
-  h3 {
-    font-weight: 700;
-    font-size: 1.8rem;
-    line-height: 2.2rem;
-    text-transform: uppercase;
-  }
-
-  p {
-    width: 15.5rem;
-    margin-bottom: 2.6rem;
-    font-weight: 500;
-    font-size: 1.3rem;
-    line-height: 1.7rem;
-    text-align: center;
-  }
-
-  a {
-    display: flex;
-    align-items: ceter;
-    img {
-      margin-right: 0.6rem;
-    }
-    font-weight: 500;
-    font-size: 1.3rem;
-    line-height: 20px;
-    text-decoration: none;
-    color: #fff;
-  }
 }
 
-.avatar-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 115px;
-  height: 115px;
-  background: transparent;
-  border-radius: 100%;
-  border: 2px solid #009dd6;
 
-  .avatar {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    background: #fff;
-    border-radius: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-
-    img {
-      width: 100%;
-      height: 100%;
-      border-radius: 100%;
-      object-fit: cover;
-    }
-
-    .edit-avatar {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 29px;
-      height: 29px;
-      border-radius: 100%;
-      background: #009dd6;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-
-      img {
-        width: 15px;
-        height: 14.98px;
-        object-fit: cover;
-      }
-
-      button {
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        height: 100%;
-        border-radius: 100%;
-        opacity: 0;
-      }
-    }
-  }
-}
