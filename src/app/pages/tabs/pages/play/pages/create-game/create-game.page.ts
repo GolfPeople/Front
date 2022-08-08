@@ -18,7 +18,7 @@ export class CreateGamePage implements OnInit {
 
   players$ = new BehaviorSubject([]);
   date$ = new BehaviorSubject('');
-  campusSelected: Campus;
+  campusSelected;
 
   avatar: string = 'assets/img/default-avatar.png';
 
@@ -68,9 +68,9 @@ export class CreateGamePage implements OnInit {
   }
 
   async createGame() {
-    this.gameSvc.game.value.address = this.campusSelected.location;
-    this.gameSvc.game.value.lat = this.campusSelected.lat;
-    this.gameSvc.game.value.long = this.campusSelected.long;
+    this.gameSvc.game.value.address = this.campusSelected.address;
+    this.gameSvc.game.value.lat = this.campusSelected.latitude;
+    this.gameSvc.game.value.long = this.campusSelected.longitude;
     this.gameSvc.game.value.date = this.date$.value;
     this.gameSvc.game.value.campus = this.campusSelected;
     this.gameSvc.game.value.campus.hour = this.gameSvc.game.value.campus.hour;  

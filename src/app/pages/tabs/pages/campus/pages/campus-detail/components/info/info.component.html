@@ -26,18 +26,19 @@
   </div>
 </div>
 
-<!-- <div class="ion-padding-vertical label">Diseñador</div>
+<div *ngIf="detail.designer.url">
+<div class="ion-padding-vertical label">Diseñador</div>
 <ion-item lines="none" class="ion-no-padding">
   <ion-avatar>
-    <img src="../../../../../../../../../assets/img/designer.png" />
+    <img [src]="detail.designer.url" />
   </ion-avatar>
   <ion-label class="ion-padding-start designer-label">
-    <div class="designer-name">Robert Trent Jones</div>
-    <div>Arquitecto del campo de Golf</div>
-    <div>Diseñado en 1974</div>
+    <div class="designer-name">{{detail.designer.name}}</div>
+    <div>{{detail.designer.title}}</div>
+    <div>Diseñado en {{detail.designer.year}}</div>
   </ion-label>
-</ion-item> -->
-
+</ion-item>
+</div>
 
 <div *ngIf="reviews.value.length">
 <div class="level ion-padding-top">Dificultad del Campo: 
@@ -63,9 +64,9 @@
   </div>
 </div>
 </div>
-<!-- 
+
 <div class="ion-padding-vertical label">Información del Club</div>
-<ion-grid class="ion-padding-bottom" fixed>
+<!-- <ion-grid class="ion-padding-bottom" fixed>
   <ion-row>
     <ion-col *ngFor="let f of features" size="3">
       <div class="hole-card ion-activatable ripple-parent">
@@ -75,38 +76,23 @@
       </div>
     </ion-col>
   </ion-row>
-</ion-grid>
+</ion-grid> -->
 
-<p class="history">Líder en Europa continental desde 1989.
-  Valderrama es considerado uno de los campos mejor conservados del mundo y es incluido frecuentemente en el listado de
-  los 100 mejores campos del mundo desde 1989.
-</p>
-<p class="history">
-  Valderrama se encuentra en Sotogrande, al sur de España. El campo de golf original fue diseñado por Robert Trent Jones
-  Senior en 1974, uno de los arquitectos de campos de golf más importantes de la historia. Muchas personas conocerán el
-  campo por la cobertura televisiva, ya que ha albergado una gran cantidad de torneos profesionales y es ampliamente
-  reconocido como el “Augusta de Europa”.
-</p>
+<p *ngIf="detail.information" class="history">{{detail.information}}</p>
 
-<div class="ion-padding-top label">Horario</div>
-<ion-item class="ion-no-padding schedule" lines="none">
-  <ion-label>Lunes a Viernes</ion-label>
-  <span slot="end">
-    7:00-20:00 hr
-  </span>
-</ion-item>
-<ion-item class="ion-no-padding schedule" lines="none">
-  <ion-label>Sábados</ion-label>
-  <span slot="end">
-    8:00-22:00 hr
-  </span>
-</ion-item>
-<ion-item class="ion-no-padding schedule" lines="none">
-  <ion-label>Festivos</ion-label>
-  <span slot="end">
-    9:00-22:00 hr
-  </span>
-</ion-item> -->
+<div *ngIf="detail.hour.length">
+  <div class="ion-padding-top label">Horario</div>
+  <ion-item class="ion-no-padding days" *ngFor="let h of detail.hour">
+    <ion-label style="padding-right: 5px;" class="ion-text-wrap">
+      <span  *ngFor="let d of h.days; index as i">{{i !== (h.days.length - 1) ? d + ', ' : d}}</span>
+    </ion-label>
+    <span class="days" slot="end">
+      <!-- {{'01-10-22 '+h.hourInit | date: 'shortTime'}}-{{'01-10-22 '+h.hourEnd | date: 'shortTime'}} -->
+      {{h.hourInit}} - {{h.hourEnd}}hr
+    </span>
+  </ion-item>
+</div>
+
 
 <div style="padding-top: 40px;" class="ion-text-center">
   <div class="partner-text ion-padding-bottom">¿Eres socio de {{detail.courseName}}?</div>

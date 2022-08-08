@@ -41,11 +41,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/success-request/success-request.module').then( m => m.SuccessRequestPageModule)
   },
   {
-    path: 'start-game',
+    path: 'start-game/:id',
     loadChildren: () => import('./pages/start-game/start-game.module').then( m => m.StartGamePageModule)
   },
   {
-    path: 'score-card',
+    path: 'score-card/:id',
     loadChildren: () => import('./pages/score-card/score-card.module').then( m => m.ScoreCardPageModule)
   },
 

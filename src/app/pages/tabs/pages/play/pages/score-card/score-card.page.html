@@ -12,9 +12,9 @@
   </ion-buttons>
 </ion-toolbar>
 <ion-toolbar class="ion-text-center hole-toolbar" color="primary">
-    <ion-icon name="chevron-back"></ion-icon>
-    <span class="hole">HOYO 1</span>
-    <ion-icon name="chevron-forward"></ion-icon>
+    <ion-icon (click)="backHole()" name="chevron-back"></ion-icon>
+    <span class="hole">HOYO {{selectedHole.value}}</span>
+    <ion-icon (click)="nextHole()" name="chevron-forward"></ion-icon>
 </ion-toolbar>
 <ion-toolbar class="data-toolbar" color="primary">
 <ion-buttons slot="start">
@@ -32,9 +32,13 @@
     </ion-button>
   </ion-buttons>
 </ion-toolbar>
-<ion-content class="ion-padding">
+<ion-content  class="ion-padding">
 
-  <table>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <table *ngIf="detail">
     <tr>
       <th class="ion-text-center">ㅤ</th>
       <th class="ion-text-center">ㅤ</th>
@@ -43,30 +47,49 @@
       <th class="ion-text-center">ㅤ</th>
       <th class="ion-text-center">Puntos</th>
     </tr>
-    <tr *ngFor="let item of [1,1,1,1,1,1]; index as i" class="bb">     
+    <tr *ngFor="let u of detail.users; index as i" class="bb">     
       <td>
         <ion-avatar>
-          <img src="../../../../../../../assets/img/profile-image.png" />
+          <img [src]="u.data.profile.photo ? u.data.profile.photo : 'assets/img/default-avatar.png'" />
         </ion-avatar>
       </td>
       <td style="width: 100px;">
-        <div class="username">Carlos Martin</div>
+        <div class="username">{{u.data.name}}</div>
         <div class="hcp">HCP 14</div>
       </td>
       <td>
-       <div class="hits">2</div> 
+       <div class="hits">{{u.hits ? u.hits : 0}}</div> 
       </td>
       <td>      
-         <ion-icon src="../../../../../../../assets/icons/edit-pencil-grey.svg"></ion-icon>
+         <ion-icon (click)="editScoreCard(u)" src="../../../../../../../assets/icons/edit-pencil-grey.svg"></ion-icon>
        </td>
        <td [ngClass]="{'border-top': i == 0}" class="score">
         <div>*</div>
-        <div class="active">*</div>
-        <div class="active">*</div>
+        <div>*</div>
+        <div>*</div>
        </td>
        <td>
-        <div class="hits">2</div> 
+        <div class="hits">{{u.points ? u.points : 0}}</div> 
        </td>
+    </tr>
+  </table>
+
+  <table *ngIf="!detail">
+  
+    <tr *ngFor="let item of [1,1,1,1,1,1]; index as i" class="bb">     
+      <td>
+        <ion-avatar>
+          <ion-skeleton-text animated style="width: 100%;height: 100%;"></ion-skeleton-text>
+        </ion-avatar>
+      </td>
+      <td style="width: 50%;">
+        <div style="padding-bottom: 5px;" class="username"><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></div>
+        <div class="hcp"><ion-skeleton-text animated style="width: 30%"></ion-skeleton-text></div>
+      </td>
+      <td style="width: 50%;">
+       <div><ion-skeleton-text animated style="width: 100%"></ion-skeleton-text></div> 
+      </td>    
+      
     </tr>
   </table>
 </ion-content>

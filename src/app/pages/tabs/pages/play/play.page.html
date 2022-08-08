@@ -124,7 +124,7 @@
           <!--================Si la partida finalizó y es del usuario================-->
           <span class="ion-text-center" *ngIf="toggleUserGames$.value && g.status == '2'" slot="end">
             <div>
-              <ion-button class="join-btn" mode="ios" color="secondary" shape="round" fill="solid">
+              <ion-button routerLink="score-card/{{g.id}}" class="join-btn" mode="ios" color="secondary" shape="round" fill="solid">
                 Ver Resultados
               </ion-button>
             </div>
@@ -146,7 +146,7 @@
               routerLink="/tabs/play/game-detail/{{g.id}}/owner">
               <span>Ver Partida</span>
             </ion-button>
-            <ion-button  routerLink="/tabs/play/start-game" class="btn-group" fill="solid" size="small" shape="round" color="success">
+            <ion-button  routerLink="/tabs/play/start-game/{{g.id}}" class="btn-group" fill="solid" size="small" shape="round" color="success">
               <span>Iniciar Partida</span>
             </ion-button>
             <ion-button (click)="confirmCancel(g.id)" class="btn-group" color="medium" size="small">

@@ -62,4 +62,8 @@ export class GameService {
   getAllGames(){
     return this.http.get<any>(`${API}${environment.games}`)
   }
+ 
+  startGame(id, data){
+    return this.http.post<any>(`${API}/games/init/${id}`, data) 
+  }
 }

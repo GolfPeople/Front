@@ -1,6 +1,6 @@
 <app-header-admin [image]="detail && detail.thumbnailImage ? detail.thumbnailImage : 'assets/img/default-img.png'"
   title="{{'ADMIN_PANEL.campus_description' | translate }}"></app-header-admin>
-<ion-content class="ion-padding">
+<ion-content *ngIf="detail" class="ion-padding">
 
   <ion-item lines="none" class="ion-no-padding">
     <ion-label>Información del Club</ion-label>
@@ -92,11 +92,18 @@
 </div>
 
 <div style="padding-top: 35px;" class="ion-text-center">
-  <ion-button *ngIf="!loading" class="submit-btn" (click)="submit()" mode="ios" color="secondary" shape="round">
+  <ion-button *ngIf="!loading" [disabled]="!validator()" class="submit-btn" (click)="submit()" mode="ios" color="secondary" shape="round">
     {{'ADMIN_PANEL.save_changes' | translate }}
   </ion-button>
   <ion-button *ngIf="loading" class="submit-btn" disabled  mode="ios" color="secondary" shape="round">
     <ion-spinner color="light"></ion-spinner>
   </ion-button>
 </div>
+</ion-content>
+
+
+<ion-content class="ion-text-center" *ngIf="!detail">
+  <div  style="padding-top: 60%;">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
 </ion-content>

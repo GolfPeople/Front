@@ -49,8 +49,7 @@ export class HolesPage implements OnInit {
     public campusSvg: CampusDataService,
     private firebaseSvc: FirebaseService
   ) {
-    this.id = this.actRoute.snapshot.paramMap.get('id');
-    this.detail = this.campusSvg.golfCourses.value.filter(res => res.id == this.id)[0];
+    this.id = this.actRoute.snapshot.paramMap.get('id'); 
 
   }
   ngOnInit() {

@@ -39,7 +39,6 @@ export class PlayPage implements OnInit {
   ]
   constructor(
     public gameSvc: GameService,
-    private alertController: AlertController,
     private firebaseSvc: FirebaseService,
     private modalController: ModalController
   ) { }
@@ -232,9 +231,12 @@ export class PlayPage implements OnInit {
     this.gameSvc.getAllGames().subscribe(res => {
       this.loading = false;
 
+      console.log(res);
+      
       this.gameSvc.games$.next(res.data.reverse().map(g => {
 
         return {
+          game_init: g.game_init,
           address: g.address,
           created_at: g.created_at,
           date: g.date,

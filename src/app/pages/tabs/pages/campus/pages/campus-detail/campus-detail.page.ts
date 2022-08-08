@@ -35,11 +35,11 @@ export class CampusDetailPage implements OnInit {
     public campusSvg: CampusDataService
   ) {
     this.id = this.actRoute.snapshot.paramMap.get('detail');
-    this.detail = this.campusSvg.golfCourses.value.filter(res => res.id == this.id)[0];  
+
   }
 
   ngOnInit() {
-    this.getGolfCourse();
+   
   }
 
 
@@ -47,6 +47,16 @@ export class CampusDetailPage implements OnInit {
     this.firebaseSvc.routerLink('/tabs/campus/hole-detail/' + this.detail.id)
   }
 
+ionViewWillEnter(){
+  this.getGolfCourse();
+}
+  
+  doRefresh(event) {
+    setTimeout(() => {
+      this.ionViewWillEnter();
+      event.target.complete();
+    }, 500)
+  }
 
   async newReview() {
     const modal = await this.modalController.create({
@@ -75,7 +85,9 @@ export class CampusDetailPage implements OnInit {
       this.detail = data.filter(res => res.id == this.id)[0];
       this.detail.teesList = JSON.parse(this.detail.teesList);
       this.detail.scorecarddetails = JSON.parse(this.detail.scorecarddetails);
-
+      this.detail.designer = JSON.parse(this.detail.designer);
+      this.detail.hour = JSON.parse(this.detail.hour);
+      this.detail.services = JSON.parse(this.detail.services);
       let averageRating: any = [];
       let averageLevel: any = [];
 
@@ -110,7 +122,6 @@ export class CampusDetailPage implements OnInit {
       let level = (averageLevel.reduce((a, b) => a + b, 0) / this.detail.reviews.length).toFixed(0);
       this.averageRating.next(rating);
       this.averageLevel.next(level);
-
 
     },
       (error) => {

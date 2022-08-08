@@ -33,30 +33,7 @@ export class DescriptionPage implements OnInit {
     private firebaseSvc: FirebaseService,
     private modalController: ModalController
   ) {
-    this.id = this.actRoute.snapshot.paramMap.get('id');
-    let golfCourse = this.campusSvc.golfCourses.value.filter(res => res.id == this.id)[0];
-
-    if (golfCourse) {
-      this.detail = golfCourse;
-      this.detail.designer = JSON.parse(this.detail.designer)
-      this.detail.hour = JSON.parse(this.detail.hour);
-      this.detail.services = JSON.parse(this.detail.services);   
-      if (!this.detail.designer || this.detail.designer == "null") {
-        this.detail.designer = { url: '', name: '', title: '', year: '' };
-      }
-      if (!this.detail.hour || this.detail.hour == "null") {
-        this.detail.hour = [];
-      }
-      if (!this.detail.services || this.detail.services == "null") {
-        this.detail.services = this.courseOptions;
-      }
-    } else {
-      this.detail = {} as Campus;
-      this.detail.hour = [];
-      this.detail.services = this.courseOptions;   
-      this.detail.designer = { url: '', name: '', title: '', year: '' };
-    }
-
+    this.id = this.actRoute.snapshot.paramMap.get('id');   
   }
 
   ngOnInit() {
@@ -91,25 +68,29 @@ export class DescriptionPage implements OnInit {
 
   getGolfCourse() {
 
-    this.campusSvc.getData().subscribe(async ({ data }) => {
+    this.campusSvc.getData().subscribe(async ({ data }) => {  
       this.campusSvc.golfCourses.next(data.reverse());
-      this.detail = data.filter(res => res.id == this.id)[0];
-      this.detail.teesList = JSON.parse(this.detail.teesList);
-      this.detail.scorecarddetails = JSON.parse(this.detail.scorecarddetails);
-      this.detail.hour = JSON.parse(this.detail.hour);
-      this.detail.services = JSON.parse(this.detail.services);
-      this.detail.designer = JSON.parse(this.detail.designer)
+      this.detail = data.filter(res => res.id == this.id)[0];    
      
-      if (!this.detail.designer || this.detail.designer == "null") {
-        this.detail.designer = { url: '', name: '', title: '', year: '' };        
+    
+       
+      if (!this.detail.designer) {
+        this.detail.designer = { url: '', name: '', title: '', year: '' };
+      }else{
+        this.detail.designer = JSON.parse(this.detail.designer); 
       }
-      if (!this.detail.hour || this.detail.hour == "null") {
+      if (!this.detail.hour) {
         this.detail.hour = [];
+      }else{
+        this.detail.hour = JSON.parse(this.detail.hour);
       }
-      if (!this.detail.services || this.detail.services == "null") {
+      if (!this.detail.services) {
         this.detail.services = this.courseOptions;
+      }else{
+        this.detail.services = JSON.parse(this.detail.services);
       }
       
+      console.log(this.detail);
 
     },
       (error) => {
@@ -147,7 +128,24 @@ export class DescriptionPage implements OnInit {
     });
     const loading = await this.firebaseSvc.loader().create();
     await loading.present();
-    this.detail.designer.url = await this.firebaseSvc.uploadPhoto('designer/' + this.id, image.dataUrl);
-    loading.dismiss();   
+
+    try{
+      this.detail.designer.url = await this.firebaseSvc.uploadPhoto('designer/' + this.id, image.dataUrl);
+      loading.dismiss();  
+    }catch(e){
+      console.log(e);
+      
+      this.firebaseSvc.Toast('Ha ocurrido un error, intente de nuevo.')
+      loading.dismiss();  
+    }
+   
+  }
+
+  validator(){
+    if(!this.detail.designer.url || !this.detail.designer.title || !this.detail.designer.name || !this.detail.designer.year){
+      return false;
+    }
+
+    return true;
   }
 }

@@ -34,6 +34,7 @@ export class ConfirmationPage implements OnInit {
       address: this.gameSvc.game.value.address,
       lat: this.gameSvc.game.value.lat,
       long: this.gameSvc.game.value.long,
+      courses_id: this.gameSvc.game.value.campus.id,
       users: users,
       hours: hours,
       extra: extra,

@@ -38,4 +38,8 @@ export class CampusDataService {
     return this.http.post<any>(`${URL}/campus/edit/${id}`,data)
   }
 
+  getCourseGames(id){
+    return this.http.get<any>(`${URL}/games/course/${id}`);
+  }
+
 }

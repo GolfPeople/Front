@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { CampusDataService } from '../../../../services/campus-data.service';
 declare const google;
 
 @Component({
@@ -23,6 +24,7 @@ export class InfoComponent implements OnInit, AfterViewInit {
   @ViewChild('mapElement', { static: false }) mapElement;
   constructor(
     private firebaseSvc: FirebaseService,
+    public campusSvg: CampusDataService
     ) { }
 
   ngOnInit() {
@@ -31,6 +33,13 @@ export class InfoComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.createMap();
+    this.getCourseGame();
+  }
+
+  getCourseGame(){
+    this.campusSvg.getCourseGames(this.detail.id).subscribe(res =>{
+          
+    })
   }
 
   goToAdminRequest(){      
