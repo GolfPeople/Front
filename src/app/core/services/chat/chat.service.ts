@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import firebase from 'firebase/compat/app';
 import { BehaviorSubject } from 'rxjs';
@@ -25,8 +25,8 @@ export class ChatService {
   ) { }
 
   // Mensaje nuevo
-  sendMessage(id, message) {
-    return this.http.post(`${API}/chat/new/${id}`, { message })
+  sendMessage(id, data) {
+    return this.http.post(`${API}/chat/new/${id}`, data)
   }
 
   // Mis salas de chat
@@ -35,14 +35,39 @@ export class ChatService {
   }
 
   // Sala de chat, donde id es el id de la sala
-  getChat(id) {
-    return this.http.get<Message[]>(`${API}/chat/${id}`)
+  getChatMessages(id) {
+    return this.http.get<any>(`${API}/chat/${id}`)
   }
 
 
-  createChatRoom(data) {    
-    console.log(data);    
+  createChatRoom(data) { 
     return this.http.post<any>(`${API}${environment.createChatRoom}`,  data )
   }
 
+
+  deleteGroup(id) { 
+    return this.http.post<any>(`${API}/chat/delete/room/${id}`,  {})
+  }
+
+  updateGroup(id, data){
+    return this.http.post<any>(`${API}/chat/edit/room/${id}`, data)
+  }
+ 
+  outOfGroup(id, data){
+    return this.http.post<any>(`${API}/chat/delete/user/room/${id}`, data)
+  }
+
+  search(text) {
+    const params = new HttpParams().set('search', text);
+    return this.http.get<any>(`${API}/chat/msg/search`,{ params })
+  }
+
+  searchUsers(text) {
+    const params = new HttpParams().set('search', text);
+    return this.http.get<any>(`${API}/chat/msg/search/user`,{ params })
+  }
+
 }
+
+
+

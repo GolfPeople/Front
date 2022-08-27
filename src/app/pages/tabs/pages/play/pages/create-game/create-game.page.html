@@ -56,8 +56,7 @@
             <ion-skeleton-text *ngIf="loading" animated style="width: 60%"></ion-skeleton-text>
             <ion-select *ngIf="!loading"  [(ngModel)]="campusSelected" cancel-text="" interface="popover"
               placeholder="Selecciona un campo">
-              <ion-select-option class="ion-text-wrap" *ngFor="let c of campus" [value]="c">
-                <ion-icon src="../../../../../../assets/icons/golf-flag.svg"></ion-icon>
+              <ion-select-option class="ion-text-wrap" *ngFor="let c of campus" [value]="c">            
                 {{c.courseName ? c.courseName : c.address}}
               </ion-select-option>
             </ion-select>

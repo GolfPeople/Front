@@ -1,9 +1,14 @@
+
 <ion-content>
   <section>
     <div class="banner">
-      <div class="banner-text">
-        <h2>¡Hola, {{userName}}!</h2>
+      <div *ngIf="userName" class="banner-text">
+        <h2>¡Hola, {{userName}}!</h2>        
         <p>Busca todo lo que necesites en tu comunidad golfística</p>
+      </div>
+
+      <div *ngIf="!userName" style="height: 190px;" class="ion-text-center ion-padding">
+        <ion-spinner color="light"></ion-spinner>
       </div>
       <div class="data-input">
         <input type="text" placeholder="Campos, Destinos, Torneos" />
@@ -15,7 +20,12 @@
     </div>
   </section>
   <section class="main-section">
-    <div class="slides-container">
+   
+
+    <div *ngIf="!tournaments.length" style="height: 190px;" class="ion-text-center ion-padding">
+      <ion-spinner color="primary"></ion-spinner>
+    </div>
+    <div *ngIf="campusSvg.golfCourses.value.length" class="slides-container">
       <div class="slides-container__header">
         <p class="slide-text">Campos cerca de ti...</p>
         <a class="view-map"><img src="../../../../assets/icon/busqueda-avanzada.png" alt="" />
@@ -23,25 +33,29 @@
       </div>
       <div class="galery">
         <ul class="stories-list">
-          <li *ngFor="let card of cards">
-            <app-story-card></app-story-card>
+          <li *ngFor="let c of campusSvg.golfCourses.value">
+            <app-story-card [course]="c"></app-story-card>
           </li>
         </ul>
       </div>
     </div>
-    <div class="slides-container">
+ 
+    <div *ngIf="tournaments.length" class="slides-container">
       <div class="slides-container__header">
         <p class="slide-text">Próximos eventos en tu zona...</p>
         <a class="view-map"><img src="../../../../assets/icon/map.png" alt="" /> Ver Mapa</a>
       </div>
       <div class="gallery">
         <ul class="stories-list">
-          <li *ngFor="let card of cards">
-            <app-story-card></app-story-card>
-          </li>
+          <li *ngFor="let t of tournaments">
+            <app-event-card [tournament]="t"></app-event-card>
+          </li>          
         </ul>
       </div>
-    </div>
+    </div>  
+        
+  
+
     <div class="slides-container">
       <div class="slides-container__header">
         <p class="slide-text only">Personas que quizas conozcas...</p>

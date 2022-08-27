@@ -22,7 +22,7 @@
     <div class="ion-padding ">
       <div class="search">
         <img src="../../../../assets/messages/blue-message.svg" alt="" />
-        <input placeholder="Buscar conversación" type="text" />
+        <input (click)="searchMessagesModal()" placeholder="Buscar" type="text" />
       </div>
     </div>
 
@@ -38,13 +38,13 @@
 
     <ion-list class="ion-padding" *ngIf="!loading" lines="none">
       <div class="chat-pt" *ngFor="let room of filteredChats; index as i">
-        <ion-item style="--padding-start: 0;" *ngIf="room.type_id == 1" (click)="openChat(room, i)">
-          <ion-avatar style="width: 25px;height: 25px;" class="group-avatars" [ngClass]="{'first':i == 0,'second':i == 1}" *ngFor="let u of room.user; index as i">
-            <img [src]="u.profile.photo ? u.profile.photo :  avatar" />
+        <ion-item  *ngIf="room.type_id == 1" routerLink="/tabs/chat-room/messages/{{room.id}}/x">
+          <ion-avatar>
+            <img [src]="room.image ? room.image : 'assets/img/default-avatar-gray.png'" />
           </ion-avatar>
-          <ion-label>
+          <ion-label class="ion-margin-start">
             <h3>{{room.name_chat}}</h3>
-            <p *ngIf="room.lastmsg" [ngClass]="room.unreadMsg ? 'unread' : ''">{{room.lastmsg}}</p>
+            <p *ngIf="room.lastmsg && room.lastmsg !== 'ㅤ'" [ngClass]="room.unreadMsg ? 'unread' : ''">{{room.lastmsg}}</p>
             <ion-chip color="medium" mode="ios">
               <ion-label>Grupo</ion-label>
             </ion-chip>
@@ -58,7 +58,7 @@
         <div *ngIf="room.type_id == 2">
           <div *ngFor="let u of room.user">
             <div *ngIf="u.id !== uid">
-              <ion-item (click)="openChat(room, i)">
+              <ion-item routerLink="/tabs/chat-room/messages/{{room.id}}/x">
                 <ion-avatar>
                   <img [src]="u.profile.photo ? u.profile.photo : avatar" />
                 </ion-avatar>

@@ -17,10 +17,17 @@ export class ReviewComponent implements OnInit {
   ]
 
   date = Date.now();
+
+  stars = [];
   constructor() { }
 
   ngOnInit() {
-  
+  this.getStars()
   }
 
+  getStars(){
+    for (let i = 1; i < this.average.value.general+1; i++) {
+      this.stars.push('1')
+    }   
+  }
 }

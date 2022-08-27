@@ -6,17 +6,29 @@
 </ion-content>
 <ion-footer>
   <ion-grid class="ion-padding-vertical" fixed>
-    <ion-row>
+    <ion-row *ngIf="!inverseBtn">
       <ion-col size="6">
         <ion-button (click)="cancel()" expand="block" fill="clear" shape="round">
           Cancelar
         </ion-button>
       </ion-col>
       <ion-col style="border-left: 1px #DDD solid;" size="6">
-        <ion-button (click)="confirm()" color="success" expand="block" fill="clear" shape="round">
-          {{confirmText}}
+        <ion-button class="ion-text-wrap" (click)="confirm()" color="success" expand="block" fill="clear" shape="round">
+         <div [ngClass]="{'text-sm': confirmText.length > 10}">{{confirmText}}</div> 
         </ion-button>
       </ion-col>
+    </ion-row>
+    <ion-row *ngIf="inverseBtn">
+      <ion-col  size="6">
+        <ion-button class="ion-text-wrap" (click)="confirm()" color="success" expand="block" fill="clear" shape="round">
+         <div [ngClass]="{'text-sm': confirmText.length > 10}">{{confirmText}}</div> 
+        </ion-button>
+      </ion-col>
+      <ion-col style="border-left: 1px #DDD solid;" size="6">
+        <ion-button (click)="cancel()" expand="block" fill="clear" shape="round">
+          Cancelar
+        </ion-button>
+      </ion-col>     
     </ion-row>
   </ion-grid>
 

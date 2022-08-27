@@ -69,6 +69,7 @@
     </ion-col> 
     <ion-col *ngFor="let p of photos.value" size="4">
       <div class="square">
+        <ion-icon (click)="confirmDeletePhoto(p.id)" style="position: absolute;font-size: 25px;left: 75%;top: 3%;" color="light" name="close-circle"></ion-icon>
             <img [src]="p.url" alt="">
       </div>  
     </ion-col> 

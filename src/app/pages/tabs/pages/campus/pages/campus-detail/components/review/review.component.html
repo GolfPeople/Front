@@ -1,38 +1,41 @@
 <div *ngIf="reviews.value.length" class="ion-text-center content ion-padding-vertical">
   <div class="rating-number">
-    {{average.value}}
+   <ion-icon color="warning" name="star"></ion-icon> {{average.value.general}}
   </div>
+  <ion-icon class="stars" color="warning" *ngFor="let s of stars" name="star"></ion-icon>
+  <ion-icon class="stars" color="medium" *ngFor="let s of [1,1,1,1,1,1,1,1,1,1]|slice: 0:(10-average.value.general)" name="star-outline"></ion-icon> 
+   
   <div>Basado en {{reviews.value.length}} reseñas</div>
 
   <ion-grid class="ion-text-start" fixed>
     <ion-row >
       <ion-col style="padding-top: 10px;" size="5">Precio - Calidad</ion-col>
       <ion-col size="7">
-        <ion-range  min="0" max="10" value="10" class="range"></ion-range>
+        <ion-range min="0" max="10" [ngClass]="{'low': [1,2,3].includes(average.value.price), 'medium': [5,6,7].includes(average.value.price)}" [value]="average.value.price" class="range"></ion-range>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col style="padding-top: 10px;" size="5">Localización</ion-col>
       <ion-col size="7">
-        <ion-range  min="0" max="10" value="8" class="range"></ion-range>
+        <ion-range  min="0" max="10" [ngClass]="{'low': [1,2,3].includes(average.value.location), 'medium': [5,6,7].includes(average.value.location)}" [value]="average.value.location" class="range"></ion-range>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col style="padding-top: 10px;" size="5">Tienda</ion-col>
       <ion-col size="7">
-        <ion-range  min="0" max="10" value="3" class="range"></ion-range>
+        <ion-range  min="0" max="10" [ngClass]="{'low': [1,2,3].includes(average.value.store), 'medium': [5,6,7].includes(average.value.store)}" [value]="average.value.store" class="range"></ion-range>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col style="padding-top: 10px;" size="5">Restaurante</ion-col>
       <ion-col size="7">
-        <ion-range  min="0" max="10" value="9" class="range"></ion-range>
+        <ion-range  min="0" max="10" [ngClass]="{'low': [1,2,3].includes(average.value.restaurant), 'medium': [5,6,7].includes(average.value.restaurant)}" [value]="average.value.restaurant" class="range"></ion-range>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col style="padding-top: 10px;" size="5">Instalaciones</ion-col>
       <ion-col size="7">
-        <ion-range  min="0" max="10" value="9" class="range"></ion-range>
+        <ion-range  min="0" max="10" [ngClass]="{'low': [1,2,3].includes(average.value.facilities), 'medium': [5,6,7].includes(average.value.facilities)}" [value]="average.value.facilities" class="range"></ion-range>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -55,20 +58,30 @@
       <div><ion-icon *ngFor="let s of r.stars" [color]="s.color" name="star"></ion-icon></div>
     </ion-label>
     <span class="level" slot="end">
-      <div>{{r.rating}}/5 
-        <strong *ngIf="r.rating == 5" style="color: var(--ion-color-success);">Excelente</strong>
-        <strong *ngIf="r.rating == 4" style="color: var(--ion-color-success);">Muy Bueno</strong>
-        <strong *ngIf="r.rating == 3" style="color: var(--ion-color-success);">Bueno</strong>
-        <strong *ngIf="r.rating == 2" style="color: var(--ion-color-success);">Regular</strong>
-        <strong *ngIf="r.rating == 1" style="color: var(--ion-color-success);">Malo</strong>
+      <div>{{r.rating}}/10 
+        <strong *ngIf="r.rating == 9 || r.rating == 10" style="color: var(--ion-color-success);">Excelente</strong>
+        <strong *ngIf="r.rating == 7 || r.rating == 8" style="color: var(--ion-color-success);">Muy Bueno</strong>
+        <strong *ngIf="r.rating == 5 || r.rating == 6" style="color: var(--ion-color-success);">Bueno</strong>
+        <strong *ngIf="r.rating == 3 || r.rating == 4" style="color: var(--ion-color-success);">Regular</strong>
+        <strong *ngIf="r.rating == 1 || r.rating == 2" style="color: var(--ion-color-success);">Malo</strong>
       </div>   
     </span>
   </ion-item>
   <p class="comment">
-    {{r.description}}
+    {{r.comment}}
   </p>
-  
-  <div class="date">{{ r.created_at | timeAgo}}</div>
+
+ <ion-grid class="ion-padding-vertical" *ngIf="r.photos.length">
+  <ion-row>
+    <ion-col *ngFor="let p of r.photos" size="3">
+      <div class="square">
+        <img [src]="p" alt="">
+      </div>    
+    </ion-col>    
+  </ion-row>
+ </ion-grid>
+
+  <div [ngClass]="{'p-top': r.photos.length}" class="date">{{ r.created_at | timeAgo}}</div>
   </div>
 </div>
 

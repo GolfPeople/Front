@@ -1,0 +1,92 @@
+ion-content{
+    --background: white;
+    font-size: 13px;
+}
+
+.label{
+    padding-bottom: 10px;
+
+    ion-icon{
+        font-size: 20px;
+    }
+}
+
+.center{
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+}
+
+.select-photo{
+    background: var(--ion-color-secondary);
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    ion-icon{
+        font-size: 60px;
+        color: white;
+    }
+}
+
+.input-cost{
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.extra-card{
+    border-radius: 10px;
+    border: 1px solid #d6d6d6;
+    height: 100px;
+    text-align: center;
+    font-size: 11px;
+    padding: 5px;
+    padding-top: 15px;
+    font-weight: 500;
+   
+    ion-icon{
+        color: var(--ion-color-medium);
+        font-size: 40px;
+    }
+  
+    &.selected{
+        border: 1px solid var(--ion-color-secondary);   
+        ion-icon{
+            color: var(--ion-color-secondary);
+            font-size: 40px;
+        } 
+        color: var(--ion-color-secondary);
+    }  
+    
+    .name{
+        font-size: 11px;       
+    }
+}
+
+.square {
+    width: 100px;
+    height: 100px;
+    background: transparent;
+    overflow: hidden; 
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    border-radius: 10px;
+  }
+  
+  .square img {
+    width: 100%;
+    height: auto;
+  }
+  
+  @supports(object-fit: cover) {
+    .square img {
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+    }
+  }

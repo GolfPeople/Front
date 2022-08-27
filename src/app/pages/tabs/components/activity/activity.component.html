@@ -5,49 +5,49 @@
         <img [src]="n.data.user_sender.profile && n.data.user_sender.profile.photo ? n.data.user_sender.profile.photo : avatar" />
       </ion-avatar>
       <ion-label class="ion-text-wrap">
-        {{n.data.detail}}
-
-
-        <div *ngIf="n.data.type == 'friends'">
-          <ion-button color="secondary" mode="ios" fill="solid" (click)="acceptFriendRequest(n,i)">
-            Aceptar
-            <ion-icon class="friendship-icon" name="checkmark-circle-outline"></ion-icon>
-          </ion-button>
-          <span style="padding: 0px 2px 2px 0px;"></span>
-          <ion-button color="medium" mode="ios" fill="solid" (click)="declineFriendRequest(n,i)">
-            Rechazar
-            <ion-icon class="friendship-icon" name="close-circle-outline"></ion-icon>
-          </ion-button>
-        </div>
-
-        <div *ngIf="n.data.type == 'games'">
-          <ion-button color="secondary" mode="ios" fill="solid" (click)="acceptGameRequest(n,i)">
-            Aceptar
-            <ion-icon class="friendship-icon" name="checkmark-circle-outline"></ion-icon>
-          </ion-button>
-          <span style="padding: 0px 2px 2px 0px;"></span>
-          <ion-button color="medium" mode="ios" fill="solid" (click)="declineGameRequest(n,i)">
-            Rechazar
-            <ion-icon class="friendship-icon" name="close-circle-outline"></ion-icon>
-          </ion-button>
-        </div>
-
-        <div *ngIf="n.data.type == 'RequestGames'">
-          <ion-button color="secondary" mode="ios" fill="solid" (click)="acceptJoinRequest(n,i)">
-            Aceptar
-            <ion-icon class="friendship-icon" name="checkmark-circle-outline"></ion-icon>
-          </ion-button>
-          <span style="padding: 0px 2px 2px 0px;"></span>
-          <ion-button color="medium" mode="ios" fill="solid" (click)="declineJoinRequest(n,i)">
-            Rechazar
-            <ion-icon class="friendship-icon" name="close-circle-outline"></ion-icon>
-          </ion-button>
-        </div>
-    
+        {{n.data.detail}}    
       </ion-label>
       <span slot="end">
       <div class="time-ago">{{n.date | timeAgo}} </div> 
       </span> 
+    </ion-item>
+    <ion-item lines="none">
+      <ion-buttons *ngIf="n.data.type == 'games'" slot="start">
+        <ion-button  color="secondary" shape="round" mode="ios" fill="solid" (click)="acceptGameRequest(n,i)">
+          Aceptar          
+        </ion-button>
+        <span style="padding: 0px 2px 2px 0px;"></span>
+        <ion-button  color="medium" shape="round" mode="ios" fill="solid" (click)="declineGameRequest(n,i)">
+          Rechazar 
+        </ion-button>
+        <ion-button  color="success" shape="round" mode="ios" fill="solid" (click)="goToGame(n.data.game_id)">
+          Ver
+        </ion-button>
+      </ion-buttons>
+
+
+      <ion-buttons *ngIf="n.data.type == 'RequestGames'" slot="start">
+       <ion-button color="secondary" shape="round" mode="ios" fill="solid" (click)="acceptJoinRequest(n,i)">
+          Aceptar          
+        </ion-button>
+        <span style="padding: 0px 2px 2px 0px;"></span>
+        <ion-button color="medium" shape="round" mode="ios" fill="solid" (click)="declineJoinRequest(n,i)">
+          Rechazar   
+        </ion-button>
+        <ion-button  color="success" shape="round" mode="ios" fill="solid" (click)="goToGame(n.data.game_id)">
+          Ver         
+        </ion-button>
+      </ion-buttons>
+
+      <ion-buttons *ngIf="n.data.type == 'friends'" slot="start">
+        <ion-button color="secondary" shape="round" mode="ios" fill="solid" (click)="acceptFriendRequest(n,i)">
+          Aceptar          
+        </ion-button>
+        <span style="padding: 0px 2px 2px 0px;"></span>
+        <ion-button color="medium" shape="round" mode="ios" fill="solid" (click)="declineFriendRequest(n,i)">
+          Rechazar  
+        </ion-button>
+       </ion-buttons>    
     </ion-item>
   </div>
 

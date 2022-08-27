@@ -57,27 +57,45 @@
 
     <app-info [hcpHole]="hcpHole" [reviews]="reviews" [levelRange]="averageLevel" [parHole]="parHole" [yds]="yds"
       *ngIf="selectedSegment == '1'"></app-info>
-    <app-comments [selectedHole]="selectedHole" [reviews]="reviews" *ngIf="selectedSegment == '2'"></app-comments>
-    <app-pics [photos]="photos" *ngIf="selectedSegment == '3'"></app-pics>
 
+
+<div *ngIf="selectedSegment == '2'">
+<div class="ion-padding-horizontal ion-padding-top">
+  <div class="title-comments">Comentarios sobre el Hoyo {{selectedHole.value}}</div>
+  <div style="padding-top: 10px;">
+     <ion-button (click)="newReview()" color="secondary" size="small" mode="ios" shape="round">
+        Agregar Reseña
+        <ion-icon slot="start" name="add"></ion-icon>
+      </ion-button> 
+  </div>     
+</div>  
+    <app-comments [selectedHole]="selectedHole" [reviews]="reviews"></app-comments>
+</div>
+   
+<div *ngIf="selectedSegment == '3'"> 
+  <div class="ion-padding-horizontal ion-padding-top">
+    <div class="title-comments">Comentarios sobre el Hoyo {{selectedHole.value}}</div>
+    <div style="padding-top: 10px;">
+       <ion-button (click)="addImages()" color="secondary" size="small" mode="ios" shape="round">
+          Agregar Foto
+          <ion-icon slot="start" name="add"></ion-icon>
+        </ion-button> 
+    </div>     
+  </div> 
+  <app-pics [photos]="photos"></app-pics>
+</div>
 
   </div>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button *ngIf="selectedSegment == '1'" color="secondary">
       <ion-icon name="clipboard-outline"></ion-icon>
     </ion-fab-button>
-    <ion-fab-button (click)="newReview()" *ngIf="selectedSegment == '2'" color="secondary">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-button (click)="addImages()" *ngIf="selectedSegment == '3'" color="secondary">
-      <ion-icon name="image-outline"></ion-icon>
-    </ion-fab-button>
   </ion-fab>
 
 </ion-content>
 
 <ion-content class="ion-text-center background" *ngIf="!detail">
-  <div  style="padding-top: 50%;">
-      <ion-spinner color="light"></ion-spinner>
+  <div style="padding-top: 50%;">
+    <ion-spinner color="light"></ion-spinner>
   </div>
-  </ion-content>
+</ion-content>

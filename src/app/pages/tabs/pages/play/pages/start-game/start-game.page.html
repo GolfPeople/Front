@@ -31,9 +31,9 @@
 
   <div class="date" *ngIf="detail">{{ detail.date | date:'dd MMMM y | h:mm a'}}</div>
 </ion-toolbar>
-<ion-content class="ion-padding">
+<ion-content *ngIf="course" class="ion-padding">
 
-
+<div *ngIf="!detail.game_init">
   <div class="label">
     Recorrido
   </div>
@@ -57,15 +57,38 @@
       </ion-select-option>
     </ion-select>
   </div>
+</div>
+ 
+
+  <div class="label ion-text-center">
+    ¿De donde sales?
+  </div>
+  <div class="ion-padding colors-yds" [ngClass]="{'two-el': yds.length < 4}">
+    <div (click)="selectTee(y.color)" [ngClass]="{'ion-padding-end': yds.length < 4, 'selected-tee': selectedTee == y.color}" *ngFor="let y of yds">
+      <ion-icon class="circle-icon" *ngIf="y.color == 'FFFFFF'" color="light" name="ellipse"></ion-icon>
+      <ion-icon class="circle-icon" *ngIf="y.color !== 'FFFFFF'" [style.color]="'#'+y.color" name="ellipse"></ion-icon>
+     <span class="yds-text">{{y.colorName}} </span>  
+    </div>
+  </div>
 
   <div style="padding-top: 25px;" class="ion-text-center">
-    <ion-button *ngIf="!loading" (click)="submit()" [disabled]="!validator()" class="start-btn" mode="ios" expand="block" color="secondary"
+    <ion-button *ngIf="!detail.game_init" (click)="submit()" [disabled]="!validatorStandar()" class="start-btn" mode="ios" expand="block" color="secondary"
       shape="round">
       <ion-icon slot="start" src="../../../../../../../assets/icons/tab/play.svg"></ion-icon>
       <span style="padding-left: 10px;padding-right: 10px;">Iniciar Partida</span>
     </ion-button>
+    <ion-button *ngIf="detail.game_init" (click)="addColor()" [disabled]="!validatorColor()" class="start-btn" mode="ios" expand="block" color="secondary"
+      shape="round">
+      <ion-icon slot="start" src="../../../../../../../assets/icons/tab/play.svg"></ion-icon>
+      <span style="padding-left: 10px;padding-right: 10px;">Iniciar Partida</span>
+    </ion-button>
+    
     <ion-button *ngIf="loading" disabled class="start-btn" mode="ios" expand="block" color="secondary" shape="round">
       <ion-spinner color="light"></ion-spinner>
     </ion-button>
   </div>
+</ion-content>
+
+<ion-content class="ion-text-center ion-padding" *ngIf="!course">
+  <ion-spinner style="padding-top: 50%;" color="primary"></ion-spinner>
 </ion-content>

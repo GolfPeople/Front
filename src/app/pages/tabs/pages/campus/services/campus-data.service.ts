@@ -42,4 +42,12 @@ export class CampusDataService {
     return this.http.get<any>(`${URL}/games/course/${id}`);
   }
 
+
+  deleteGolfPhoto(id){
+    return this.http.post<any>(`${URL}/campus/delete/images/holes/${id}`,{})
+  }
+
+  saveGeneralReview(course_id, data){
+    return this.http.post<any>(`${URL}/campus/ratings/${course_id}`, data);
+  }
 }

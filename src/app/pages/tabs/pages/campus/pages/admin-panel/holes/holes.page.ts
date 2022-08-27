@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 import { SwiperOptions } from 'swiper';
 import { ModalController } from '@ionic/angular';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { AlertConfirmComponent } from 'src/app/pages/tabs/components/alert-confirm/alert-confirm.component';
 @Component({
   selector: 'app-holes',
   templateUrl: './holes.page.html',
@@ -47,7 +48,8 @@ export class HolesPage implements OnInit {
   constructor(
     private actRoute: ActivatedRoute,
     public campusSvg: CampusDataService,
-    private firebaseSvc: FirebaseService
+    private firebaseSvc: FirebaseService,
+    private modalController: ModalController
   ) {
     this.id = this.actRoute.snapshot.paramMap.get('id'); 
 
@@ -77,6 +79,44 @@ export class HolesPage implements OnInit {
     }, 2000);
 
   }
+
+
+  /**
+ *=================== Borrar foto========================
+ * @param id 
+ */  
+ async confirmDeletePhoto(id) {
+  const modal = await this.modalController.create({
+    component: AlertConfirmComponent,
+    cssClass: 'alert-confirm',
+    componentProps: {
+      confirmText: 'Eliminar',
+      content: '¿Quieres eliminar esta foto?'
+    }
+  });
+
+  modal.present();
+
+  const { data } = await modal.onWillDismiss();
+  if (data) {
+    this.deletePhoto(id)
+  }
+}
+
+
+async deletePhoto(id) {
+  const loading = await this.firebaseSvc.loader().create();
+  await loading.present();
+  this.campusSvg.deleteGolfPhoto(id).subscribe(res => {
+    this.firebaseSvc.Toast('Foto eliminada con éxito');
+    this.getGolfCourse();
+    loading.dismiss();
+  }, error => {
+    this.firebaseSvc.Toast('Ha ocurrido un error, intenta de nuevo')
+    loading.dismiss();
+  })
+}
+
 
   async addImages() {
     const image = await Camera.getPhoto({
@@ -159,6 +199,8 @@ export class HolesPage implements OnInit {
 
   getHolePhotos() {
     this.photos.next(this.detail.images_holes.filter(res => parseInt(res.hole) == this.selectedHole.value));
+  console.log(this.photos.value);
+  
   }
 
   getGolfCourse() {

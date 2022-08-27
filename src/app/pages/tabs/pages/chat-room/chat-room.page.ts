@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { ChatService } from 'src/app/core/services/chat/chat.service';
 import { FriendsService } from 'src/app/core/services/friends.service';
@@ -7,6 +7,7 @@ import { NotificationsService } from 'src/app/core/services/notifications.servic
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { ChatMessagesComponent } from '../../components/chat-messages/chat-messages.component';
 import { SwiperOptions } from 'swiper';
+import { SearchMessagesComponent } from './search-messages/search-messages.component';
 @Component({
   selector: 'app-chat-room',
   templateUrl: './chat-room.page.html',
@@ -43,13 +44,11 @@ export class ChatRoomPage implements OnInit {
     private firebaseService: FirebaseService,
     private modalController: ModalController,
     private friendsSvc: FriendsService,
-    public notificationSvc: NotificationsService
+    public notificationSvc: NotificationsService,
   ) { }
 
-  async ngOnInit() {
-    this.getChatRooms();
-    this.getFriends();
-    this.getNotifications();
+  async ngOnInit() {  
+ 
   }
 
   ionViewWillEnter() {
@@ -59,6 +58,7 @@ export class ChatRoomPage implements OnInit {
   ionViewDidEnter() {
     this.getChatRooms();
     this.getNotifications();
+    
   }
 
   ionViewWillLeave() {
@@ -117,7 +117,7 @@ export class ChatRoomPage implements OnInit {
     }
     this.chatSvc.getRoom().subscribe((rooms: any) => {
       this.loading = false;
-
+      
       for (let r of rooms) {
         this.firebaseService.getCollectionConditional('messages',
           ref => ref
@@ -132,7 +132,7 @@ export class ChatRoomPage implements OnInit {
                 message: e.payload.doc.data()['message'],
                 created_at: e.payload.doc.data()['created_at'],
               };
-            });
+            })
 
             r.lastmsg = msg[0].message
             r.lastDate = msg[0].created_at.toDate();
@@ -141,11 +141,21 @@ export class ChatRoomPage implements OnInit {
           })
       }
       this.chatSvc.rooms$.next(rooms);
-      this.filteredChats = rooms;
-
+      this.filteredChats = rooms;   
+          
     });
   }
 
+
+ async searchMessagesModal() {
+  const modal = await this.modalController.create({
+  component: SearchMessagesComponent,
+  cssClass: 'modal-full'
+  });
+ 
+  await modal.present();
+ 
+ } 
 
   async openChat(room, index) {
     const modal = await this.modalController.create({

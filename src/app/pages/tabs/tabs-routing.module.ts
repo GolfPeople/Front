@@ -13,12 +13,7 @@ const routes: Routes = [
         path: '',
         redirectTo: 'home',
         pathMatch: 'full',
-      },
-      {
-        path: 'home',
-        loadChildren: () =>
-          import('./pages/home/home.module').then((m) => m.HomePageModule),
-      },
+      },     
       {
         path: 'profile',
         loadChildren: () =>
@@ -91,13 +86,20 @@ const routes: Routes = [
       {
         path: 'play',
         loadChildren: () => import('./pages/play/play.module').then( m => m.PlayPageModule)
-      },
+      },    
+      {
+        path: 'home',
+        loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+      },    
     ],
   },
   {
     path: 'post/:user/:id',
     component: PublicPostComponent,
   },
+
+  
+
   
 ];
 

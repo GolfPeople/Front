@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { FriendsService } from 'src/app/core/services/friends.service';
 import { GameService } from 'src/app/core/services/game.service';
 import { NotificationsService } from 'src/app/core/services/notifications.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { GameDetailPage } from '../../pages/play/pages/game-detail/game-detail.page';
 
 @Component({
   selector: 'app-activity',
@@ -16,7 +18,8 @@ export class ActivityComponent implements OnInit {
     public notificationSvc: NotificationsService,
     private friendService: FriendsService,
     private firebaseService: FirebaseService,
-    private gameSvc: GameService
+    private gameSvc: GameService,
+    private modalController: ModalController
   ) { }
 
   ngOnInit() { }
@@ -29,6 +32,17 @@ export class ActivityComponent implements OnInit {
     this.firebaseService.routerLink('/tabs/post/'+id);   
   }
 
+  async goToGame(game_id){
+    const modal = await this.modalController.create({
+      component: GameDetailPage,
+      componentProps: { game_id },
+      cssClass: 'modal-full'
+    });
+
+    await modal.present();
+    
+  }
+  
   async acceptFriendRequest(e, index) {
     const loading = await this.firebaseService.loader().create();
     await loading.present();
@@ -62,8 +76,7 @@ export class ActivityComponent implements OnInit {
   const loading = await this.firebaseService.loader().create();
   await loading.present();
   
-  this.gameSvc.acceptOrDeclineJoinRequest(1,e.data.game_id, e.data.user_sender.id).subscribe(res => {
-    console.log(res);      
+  this.gameSvc.acceptOrDeclineJoinRequest(1,e.data.game_id, e.data.user_sender.id).subscribe(res => {        
     this.firebaseService.Toast('Solicitud de juego aceptada')
     this.markOneAsRead(e.id, index)
     loading.dismiss();
@@ -81,7 +94,6 @@ async declineJoinRequest(e, index) {
   await loading.present();
   this.gameSvc.acceptOrDeclineJoinRequest(2,e.data.game_id, e.data.user_sender.id).subscribe(res => {
     this.firebaseService.Toast('Solicitud de juego rechazada')
-    console.log(res);
     this.markOneAsRead(e.id, index)
     loading.dismiss();
   }, error =>{
@@ -103,11 +115,9 @@ async declineJoinRequest(e, index) {
  */
   async acceptGameRequest(e, index) {       
     const loading = await this.firebaseService.loader().create();
-    await loading.present();
-    console.log(e.data.game_id);
+    await loading.present(); 
     
-    this.gameSvc.acceptOrDeclineGameRequest(2,e.data.game_id).subscribe(res => {
-      console.log(res);      
+    this.gameSvc.acceptOrDeclineGameRequest(2,e.data.game_id).subscribe(res => {     
       this.firebaseService.Toast('Solicitud de juego aceptada')
       this.markOneAsRead(e.id, index)
       loading.dismiss();
@@ -123,8 +133,7 @@ async declineJoinRequest(e, index) {
     const loading = await this.firebaseService.loader().create();
     await loading.present();
     this.gameSvc.acceptOrDeclineGameRequest(3,e.data.game_id).subscribe(res => {
-      this.firebaseService.Toast('Solicitud de juego rechazada')
-      console.log(res);
+      this.firebaseService.Toast('Solicitud de juego rechazada') 
       this.markOneAsRead(e.id, index)
       loading.dismiss();
     }, error =>{
@@ -143,8 +152,7 @@ async declineJoinRequest(e, index) {
     this.notificationSvc.userNotifications$.value.splice(index, 1);
     this.notificationSvc
       .markAsReadOne(notificationId)
-      .subscribe((res) => {
-        console.log(res)
+      .subscribe((res) => {       
         loading.dismiss();
       });
   }

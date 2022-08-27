@@ -226,7 +226,7 @@ export class SignupPage implements OnInit {
   onSubmit(f: FormGroup) {
     console.log(f.value);
     
-    // const formValue = f.value;
+    const formValue = f.value;
     // if (!form.valid) {
     //   return;
     // }
@@ -235,8 +235,8 @@ export class SignupPage implements OnInit {
     // const password = form.value.password;
     // const rePassword = form.value.rePassword;
 
-    // this.signup(formValue);
-    // this.register(f);
+    this.signup(formValue);
+    this.register(f);
   }
 
   private showSuccessAlert(message: string) {

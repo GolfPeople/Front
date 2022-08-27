@@ -91,8 +91,7 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
     this.actRoute.paramMap
       .pipe(
         switchMap((param) => {
-          this.id = param.get('id');
-          console.log('ID del perfil del usuario', this.id);
+          this.id = param.get('id');     
           if (this.id) {
             return this.userSvc.getUser(this.id);
           }
@@ -100,7 +99,7 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
         })
       )
       .subscribe((res) => {
-        console.log(res);
+   
         this.userInfo = res;
 
         if (this.userInfo.id == this.myId) {
@@ -110,25 +109,25 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
         }
 
         if (this.userInfo.friends.length) {
-          console.log('Frends test -->');
+  
           this.userInfo.friends.forEach((friendsItem) => {
             if (friendsItem.connect.length) {
-              console.log('Connect test -->');
+       
               const friend = friendsItem;
               // console.log(friend)
               friendsItem.connect.forEach((connectItem) => {
-                console.log('Connect forEach test -->');
+           
                 // console.log('connect item test -->', connectItem)
 
                 if (connectItem.user_id == this.myId) {
-                  console.log('tienes conexion');
+       
                   // if (friend.connections) {
                   if (friend.connections.status === 1) {
                     this.sentFriendRequest = true;
-                    console.log('Ya has enviado una solicitud e amistad.');
+                  
                   } else if (friend.connections.status === 2) {
                     this.following = true;
-                    console.log('Solicitud de amistad aprobada');
+                 
                   } else {
                     this.following = false;
                   }
@@ -183,8 +182,7 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
   friendRequest() {
     this.sentFriendRequest = true;
     this.friendsSvc.friendRequest(this.id).subscribe((res) => {
-      console.log('Id del usuario a enviar solicitud', this.id);
-      console.log('Solicitud enviada -->', res);
+
     });
   }
 

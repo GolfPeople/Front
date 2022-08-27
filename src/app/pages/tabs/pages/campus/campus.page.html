@@ -39,7 +39,7 @@
       <div *ngFor="let g of campusSvg.golfCourses.value" style="padding-top: 5px;" class="ion-padding">
         <div style="border-bottom: 1px solid #DDD;padding-bottom: 10px;">
           <div>
-            <div class="square">
+            <div  class="square">
               <ion-item class="over-img" lines="none">
                 <ion-buttons slot="start">
                   <ion-button>
@@ -53,8 +53,8 @@
                   </ion-button>
                 </ion-buttons>
               </ion-item>
-              <img src="../../../../../assets/img/golf-course.jpg" alt="">
-            </div>
+              <img [src]="g.thumbnailImage ? g.thumbnailImage : 'assets/img/golf-course.jpg'">
+            </div>            
           </div>
           <ion-item style="padding-top: 10px;padding-bottom: 5px;" class="ion-no-padding" lines="none">
             <ion-label class="ion-text-wrap">

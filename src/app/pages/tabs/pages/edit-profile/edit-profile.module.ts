@@ -16,6 +16,7 @@ import { LevelComponent } from './pages/level/level.component';
 import { NgChartsModule } from 'ng2-charts';
 import { SaveInfoModalComponent } from './pages/edit/components/save-info-modal/save-info-modal.component';
 import { ErrorAlertComponent } from './pages/edit/components/error-alert/error-alert.component';
+import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
   entryComponents: [
@@ -35,6 +36,7 @@ import { ErrorAlertComponent } from './pages/edit/components/error-alert/error-a
     NgChartsModule,
     ReactiveFormsModule,
     SharedModule,
+    ComponentsModule
   ],
 
   declarations: [

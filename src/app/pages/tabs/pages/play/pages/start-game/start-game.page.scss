@@ -1,3 +1,7 @@
+ion-content{
+    --background: white;
+}
+
 ion-toolbar {
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
@@ -6,6 +10,10 @@ ion-toolbar {
 h2 {
     margin-top: 0;
     margin-bottom: 0;
+}
+
+.yds-text{
+    font-size: 13px;
 }
 
 ion-row{
@@ -29,6 +37,28 @@ ion-card {
         font-size: 18px;
     }
 
+}
+
+.circle-icon {
+    padding-right: 5px;
+    position: relative;
+    top: 2px;
+}
+
+.colors-yds {
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;    
+    &.two-el {
+        display: flex;
+        justify-content: start;
+    }
+}
+
+.selected-tee{
+    border: 1px solid var(--ion-color-secondary);
+    border-radius: 20px;
+    padding: 0px 10px 0px 10px;
 }
 
 .date{

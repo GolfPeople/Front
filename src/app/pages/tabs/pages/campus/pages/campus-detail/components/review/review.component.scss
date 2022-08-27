@@ -6,6 +6,15 @@
 .rating-number{
     font-size: 50px;
     font-weight: 600;
+
+    ion-icon{
+        position: relative;
+        top: 3px;
+    }
+}
+
+.stars{
+    font-size: 25px;
 }
 
 .range{
@@ -30,8 +39,6 @@ ion-row{
     font-size: 16px;
     font-weight: 600;
 }
-
-
 
 .comment-container{
     padding-bottom: 15px;
@@ -75,10 +82,37 @@ ion-avatar{
 }
 
 .date{
-    padding-top: 10px;
+    padding-top: 20px;
     padding-bottom: 10px;
     color: rgb(163, 163, 163);
     font-size: 11px;
     border-bottom: 1px solid #ddd;
     text-align: start;
+
+    &.p-top{
+        padding-top: 50px;  
+    }
 }
+
+.square {
+    width: 80px;
+    height: 80px;
+    background: transparent;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    border-radius: 10px;
+  }
+  
+  .square img {
+    width: 100%;
+    height: auto;
+  }
+  
+  @supports(object-fit: cover) {
+    .square img {
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+    }
+  }

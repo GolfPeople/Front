@@ -1,0 +1,444 @@
+
+  <div *ngIf="upcoming()">
+    <div class="label">Partidas Próximas</div>
+    <div *ngFor="let g of userGames">
+      <div *ngIf="g.status == '1'" class="game-container">
+        <ion-item lines="none" class="ion-no-padding">
+          <span [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="date" slot="start">
+            <div [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="day">{{g.date | date:'dd'}}</div>
+            <div class="month">{{g.date | date:'MMMM' | slice:0:3}}</div>
+          </span>
+          <ion-label class="ion-text-wrap">
+            <div [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="club-name">{{g.name}}</div>
+            <div [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="location">{{g.address}}</div>
+          </ion-label>
+          <span *ngIf="g.status == '1'" slot="end">
+            <ion-icon class="item-icon" (click)="g.fav = !g.fav" [color]="g.fav ? 'danger' :'medium'"
+              [name]="g.fav ? 'heart' : 'heart-outline'"></ion-icon>
+            <ion-icon (click)="share(g.id)" class="item-icon" color="medium" name="share-social-outline"></ion-icon>
+          </span>
+        </ion-item>
+
+        <ion-item lines="none" style="padding-top: 10px;" class="ion-no-padding">
+          <div class="avatar-group">
+            <div [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" *ngFor="let u of g.users; index as i " class="avatar">
+              <img [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}"
+                [src]="u.data.profile.photo ? u.data.profile.photo : 'assets/img/default-avatar.png'" />
+            </div>
+          </div>
+
+
+          <!--================Si el usuario fue invitado a la partida================-->
+          <span class="ion-text-center" *ngIf="g.isInvited" slot="end">
+            <div style="font-size: 12px;font-weight: 600;color: var(--ion-color-medium);padding-bottom: 5px;">¡Has sido
+              invitado <br> a esta partida!</div>
+            <div>
+              <ion-button style="width: 90px;" (click)="acceptGameRequest(g)" class="join-btn" mode="ios"
+                color="secondary" shape="round" fill="solid">
+                Unirme
+              </ion-button>
+            </div>
+            <ion-button style="width: 90px;" (click)="declineGameRequest(g)" class="btn-group" color="medium"
+              shape="round" size="small" mode="ios">
+              Rechazar
+            </ion-button>
+          </span>
+
+          <!--================Partidas en pendiente que no son del usuario================-->
+          <ion-buttons *ngIf="g.status == '1' && g.pending" slot="end">
+            <ion-button (click)="routerLink('/tabs/play/game-detail/'+g.id+'/pending')" class="join-btn" color="medium"
+              shape="round" fill="solid">
+              Pendiente...
+            </ion-button>
+          </ion-buttons>
+
+          <!--================Si la partida fue anulada y es del usuario================-->
+          <span class="ion-text-center" *ngIf="g.status == '3'" slot="end">
+            <ion-button style="width: 120px;" class="btn-group" (click)="confirmRestore(g.id)" fill="solid" size="small"
+              mode="ios" shape="round" color="secondary">
+              Restaurar Partida
+            </ion-button> <br>
+            <ion-button (click)="confirmRemove(g.id)" class="btn-group" color="medium" fill="clear" size="small">
+              <ion-icon slot="start" name="remove-circle-outline"></ion-icon>
+              Eliminar
+            </ion-button>
+          </span>
+
+          <!--================Si la partida finalizó y es del usuario================-->
+          <span class="ion-text-center" *ngIf="g.status == '2' || g.status == '4'" slot="end">
+            <div>
+              <ion-button *ngIf="g.status == '2'" (click)="routerLink('/tabs/play/validate-score-card/'+g.id)" class="join-btn" mode="ios"
+                color="secondary" shape="round" fill="solid">
+                Ver Resultados
+              </ion-button>
+              <ion-button *ngIf="g.status == '4'" (click)="routerLink('/tabs/play/score-card/'+g.id)" class="join-btn" mode="ios"
+                color="secondary" shape="round" fill="solid">
+                Ver Resultados
+              </ion-button>
+            </div>
+            <ion-button (click)="confirmRemove(g.id)" class="btn-group" color="medium" fill="clear" size="small">
+              <ion-icon slot="start" name="remove-circle-outline"></ion-icon>
+              Eliminar
+            </ion-button>
+          </span>
+        </ion-item>
+        <div class="players-length">Jugadores: {{g.users.length}}</div>
+
+
+        <!--================Si la partida está en pendiente y es del usuario================-->
+
+        <ion-item style="padding-bottom: 10px;" lines="none" *ngIf="g.status == '1'" class="ion-no-padding">
+          <ion-buttons>
+            <ion-button class="btn-group" fill="solid" size="small" shape="round" color="secondary"
+              (click)="routerLink('/tabs/play/game-detail/'+g.id+'/owner')">
+              <span>Ver Partida</span>
+            </ion-button>
+            <ion-button (click)="routerLink('/tabs/play/start-game/'+g.id)" class="btn-group" fill="solid" size="small"
+              shape="round" color="success">
+              <span>Iniciar Partida</span>
+            </ion-button>
+            <ion-button (click)="confirmCancel(g.id)" class="btn-group" color="medium" size="small">
+              <ion-icon slot="start" name="remove-circle-outline"></ion-icon>
+              Anular
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+        <!--===========================================================================-->
+
+
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="inProcess()">
+    <div class="label">Partidas en proceso</div>
+    <div *ngFor="let g of userGames">
+      <div *ngIf="g.status == '2'" class="game-container">
+        <ion-item lines="none" class="ion-no-padding">
+          <span [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="date" slot="start">
+            <div [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="day">{{g.date | date:'dd'}}</div>
+            <div class="month">{{g.date | date:'MMMM' | slice:0:3}}</div>
+          </span>
+          <ion-label class="ion-text-wrap">
+            <div [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="club-name">{{g.name}}</div>
+            <div [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="location">{{g.address}}</div>
+          </ion-label>
+          <span *ngIf="g.status == '1'" slot="end">
+            <ion-icon class="item-icon" (click)="g.fav = !g.fav" [color]="g.fav ? 'danger' :'medium'"
+              [name]="g.fav ? 'heart' : 'heart-outline'"></ion-icon>
+            <ion-icon (click)="share(g.id)" class="item-icon" color="medium" name="share-social-outline"></ion-icon>
+          </span>
+        </ion-item>
+
+        <ion-item lines="none" style="padding-top: 10px;" class="ion-no-padding">
+          <div class="avatar-group">
+            <div [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" *ngFor="let u of g.users; index as i " class="avatar">
+              <img [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}"
+                [src]="u.data.profile.photo ? u.data.profile.photo : 'assets/img/default-avatar.png'" />
+            </div>
+          </div>
+
+
+          <!--================Si el usuario fue invitado a la partida================-->
+          <span class="ion-text-center" *ngIf="g.isInvited" slot="end">
+            <div style="font-size: 12px;font-weight: 600;color: var(--ion-color-medium);padding-bottom: 5px;">¡Has sido
+              invitado <br> a esta partida!</div>
+            <div>
+              <ion-button style="width: 90px;" (click)="acceptGameRequest(g)" class="join-btn" mode="ios"
+                color="secondary" shape="round" fill="solid">
+                Unirme
+              </ion-button>
+            </div>
+            <ion-button style="width: 90px;" (click)="declineGameRequest(g)" class="btn-group" color="medium"
+              shape="round" size="small" mode="ios">
+              Rechazar
+            </ion-button>
+          </span>
+
+          <!--================Partidas en pendiente que no son del usuario================-->
+          <ion-buttons *ngIf="g.status == '1' && g.pending" slot="end">
+            <ion-button (click)="routerLink('/tabs/play/game-detail/'+g.id+'/pending')" class="join-btn" color="medium"
+              shape="round" fill="solid">
+              Pendiente...
+            </ion-button>
+          </ion-buttons>
+
+          <!--================Si la partida fue anulada y es del usuario================-->
+          <span class="ion-text-center" *ngIf="g.status == '3'" slot="end">
+            <ion-button style="width: 120px;" class="btn-group" (click)="confirmRestore(g.id)" fill="solid" size="small"
+              mode="ios" shape="round" color="secondary">
+              Restaurar Partida
+            </ion-button> <br>
+            <ion-button (click)="confirmRemove(g.id)" class="btn-group" color="medium" fill="clear" size="small">
+              <ion-icon slot="start" name="remove-circle-outline"></ion-icon>
+              Eliminar
+            </ion-button>
+          </span>
+
+          <!--================Si la partida finalizó y es del usuario================-->
+          <span class="ion-text-center" *ngIf="g.status == '2' || g.status == '4'" slot="end">
+            <div>
+              <ion-button *ngIf="g.status == '2'" (click)="routerLink('/tabs/play/score-card/'+g.id)" class="join-btn" mode="ios"
+                color="secondary" shape="round" fill="solid">
+                Ver Resultados
+              </ion-button>
+              <ion-button *ngIf="g.status == '4'" (click)="routerLink('/tabs/play/validate-score-card/'+g.id)" class="join-btn" mode="ios"
+                color="secondary" shape="round" fill="solid">
+                Ver Resultados
+              </ion-button>
+            </div>
+            <ion-button (click)="confirmRemove(g.id)" class="btn-group" color="medium" fill="clear" size="small">
+              <ion-icon slot="start" name="remove-circle-outline"></ion-icon>
+              Eliminar
+            </ion-button>
+          </span>
+        </ion-item>
+        <div class="players-length">Jugadores: {{g.users.length}}</div>
+
+
+        <!--================Si la partida está en pendiente y es del usuario================-->
+
+        <ion-item style="padding-bottom: 10px;" lines="none" *ngIf="g.status == '1'" class="ion-no-padding">
+          <ion-buttons>
+            <ion-button class="btn-group" fill="solid" size="small" shape="round" color="secondary"
+              (click)="routerLink('/tabs/play/game-detail/'+g.id+'/owner')">
+              <span>Ver Partida</span>
+            </ion-button>
+            <ion-button (click)="routerLink('/tabs/play/start-game/'+g.id)" class="btn-group" fill="solid" size="small"
+              shape="round" color="success">
+              <span>Iniciar Partida</span>
+            </ion-button>
+            <ion-button (click)="confirmCancel(g.id)" class="btn-group" color="medium" size="small">
+              <ion-icon slot="start" name="remove-circle-outline"></ion-icon>
+              Anular
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+        <!--===========================================================================-->
+
+
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="played()">
+    <div class="label">Partidas Jugadas</div>
+    <div *ngFor="let g of userGames">
+      <div *ngIf="g.status == '4'" class="game-container">
+        <ion-item lines="none" class="ion-no-padding">
+          <span [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="date" slot="start">
+            <div [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="day">{{g.date | date:'dd'}}</div>
+            <div class="month">{{g.date | date:'MMMM' | slice:0:3}}</div>
+          </span>
+          <ion-label class="ion-text-wrap">
+            <div [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="club-name">{{g.name}}</div>
+            <div [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="location">{{g.address}}</div>
+          </ion-label>
+          <span *ngIf="g.status == '1'" slot="end">
+            <ion-icon class="item-icon" (click)="g.fav = !g.fav" [color]="g.fav ? 'danger' :'medium'"
+              [name]="g.fav ? 'heart' : 'heart-outline'"></ion-icon>
+            <ion-icon (click)="share(g.id)" class="item-icon" color="medium" name="share-social-outline"></ion-icon>
+          </span>
+        </ion-item>
+
+        <ion-item lines="none" style="padding-top: 10px;" class="ion-no-padding">
+          <div class="avatar-group">
+            <div [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" *ngFor="let u of g.users; index as i " class="avatar">
+              <img [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}"
+                [src]="u.data.profile.photo ? u.data.profile.photo : 'assets/img/default-avatar.png'" />
+            </div>
+          </div>
+
+
+          <!--================Si el usuario fue invitado a la partida================-->
+          <span class="ion-text-center" *ngIf="g.isInvited" slot="end">
+            <div style="font-size: 12px;font-weight: 600;color: var(--ion-color-medium);padding-bottom: 5px;">¡Has sido
+              invitado <br> a esta partida!</div>
+            <div>
+              <ion-button style="width: 90px;" (click)="acceptGameRequest(g)" class="join-btn" mode="ios"
+                color="secondary" shape="round" fill="solid">
+                Unirme
+              </ion-button>
+            </div>
+            <ion-button style="width: 90px;" (click)="declineGameRequest(g)" class="btn-group" color="medium"
+              shape="round" size="small" mode="ios">
+              Rechazar
+            </ion-button>
+          </span>
+
+          <!--================Partidas en pendiente que no son del usuario================-->
+          <ion-buttons *ngIf="g.status == '1' && g.pending" slot="end">
+            <ion-button (click)="routerLink('/tabs/play/game-detail/'+g.id+'/pending')" class="join-btn" color="medium"
+              shape="round" fill="solid">
+              Pendiente...
+            </ion-button>
+          </ion-buttons>
+
+          <!--================Si la partida fue anulada y es del usuario================-->
+          <span class="ion-text-center" *ngIf="g.status == '3'" slot="end">
+            <ion-button style="width: 120px;" class="btn-group" (click)="confirmRestore(g.id)" fill="solid" size="small"
+              mode="ios" shape="round" color="secondary">
+              Restaurar Partida
+            </ion-button> <br>
+            <ion-button (click)="confirmRemove(g.id)" class="btn-group" color="medium" fill="clear" size="small">
+              <ion-icon slot="start" name="remove-circle-outline"></ion-icon>
+              Eliminar
+            </ion-button>
+          </span>
+
+          <!--================Si la partida finalizó y es del usuario================-->
+          <span class="ion-text-center" *ngIf="g.status == '2' || g.status == '4'" slot="end">
+            <div>
+              <ion-button *ngIf="g.status == '2'" (click)="routerLink('/tabs/play/score-card/'+g.id)" class="join-btn" mode="ios"
+                color="secondary" shape="round" fill="solid">
+                Ver Resultados
+              </ion-button>
+              <ion-button *ngIf="g.status == '4'" (click)="routerLink('/tabs/play/validate-score-card/'+g.id)" class="join-btn" mode="ios"
+                color="secondary" shape="round" fill="solid">
+                Ver Resultados
+              </ion-button>
+            </div>
+            <ion-button (click)="confirmRemove(g.id)" class="btn-group" color="medium" fill="clear" size="small">
+              <ion-icon slot="start" name="remove-circle-outline"></ion-icon>
+              Eliminar
+            </ion-button>
+          </span>
+        </ion-item>
+        <div class="players-length">Jugadores: {{g.users.length}}</div>
+
+
+        <!--================Si la partida está en pendiente y es del usuario================-->
+
+        <ion-item style="padding-bottom: 10px;" lines="none" *ngIf="g.status == '1'" class="ion-no-padding">
+          <ion-buttons>
+            <ion-button class="btn-group" fill="solid" size="small" shape="round" color="secondary"
+              (click)="routerLink('/tabs/play/game-detail/'+g.id+'/owner')">
+              <span>Ver Partida</span>
+            </ion-button>
+            <ion-button (click)="routerLink('/tabs/play/start-game/'+g.id)" class="btn-group" fill="solid" size="small"
+              shape="round" color="success">
+              <span>Iniciar Partida</span>
+            </ion-button>
+            <ion-button (click)="confirmCancel(g.id)" class="btn-group" color="medium" size="small">
+              <ion-icon slot="start" name="remove-circle-outline"></ion-icon>
+              Anular
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+        <!--===========================================================================-->
+
+
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="canceled()">
+    <div class="label">Partidas Anuladas</div>
+    <div *ngFor="let g of userGames">
+      <div *ngIf="g.status == '3'" class="game-container">
+        <ion-item lines="none" class="ion-no-padding">
+          <span [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="date" slot="start">
+            <div [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="day">{{g.date | date:'dd'}}</div>
+            <div class="month">{{g.date | date:'MMMM' | slice:0:3}}</div>
+          </span>
+          <ion-label class="ion-text-wrap">
+            <div [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="club-name">{{g.name}}</div>
+            <div [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="location">{{g.address}}</div>
+          </ion-label>
+          <span *ngIf="g.status == '1'" slot="end">
+            <ion-icon class="item-icon" (click)="g.fav = !g.fav" [color]="g.fav ? 'danger' :'medium'"
+              [name]="g.fav ? 'heart' : 'heart-outline'"></ion-icon>
+            <ion-icon (click)="share(g.id)" class="item-icon" color="medium" name="share-social-outline"></ion-icon>
+          </span>
+        </ion-item>
+
+        <ion-item lines="none" style="padding-top: 10px;" class="ion-no-padding">
+          <div class="avatar-group">
+            <div [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" *ngFor="let u of g.users; index as i " class="avatar">
+              <img [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}"
+                [src]="u.data.profile.photo ? u.data.profile.photo : 'assets/img/default-avatar.png'" />
+            </div>
+          </div>
+
+
+          <!--================Si el usuario fue invitado a la partida================-->
+          <span class="ion-text-center" *ngIf="g.isInvited" slot="end">
+            <div style="font-size: 12px;font-weight: 600;color: var(--ion-color-medium);padding-bottom: 5px;">¡Has sido
+              invitado <br> a esta partida!</div>
+            <div>
+              <ion-button style="width: 90px;" (click)="acceptGameRequest(g)" class="join-btn" mode="ios"
+                color="secondary" shape="round" fill="solid">
+                Unirme
+              </ion-button>
+            </div>
+            <ion-button style="width: 90px;" (click)="declineGameRequest(g)" class="btn-group" color="medium"
+              shape="round" size="small" mode="ios">
+              Rechazar
+            </ion-button>
+          </span>
+
+          <!--================Partidas en pendiente que no son del usuario================-->
+          <ion-buttons *ngIf="g.status == '1' && g.pending" slot="end">
+            <ion-button (click)="routerLink('/tabs/play/game-detail/'+g.id+'/pending')" class="join-btn" color="medium"
+              shape="round" fill="solid">
+              Pendiente...
+            </ion-button>
+          </ion-buttons>
+
+          <!--================Si la partida fue anulada y es del usuario================-->
+          <span class="ion-text-center" *ngIf="g.status == '3'" slot="end">
+            <ion-button style="width: 120px;" class="btn-group" (click)="confirmRestore(g.id)" fill="solid" size="small"
+              mode="ios" shape="round" color="secondary">
+              Restaurar Partida
+            </ion-button> <br>
+            <ion-button (click)="confirmRemove(g.id)" class="btn-group" color="medium" fill="clear" size="small">
+              <ion-icon slot="start" name="remove-circle-outline"></ion-icon>
+              Eliminar
+            </ion-button>
+          </span>
+
+          <!--================Si la partida finalizó y es del usuario================-->
+          <span class="ion-text-center" *ngIf="g.status == '2' || g.status == '4'" slot="end">
+            <div>
+              <ion-button *ngIf="g.status == '2'" (click)="routerLink('/tabs/play/validate-score-card/'+g.id)" class="join-btn" mode="ios"
+                color="secondary" shape="round" fill="solid">
+                Ver Resultados
+              </ion-button>
+              <ion-button *ngIf="g.status == '4'" (click)="routerLink('/tabs/play/score-card/'+g.id)" class="join-btn" mode="ios"
+                color="secondary" shape="round" fill="solid">
+                Ver Resultados
+              </ion-button>
+            </div>
+            <ion-button (click)="confirmRemove(g.id)" class="btn-group" color="medium" fill="clear" size="small">
+              <ion-icon slot="start" name="remove-circle-outline"></ion-icon>
+              Eliminar
+            </ion-button>
+          </span>
+        </ion-item>
+        <div class="players-length">Jugadores: {{g.users.length}}</div>
+
+
+        <!--================Si la partida está en pendiente y es del usuario================-->
+
+        <ion-item style="padding-bottom: 10px;" lines="none" *ngIf="g.status == '1'" class="ion-no-padding">
+          <ion-buttons>
+            <ion-button class="btn-group" fill="solid" size="small" shape="round" color="secondary"
+              (click)="routerLink('/tabs/play/game-detail/'+g.id+'/owner')">
+              <span>Ver Partida</span>
+            </ion-button>
+            <ion-button (click)="routerLink('/tabs/play/start-game/'+g.id)" class="btn-group" fill="solid" size="small"
+              shape="round" color="success">
+              <span>Iniciar Partida</span>
+            </ion-button>
+            <ion-button (click)="confirmCancel(g.id)" class="btn-group" color="medium" size="small">
+              <ion-icon slot="start" name="remove-circle-outline"></ion-icon>
+              Anular
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+        <!--===========================================================================-->
+
+
+      </div>
+    </div>
+  </div>

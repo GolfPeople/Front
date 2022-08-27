@@ -1,0 +1,107 @@
+<ion-toolbar color="primary">
+ <ion-buttons *ngIf="course" slot="end">
+  <ion-button routerLink="/tabs/play">
+    Omitir
+  </ion-button>
+ </ion-buttons>
+</ion-toolbar>
+<ion-toolbar class="big-toolbar " color="primary">
+  <ion-icon color="success" name="checkmark-circle-outline"></ion-icon>
+  <h1>Partida Finalizada</h1>
+</ion-toolbar>
+
+<ion-content *ngIf="course" class="ion-text-center">
+
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+
+  <div class="ion-padding">
+
+  <span class="username">{{user.name}}</span>, esperamos que te haya gustado tu partida en {{course.courseName ? course.courseName : 'este campo'}}.
+ 
+  <div class="tell-us">Cuéntanos tu experiencia</div>
+
+  <div class="raiting-container">
+    <div class="line"></div>
+    <div class="ion-text-center ion-padding-bottom">
+      <div class="label">Precio-Calidad:</div>
+      <app-ten-stars-rating [rating]="price"></app-ten-stars-rating>
+    </div>
+    <div class="ion-text-center ion-padding-bottom">
+      <div class="label">Localización:</div>
+      <app-ten-stars-rating [rating]="location"></app-ten-stars-rating>
+    </div>
+    <div class="ion-text-center ion-padding-bottom">
+      <div class="label">Instalaciones:</div>
+      <app-ten-stars-rating [rating]="facilities"></app-ten-stars-rating>
+    </div>
+    <div class="ion-text-center ion-padding-bottom">
+      <div class="label">Tienda:</div>
+      <app-ten-stars-rating [rating]="store"></app-ten-stars-rating>
+    </div>
+    <div class="ion-text-center ion-padding-bottom">
+      <div class="label">Ocio/Restaurante:</div>
+      <app-ten-stars-rating [rating]="restaurant"></app-ten-stars-rating>
+    </div>   
+  </div>
+ 
+
+<div class="ion-padding-bottom">
+  <div class="you-liked">
+    Deja un comentario sobre el campo
+  </div>
+  <ion-textarea [(ngModel)]="comment" class="select-container input-name" placeholder="Escribe algo..." rows="5"
+    cols="20">
+  </ion-textarea>
+</div>
+
+<div class="line"></div>
+</div>
+<div class="ion-padding-vertical">
+  <div class="you-liked">
+    ¿Alguna foto durante la partida? <br>
+    ¡Compartelas con la comunidad!
+  </div>
+  <div *ngIf="!photos.length" class="photos-container">
+      <div (click)="addImages()" class="select-photo">
+        <ion-icon name="camera-outline"></ion-icon>
+      </div>     
+  </div>
+
+
+  <ion-grid *ngIf="photos.length" fixed>
+    <ion-row>
+      <ion-col class="select-photo-grid" size="4">
+        <ion-icon (click)="addImages()" name="camera-outline"></ion-icon>
+      </ion-col> 
+      <ion-col *ngFor="let p of photos; index as i" size="4">
+        <div class="square">
+          <ion-icon (click)="removePhoto(i)" style="position: absolute;font-size: 25px;left: 75%;top: 3%;" color="light" name="close-circle"></ion-icon>
+              <img [src]="p">
+        </div>  
+      </ion-col> 
+    </ion-row>
+  </ion-grid>
+
+
+
+
+</div>
+<div class="ion-padding">
+  <ion-button (click)="saveReview()" [disabled]="!validator()" class="game-btn" mode="ios" color="secondary" expand="block"
+shape="round">
+Enviar
+</ion-button>
+</div>
+
+</ion-content>
+
+<ion-content class="ion-text-center" *ngIf="!course">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-spinner style="padding-top: 50%;" color="primary"></ion-spinner>
+</ion-content>

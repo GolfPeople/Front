@@ -3,10 +3,9 @@
 <ion-content class="ion-text-center ion-padding">
 
 
-    <img src="../../../../../../../assets/img/buggy.jpg" style="max-width: 270px;" alt="">
+    <img src="assets/img/buggy.jpg" style="max-width: 270px;" alt="">
 
-    <div class="msg">¡Gracias por tu reserva en {{gameSvc.game.value.campus.information}}!</div>
-    <!-- <div class="msg">¡Gracias por tu reserva en Real Club Valderrama!</div> -->
+    <div class="msg">¡Gracias por tu reserva en {{gameSvc.game.value.campus.courseName ? gameSvc.game.value.campus.courseName : 'en este campo'}}!</div>
    
       <ion-button  (click)="done()" mode="ios" color="success" shape="round">
        <span class="ion-padding-horizontal">Ver Mis Reservas</span> 

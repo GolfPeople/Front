@@ -1,0 +1,118 @@
+<app-header backButton="true" title="Crear Torneo" icon="assets/icons/tournament-trophy.svg">
+</app-header>
+<ion-content class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="center ion-padding-top">
+    <div *ngIf="!gameSvc.tournament.value.photo" (click)="addImages()" class="select-photo animate__animated animate__fadeIn">
+      <ion-icon name="camera-outline"></ion-icon>
+    </div>
+    <div *ngIf="gameSvc.tournament.value.photo" class="square animate__animated animate__fadeIn">
+      <ion-icon (click)="gameSvc.tournament.value.photo = ''" style="position: absolute;font-size: 25px;left: 75%;top: 3%;" color="light" name="close-circle"></ion-icon>
+      <img  [src]="gameSvc.tournament.value.photo">
+    </div>  
+  </div>
+<div *ngIf="!gameSvc.tournament.value.photo" class="label ion-text-center ion-padding animate__animated animate__fadeIn"> Sube el flyer de tu torneo</div>
+<div *ngIf="gameSvc.tournament.value.photo" class="label ion-text-center ion-padding animate__animated animate__fadeIn"> Flyer seleccionado <ion-icon name="checkmark-circle-outline" style="position: relative;top: 5px;" color="success"></ion-icon></div>
+
+
+  <div class="ion-padding-vertical">
+    <div class="label">
+      Nombre del Torneo
+    </div>
+    <ion-input type="text" [(ngModel)]="gameSvc.tournament.value.name" class="select-container input-name" placeholder="Ingresa un nombre para la partida">
+    </ion-input>
+  </div>
+
+  <div class="ion-padding-bottom">
+    <div class="label">
+      Nombre del responsable del torneo
+    </div>
+    <ion-input type="text" [(ngModel)]="gameSvc.tournament.value.owner_name" class="select-container input-name"
+      placeholder="Ingresa el nombre del responsable del torneo">
+    </ion-input>
+  </div>
+
+  <div class="ion-padding-bottom">
+    <div class="label">¿Cuando se realizará?</div>
+    <app-date-input day="true" [date]="date$"></app-date-input>
+  </div>
+
+
+  <div class="ion-padding-bottom">
+    <div class="label">
+      <ion-icon color="secondary" name="location-outline"></ion-icon> ¿Donde se realizará?
+    </div>
+    <div style="padding: 15px;" class="select-container">
+      <ion-skeleton-text *ngIf="loading" animated style="width: 60%"></ion-skeleton-text>
+      <ion-select *ngIf="!loading" [(ngModel)]="gameSvc.tournament.value.course" cancel-text="" interface="popover"
+        placeholder="Selecciona un campo">
+        <ion-select-option class="ion-text-wrap" *ngFor="let c of campus" [value]="c">      
+          {{c.courseName ? c.courseName : c.address}}
+        </ion-select-option>
+      </ion-select>
+    </div>
+  </div>
+
+  <div class="ion-padding-bottom">
+    <ion-item style="--padding-bottom: 5px;" class="ion-no-padding">
+      <ion-icon slot="start" color="secondary" name="card-outline"></ion-icon>
+      <ion-label style="font-size: 13px;padding-left: 5px;">¿Cuanto costará?</ion-label>
+      <ion-input slot="end" type="number" [(ngModel)]="gameSvc.tournament.value.price" class="select-container input-name input-cost" placeholder="0.00"></ion-input>
+      <strong slot="end">€</strong>
+    </ion-item>
+  </div>
+
+  <div class="ion-padding-bottom">
+    <div class="label">
+      Link a las entradas
+    </div>
+    <ion-input type="text" [(ngModel)]="gameSvc.tournament.value.link" class="select-container input-name" placeholder="https://...">
+    </ion-input>
+  </div>
+
+  <div class="ion-padding-vertical">
+    <div class="label">
+      ¿Que incluye la entrada?
+    </div>
+
+    <swiper [config]="config">
+      <ng-template *ngFor="let s of gameSvc.tournament.value.services" swiperSlide>
+        <div (click)="selectServices(s)" [ngClass]="{'selected': s.isChecked}"
+          class="extra-card ion-activatable ripple-parent">
+          <ion-icon [src]="s.icon"></ion-icon>
+          <div class="name">{{s.name}}</div>
+          <ion-ripple-effect></ion-ripple-effect>
+        </div>
+      </ng-template>
+    </swiper>
+  </div>
+
+  <div class="ion-padding-vertical">
+    <div class="label">
+      Escribe una descripción de tu torneo para los participantes
+    </div>
+    <ion-textarea [(ngModel)]="gameSvc.tournament.value.description" class="select-container input-name" placeholder="Escribe la información sobre tu torneo.." rows="5"
+      cols="20">
+    </ion-textarea>
+  </div>
+
+  <div class="ion-text-center ion-padding-top btn-submit-container">
+    <ion-button *ngIf="!creating" [disabled]="!validator()" (click)="submit()" class="game-btn" mode="ios" color="secondary" expand="block"
+      shape="round">
+      Revisar y Publicar
+    </ion-button>
+
+    <ion-button *ngIf="creating" disabled class="game-btn ion-text-center" mode="ios" color="secondary" expand="block"
+      shape="round">
+      <ion-spinner></ion-spinner>
+    </ion-button>
+
+  </div>
+
+
+
+
+</ion-content>

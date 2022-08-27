@@ -9,6 +9,7 @@ import { ChatRoomPageRoutingModule } from './chat-room-routing.module';
 import { ChatRoomPage } from './chat-room.page';
 import { ComponentsModule } from '../../components/components.module';
 import { SwiperModule } from 'swiper/angular';
+import { SearchMessagesComponent } from './search-messages/search-messages.component';
 
 
 
@@ -21,6 +22,6 @@ import { SwiperModule } from 'swiper/angular';
     ComponentsModule,
     SwiperModule  
   ],
-  declarations: [ChatRoomPage]
+  declarations: [ChatRoomPage, SearchMessagesComponent]
 })
 export class ChatRoomPageModule {}

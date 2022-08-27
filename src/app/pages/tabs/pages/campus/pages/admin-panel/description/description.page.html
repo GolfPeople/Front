@@ -18,13 +18,14 @@
     <ion-label>¿Qué ofreces en tu campo?</ion-label>
   </ion-item>
 
- 
- <span style="padding-right: 5px;" *ngFor="let c of detail.services">
-    <ion-chip (click)="selectFeature(c)" class="ion-padding-horizontal" 
-    [color]="c.isCheked ? 'primary' : 'medium'" outline="true">
-      <ion-label>{{c.name}} <ion-icon *ngIf="c.isCheked" slot="start" name="checkmark"></ion-icon></ion-label>
+
+  <span style="padding-right: 5px;" *ngFor="let c of detail.services">
+    <ion-chip (click)="selectFeature(c)" class="ion-padding-horizontal" [color]="c.isCheked ? 'primary' : 'medium'"
+      outline="true">
+      <ion-label>{{c.name}} <ion-icon *ngIf="c.isCheked" slot="start" name="checkmark"></ion-icon>
+      </ion-label>
     </ion-chip>
-  </span> 
+  </span>
 
   <ion-item lines="none" class="ion-no-padding">
     <ion-label>Diseñador</ion-label>
@@ -42,11 +43,11 @@
   </div>
 
   <div class="ion-padding-vertical">
-      <div class="label">
-    Nombre del diseñador:
-  </div>
-  <ion-input type="text" [(ngModel)]="detail.designer.name" class="select-container input-name"
-    placeholder="Robert Ford.."></ion-input>
+    <div class="label">
+      Nombre del diseñador:
+    </div>
+    <ion-input type="text" [(ngModel)]="detail.designer.name" class="select-container input-name"
+      placeholder="Robert Ford.."></ion-input>
   </div>
 
   <div class="ion-padding-bottom">
@@ -55,55 +56,82 @@
     </div>
     <ion-input type="text" [(ngModel)]="detail.designer.title" class="select-container input-name"
       placeholder="Arquitecto.."></ion-input>
-</div>
-
-<div class="ion-padding-bottom">
-  <div class="label">
-    Año en el que fue diseñado:
   </div>
-  <ion-input type="tel" maxlength="4" minlength="4" [(ngModel)]="detail.designer.year" class="select-container input-name"
-    placeholder="1974"></ion-input>
-</div>
 
-<ion-item lines="none" class="ion-no-padding">
-  <ion-label>Horarios</ion-label>
-  <ion-buttons slot="end">
-    <ion-button (click)="newSchedule()" class="round-btn" class="ion-no-padding" color="secondary">
-      <ion-icon style="font-size: 30px;" name="add-circle"></ion-icon>     
+  <div class="ion-padding-bottom">
+    <div class="label">
+      Año en el que fue diseñado:
+    </div>
+    <ion-input type="tel" maxlength="4" minlength="4" [(ngModel)]="detail.designer.year"
+      class="select-container input-name" placeholder="1974"></ion-input>
+  </div>
+
+  <ion-item lines="none" class="ion-no-padding">
+    <ion-label>Horarios</ion-label>  
+  </ion-item>
+
+
+<div class="ion-padding-vertical">
+  <div class="label">Día</div>
+  <div class="schedule-container">
+    <div>Desde </div>
+    <div>
+      <ion-select class="select-container input-name ion-padding-start" style="width: 100px;" [(ngModel)]="dayInit" interface="popover" placeholder="Lunes">
+        <ion-select-option *ngFor="let d of days">{{d}}</ion-select-option>
+      </ion-select>
+    </div>
+    <div>Hasta</div>
+    <div>
+      <ion-select class="select-container input-name ion-padding-start" style="width: 100px;" [(ngModel)]="dayEnd" interface="popover" placeholder="Viernes">
+        <ion-select-option *ngFor="let d of days">{{d}}</ion-select-option>
+      </ion-select>
+    </div>
+  </div>
+
+  <div class="label">Hora</div>
+  <div class="schedule-container">
+    <div>Desde </div>
+    <div>
+      <ion-input class="select-container input-name" [(ngModel)]="hourInit" type="time"></ion-input>
+    </div>
+    <div>Hasta</div>
+    <div>
+      <ion-input class="select-container input-name" [(ngModel)]="hourEnd" type="time"></ion-input>
+    </div>
+  </div>
+
+  <ion-item class="ion-no-padding schedule-value" *ngFor="let s of schedule; index as i">
+    <ion-label>{{s.day}} {{s.hour}}hr</ion-label>
+    <ion-buttons slot="end">
+      <ion-button (click)="removeSchedule(i)">
+        <ion-icon color="secondary" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
+
+  <div style="padding-top: 10px;">
+    <ion-button class="ion-no-padding" (click)="newSchedule()" color="secondary" mode="ios" size="small" expand="block">
+   <ion-icon name="add"></ion-icon>
+  </ion-button> 
+  </div>
+ 
+</div>
+ 
+
+  <div style="padding-top: 35px;" class="ion-text-center">
+    <ion-button *ngIf="!loading" [disabled]="!validator()" class="submit-btn" (click)="submit()" mode="ios"
+      color="secondary" shape="round">
+      {{'ADMIN_PANEL.save_changes' | translate }}
     </ion-button>
-  </ion-buttons>
-</ion-item>
-
-<div *ngIf="detail.hour.length">
-<ion-item class="ion-no-padding days" *ngFor="let h of detail.hour">
-  <ion-label style="padding-right: 5px;" class="ion-text-wrap">
-    <span  *ngFor="let d of h.days; index as i">{{i !== (h.days.length - 1) ? d + ', ' : d}}</span>
-  </ion-label>
-  <span class="days" slot="end">
-    <!-- {{'01-10-22 '+h.hourInit | date: 'shortTime'}}-{{'01-10-22 '+h.hourEnd | date: 'shortTime'}} -->
-    {{h.hourInit}} - {{h.hourEnd}}hr
-  </span>
-</ion-item>
-</div>
-
-<div class="no-data" *ngIf="!detail.hour.length">
-  <ion-icon name="time-outline"></ion-icon>
-  <div>No hay horarios disponibles</div>
-</div>
-
-<div style="padding-top: 35px;" class="ion-text-center">
-  <ion-button *ngIf="!loading" [disabled]="!validator()" class="submit-btn" (click)="submit()" mode="ios" color="secondary" shape="round">
-    {{'ADMIN_PANEL.save_changes' | translate }}
-  </ion-button>
-  <ion-button *ngIf="loading" class="submit-btn" disabled  mode="ios" color="secondary" shape="round">
-    <ion-spinner color="light"></ion-spinner>
-  </ion-button>
-</div>
+    <ion-button *ngIf="loading" class="submit-btn" disabled mode="ios" color="secondary" shape="round">
+      <ion-spinner color="light"></ion-spinner>
+    </ion-button>
+  </div>
 </ion-content>
 
 
 <ion-content class="ion-text-center" *ngIf="!detail">
-  <div  style="padding-top: 60%;">
+  <div style="padding-top: 60%;">
     <ion-spinner color="primary"></ion-spinner>
   </div>
 </ion-content>

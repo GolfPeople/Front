@@ -20,14 +20,7 @@ export class AvailableHoursPage implements OnInit {
     ) { }
 
   ngOnInit() {
-    console.log(JSON.parse(this.gameSvc.game.value.campus.hour) );
     
-    for (let e of this.gameSvc.game.value.campus.hour) {
-      this.alter.push({ hour: e, price: 50, isChecked: false })
-    }
-    if (!this.gameSvc.game.value.campus) {
-      this.firebaseSvc.routerLink('tabs/play/create-game')
-    }
   }
 
   selectHour(h){

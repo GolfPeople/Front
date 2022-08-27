@@ -9,6 +9,8 @@ import { PlayPageRoutingModule } from './play-routing.module';
 import { PlayPage } from './play.page';
 import { ComponentsModule } from '../../components/components.module';
 import { SwiperModule } from 'swiper/angular';
+import { GamesComponent } from './components/games/games.component';
+import { TournamentsComponent } from './components/tournaments/tournaments.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -18,6 +20,6 @@ import { SwiperModule } from 'swiper/angular';
     ComponentsModule,
     SwiperModule  
   ],
-  declarations: [PlayPage]
+  declarations: [PlayPage, GamesComponent, TournamentsComponent]
 })
 export class PlayPageModule {}

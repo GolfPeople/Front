@@ -84,6 +84,9 @@
 </ion-content>
 
 <ion-content class="ion-text-center background" *ngIf="!detail">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 <div  style="padding-top: 50%;">
     <ion-spinner color="light"></ion-spinner>
 </div>

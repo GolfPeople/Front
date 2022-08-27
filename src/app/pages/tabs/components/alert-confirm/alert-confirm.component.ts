@@ -10,6 +10,7 @@ export class AlertConfirmComponent implements OnInit {
 
  @Input() confirmText: string;
  @Input() content: string;
+ @Input() inverseBtn: boolean;
   constructor(private modalController: ModalController) { }
 
   ngOnInit() {}

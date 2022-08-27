@@ -67,8 +67,13 @@ export class ChatMessagesComponent implements OnInit {
   }
 
   newMessageDB(message) {
+
+    let data = {
+      message: message,
+      sale_id: this.data.id
+    }
     let userId = this.data.user.filter(u => { return u.id !== this.user_id })[0].id;
-    this.chatSvc.sendMessage(userId, message).subscribe(res => {
+    this.chatSvc.sendMessage(userId, data).subscribe(res => {
       console.log(res);
     })
   }

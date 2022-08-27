@@ -54,6 +54,9 @@ export class ConfirmationPage implements OnInit {
       this.gameSvc.game.next({} as Game);
       this.gameSvc.game.value.extra = [];
       this.gameSvc.game.value.hours = [];      
+    }, error =>{
+      this.firebaseSvc.Toast('Ha ocurrido un error, intenta de nuevo');
+      loading.dismiss();
     })
   }
 

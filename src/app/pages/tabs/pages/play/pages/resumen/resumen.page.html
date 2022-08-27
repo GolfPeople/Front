@@ -6,11 +6,11 @@
 
   <ion-item lines="none">
     <ion-avatar>
-      <img [src]="gameSvc.game.value.campus.photo ? gameSvc.game.value.campus.photo : '../../../../../../../assets/img/profile-image.png'" />
+      <img [src]="gameSvc.game.value.campus.thumbnailImage ? gameSvc.game.value.campus.thumbnailImage : 'assets/img/profile-image.png'" />
     </ion-avatar>
     <ion-label class="p-label ion-text-wrap">
-      <div class="club">{{gameSvc.game.value.campus.information}}</div>
-      <div class="location">{{gameSvc.game.value.campus.location}}</div>
+      <div class="club">{{gameSvc.game.value.campus.courseName}}</div>
+      <div class="location">{{gameSvc.game.value.campus.address}}</div>
     </ion-label>
   </ion-item>
   

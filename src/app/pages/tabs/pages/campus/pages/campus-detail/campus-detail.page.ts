@@ -15,10 +15,11 @@ import { NewReviewComponent } from './components/new-review/new-review.component
 export class CampusDetailPage implements OnInit {
 
   detail;
-  averageRating = new BehaviorSubject(0 as any);
+  averageRating = new BehaviorSubject({} as any);
   averageLevel = new BehaviorSubject(0 as any);
 
   reviews = new BehaviorSubject([]);
+  
   selectedSegment = '1';
   segments = [
     { id: '1', name: 'El Campo' },
@@ -87,42 +88,62 @@ ionViewWillEnter(){
       this.detail.scorecarddetails = JSON.parse(this.detail.scorecarddetails);
       this.detail.designer = JSON.parse(this.detail.designer);
       this.detail.hour = JSON.parse(this.detail.hour);
-      this.detail.services = JSON.parse(this.detail.services);
-      let averageRating: any = [];
+      this.detail.day = JSON.parse(this.detail.day);
+      this.detail.services = JSON.parse(this.detail.services);     
       let averageLevel: any = [];
 
-      this.reviews.next(this.detail.reviews.map(res => {
-
-        averageLevel.push(parseInt(res.difficulty))
-        averageRating.push(res.rating)
-
-        let stars = []
-        for (let i = 1; i < res.rating + 1; i++) {
-          stars.push({ color: 'success' })
-        }
-  
-        if (stars.length < 5) {
-          let reduce = 5 - stars.length;
-          for (let i = 1; i < reduce + 1; i++) {
-            stars.push({ color: 'medium' })
-          }
-        }
-        return {
-          created_at: res.created_at,
-          description: res.description,
-          difficulty: res.difficulty,
-          rating: res.rating,
-          user: res.user,
-          stars: stars,
-          hole: res.hole
-        }
-      }).reverse())
-
-      let rating = (averageRating.reduce((a, b) => a + b, 0) / this.detail.reviews.length).toFixed(2);
-      let level = (averageLevel.reduce((a, b) => a + b, 0) / this.detail.reviews.length).toFixed(0);
-      this.averageRating.next(rating);
+      this.detail.reviews.map(res => {
+        averageLevel.push(parseInt(res.difficulty))        
+      }) 
+      let level = (averageLevel.reduce((a, b) => a + b, 0) / this.detail.reviews.length).toFixed(0);   
       this.averageLevel.next(level);
 
+
+      let priceAverage: any = [];
+      let locationAverage: any = [];
+      let facilitiesAverage: any = [];
+      let restaurantAverage: any = [];
+      let storeAverage: any = [];
+
+      this.detail.ratings.map(res => {
+        priceAverage.push(parseInt(res.price))
+        locationAverage.push(parseInt(res.location))
+        facilitiesAverage.push(parseInt(res.facilities))
+        restaurantAverage.push(parseInt(res.restaurant))
+        storeAverage.push(parseInt(res.store))        
+      })
+
+      console.log(this.detail.ratings);     
+
+      let price = (priceAverage.reduce((a, b) => a + b, 0) / this.detail.ratings.length).toFixed(0)                   
+      let location = (locationAverage.reduce((a, b) => a + b, 0) / this.detail.ratings.length).toFixed(0)
+      let restaurant = (restaurantAverage.reduce((a, b) => a + b, 0) / this.detail.ratings.length).toFixed(0)
+      let store = (storeAverage.reduce((a, b) => a + b, 0) / this.detail.ratings.length).toFixed(0)
+      let facilities = (facilitiesAverage.reduce((a, b) => a + b, 0) / this.detail.ratings.length).toFixed(0)
+
+      let average = {
+        general: (parseInt(price)  + parseInt(location) + parseInt(restaurant) + parseInt(store) + parseInt(facilities))/5,
+        price: parseInt(price),
+        location: parseInt(location),
+        restaurant: parseInt(restaurant),
+        store: parseInt(store),
+        facilities: parseInt(facilities)
+      }
+
+      this.averageRating.next(average);
+      
+      
+      this.reviews.next(this.detail.ratings.map(res =>{
+        return{
+          comment: res.comment,
+          rating: ((parseInt(res.price)  + parseInt(res.location) + parseInt(res.restaurant) + parseInt(res.store) + parseInt(res.facilities))/5).toFixed(0),
+          user: res.user,
+          created_at: res.created_at,
+          id: res.id,
+          photos: JSON.parse(res.photos),
+          user_id: res.user_id          
+        }
+      }));
     },
       (error) => {
         console.log('Error -->', error);

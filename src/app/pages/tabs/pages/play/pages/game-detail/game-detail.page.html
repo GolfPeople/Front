@@ -1,4 +1,4 @@
-<app-header backButton="true" title="Resumen de la Partida" icon="../../../../../../../assets/icons/calendar.svg">
+<app-header backButtonModal="true" title="Resumen de la Partida" icon="../../../../../../../assets/icons/calendar.svg">
 </app-header>
 <ion-content class="ion-padding">
 
@@ -6,7 +6,7 @@
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
 
-    <div *ngIf="game">
+    <div *ngIf="golfCourse">
         <div class="title">Partida: "{{game.name}}"</div>
 
         <ion-item lines="none">
@@ -14,7 +14,7 @@
                 <img src="../../../../../../../assets/img/profile-image.png" />
             </ion-avatar>
             <ion-label class="p-label ion-text-wrap">
-                <!-- <div class="club">{{game.campus.information}}</div> -->
+                <div *ngIf="golfCourse" class="club">{{golfCourse.courseName}}</div>
                 <div class="location">{{game.address}}</div>
             </ion-label>
         </ion-item>
@@ -66,21 +66,21 @@
         </div>
 
         <div style="padding-top: 15px;" class="ion-text-center">
-            <ion-button *ngIf="!game.pending && !game.isMember" (click)="wantToJoin()" class="join-btn" mode="ios" color="success" shape="round">
+            <ion-button *ngIf="!game.pending && !game.isMember && !game.isOwner && !game.isInvited" (click)="wantToJoin()" class="join-btn" mode="ios" color="success" shape="round">
                <span style="padding-left: 10px;padding-right: 10px;">Solicitar Unirme</span> 
             </ion-button>
             <ion-button *ngIf="game.pending" class="join-btn" mode="ios" color="medium" shape="round">
                 <span style="padding-left: 10px;padding-right: 10px;">Pendiente...</span> 
              </ion-button>
-            <ion-button *ngIf="game.isOwner" routerLink="/tabs/play/start-game" class="join-btn" mode="ios" color="success" shape="round">
+            <ion-button *ngIf="game.isOwner" routerLink="/tabs/play/start-game/{{game.id}}" class="join-btn" mode="ios" color="success" shape="round">
                 <span style="padding-left: 10px;padding-right: 10px;">Comenzar Partida</span> 
              </ion-button>
         </div>
 
     </div>
 
-    <div class="ion-text-center" color="primary" style="padding-top: 30vh;" *ngIf="!game">
-        <ion-spinner></ion-spinner>
+    <div class="ion-text-center" color="primary" style="padding-top: 30vh;" *ngIf="!golfCourse">
+        <ion-spinner color="primary"></ion-spinner>
     </div>
 
    

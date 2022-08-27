@@ -1,3 +1,29 @@
+ion-content{
+  --background: white;
+}
+
+.circle-icon {
+  padding-right: 5px;
+  position: relative;
+  top: 2px;
+}
+
+strong{
+  color: gray;
+}
+
+.avatar-circle-icon {
+ position: relative;
+ bottom: 20px;
+ left: 25px;
+}
+
+.label-title{
+  color: black;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
 ion-title {
     font-variant: small-caps;
     text-transform: uppercase;
@@ -34,6 +60,7 @@ ion-title {
 
 table{
   padding-top: 15px;
+  width: 100%;
 }
 
 .bb{
@@ -71,7 +98,12 @@ td{
    background: #eeeded;
    font-size: 24px;
    color: gray;
-   font-weight: bold;
+   font-weight: bold;   
+  
+    ion-icon{
+      font-size: 23px;    
+    }
+
    .active{
     color: var(--ion-color-success);   
    }
@@ -86,4 +118,36 @@ td{
    }
 }
 
+.tee-value{ 
+  background: #eeeded;
+  font-size: 16px;
+  color: black;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  &.border-top{
+   border-top-right-radius: 10px;
+   border-top-left-radius: 10px;
+  }
+  &.border-bottom{
+   border-bottom-right-radius: 20px;
+   border-bottom-left-radius: 20px;
+  }
+}
 
+.tee-label{
+  color: gray;
+  font-size: 16px;
+}
+
+.border-t{
+  border-top: 1px #d4d3d3  solid;
+}
+
+.border-b{
+  border-bottom: 1px #d4d3d3  solid;
+}
+
+.yds-text{
+  width: 40px;
+}

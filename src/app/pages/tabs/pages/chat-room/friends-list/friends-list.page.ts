@@ -136,9 +136,8 @@ export class FriendsListPage implements OnInit {
         message: 'ㅤ',
         read: true
       }
-      this.firebaseService.addToCollection('messages', message).then(res => {
-        this.openChat(room);
-        this.firebaseService.routerLink('/tabs/chat-room');
+      this.firebaseService.addToCollection('messages', message).then(e => {        
+        this.firebaseService.routerLink('/tabs/chat-room/messages/'+res.sala_id);
         loading.dismiss();
       }, error => {
         loading.dismiss();
@@ -216,9 +215,8 @@ export class FriendsListPage implements OnInit {
         message: 'ㅤ',
         read: true
       }
-      this.firebaseService.addToCollection('messages', message).then(res => {
-        this.openChat(room);
-        this.firebaseService.routerLink('/tabs/chat-room');
+      this.firebaseService.addToCollection('messages', message).then(e => {
+        this.firebaseService.routerLink('/tabs/chat-room/messages/'+res.sala_id);
         loading.dismiss();
       })
 

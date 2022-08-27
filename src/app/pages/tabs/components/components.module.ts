@@ -13,6 +13,10 @@ import { DatepickerComponent } from './date-input/datepicker/datepicker.componen
 import { StepperComponent } from './stepper/stepper.component';
 import { TimeAgoPipe } from 'src/app/shared/pipes/time-ago.pipe';
 import { AlertConfirmComponent } from './alert-confirm/alert-confirm.component';
+import { GameItemComponent } from './game-item/game-item.component';
+import { GolfCourseItemComponent } from './golf-course-item/golf-course-item.component';
+import { PointsHitsModalComponent } from './points-hits-modal/points-hits-modal.component';
+import { TenStarsRatingComponent } from './ten-stars-rating/ten-stars-rating.component';
 
 
 
@@ -28,7 +32,11 @@ import { AlertConfirmComponent } from './alert-confirm/alert-confirm.component';
     DatepickerComponent,
     StepperComponent,
     TimeAgoPipe,
-    AlertConfirmComponent  
+    AlertConfirmComponent,
+    GameItemComponent,
+    GolfCourseItemComponent,
+    PointsHitsModalComponent,
+    TenStarsRatingComponent  
   ],
   declarations: [
     ChatMessagesComponent, 
@@ -41,7 +49,11 @@ import { AlertConfirmComponent } from './alert-confirm/alert-confirm.component';
     DatepickerComponent,
     StepperComponent,
     TimeAgoPipe,
-    AlertConfirmComponent  
+    AlertConfirmComponent,
+    GameItemComponent,
+    GolfCourseItemComponent,
+    PointsHitsModalComponent,
+    TenStarsRatingComponent  
   ],
   imports: [
     CommonModule, 

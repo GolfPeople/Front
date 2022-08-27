@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { GameService } from 'src/app/core/services/game.service';
 import { AlertConfirmComponent } from 'src/app/pages/tabs/components/alert-confirm/alert-confirm.component';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { CampusDataService } from '../../../campus/services/campus-data.service';
 
 @Component({
   selector: 'app-game-detail',
@@ -13,31 +14,25 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 })
 export class GameDetailPage implements OnInit {
 
-  game_id;
-  type;
+ @Input() game_id;
 
   loading: boolean;
   game;
   avatar: string = 'assets/img/default-avatar.png';
-  constructor(
-    private actRoute: ActivatedRoute,
+
+  golfCourse;
+  constructor(   
     public gameSvc: GameService,
     private sanitizer: DomSanitizer,  
     private firebaseSvc: FirebaseService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    public campusSvg: CampusDataService
   ) {
-    this.game_id = this.actRoute.snapshot.paramMap.get('id');
-    this.type = this.actRoute.snapshot.paramMap.get('type');
+   
   }
 
   ngOnInit() {
-    if (!this.gameSvc.games$.value.length) {
-      this.getAllGames();
-    } else {
-      this.game = this.gameSvc.games$.value.filter(g => g.id == this.game_id)[0];
-      console.log(this.game);
-
-    }
+      this.getAllGames();   
   }
 
   doRefresh(event) {
@@ -92,9 +87,10 @@ export class GameDetailPage implements OnInit {
     }
     this.gameSvc.getAllGames().subscribe(res => {
       this.loading = false;
-        
+             
       this.gameSvc.games$.next(res.data.reverse().map(g => {
         return {
+          campuses_id: g.campuses_id,
           address: g.address,
           created_at: g.created_at,
           date: g.date,
@@ -115,7 +111,16 @@ export class GameDetailPage implements OnInit {
       }))
 
       this.game = this.gameSvc.games$.value.filter(g => g.id == this.game_id)[0];
+            
+       this.getGolfCourse(this.game.campuses_id);
+    })
+  }
 
+  getGolfCourse(id){
+    this.campusSvg.getCourseGames(id).subscribe(res =>{
+      this.golfCourse = res;  
+      console.log(res);
+                    
     })
   }
 

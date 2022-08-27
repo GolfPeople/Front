@@ -48,6 +48,25 @@ const routes: Routes = [
     path: 'score-card/:id',
     loadChildren: () => import('./pages/score-card/score-card.module').then( m => m.ScoreCardPageModule)
   },
+  {
+    path: 'validate-score-card/:id',
+    loadChildren: () => import('./pages/validate-score-card/validate-score-card.module').then( m => m.ValidateScoreCardPageModule)
+  },
+  {
+    path: 'create-tournament',
+    loadChildren: () => import('./pages/create-tournament/create-tournament.module').then( m => m.CreateTournamentPageModule)
+  },
+  {
+    path: 'tournament-resumen',
+    loadChildren: () => import('./pages/tournament-resumen/tournament-resumen.module').then( m => m.TournamentResumenPageModule)
+  },
+  {
+    path: 'game-finished-success/:id',
+    loadChildren: () => import('./pages/game-finished-success/game-finished-success.module').then( m => m.GameFinishedSuccessPageModule)
+  },
+
+
+
 
 ];
 

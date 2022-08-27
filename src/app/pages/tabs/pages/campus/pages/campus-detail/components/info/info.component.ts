@@ -13,7 +13,10 @@ export class InfoComponent implements OnInit, AfterViewInit {
   @Input() average;
   @Input() detail; 
   @Input() reviews; 
+  schedule = [];
+  games = [];
   levelRange = 3;
+  services = [];
 
   features = [
     {id: '1', name: 'Buggy', icon: '../../../../../../../../../assets/icons/buggy.svg'},
@@ -34,16 +37,47 @@ export class InfoComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.createMap();
     this.getCourseGame();
+    if(this.detail.hour && this.detail.hour.length){
+      this.detail.day.map(d => {
+        this.detail.hour.map(h => {
+          this.schedule.push({day: d, hour:h})
+        })
+      })
+    } 
+        
   }
 
   getCourseGame(){
     this.campusSvg.getCourseGames(this.detail.id).subscribe(res =>{
+      this.games = res.games.map(g => {
+
+        return {
+          game_init: g.game_init,
+          address: g.address,
+          created_at: g.created_at,
+          date: g.date,
+          id: g.id,
+          lat: g.lat,
+          long: g.long,
+          name: g.name,
+          reserves: g.reserves,
+          isOwner: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.status == '4').length ? true : false),
+          owner_id: g.users.filter(u => u.status == '4')[0].user_id,
+          users: g.users.filter(u => { return ['2', '4'].includes(u.status) }),
+          fav: false,
+          isMember: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.status == '2').length ? true : false),
+          status: g.status,
+          request_users: g.request_users,
+          isInvited: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.status == '1').length ? true : false),
+          pending: (g.request_users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id'))).length ? true : false)
+        }
+      }).filter(res => res.isOwner == true || res.isMember == true); 
           
     })
   }
 
   goToAdminRequest(){      
-    this.firebaseSvc.routerLink('/tabs/campus/admin-request/'+btoa(JSON.stringify(this.detail)))
+    this.firebaseSvc.routerLink('/tabs/campus/admin-request/')
   }
 
   async createMap() {

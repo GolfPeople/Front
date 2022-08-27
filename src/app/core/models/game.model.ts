@@ -11,3 +11,15 @@ export interface Game {
     campus: any;  
     skipExtra: boolean;
   }
+
+export interface Tournament{
+  photo: string;
+  name: string;
+  owner_name: string;
+  date: string;
+  course: any;
+  price: number;
+  link: string;
+  services: any;
+  description: string;
+}  

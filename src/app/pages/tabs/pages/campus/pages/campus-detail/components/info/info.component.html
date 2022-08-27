@@ -20,13 +20,19 @@
   <div #mapElement class="map"></div>
 </div>
 
-<div class="center ion-padding-vertical">
+<div *ngIf="!games.length" class="center ion-padding-vertical">
   <div class="havent-play">
     ¡No has jugado en este campo!
   </div>
 </div>
 
-<div *ngIf="detail.designer.url">
+<div *ngIf="games.length">
+  <div class="ion-padding-top label">Mis partidas</div>
+  <app-game-item [games]="games"></app-game-item>
+</div>
+
+
+<div *ngIf="detail && detail.designer && detail.designer.url">
 <div class="ion-padding-vertical label">Diseñador</div>
 <ion-item lines="none" class="ion-no-padding">
   <ion-avatar>
@@ -66,44 +72,39 @@
 </div>
 
 <div class="ion-padding-vertical label">Información del Club</div>
-<!-- <ion-grid class="ion-padding-bottom" fixed>
+<ion-grid *ngIf="services.length" class="ion-padding-bottom" fixed>
   <ion-row>
-    <ion-col *ngFor="let f of features" size="3">
+    <ion-col *ngFor="let s of services" size="3">
       <div class="hole-card ion-activatable ripple-parent">
-        <ion-icon [src]="f.icon"></ion-icon>
-        <div class="name">{{f.name}}</div>
+        <!-- <ion-icon [src]="f.icon"></ion-icon> -->
+        <div class="name">{{s.name}}</div>
         <ion-ripple-effect></ion-ripple-effect>
       </div>
     </ion-col>
   </ion-row>
-</ion-grid> -->
+</ion-grid>
 
 <p *ngIf="detail.information" class="history">{{detail.information}}</p>
 
-<div *ngIf="detail.hour.length">
+<div *ngIf="detail.hour && detail.hour.length">
   <div class="ion-padding-top label">Horario</div>
-  <ion-item class="ion-no-padding days" *ngFor="let h of detail.hour">
-    <ion-label style="padding-right: 5px;" class="ion-text-wrap">
-      <span  *ngFor="let d of h.days; index as i">{{i !== (h.days.length - 1) ? d + ', ' : d}}</span>
-    </ion-label>
-    <span class="days" slot="end">
-      <!-- {{'01-10-22 '+h.hourInit | date: 'shortTime'}}-{{'01-10-22 '+h.hourEnd | date: 'shortTime'}} -->
-      {{h.hourInit}} - {{h.hourEnd}}hr
-    </span>
+  <ion-item class="ion-no-padding schedule" *ngFor="let s of schedule; index as i">
+    <ion-label>{{s.day}}</ion-label> 
+    <span slot="end">{{s.hour}}hr</span>
   </ion-item>
 </div>
 
 
 <div style="padding-top: 40px;" class="ion-text-center">
-  <div class="partner-text ion-padding-bottom">¿Eres socio de {{detail.courseName}}?</div>
+  <div class="partner-text ion-padding-bottom">¿Eres socio de {{detail.courseName ? detail.courseName : 'este club'}}?</div>
   <ion-button class="enlace-btn"  mode="ios" color="secondary" shape="round">
    <ion-icon slot="start" style="padding-right: 5px;" name="person-outline"></ion-icon>
    Vincular Cuenta
   </ion-button>
 </div>
-<div style="padding-top: 30px;" class="ion-text-center">
+<!-- <div style="padding-top: 30px;" class="ion-text-center">
   <ion-button (click)="goToAdminRequest()" class="enlace-btn" expand="block" color="secondary" fill="clear" shape="round">
     <ion-icon slot="start" style="padding-right: 5px;" name="document-text-outline"></ion-icon>
     Administrar este campo
   </ion-button>
-</div>
+</div> -->

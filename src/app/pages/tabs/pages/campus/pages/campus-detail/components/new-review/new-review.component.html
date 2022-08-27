@@ -1,13 +1,16 @@
 <ion-content>
 
   <div class="ion-padding">
-  <div class="label">Calificación:</div>
+    <div class="ion-text-center">
+      <div class="label">Calificación:</div>
   <ion-icon class="star" (click)="selectRating(1)" [color]="[1,2,3,4,5].includes(rating) ? 'warning' : 'medium'" [name]="[1,2,3,4,5].includes(rating) ? 'star' : 'star-outline'"></ion-icon>
   <ion-icon class="star" (click)="selectRating(2)" [color]="[2,3,4,5].includes(rating) ? 'warning' : 'medium'" [name]="[2,3,4,5].includes(rating) ? 'star' : 'star-outline'"></ion-icon>
   <ion-icon class="star" (click)="selectRating(3)" [color]="[3,4,5].includes(rating) ? 'warning' : 'medium'" [name]="[3,4,5].includes(rating) ? 'star' : 'star-outline'"></ion-icon>
   <ion-icon class="star" (click)="selectRating(4)" [color]="[4,5].includes(rating) ? 'warning' : 'medium'" [name]="[4,5].includes(rating) ? 'star' : 'star-outline'"></ion-icon>
   <ion-icon class="star" (click)="selectRating(5)" [color]="[5].includes(rating) ? 'warning' : 'medium'" [name]="[5].includes(rating) ? 'star' : 'star-outline'"></ion-icon>
-
+ 
+    </div>
+ 
   
 <div class="label">Dificultad:</div>
 

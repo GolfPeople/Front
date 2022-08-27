@@ -1,0 +1,97 @@
+<ion-toolbar color="primary">
+  <ion-buttons slot="start">
+    <ion-button (click)="close()">
+      <ion-icon style="font-size: 23px;" color="light" name="arrow-back"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <ion-searchbar [debounce]="800" (ionChange)="search($event)" show-clear-button="focus" mode="ios"
+    placeholder="Buscar"></ion-searchbar>
+</ion-toolbar>
+
+<ion-content>
+
+
+  <ion-item class="ion-padding-top ion-padding-end" *ngIf="chats.length">
+    <ion-label>Chats y Grupos</ion-label>
+  </ion-item>
+
+  <div (click)="goToChat(m.chatId)" *ngFor="let m of chats; index as i"
+  [ngClass]="{'ion-padding-top': i == 0}" class="ion-padding-bottom">
+  <ion-item *ngIf="m.type_id == 2" lines="none" detail class="ion-margin-vetical">
+    <ion-avatar class="ion-margin-end">
+      <img [src]="m.user.profile.photo ? m.user.profile.photo : 'assets/img/default-avatar.png'" />
+    </ion-avatar>
+    <ion-label class="ion-text-wrap">
+      <div class="user-name">{{m.user.name}}</div>
+    </ion-label>
+  </ion-item>
+
+  <ion-item *ngIf="m.type_id == 1" lines="none" detail class="ion-margin-vetical">
+    <ion-avatar class="ion-margin-end">
+      <img [src]="m.chat_img ? m.chat_img : 'assets/img/default-avatar-gray.png'" />
+    </ion-avatar>
+    <ion-label class="ion-text-wrap">
+      <div class="user-name">{{m.name_chat}}</div>
+      <div class="msg"><span style="text-transform: capitalize;" [innerHTML]="m.users"></span></div>
+    
+    </ion-label>
+  </ion-item>
+</div>
+
+  <ion-item class="ion-padding-top ion-padding-end" *ngIf="messages.length">
+    <ion-label>Mensajes</ion-label>
+  </ion-item>
+
+  <div (click)="goToMsg(m.chatId,m.id)" *ngFor="let m of messages; index as i"
+    [ngClass]="{'ion-padding-top': i == 0}" class="ion-padding-bottom">
+    <ion-item *ngIf="m.type_id == 2" lines="none" detail class="ion-margin-vetical">
+      <ion-avatar class="ion-margin-end">
+        <img [src]="m.user_img ? m.user_img : 'assets/img/default-avatar.png'" />
+      </ion-avatar>
+      <ion-label class="ion-text-wrap">
+        <div class="user-name">{{m.name}}</div>
+        <div class="msg"><span [innerHTML]="m.message"></span></div>
+      </ion-label>
+    </ion-item>
+
+    <ion-item *ngIf="m.type_id == 1" lines="none" detail class="ion-margin-vetical">
+      <ion-avatar class="ion-margin-end">
+        <img [src]="m.chat_img ? m.chat_img : 'assets/img/default-avatar-gray.png'" />
+      </ion-avatar>
+      <ion-label class="ion-text-wrap">
+        <div class="user-name">{{m.name_chat}}</div>
+        <div class="msg"><span style="text-transform: capitalize;">{{m.name}}</span>: <span
+            [innerHTML]="m.message"></span></div>
+      </ion-label>
+    </ion-item>
+  </div>
+
+
+  <div *ngIf="text && !messages.length && !chats.length && !loading" class="ion-text-center no-results">
+    No se han encontrado resultados.
+  </div>
+
+  <ion-list *ngIf="loading" lines="none">
+    <div class="chat-pt" *ngFor="let room of [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]">
+      <ion-item>
+
+        <ion-avatar>
+          <ion-skeleton-text animated style="width: 100%;height: 100%;"></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label class="ion-margin-start">
+          <h3>
+            <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+          </h3>
+          <p>
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </p>
+        </ion-label>
+      </ion-item>
+    </div>
+  </ion-list>
+
+  <div *ngIf="!text && !messages.length && !loading" class="empty">
+    <ion-icon name="search-outline"></ion-icon>
+    <div style="font-size: 20px;">Buscar</div>
+  </div>
+</ion-content>
