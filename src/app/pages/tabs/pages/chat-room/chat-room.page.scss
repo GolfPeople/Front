@@ -128,3 +128,12 @@ ion-content {
     }
   }
 }
+
+.no-chats{
+  padding-top: 10%;
+  text-align: center;
+  color: var(--ion-color-medium);
+}
+.no-chats ion-icon{
+ font-size: 100px;
+}

@@ -53,7 +53,7 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
   myId;
 
   id;
-  userInfo: Friend = {
+  userInfo = {
     id: null,
     name: null,
     email: null,

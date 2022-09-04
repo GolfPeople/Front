@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
+import { FirebaseService } from './services/firebase.service';
 import { LanguageService } from './services/language.service';
 
 
@@ -12,7 +13,8 @@ export class AppComponent {
 
   constructor(
     private platform: Platform,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private firebaseSvc: FirebaseService
     ) {
 
       this.initializeApp();

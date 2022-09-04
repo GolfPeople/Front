@@ -1,0 +1,32 @@
+<ion-item class="ion-no-padding">
+  <ion-avatar (click)="goToUserProfile()" class="ion-margin">
+    <img [src]="user.profile.photo ? user.profile.photo : 'assets/img/default-avatar.png'" />
+  </ion-avatar>
+  <ion-label class="ion-text-wrap">
+    <h3>{{user.name}}</h3>
+    <div *ngIf="status && status.status == 'online'">
+      <span class="online-mark">
+        <ion-icon name="ellipse"></ion-icon>
+      </span>
+      <span class="online-text">En línea</span>
+    </div>
+
+    <div class="last-con" *ngIf="status && status.status !== 'online'">      
+      <span class="offline-mark">
+        <ion-icon name="ellipse"></ion-icon>
+      </span>
+      <span class="online-text">Desconectado</span>
+    </div>
+
+   
+ 
+  </ion-label>
+  <ion-buttons slot="end">
+    <ion-button (click)="searchMessagesModal()">
+      <ion-icon color="medium" name="search"></ion-icon>   
+    </ion-button>
+    <ion-button (click)="options($event)">
+      <ion-icon color="medium" name="ellipsis-vertical"></ion-icon>   
+    </ion-button>
+  </ion-buttons>
+</ion-item>

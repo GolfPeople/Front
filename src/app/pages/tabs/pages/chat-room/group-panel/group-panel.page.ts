@@ -5,6 +5,7 @@ import { ModalController } from '@ionic/angular';
 import { ChatService } from 'src/app/core/services/chat/chat.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { AlertConfirmComponent } from '../../../components/alert-confirm/alert-confirm.component';
+import { SearchMessagesComponent } from '../search-messages/search-messages.component';
 import { NewMemberComponent } from './new-member/new-member.component';
 
 @Component({
@@ -36,6 +37,16 @@ export class GroupPanelPage implements OnInit {
 
   ngOnInit() {
   }
+
+  async searchMessagesModal() {
+    const modal = await this.modalController.create({
+    component: SearchMessagesComponent,
+    cssClass: 'modal-full'
+    });
+   
+    await modal.present();
+   
+   } 
 
 
   ionViewWillEnter() {
@@ -91,16 +102,18 @@ export class GroupPanelPage implements OnInit {
     const modal = await this.modalController.create({
       component: NewMemberComponent,
       cssClass: 'fullscreen-modal',
-      componentProps: { currentMembers: this.data.user.map(u => { return (u.id) }).filter(id => { return id !== JSON.parse(localStorage.getItem('user_id')) }) }
+      componentProps: { currentMembers: this.data.user.map(u => { return (u.profile.id) }).filter(id => { return id !== JSON.parse(localStorage.getItem('user_id')) }) }
     });
 
     modal.present();
 
+     
     const { data } = await modal.onWillDismiss();
     if (data) {
       data.members.map(m => {
         this.data.user.push(m);
       });
+
       this.updateGroup();
     }
   }
@@ -173,7 +186,7 @@ export class GroupPanelPage implements OnInit {
    *===================Eliminar miembro========================
    * @param id 
    */
-  async confirmDeleteMember(index) {
+  async confirmDeleteMember(index, user_id) {
     const modal = await this.modalController.create({
       component: AlertConfirmComponent,
       cssClass: 'alert-confirm',
@@ -187,8 +200,22 @@ export class GroupPanelPage implements OnInit {
 
     const { data } = await modal.onWillDismiss();
     if (data) {
-      this.data.user.splice(index, 1);
-      this.updateGroup();
+
+      let user = {
+        user_id: user_id
+      }
+
+      const loading = await this.firebaseSvc.loader().create();
+      await loading.present();
+      this.chatSvc.outOfGroup(this.id, user).subscribe(res => {  
+        this.data.user.splice(index, 1);  
+        this.firebaseSvc.Toast('Miembro eliminado'); 
+        loading.dismiss();
+      }, error => {
+        console.log(error);
+        this.firebaseSvc.Toast('Ha ocurrido un error, intente de nuevo.');
+        loading.dismiss();
+      })
     }
   }
 
@@ -208,7 +235,7 @@ export class GroupPanelPage implements OnInit {
 
   async updateGroup() {
     let data = {
-      users: this.data.user.map(u => { return (u.id) }).filter(id => { return id !== JSON.parse(localStorage.getItem('user_id')) }),
+      users: this.data.user.map(u => { return (u.profile.id) }).filter(id => { return id !== JSON.parse(localStorage.getItem('user_id')) }),
       name: this.data.name_chat,
       image: this.data.image
     }

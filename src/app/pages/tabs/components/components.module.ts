@@ -17,6 +17,7 @@ import { GameItemComponent } from './game-item/game-item.component';
 import { GolfCourseItemComponent } from './golf-course-item/golf-course-item.component';
 import { PointsHitsModalComponent } from './points-hits-modal/points-hits-modal.component';
 import { TenStarsRatingComponent } from './ten-stars-rating/ten-stars-rating.component';
+import { UsersLoaderComponent } from './users-loader/users-loader.component';
 
 
 
@@ -36,7 +37,8 @@ import { TenStarsRatingComponent } from './ten-stars-rating/ten-stars-rating.com
     GameItemComponent,
     GolfCourseItemComponent,
     PointsHitsModalComponent,
-    TenStarsRatingComponent  
+    TenStarsRatingComponent,
+    UsersLoaderComponent  
   ],
   declarations: [
     ChatMessagesComponent, 
@@ -53,7 +55,8 @@ import { TenStarsRatingComponent } from './ten-stars-rating/ten-stars-rating.com
     GameItemComponent,
     GolfCourseItemComponent,
     PointsHitsModalComponent,
-    TenStarsRatingComponent  
+    TenStarsRatingComponent,
+    UsersLoaderComponent  
   ],
   imports: [
     CommonModule, 

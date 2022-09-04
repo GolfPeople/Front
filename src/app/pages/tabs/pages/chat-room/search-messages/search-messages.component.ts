@@ -65,6 +65,8 @@ export class SearchMessagesComponent implements OnInit {
       })
 
       this.chatSvc.searchUsers(this.text).subscribe(res => {
+        console.log(res);
+        
         this.chats = res.map(chat => {
 
           if(chat.type_id == 2){

@@ -2,6 +2,10 @@ ion-content {
   --background: white;
 }
 
+ion-footer{
+  --background: white;
+}
+
 ion-fab-button{
   width: 45px;
   height: 45px;
@@ -93,7 +97,7 @@ ion-avatar {
 }
 
 .msg-date {
-  padding-left: 60px;
+  padding-left: 50px;
 
   &.current-user {
     text-align: end;

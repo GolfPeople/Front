@@ -50,6 +50,7 @@ export class ChatService {
   }
 
   updateGroup(id, data){
+    console.log(data);    
     return this.http.post<any>(`${API}/chat/edit/room/${id}`, data)
   }
  

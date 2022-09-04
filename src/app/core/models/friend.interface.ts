@@ -41,7 +41,8 @@ export interface Friend {
   privacity: Privacity;
   to?: any;
   from?: any;
-  friends?: any
+  friends?: any;
+  salas: any;
 }
 
 export interface Link {

@@ -12,6 +12,9 @@ import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Platform } from '@ionic/angular';
+
+
+import { getAdditionalUserInfo } from 'firebase/auth';
 @Injectable({
   providedIn: 'root',
 })
@@ -58,24 +61,30 @@ export class AuthService {
   }
 
   async loginGoogle(): Promise<any> {
+    let user;
     try {
 
       if (this.platform.is('capacitor')) {
-        
+
         let googleUser = await GoogleAuth.signIn();
-        const credential = firebase.auth.GoogleAuthProvider.credential(googleUser.authentication.idToken);
-        const { user } = await this.afAuth.signInWithCredential(credential)
-        this.updateUserData(user);
+        const credential = firebase.auth.GoogleAuthProvider.credential(googleUser.authentication.idToken)
+        await this.afAuth.signInWithCredential(credential).then(res => {
+          user = res;
+        })
+
+        this.updateUserData(user.user);
         return user;
 
       } else {
 
-        const { user } = await this.afAuth.signInWithPopup(
+        await this.afAuth.signInWithPopup(
           new firebase.auth.GoogleAuthProvider()
-        );
-        this.updateUserData(user);
-        return user;
+        ).then(res => {
+          user = res;
+        })
+        this.updateUserData(user.user);
 
+        return user;
       }
 
     } catch (error) {
@@ -84,10 +93,13 @@ export class AuthService {
   }
 
   async loginFacebook(): Promise<any> {
+
+    let user;
+
     try {
 
       if (this.platform.is('capacitor')) {
-        
+
         // let googleUser = await GoogleAuth.signIn();
         // const credential = firebase.auth.GoogleAuthProvider.credential(googleUser.authentication.idToken);
         // const { user } = await this.afAuth.signInWithCredential(credential)
@@ -96,12 +108,14 @@ export class AuthService {
 
       } else {
 
-        const { user } = await this.afAuth.signInWithPopup(
+        await this.afAuth.signInWithPopup(
           new firebase.auth.FacebookAuthProvider()
-        );
-        this.updateUserData(user);
-        return user;
+        ).then(res => {
+          user = res;
+        })
 
+        this.updateUserData(user.user);
+        return user;
       }
 
     } catch (error) {

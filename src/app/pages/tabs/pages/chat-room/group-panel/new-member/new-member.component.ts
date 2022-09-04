@@ -20,12 +20,15 @@ export class NewMemberComponent implements OnInit {
 
   ngOnInit() {
     this.getFriends();
+   
    }
 
 
   getFriends() {
     this.loading = true;
     this.friendsSvc.search('').subscribe(res => {
+      console.log(res);
+      
       this.chatSvc.friends$.next(res.data.filter(res => {return !this.currentMembers.includes(res.id)}));
       this.loading = false;            
     })

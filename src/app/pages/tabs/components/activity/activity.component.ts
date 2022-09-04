@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FriendsService } from 'src/app/core/services/friends.service';
 import { GameService } from 'src/app/core/services/game.service';
@@ -14,6 +14,10 @@ import { GameDetailPage } from '../../pages/play/pages/game-detail/game-detail.p
 export class ActivityComponent implements OnInit {
 
   avatar: string = 'assets/img/default-avatar.png';
+  @Input() readNotifications;
+  @Input() unreadNotifications;
+  @Input() loading;
+  
   constructor(
     public notificationSvc: NotificationsService,
     private friendService: FriendsService,
@@ -44,9 +48,10 @@ export class ActivityComponent implements OnInit {
   }
   
   async acceptFriendRequest(e, index) {
+        
     const loading = await this.firebaseService.loader().create();
     await loading.present();
-    this.friendService.acceptRequest(e.connection_id).subscribe(res => {
+    this.friendService.acceptRequest(e.data.connection_id).subscribe(res => {
       this.firebaseService.Toast('Solicitud de amistad aceptada')
       this.markOneAsRead(e.id, index)
       loading.dismiss();
@@ -56,7 +61,7 @@ export class ActivityComponent implements OnInit {
   async declineFriendRequest(e, index) {
     const loading = await this.firebaseService.loader().create();
     await loading.present();
-    this.friendService.declineRequest(e.connection_id).subscribe(res => {
+    this.friendService.declineRequest(e.data.connection_id).subscribe(res => {
       this.firebaseService.Toast('Solicitud de amistad rechazada')
       this.markOneAsRead(e.id, index)
       loading.dismiss();

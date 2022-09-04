@@ -1,7 +1,7 @@
 
   <ion-toolbar [ngClass]="{'stepper-toolbar': stepper}" color="primary">
     <ion-buttons slot="start">
-      <ion-back-button *ngIf="backButton" defaultHref="/"></ion-back-button>
+      <ion-back-button *ngIf="backButton" [defaultHref]="backButton == 'true' ? '/' : backButton"></ion-back-button>
       <ion-button *ngIf="backButtonModal" (click)="close()" shape="round">
              <ion-icon  color="light" style="font-size: 25px;" name="arrow-back"></ion-icon>
       </ion-button>

@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './guards/auth.guard';
-import { CheckLoginGuard } from './guards/check-login.guard';
 import { LoginGuard } from './guards/login.guard';
 import { NoLoginGuard } from './guards/no-login.guard';
 
@@ -24,7 +22,7 @@ const routes: Routes = [
   {
     path: 'signup',
     loadChildren: () =>
-      import('./signup/signup.module').then((m) => m.SignupPageModule),
+      import('./signup/signup.module').then((m) => m.SignupPageModule),canActivate: [LoginGuard]
   },
   {
     path: 'complete-profile',
@@ -32,43 +30,43 @@ const routes: Routes = [
       import('./complete-profile/complete-profile.module').then(
         (m) => m.CompleteProfilePageModule
       ),
-    canLoad: [AuthGuard],
+    canActivate:[NoLoginGuard]
   },
   {
     path: 'step1',
     loadChildren: () =>
       import('./profile/step1/step1.module').then((m) => m.Step1PageModule),
-    canLoad: [AuthGuard],
+    canActivate:[NoLoginGuard]
   },
   {
     path: 'step2',
     loadChildren: () =>
       import('./profile/step2/step2.module').then((m) => m.Step2PageModule),
-    canLoad: [AuthGuard],
+    canActivate:[NoLoginGuard]
   },
   {
     path: 'step3',
     loadChildren: () =>
       import('./profile/step3/step3.module').then((m) => m.Step3PageModule),
-    canLoad: [AuthGuard],
+    canActivate:[NoLoginGuard]
   },
   {
     path: 'step4',
     loadChildren: () =>
       import('./profile/step4/step4.module').then((m) => m.Step4PageModule),
-    canLoad: [AuthGuard],
+    canActivate:[NoLoginGuard]
   },
   {
     path: 'step5',
     loadChildren: () =>
       import('./profile/step5/step5.module').then((m) => m.Step5PageModule),
-    canLoad: [AuthGuard],
+    canActivate:[NoLoginGuard]
   },
   {
     path: 'step6',
     loadChildren: () =>
       import('./profile/step6/step6.module').then((m) => m.Step6PageModule),
-    canLoad: [AuthGuard],
+    canActivate:[NoLoginGuard]
   },
   {
     path: 'verify-email',
@@ -95,12 +93,7 @@ const routes: Routes = [
       import('./pages/create-post/create-post.module').then(
         (m) => m.CreatePostPageModule
       ),
-  },
-  {
-    path: 'chat/:id',
-    loadChildren: () =>
-      import('./pages/chat/chat.module').then((m) => m.ChatPageModule),
-  },  
+  }, 
   {
     path: 'comments/:postId',
     loadChildren: () =>

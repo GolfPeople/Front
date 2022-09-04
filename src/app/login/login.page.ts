@@ -32,6 +32,7 @@ import firebase from 'firebase/compat/app';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { FirebaseService } from '../services/firebase.service';
+import { SuccessComponent } from '../shared/alerts/success/success.component';
 interface LocalFile {
   name: string;
   path: string;
@@ -79,15 +80,29 @@ export class LoginPage implements OnInit {
   }
 
 
-  login({ email, password }) {
+  login(user) {
     this.loadingSvc.presentLoading();
+    this.firebaseSvc.Login(user).then(res => {
+      this.loadingCtrl.dismiss();
+      console.log(res);
+
+      this.loginDB(user)
+    }, error => {
+      this.loadingCtrl.dismiss();
+      this.firebaseSvc.Toast(error.error);
+    })
+  }
+
+  loginDB({ email, password }) {
+    this.loadingSvc.presentLoading();
+
 
     this.loginService.login({ email, password }).subscribe(
       (res) => {
         localStorage.setItem('token', res.access_token);
         // this.loginService.isLogged$.subscribe((data) => console.log(data));
         this.isLoading = false;
-        this.getUserInfo();
+        this.getUserInfo(false);
         this.loadingCtrl.dismiss();
 
       },
@@ -103,13 +118,21 @@ export class LoginPage implements OnInit {
     );
   }
 
-  getUserInfo() {
+  getUserInfo(isNewUser) {
     this.loadingSvc.presentLoading();
     this.userService.getUserInfoToSave().subscribe((data) => {
       this.userService.user.next(data);
       this.userService.userPhoto.next(data.profile.photo);
       this.loadingCtrl.dismiss();
-      this.router.navigate(['/tabs']);
+
+      localStorage.setItem('user_id', data.id)
+
+      if (isNewUser) {
+        this.router.navigate(['/complete-profile']);
+      } else {
+        this.router.navigate(['/tabs']);
+      }
+
     }, error => {
       this.firebaseSvc.Toast('Ha ocurrido un error, intenta de nuevo')
       this.loadingCtrl.dismiss();
@@ -122,25 +145,27 @@ export class LoginPage implements OnInit {
       const user = await this.authSvc.loginFacebook();
       if (user) {
 
-        let userInformation = user.multiFactor.user;
-        console.log(userInformation);
+        let userInformation = user.user.multiFactor.user;
+
         const { email, displayName, uid } = userInformation;
+        if (uid) {
+          const loading = await this.firebaseSvc.loader().create();
+          await loading.present();
 
-        const loading = await this.firebaseSvc.loader().create();
-        await loading.present();
+          this.loginService
+            .socialLogin('facebook', email, displayName, uid)
+            .subscribe((res) => {
+              loading.dismiss();
+              localStorage.setItem('token', res.access_token);
+              this.getUserInfo(user.additionalUserInfo.isNewUser);
+            }, error => {
+              loading.dismiss();
+            });
 
-        this.loginService
-          .socialLogin('facebook', email, displayName, uid)
-          .subscribe((res) => {
-            loading.dismiss();
-            this.userService.getUserInfoToSave();
-            this.router.navigate(['/tabs']);
-          }, error => {
-            loading.dismiss();
-          });
-
-        const isVerified = this.authSvc.isEmailVerified(user);
-
+          const isVerified = this.authSvc.isEmailVerified(user);
+        } else {
+          this.firebaseSvc.Toast('Ha ocurrido un error, intente de nuevo.');
+        }
       }
     } catch (error) {
       console.log('Error -->', error);
@@ -153,23 +178,30 @@ export class LoginPage implements OnInit {
       const user = await this.authSvc.loginGoogle();
       if (user) {
 
-        let userInformation = user.multiFactor.user;
+        let userInformation = user.user.multiFactor.user;
+
         const { email, displayName, uid } = userInformation;
 
-        const loading = await this.firebaseSvc.loader().create();
-        await loading.present();
+        if (uid) {
+          const loading = await this.firebaseSvc.loader().create();
+          await loading.present();
 
-        this.loginService
-          .socialLogin('google', email, displayName, uid)
-          .subscribe((res) => {
-            loading.dismiss();
-            this.userService.getUserInfoToSave();
-            this.router.navigate(['/tabs']);
-          }, error => {
-            loading.dismiss();
-          });
+          this.loginService
+            .socialLogin('google', email, displayName, uid)
+            .subscribe((res) => {
 
-        const isVerified = this.authSvc.isEmailVerified(user);
+              loading.dismiss();
+              this.getUserInfo(user.additionalUserInfo.isNewUser);
+
+            }, error => {
+              loading.dismiss();
+            });
+
+          const isVerified = this.authSvc.isEmailVerified(user);
+        } else {
+          this.firebaseSvc.Toast('Ha ocurrido un error, intente de nuevo.');
+        }
+
 
       }
     } catch (error) {

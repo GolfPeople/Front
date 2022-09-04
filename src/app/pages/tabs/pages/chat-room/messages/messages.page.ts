@@ -4,6 +4,9 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 import * as firebase from 'firebase/compat/app'
 import { ChatService } from 'src/app/core/services/chat/chat.service';
 import { ActivatedRoute } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { map } from 'rxjs/operators';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-messages',
@@ -16,7 +19,7 @@ export class MessagesPage implements OnInit {
   @ViewChild(IonList, { read: ElementRef }) list: ElementRef;
 
   avatarDefault = 'assets/img/default-avatar.png';
-  message = '';
+
   lastMessages = []
   messages = [];
   user_id: number;
@@ -28,21 +31,35 @@ export class MessagesPage implements OnInit {
 
   scrollEl = null;
 
+
+  public noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { 'whitespace': true };
+  }
+
+  msg = new FormControl('', [this.noWhitespaceValidator, Validators.required]);
+
   constructor(
     public chatSvc: ChatService,
-    private modalController: ModalController,
     private actRoute: ActivatedRoute,
-    private firebaseService: FirebaseService) {
+    private firebaseService: FirebaseService,
+    private auth: AngularFireAuth
+  ) {
 
     this.id = parseInt(this.actRoute.snapshot.paramMap.get('id'));
     this.id_msg = this.actRoute.snapshot.paramMap.get('id_msg');
-
+   
   }
 
   ngOnInit() {
 
+
   }
 
+  async getPresence(uid) {
+    this.firebaseService.getPresence(uid)
+  }
 
   ionViewWillEnter() {
     this.getChatRoom();
@@ -50,7 +67,9 @@ export class MessagesPage implements OnInit {
     this.getMessagesDB();
     this.markAsRead();
     this.user_id = JSON.parse(localStorage.getItem('user_id'))
+    console.log(this.auth.currentUser);
   }
+
 
 
   doRefresh(event) {
@@ -73,13 +92,13 @@ export class MessagesPage implements OnInit {
   }
 
   newMessage() {
-    if (this.message) {
+    if (this.msg.valid) {
 
       let message = {
         chatId: this.id,
         user_id: JSON.parse(localStorage.getItem('user_id')),
         created_at: firebase.default.firestore.FieldValue.serverTimestamp(),
-        message: this.message,
+        message: this.msg.value,
         read: false
       }
       this.newMessageDB(message.message);
@@ -89,7 +108,7 @@ export class MessagesPage implements OnInit {
         this.firebaseService.Toast('El mensaje no se pudo enviar, intenta de nuevo.')
       })
 
-      this.message = '';
+      this.msg.reset();
     }
   }
 
@@ -106,8 +125,6 @@ export class MessagesPage implements OnInit {
         }
       })
 
-      console.log(this.lastMessages);
-      
       this.scrollTo();
     })
   }

@@ -4,7 +4,6 @@ import { BehaviorSubject } from 'rxjs';
 import { ChatService } from 'src/app/core/services/chat/chat.service';
 import { FriendsService } from 'src/app/core/services/friends.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
-import { ChatMessagesComponent } from '../../../components/chat-messages/chat-messages.component';
 import * as firebase from 'firebase/compat/app'
 import { UserService } from "src/app/core/services/user.service";
 @Component({
@@ -26,14 +25,12 @@ export class FriendsListPage implements OnInit {
   constructor(
     public chatSvc: ChatService,
     private friendsSvc: FriendsService,
-    private modalController: ModalController,
     private firebaseService: FirebaseService,
     private alertCtrl: AlertController,
     private userSvc: UserService
   ) { }
 
   ngOnInit() {
-
     this.userSvc.getUser(JSON.parse(localStorage.getItem('user_id'))).subscribe(res => {
       this.currentUserData = res;
     })   
@@ -54,7 +51,7 @@ export class FriendsListPage implements OnInit {
 
   getUsers() {
     this.loading = true;
-    this.friendsSvc.search('').subscribe(res => {
+    this.friendsSvc.search('').subscribe(res => {      
       this.chatSvc.friends$.next(res.data);
       this.usersFiltered = this.chatSvc.friends$.value
       this.loading = false;
@@ -98,8 +95,8 @@ export class FriendsListPage implements OnInit {
   }
 
   openSingleChatRoom(friend) {
-    let roomOpened;
-
+    let roomOpened;  
+    
     for (let s of friend.salas) {
       let exist = this.chatSvc.rooms$.value.filter(room => { return room.id == s.id && s.type_id == 2 })[0];
       if (exist) {
@@ -108,27 +105,22 @@ export class FriendsListPage implements OnInit {
     }
 
     if (roomOpened) {
-      this.openChat(roomOpened)
+      this.firebaseService.routerLink('/tabs/chat-room/messages/'+roomOpened.id+'/x');
     } else {
       this.createSingleRoom(friend)
     }
   }
 
-  async createSingleRoom(friend) {
+  async createSingleRoom(friend) { 
   
-    let room = {}   
-
+    let data = {
+      message: 'ㅤ',
+      sale_id: null
+    }
     const loading = await this.firebaseService.loader().create();
     await loading.present();
 
-    this.chatSvc.sendMessage(friend.id, 'ㅤ').subscribe((res: any) => {
-      console.log(res);
-      room = {
-        user: [friend,this.currentUserData],
-        id: res.sala_id,
-        type_id: 2,
-        lastmsg: 'ㅤ'
-      }
+    this.chatSvc.sendMessage(friend.id, data).subscribe((res: any) => {    
       let message = {
         chatId: res.sala_id,
         user_id: JSON.parse(localStorage.getItem('user_id')),
@@ -137,28 +129,18 @@ export class FriendsListPage implements OnInit {
         read: true
       }
       this.firebaseService.addToCollection('messages', message).then(e => {        
-        this.firebaseService.routerLink('/tabs/chat-room/messages/'+res.sala_id);
+        this.firebaseService.routerLink('/tabs/chat-room/messages/'+res.sala_id+'/x');
         loading.dismiss();
       }, error => {
         loading.dismiss();
       })   
     }, error => {
+      loading.dismiss();
       console.log(error);
     })
   }
 
-  async openChat(room) {
-    const modal = await this.modalController.create({
-      component: ChatMessagesComponent,
-      componentProps: { data: room },
-      cssClass: 'messages-modal'
-    });
-    modal.present();
-
-  }
-
-
-
+ 
   async createGroupName() {
     let users = this.chatSvc.friends$.value.filter(e => { return e.isChecked == true });
     if (users.length > 1) {
@@ -216,7 +198,7 @@ export class FriendsListPage implements OnInit {
         read: true
       }
       this.firebaseService.addToCollection('messages', message).then(e => {
-        this.firebaseService.routerLink('/tabs/chat-room/messages/'+res.sala_id);
+        this.firebaseService.routerLink('/tabs/chat-room/messages/'+res.sala_id+'/x');
         loading.dismiss();
       })
 

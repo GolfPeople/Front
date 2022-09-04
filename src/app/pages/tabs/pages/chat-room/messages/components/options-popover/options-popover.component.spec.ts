@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { FriendComponent } from './friend.component';
+import { OptionsPopoverComponent } from './options-popover.component';
 
-describe('FriendComponent', () => {
-  let component: FriendComponent;
-  let fixture: ComponentFixture<FriendComponent>;
+describe('OptionsPopoverComponent', () => {
+  let component: OptionsPopoverComponent;
+  let fixture: ComponentFixture<OptionsPopoverComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ FriendComponent ],
+      declarations: [ OptionsPopoverComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(FriendComponent);
+    fixture = TestBed.createComponent(OptionsPopoverComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

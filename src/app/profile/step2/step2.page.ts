@@ -18,7 +18,7 @@ export class Step2Page implements OnInit {
   isLoading = false;
   nivelSelecionado: number = 4;
   handicap: string = '';
-  handicapDecimal: string = '00';
+  handicapDecimal: string = '0';
   handicapValue: string = `${this.handicap}.${this.handicapDecimal}`;
   timePlaying: number = 0;
   isDisabled: boolean = false;

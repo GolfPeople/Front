@@ -26,6 +26,8 @@ import { LoadingService } from '../core/services/loading/loading.service';
 import { ErrorComponent } from '../shared/alerts/error/error.component';
 import { MyValidations } from '../utils/my-validations';
 import { AuthService } from '../core/services/auth.service';
+import { FirebaseService } from '../services/firebase.service';
+import { UserService } from '../core/services/user.service';
 
 @Component({
   selector: 'app-signup',
@@ -55,8 +57,11 @@ export class SignupPage implements OnInit {
     private loginService: LoginService,
     private modalCtrl: ModalController,
     private fb: FormBuilder,
-    private authSvc: AuthService
-  ) {}
+    private authSvc: AuthService,
+    private firebaseSvc: FirebaseService,
+    private loadingSvc: LoadingService,
+    private userService: UserService
+  ) { }
 
   ngOnInit() {
     this.form = this.initForm();
@@ -71,10 +76,10 @@ export class SignupPage implements OnInit {
         '',
         [
           Validators.required,
-          Validators.minLength(8),
-          Validators.pattern(
-            '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.]).{8,}$'
-          ),
+          Validators.minLength(4),
+          // Validators.pattern(
+          //   '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.]).{8,}$'
+          // ),
         ],
       ],
       password_confirmation: [
@@ -84,15 +89,14 @@ export class SignupPage implements OnInit {
       checked: [false, Validators.requiredTrue],
     });
   }
- 
- 
+
+
   togglePasswordMode() {
     this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
     this.eye = this.eye === 'eye-off' ? 'eye' : 'eye-off';
   }
 
   async successAlert(message, route) {
-    // this.loading.dismissLoading();
     const modal = await this.modalCtrl.create({
       component: SuccessComponent,
       backdropDismiss: false,
@@ -107,8 +111,6 @@ export class SignupPage implements OnInit {
   }
 
   async errorAlert(message) {
-    // this.loading.dismissLoading();
-
     const modal = await this.modalCtrl.create({
       component: ErrorComponent,
       backdropDismiss: true,
@@ -121,8 +123,8 @@ export class SignupPage implements OnInit {
     await modal.present();
   }
 
-  async signup({ email, name, username, password, password_confirmation }) {
-    this.isLoading = true;
+  async signup({ email, name, username, password, password_confirmation }, uid) {
+
     const loading = await this.loadingCtrl.create({
       cssClass: 'loading-ctrl',
     });
@@ -134,18 +136,11 @@ export class SignupPage implements OnInit {
         username,
         password,
         password_confirmation,
-      })
+      }, uid)
       .subscribe(
         (res) => {
-          this.loginService
-            .login({ email, password })
-            .subscribe((res) => console.log(res));
-          console.log(res);
-          this.isLoading = false;
+          this.loginBeforeRegister({ email, password });
           loading.dismiss();
-          const code = res.message;
-          const message = 'Usuario registrado con éxito';
-          this.successAlert(code, '/complete-profile');
         },
         (error) => {
           loading.dismiss();
@@ -158,84 +153,57 @@ export class SignupPage implements OnInit {
       );
   }
 
+  loginBeforeRegister(user) {
+    this.loadingSvc.presentLoading();
+    this.loginService
+      .login(user)
+      .subscribe((res) => {
+        localStorage.setItem('token', res.access_token);
+        this.getUserInfo();
+        this.loadingCtrl.dismiss();
+      }, error => {
+        this.loadingCtrl.dismiss();
+      });
+
+  }
+
+  getUserInfo() {
+    this.loadingSvc.presentLoading();
+    this.userService.getUserInfoToSave().subscribe((data) => {
+      this.userService.user.next(data);
+      this.userService.userPhoto.next(data.profile.photo);
+      this.loadingCtrl.dismiss();
+
+      localStorage.setItem('user_id', data.id)
+
+      this.router.navigate(['/complete-profile']);
+
+    }, error => {
+      this.firebaseSvc.Toast('Ha ocurrido un error, intenta de nuevo')
+      this.loadingCtrl.dismiss();
+    });
+  }
+
   async register(f) {
+    this.loadingSvc.presentLoading();
     try {
       const { email, password } = f.value;
       const user = await this.authSvc.register(email, password);
       if (user) {
-        console.log('User -->', user);
-        const isVerified = this.authSvc.isEmailVerified(user);
-        // this.redirectUser(isVerified)
-      }
-    } catch (error) {}
-  }
 
-  private redirectUser(isVerified: boolean) {
-    // redirect --> admin
-    // else VerificationPage
-    if (isVerified) {
-      this.router.navigate(['/website']);
-    } else {
-      this.router.navigate(['/verify-email']);
+        this.signup(f.value, user.uid);
+
+        const isVerified = this.authSvc.isEmailVerified(user);
+        this.loadingCtrl.dismiss();
+      }
+    } catch (error) {
+      this.firebaseSvc.Toast(error.error)
+      this.loadingCtrl.dismiss();
     }
   }
 
-  // signup({ email, name, password, password_confirmation }) {
-  //   this.isLoading = true;
-  //   this.loadingCtrl
-  //     .create({
-  //       cssClass: 'loading-ctrl',
-  //     })
-  //     .then((loadingEl) => {
-  //       loadingEl.present();
-  //       let authObs: Observable<SignupResponseData>;
-  //       if (this.isSignedUp) {
-  //         authObs = this.signupService.signup({
-  //           email,
-  //           name,
-  //           password,
-  //           password_confirmation,
-  //         });
-  //       }
-  //       authObs.subscribe(
-  //         (resData) => {
-  //           this.loginService
-  //             .login({ email, password })
-  //             .subscribe((res) => console.log(res));
-  //           console.log(resData);
-  //           this.isLoading = false;
-  //           loadingEl.dismiss();
-  //           const code = resData.message;
-  //           const message = 'Usuario registrado con éxito';
-  //           // this.showSuccessAlert(message);
-  //           this.successAlert(code, '/complete-profile');
-  //         },
-  //         (error) => {
-  //           loadingEl.dismiss();
-  //           let message;
-  //           error === 'The email has already been taken.'
-  //             ? (message = 'El email ya ha sido registrado.')
-  //             : (message = 'Error de conexión');
-  //           this.errorAlert(message);
-  //           // this.showAlert(message);
-  //         }
-  //       );
-  //     });
-  // }
-
   onSubmit(f: FormGroup) {
-    console.log(f.value);
-    
     const formValue = f.value;
-    // if (!form.valid) {
-    //   return;
-    // }
-    // const email = form.value.email;
-    // const name = form.value.name;
-    // const password = form.value.password;
-    // const rePassword = form.value.rePassword;
-
-    this.signup(formValue);
     this.register(f);
   }
 

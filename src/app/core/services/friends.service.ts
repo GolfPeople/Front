@@ -15,7 +15,7 @@ export class FriendsService {
   // Método para buscar usuarios
   search(user: string) {
     const params = new HttpParams().set('search', user);
-    return this.http.get<FriendResponse>(`${URL}/connections/search`, {
+    return this.http.get<any>(`${URL}/connections/search`, {
       params,
     });
   }

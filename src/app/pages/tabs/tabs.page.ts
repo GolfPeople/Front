@@ -44,75 +44,72 @@ export class TabsPage implements OnInit {
 
   ngOnInit() {
     this.getUserInfo();
-    this.getChatRooms()
+    this.getChatRoomsNotifications()
     this.getActivityNotification();
+    this.firebaseService.setPresence('online');
   }
 
-  getUserInfo() {   
+  getUserInfo() {
     this.userService.getUserInfoToSave().subscribe((data) => {
       this.userService.user.next(data);
-      this.userService.userPhoto.next(data.profile.photo);  
+      this.userService.userPhoto.next(data.profile.photo);
     });
   }
 
   onLogout() {
     this.loginService.logout();
+    this.firebaseService.logout()
   }
 
-  getChatRooms() {
+  /**=============Notificaciones de chats nuevas============== */
+  getChatRoomsNotifications() {
+
     this.chatSvc.getRoom().subscribe((rooms: any) => {
-      let messages = [];
-      for (let r of rooms) {
-        this.firebaseService.getCollectionConditional('messages',
-          ref => ref
-            .where('chatId', '==', r.id)  
-            .where('read','==',false)      
-            .where('user_id', '!=', JSON.parse(localStorage.getItem('user_id'))))
-          .subscribe(data => {
-
-            let msg = data.map(e => {
-              return {
-                user_id: e.payload.doc.data()['user_id'],
-                read: e.payload.doc.data()['read'],
-                message: e.payload.doc.data()['message'],
-              };
-            })        
-                             
-
-            if(msg.length > 0){
-              this.chatSvc.unread$.next(true)  
-              this.notification.play();
-            }else{
-              this.chatSvc.unread$.next(false) 
-            }
-            
-          })      
-      }
+      
+      let roomsId = rooms.map(r => { return (r.id) });
+      this.firebaseService.getCollectionConditional('messages',
+        ref => ref
+          .where('chatId', 'in', roomsId)
+          .where('read', '==', false)
+          .where('user_id', '!=', parseInt(localStorage.getItem('user_id'))))
+        .subscribe(data => {
+          let msg = data.map(e => {
+            return {
+              user_id: e.payload.doc.data()['user_id'],
+              read: e.payload.doc.data()['read'],
+              message: e.payload.doc.data()['message'],
+            };
+          })
+          if (msg.length) {
+            this.chatSvc.unread$.next(true)
+            this.notification.play();
+          } else {
+            this.chatSvc.unread$.next(false)
+          }
+        })        
     });
   }
 
-
-  getActivityNotification(){
+/**=============Notificación de actividad nueva============== */
+  getActivityNotification() {
     this.firebaseService.getCollectionConditional('activity',
-    ref => ref
-      .where('notification','==',true)      
-      .where('user_id', '==', JSON.parse(localStorage.getItem('user_id'))))
-    .subscribe(data => {
+      ref => ref
+        .where('notification', '==', true)
+        .where('user_id', '==', JSON.parse(localStorage.getItem('user_id'))))
+      .subscribe(data => {
 
-      let notification = data.map(e => {
-        return {
-          user_id: e.payload.doc.data()['user_id'],        
-        };
-      })                        
-
-      if(notification.length > 0){
-        this.chatSvc.unreadActivity$.next(true)  
-        this.notification.play();
-      }else{
-        this.chatSvc.unreadActivity$.next(false) 
-      }
-      
-    })
+        let notification = data.map(e => {
+          return {
+            user_id: e.payload.doc.data()['user_id'],
+          };
+        })
+        if (notification.length > 0) {
+          this.chatSvc.unreadActivity$.next(true)
+          this.notification.play();
+        } else {
+          this.chatSvc.unreadActivity$.next(false)
+        }
+      })
   }
 
   async openQR() {

@@ -5,9 +5,10 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Router } from '@angular/router';
 import { LoadingController, ToastController } from '@ionic/angular';
-// import * as firebase from 'firebase/compat';
-
+import * as firebase from 'firebase/compat/app';
 import { getStorage, ref, uploadString } from "firebase/storage";
+import { of } from 'rxjs';
+import { first, map, switchMap, tap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -23,7 +24,50 @@ export class FirebaseService {
     private db: AngularFirestore,
     private router: Router,
     private http: HttpClient
-  ) { }
+  ) {
+
+    this.updateOnUser().subscribe(); 
+    this.updateOnAway();
+  }
+
+  getPresence(uid: string) {
+    return this.db.doc(`status/${uid}`).valueChanges();
+  }
+
+  getUser() {
+    return this.auth.authState.pipe(first()).toPromise();
+  }
+
+  async setPresence(status: string) {
+    let user = await this.getUser();
+    if (user) {
+      return this.db.collection('status').doc(user.uid).set({
+        status, timestamp: firebase.default.firestore.FieldValue.serverTimestamp()
+      })
+    }
+  }
+
+  updateOnUser() {
+    let connection = this.db.doc('.info/connected').valueChanges().pipe(
+      map(connected => connected ? 'online' : 'offline')
+    );
+
+    return this.auth.authState.pipe(
+      switchMap(user => user ? connection : of('offline')),
+      tap(status => this.setPresence(status))
+    )
+  }
+
+  updateOnAway() {
+    document.onvisibilitychange = (e) => {
+      if (document.visibilityState === 'hidden') {
+        this.setPresence('offline')
+      } else {
+        this.setPresence('online')
+      }
+    }
+  }
+ 
 
   Login(user) {
     return this.auth.signInWithEmailAndPassword(user.email, user.password);
@@ -117,38 +161,25 @@ export class FirebaseService {
     return this.db.collection(collection).get();
   }
 
-  //====Subir imagenes=================
-
-  // async uploadPhoto(id, file): Promise<any> {
-
-  //   if (file && file.length) {
-  //     try {
-  //       const loading = await this.loadingController.create();
-  //       await loading.present();
-
-  //       const task = await this.storage.ref(id).child(id).put(file[0])
-  //       loading.dismiss();
-  //       return this.storage.ref(`${id}/${id}`).getDownloadURL().toPromise();
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  // }  
 
   async uploadPhoto(id, file): Promise<any> {
     const storage = getStorage();
     const storageRef = ref(storage, id);
-    return uploadString(storageRef, file, 'data_url').then(res =>{
+    return uploadString(storageRef, file, 'data_url').then(res => {
       return this.storage.ref(id).getDownloadURL().toPromise();
-    })    
+    })
   }
 
-  logout() {
-    this.auth.signOut().then(() => {
+  async logout() {
+    await this.setPresence('offline');
+    this.auth.signOut().then(async () => {
       localStorage.removeItem('user_id');
-      this.router.navigate(['login']);
     });
   }
+
+
+
+
 
   //============Componentes comunes=========
 

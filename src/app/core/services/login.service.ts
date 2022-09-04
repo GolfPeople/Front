@@ -53,9 +53,7 @@ export class LoginService {
       .pipe(
         tap((response) => {
           this.tokenService.saveToken(response.access_token);
-          this.userSvc.getUserID();
-          // console.log(localStorage.getItem('token'));
-          // console.log(response);
+          this.userSvc.getUserID();        
           this.isLogged.next(true);
           return response;
         }),
@@ -72,7 +70,8 @@ export class LoginService {
     formData.append('email', email);
     formData.append('name', name);
     formData.append('provider_id', provider_id);
-
+    formData.append('firebase_id', provider_id);
+    
     return this.http
       .post<LoginResponseData>(
         `https://api.app.golfpeople.com/api/authorize/callback/${driver}`,
@@ -81,9 +80,7 @@ export class LoginService {
       .pipe(
         tap((res) => {
           this.tokenService.saveToken(res.access_token);
-          this.userSvc.getUserID();
-          // console.log(localStorage.getItem('token'));
-          // console.log(res);
+          this.userSvc.getUserID();         
         }),
         catchError(({ error }) => {
           console.log(error.message);

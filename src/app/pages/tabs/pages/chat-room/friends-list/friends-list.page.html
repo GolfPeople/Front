@@ -25,8 +25,8 @@
             </ion-avatar>
             <ion-label>
               <div class="name">{{f.name}}</div>
-              <div class="country">{{f.profile.address ? f.profile.address : 'Caracas, Venezuela'}}</div>
-              <div class="hcp">HCP 2.5</div>
+              <div *ngIf="f.profile.address" class="country">{{f.profile.address}}</div>
+              <div *ngIf="f.profile.handicap" class="hcp">HCP {{f.profile.handicap}}</div>
             </ion-label>
           </ion-item>
         </div>

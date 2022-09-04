@@ -1,5 +1,5 @@
 <ion-header class="ion-no-border">
-  <app-header backButton="true" title="Mensajes" icon="assets/icons/message.svg">
+  <app-header backButton="/tabs/chat-room" title="Mensajes" icon="assets/icons/message.svg">
   </app-header>
   <div *ngIf="!data">  
     <ion-item class="ion-no-padding">
@@ -15,18 +15,7 @@
   <div *ngIf="data">
   <div *ngIf="data.type_id == 2">
     <div *ngFor="let u of data.user">
-      <ion-item *ngIf="user_id !== u.id" class="ion-no-padding">
-        <ion-avatar (click)="goToUserProfile(u.id)" class="ion-margin">
-          <img [src]="u.profile.photo ? u.profile.photo :  avatarDefault" />
-        </ion-avatar>
-        <ion-label>
-          <h3>{{u.name}}</h3>
-          <span class="online-mark">
-            <ion-icon name="ellipse"></ion-icon>
-          </span>
-          <span class="online-text">En línea</span>
-        </ion-label>
-      </ion-item>
+      <app-user-header *ngIf="user_id !== u.id" [chatId]="id" [user]="u"></app-user-header>      
     </div>
   </div>
   <div *ngIf="data.type_id == 1">
@@ -83,11 +72,12 @@
     </div>
   </ion-list>
 
+  
   <div  style="padding-bottom: 15px;" *ngFor="let msg of messages">
 
     <ion-item *ngIf="data && data.user" lines="none" [ngClass]="{'current-user': msg.user_id == user_id}" class="ion-no-padding msg-item">
 
-      <span slot="start" style="padding-right: 5px;" *ngFor="let u of data.user">
+      <span slot="start" *ngFor="let u of data.user">
         <ion-avatar (click)="goToUserProfile(u.id)" *ngIf="msg.user_id == u.id && msg.user_id !== user_id">
           <img [src]="u.profile.photo ? u.profile.photo :  avatarDefault" />
         </ion-avatar>
@@ -121,11 +111,9 @@
 </ion-fab>
 </ion-content>
 <ion-footer class="ion-no-border">
-
   <div class="msg-input">
-    <textarea placeholder="Escribe un mensaje..." [(ngModel)]="message"></textarea>
-    <ion-icon (click)="newMessage()" class="msg-btn" [color]="message ? 'primary' : 'medium'" name="send-outline">
+    <textarea placeholder="Escribe un mensaje..." [formControl]="msg"></textarea>
+    <ion-icon (click)="newMessage()" class="msg-btn" [color]="msg.valid ? 'primary' : 'medium'" name="send-outline">
     </ion-icon>
   </div>
-
 </ion-footer>

@@ -50,11 +50,8 @@ export class HomePage implements OnInit {
      
     }
   
-    async ngOnInit() {
+    async ngOnInit() {    
     
-      this.userService.getUserInfo().subscribe((res) => {
-        this.userName = res.name;
-      });
       this.notificationsSvc.noReaedCount();
   
       this.friendsSvc.mayKnow(this.peoplePage).subscribe(({ data }) => {
@@ -73,6 +70,13 @@ export class HomePage implements OnInit {
 
       this.getGolfCourses();
       this.getTournaments();
+    }
+
+    ionViewWillEnter(){
+      this.userService.getUserInfo().subscribe((res) => {  
+             
+        this.userName = res.name;
+      });
     }
   
     ionViewDidEnter() {

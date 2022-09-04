@@ -39,6 +39,10 @@ export class ChatRoomPage implements OnInit {
     { id: 5, name: 'Promoción' },
   ]
 
+  readNotifications = [];
+  unreadNotifications = [];
+  loadingNotifications: boolean;
+  
   constructor(
     public chatSvc: ChatService,
     private firebaseService: FirebaseService,
@@ -47,8 +51,8 @@ export class ChatRoomPage implements OnInit {
     public notificationSvc: NotificationsService,
   ) { }
 
-  async ngOnInit() {  
- 
+  async ngOnInit() {
+
   }
 
   ionViewWillEnter() {
@@ -57,13 +61,12 @@ export class ChatRoomPage implements OnInit {
 
   ionViewDidEnter() {
     this.getChatRooms();
-    this.getNotifications();
-    
+    this.getUnreadNotifications();
   }
 
   ionViewWillLeave() {
     let activity = { id: this.uid.toString(), user_id: this.uid, notification: false }
-    this.firebaseService.UpdateCollection('activity', activity);
+    this.firebaseService.addToCollectionById('activity', activity);
   }
 
   filterChats(id) {
@@ -80,22 +83,49 @@ export class ChatRoomPage implements OnInit {
   cleanActivityNotifications() {
     if (this.toggle$.value) {
       let activity = { id: this.uid.toString(), user_id: this.uid, notification: false }
-      this.firebaseService.UpdateCollection('activity', activity);
+      this.firebaseService.addToCollectionById('activity', activity);
     }
   }
 
-  getNotifications() {
+  getUnreadNotifications(){
+    
+    this.loadingNotifications = true;
     this.notificationSvc.noRead().subscribe(res => {
-
-      this.notificationSvc.userNotifications$.next(res.map(notification => {
+      
+      this.unreadNotifications = res.map(notification => {
         return {
           id: notification.id,
           date: notification.created_at,
           data: notification.data.data
         }
-      }))
-
+      })
+       
+      this.getNotifications();
     })
+  }
+
+  getNotifications() {
+    
+    let notificationsId = this.unreadNotifications.map(res => {return (res.id)});
+
+    this.notificationSvc.all().subscribe(res => {
+      this.readNotifications = res.map(notification => {
+        return {
+          id: notification.id,
+          date: notification.created_at,
+          data: notification.data.data
+        }
+      }).filter(res => { return !notificationsId.includes(res.id)} ) 
+
+      this.loadingNotifications = false; 
+    })
+  }
+
+
+
+
+  filterNotifications(){
+    
   }
 
   doRefresh(event) {
@@ -117,7 +147,7 @@ export class ChatRoomPage implements OnInit {
     }
     this.chatSvc.getRoom().subscribe((rooms: any) => {
       this.loading = false;
-      
+
       for (let r of rooms) {
         this.firebaseService.getCollectionConditional('messages',
           ref => ref
@@ -141,21 +171,21 @@ export class ChatRoomPage implements OnInit {
           })
       }
       this.chatSvc.rooms$.next(rooms);
-      this.filteredChats = rooms;   
-          
+      this.filteredChats = rooms;
+
     });
   }
 
 
- async searchMessagesModal() {
-  const modal = await this.modalController.create({
-  component: SearchMessagesComponent,
-  cssClass: 'modal-full'
-  });
- 
-  await modal.present();
- 
- } 
+  async searchMessagesModal() {
+    const modal = await this.modalController.create({
+      component: SearchMessagesComponent,
+      cssClass: 'modal-full'
+    });
+
+    await modal.present();
+
+  }
 
   async openChat(room, index) {
     const modal = await this.modalController.create({

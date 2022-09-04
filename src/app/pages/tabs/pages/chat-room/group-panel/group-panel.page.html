@@ -42,10 +42,10 @@
       <ion-icon color="primary" name="person-add-outline"></ion-icon>
       <div>Añadir</div>
     </div>
-    <div class="ion-text-center cont">
+    <!-- <div (click)="searchMessagesModal()" class="ion-text-center cont">
       <ion-icon color="primary" name="search-outline"></ion-icon>
       <div>Buscar</div>
-    </div>
+    </div> -->
   </div>
 
 
@@ -67,8 +67,8 @@
     </ion-label>
     <span class="ion-text-end" slot="end">   
 
-      <div (click)="confirmDeleteMember(i)" *ngIf="isAdmin && user_id !== u.profile.id"><ion-icon color="medium" style="font-size: 23px;" name="person-remove-outline"></ion-icon></div>
-      <ion-text *ngIf="i == 0" color="primary">
+      <div (click)="confirmDeleteMember(i, u.profile.id)" *ngIf="isAdmin && user_id !== u.profile.id"><ion-icon color="medium" style="font-size: 23px;" name="person-remove-outline"></ion-icon></div>
+      <ion-text *ngIf="u.isAdmin" color="primary">
         Admin
       </ion-text>
     </span>

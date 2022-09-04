@@ -7,11 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { FriendsPageRoutingModule } from './friends-routing.module';
 
 import { FriendsPage } from './friends.page';
-import { FriendComponent } from './components/friend/friend.component';
-
-import { SwiperModule } from 'swiper/angular';
-
-const components = [FriendComponent];
+import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
   imports: [
@@ -19,8 +15,8 @@ const components = [FriendComponent];
     FormsModule,
     IonicModule,
     FriendsPageRoutingModule,
-    SwiperModule,
+    ComponentsModule
   ],
-  declarations: [FriendsPage, components],
+  declarations: [FriendsPage]
 })
 export class FriendsPageModule {}
