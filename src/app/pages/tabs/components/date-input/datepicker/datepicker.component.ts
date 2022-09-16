@@ -12,7 +12,9 @@ export class DatepickerComponent implements OnInit {
   @Input() min;
   constructor(private modalController: ModalController) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    
+   }
 
   close(){
     this.modalController.dismiss();

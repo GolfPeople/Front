@@ -28,7 +28,7 @@ export class CampusPage implements OnInit {
   map;
 
   hiddenMap: boolean = true;
-  hiddenCourses: boolean = false;
+
   constructor(
     public campusSvg: CampusDataService,   
     private modalCtrl: ModalController,
@@ -37,18 +37,6 @@ export class CampusPage implements OnInit {
 
   async ngOnInit() {
     this.getGolfCourses();
-  }
-
-
-  hideGolfCourses(){
-    this.hiddenMap = !this.hiddenMap;
-    if(!this.hiddenMap){
-      setTimeout(() => {
-        this.hiddenCourses = !this.hiddenCourses;
-      }, 600);
-    }else{
-      this.hiddenCourses = !this.hiddenCourses;
-    }
   }
 
   golfCourseDetail(id){ 

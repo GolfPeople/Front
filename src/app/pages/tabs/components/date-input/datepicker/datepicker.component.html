@@ -6,11 +6,14 @@
   </ion-button>
  </ion-buttons>
 </ion-item>
-<ion-datetime presentation="date" *ngIf="min" [(ngModel)]="date" [min]="min"  display-format="DD.MM.YYYY">
+<ion-datetime presentation="date" *ngIf="min" [(ngModel)]="date" [value]="min" [min]="min" display-format="DD.MM.YYYY">
 </ion-datetime> 
 
 <ion-datetime presentation="date" *ngIf="!min" [(ngModel)]="date"  display-format="DD.MM.YYYY">
 </ion-datetime> 
+
+
+
 </ion-content>
 <ion-footer class="ion-no-border">
   <ion-footer class="ion-text-center ion-padding">

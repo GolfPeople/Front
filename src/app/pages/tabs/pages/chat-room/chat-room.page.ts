@@ -8,6 +8,7 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 import { ChatMessagesComponent } from '../../components/chat-messages/chat-messages.component';
 import { SwiperOptions } from 'swiper';
 import { SearchMessagesComponent } from './search-messages/search-messages.component';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-chat-room',
   templateUrl: './chat-room.page.html',
@@ -42,6 +43,7 @@ export class ChatRoomPage implements OnInit {
   readNotifications = [];
   unreadNotifications = [];
   loadingNotifications: boolean;
+
   
   constructor(
     public chatSvc: ChatService,
@@ -49,7 +51,9 @@ export class ChatRoomPage implements OnInit {
     private modalController: ModalController,
     private friendsSvc: FriendsService,
     public notificationSvc: NotificationsService,
-  ) { }
+  ) {
+   
+  }
 
   async ngOnInit() {
 
@@ -57,7 +61,10 @@ export class ChatRoomPage implements OnInit {
 
   ionViewWillEnter() {
     this.uid = JSON.parse(localStorage.getItem('user_id'));
+
   }
+
+
 
   ionViewDidEnter() {
     this.getChatRooms();
@@ -84,14 +91,26 @@ export class ChatRoomPage implements OnInit {
     if (this.toggle$.value) {
       let activity = { id: this.uid.toString(), user_id: this.uid, notification: false }
       this.firebaseService.addToCollectionById('activity', activity);
+      this.unreadNotifications.map(res => {
+      console.log(res);
+      
+        if(res.data.type !== 'games' 
+        && res.data.type !== 'RequestGames' 
+        && res.data.type !== 'friends'){
+
+     
+          this.notificationSvc.markAsReadOne(res.id).subscribe()
+          this.chatSvc.unreadActivityCounter$.next(this.chatSvc.unreadActivityCounter$.value - 1);
+        } 
+      })
     }
   }
 
-  getUnreadNotifications(){
-    
+  getUnreadNotifications() {
+
     this.loadingNotifications = true;
     this.notificationSvc.noRead().subscribe(res => {
-      
+
       this.unreadNotifications = res.map(notification => {
         return {
           id: notification.id,
@@ -99,14 +118,16 @@ export class ChatRoomPage implements OnInit {
           data: notification.data.data
         }
       })
-       
+
+      this.chatSvc.unreadActivityCounter$.next(this.unreadNotifications.length);
+
       this.getNotifications();
     })
   }
 
   getNotifications() {
-    
-    let notificationsId = this.unreadNotifications.map(res => {return (res.id)});
+
+    let notificationsId = this.unreadNotifications.map(res => { return (res.id) });
 
     this.notificationSvc.all().subscribe(res => {
       this.readNotifications = res.map(notification => {
@@ -115,18 +136,12 @@ export class ChatRoomPage implements OnInit {
           date: notification.created_at,
           data: notification.data.data
         }
-      }).filter(res => { return !notificationsId.includes(res.id)} ) 
+      }).filter(res => { return !notificationsId.includes(res.id) })
 
-      this.loadingNotifications = false; 
+      this.loadingNotifications = false;
     })
   }
 
-
-
-
-  filterNotifications(){
-    
-  }
 
   doRefresh(event) {
     setTimeout(() => {

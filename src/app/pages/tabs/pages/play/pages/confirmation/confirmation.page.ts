@@ -26,8 +26,7 @@ export class ConfirmationPage implements OnInit {
   async done() {
 
     let users = this.gameSvc.game.value.users.filter(u => { return u.isChecked == true }).map(u => { return (u.id) })
-    let hours = this.gameSvc.game.value.hours.filter(u => { return u.isChecked == true }).map(u => { return (u.hour) })
-    let extra = this.gameSvc.game.value.extra.filter(u => { return u.isChecked == true }).map(u => { return (u.name) })
+
     let object = {
       name: this.gameSvc.game.value.name,
       date: this.gameSvc.game.value.date,
@@ -36,8 +35,8 @@ export class ConfirmationPage implements OnInit {
       long: this.gameSvc.game.value.long,
       courses_id: this.gameSvc.game.value.campus.id,
       users: users,
-      hours: hours,
-      extra: extra,
+      hours: this.gameSvc.game.value.hour,
+      extra: this.gameSvc.game.value.extra,
       total: this.gameSvc.game.value.total
     }
     
@@ -50,15 +49,47 @@ export class ConfirmationPage implements OnInit {
         this.activityNotification(id);
       })
       this.firebaseSvc.routerLink('tabs/play');
-      this.gameSvc.step$.next(1);
-      this.gameSvc.game.next({} as Game);
-      this.gameSvc.game.value.extra = [];
-      this.gameSvc.game.value.hours = [];      
+      this.resetForm();
+      console.log(res);
+      
     }, error =>{
       this.firebaseSvc.Toast('Ha ocurrido un error, intenta de nuevo');
       loading.dismiss();
     })
   }
+
+  resetForm(){
+    this.gameSvc.step$.next(1);
+    this.gameSvc.game.next({} as Game);
+    this.gameSvc.game.value.extra = [];
+    this.gameSvc.game.value.hours = [];   
+    this.gameSvc.game.value.reservation = [
+      { id: '1', name: 'Buggy', icon: 'assets/icons/buggy.svg', isChecked: false },
+      { id: '2', name: 'Palos', icon: 'assets/icons/equipment.svg', isChecked: false },
+      { id: '2', name: 'Caddy', icon: 'assets/icons/caddy.svg', isChecked: false },
+    ];
+  }
+
+//  async removePlayers() {
+
+
+//     let data = {
+//       user_id: JSON.parse(localStorage.getItem('user_id'))
+//     }
+  
+//     const loading = await this.firebaseSvc.loader().create();
+//     await loading.present();
+//     this.gameSvc.removePlayersFromGame(this.game.id, data).subscribe(res => {
+     
+//       loading.dismiss();
+//     }, err => {
+//       loading.dismiss();
+//       console.log(err);
+      
+//       this.firebaseSvc.Toast('Ha ocurrido un error, inténtalo de nuevo.')
+
+//     })
+//   }
 
   activityNotification(user_id){
     let activity = {id: user_id.toString(), user_id: user_id, notification: true}

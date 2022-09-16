@@ -20,11 +20,17 @@
     {{ gameSvc.game.value.date | date:'dd'}} de {{gameSvc.game.value.date | date:'MMMM'}} <br>
     <!-- 11:15 hr -->
   </div>
-  <div class="players">Jugadores:  {{ gameSvc.game.value.users.length}}</div>
+  <div class="players">Jugadores:  {{gameSvc.game.value.currentUserPlaying ? gameSvc.game.value.users.length + 1 : gameSvc.game.value.users.length}}</div>
 
   <ion-grid fixed>
     <ion-row>
-      <ion-col class="ion-text-center" *ngFor="let u of gameSvc.game.value.users">
+      <ion-col size="3" *ngIf="user && gameSvc.game.value.currentUserPlaying" class="ion-text-center">
+        <ion-avatar style="margin: 0 auto;">
+          <img [src]="user.profile.photo ? user.profile.photo : avatar" />
+        </ion-avatar>
+        <div style="padding-top: 10px;text-transform: capitalize;">Tú</div>
+      </ion-col>
+      <ion-col [size]="gameSvc.game.value.users.length ? '3' : '0'" class="ion-text-center" *ngFor="let u of gameSvc.game.value.users">
         <ion-avatar style="margin: 0 auto;">
           <img [src]="u.profile.photo ? u.profile.photo : avatar" /> 
         </ion-avatar>

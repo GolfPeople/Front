@@ -4,10 +4,8 @@ import { GameService } from 'src/app/core/services/game.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
-import { AlertController, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { CampusDataService } from '../../../campus/services/campus-data.service';
-import { NewReviewComponent } from '../../../campus/pages/campus-detail/components/new-review/new-review.component';
-import { PointsHitsModalComponent } from 'src/app/pages/tabs/components/points-hits-modal/points-hits-modal.component';
 import { AlertConfirmComponent } from 'src/app/pages/tabs/components/alert-confirm/alert-confirm.component';
 
 @Component({
@@ -87,12 +85,21 @@ export class ValidateScoreCardPage implements OnInit {
 }
 
 async validate() {
+  let data = {
+    user_id: JSON.parse(localStorage.getItem('user_id')),
+    game_id: this.id
+  }
+
   const loading = await this.firebaseSvc.loader().create();
   await loading.present();
-  this.gameSvc.changeGameStatus(this.id, 4).subscribe(res => {
+  this.gameSvc.validateScoreCard(data).subscribe(res => {
     this.firebaseSvc.routerLink('/tabs/play/game-finished-success/'+this.detail.campuses_id)
+    console.log(res);
+    
     loading.dismiss();
   }, error => {
+    console.log(error);
+    
     this.firebaseSvc.Toast('Ha ocurrido un error, intenta de nuevo')
     loading.dismiss();
   })
@@ -134,7 +141,8 @@ async validate() {
           status: g.status,
           request_users: g.request_users,
           isInvited: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.status == '1').length ? true : false),
-          pending: (g.request_users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id'))).length ? true : false)
+          pending: (g.request_users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id'))).length ? true : false),
+          validate:(g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && ['2', '4'].includes(u.status) && u.validate).length ? true : false)
         }
       }))
 

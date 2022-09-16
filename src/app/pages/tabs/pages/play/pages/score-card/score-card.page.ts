@@ -182,6 +182,7 @@ export class ScoreCardPage implements OnInit {
       }))    
       
       this.detail = this.gameSvc.games$.value.filter(res => res.id == this.id)[0];
+     console.log(this.detail);
      
       if (this.detail.game_init.path == '1') {
         this.limit = 18;

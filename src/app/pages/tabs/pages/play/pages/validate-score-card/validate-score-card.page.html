@@ -1,6 +1,6 @@
 <app-header backButton="true" title="Scorecard">
 </app-header>
-<div *ngIf="course && detail && detail.status == '2'" class="toolbar-container-btn">
+<div *ngIf="course && detail && (detail.status == '2' && !detail.validate)" class="toolbar-container-btn">
   <div class="title">Valida el ScoreCard</div>
 
   <div  class="btn-container">
@@ -19,7 +19,7 @@
   </div>
 </div>
 
-<div *ngIf="course && detail && detail.status == '4'" class="toolbar-container-btn">
+<div *ngIf="course && detail && (detail.status == '4' || detail.validate)" class="toolbar-container-btn">
   <div class="title">Partida Finalizada</div>
 
 </div>
@@ -167,7 +167,7 @@
     </div>
 
 
-<div *ngIf="detail && detail.status == '2'" class="ion-text-center ion-padding-top">
+<div *ngIf="detail && (detail.status == '2' && !detail.validate)" class="ion-text-center ion-padding-top">
   <div class="ion-padding-vertical">
     <ion-button (click)="validateGame()" class="btn-bottom" color="success" mode="ios" shape="round">
       <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>

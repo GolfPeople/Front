@@ -20,16 +20,12 @@ export class LoginGuard implements CanActivate {
     let token = localStorage.getItem('token');
 
 
-    return this.auth.authState.pipe(map(auth => {
-
-      if(auth && user_id && token){
-        this.router.navigateByUrl('/tabs')
-        return false;
-      }else{ 
-        return true;
-      }  
-       
-    }))
+    if(user_id && token){
+      this.router.navigateByUrl('/tabs')
+      return false;
+    }else{ 
+      return true;
+    }  
    
   }
 

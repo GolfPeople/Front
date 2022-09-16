@@ -8,7 +8,7 @@ const routes: Routes = [
     path: '',
     component: ChatRoomPage
   },   {
-    path: 'friends-list',
+    path: 'friends-list/:type',
     loadChildren: () => import('./friends-list/friends-list.module').then( m => m.FriendsListPageModule)
   },
   {

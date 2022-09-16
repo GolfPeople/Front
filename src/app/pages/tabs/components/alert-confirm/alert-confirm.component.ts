@@ -9,6 +9,7 @@ import { ModalController } from '@ionic/angular';
 export class AlertConfirmComponent implements OnInit {
 
  @Input() confirmText: string;
+ @Input() cancelText: string;
  @Input() content: string;
  @Input() inverseBtn: boolean;
   constructor(private modalController: ModalController) { }

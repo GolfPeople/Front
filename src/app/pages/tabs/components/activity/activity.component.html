@@ -89,25 +89,7 @@
     </ion-item>
 
 
- <!--===============Botones=================-->
-
-
-    <ion-item lines="none">
-      <!--===============Botones para invitaciones de juegos=================-->
-      <ion-buttons *ngIf="n.data.type == 'games'" slot="start">       
-        <ion-button color="success" shape="round" mode="ios" fill="solid" (click)="goToGame(n.data.game_id)">
-          Ver
-        </ion-button>
-      </ion-buttons>
-
-      <!--===============Botones para solicitudes de juego del usuario=================-->
-      <ion-buttons *ngIf="n.data.type == 'RequestGames'" slot="start">        
-        <ion-button color="success" shape="round" mode="ios" fill="solid" (click)="goToGame(n.data.game_id)">
-          Ver
-        </ion-button>
-      </ion-buttons>
-    
-    </ion-item>
+ 
   </div>
 </div>
 

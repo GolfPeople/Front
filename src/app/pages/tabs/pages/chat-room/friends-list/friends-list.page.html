@@ -37,12 +37,12 @@
         <div class="card-user">
           <ion-item lines="none">
             <ion-avatar slot="start">
-              <img [src]="f.profile.photo ? f.profile.photo : '../../../../../assets/img/default-avatar.png'" />
+              <img [src]="f.profile.photo ? f.profile.photo : 'assets/img/default-avatar.png'" />
             </ion-avatar>
             <ion-label>
               <div class="name">{{f.name}}</div>
-              <div class="country">{{f.profile.address ? f.profile.address : 'Caracas, Venezuela'}}</div>
-              <div class="hcp">HCP 2.5</div>
+              <div *ngIf="f.profile.address" class="country">{{f.profile.address}}</div>
+              <div *ngIf="f.profile.handicap" class="hcp">HCP {{f.profile.handicap}}</div>
             </ion-label>
             <ion-checkbox [(ngModel)]="f.isChecked"></ion-checkbox>
           </ion-item>

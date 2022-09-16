@@ -6,6 +6,7 @@ import { FriendsService } from 'src/app/core/services/friends.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import * as firebase from 'firebase/compat/app'
 import { UserService } from "src/app/core/services/user.service";
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-friends-list',
   templateUrl: './friends-list.page.html',
@@ -22,23 +23,37 @@ export class FriendsListPage implements OnInit {
 
   usersFiltered = [];
   searchResult: string = '';
+
+  type: string;
   constructor(
     public chatSvc: ChatService,
     private friendsSvc: FriendsService,
     private firebaseService: FirebaseService,
     private alertCtrl: AlertController,
-    private userSvc: UserService
-  ) { }
+    private userSvc: UserService,
+    private actRoute: ActivatedRoute
+  ) {
+    this.type = this.actRoute.snapshot.paramMap.get('type');
+  }
 
   ngOnInit() {
     this.userSvc.getUser(JSON.parse(localStorage.getItem('user_id'))).subscribe(res => {
       this.currentUserData = res;
-    })   
+    })
 
     this.getUsers();
 
     if (this.chatSvc.rooms$.value.length == 0) {
-      this.getChatRooms();     
+      this.getChatRooms();
+    }
+  }
+
+  ionViewWillEnter() {
+    if (this.type == 'single') {
+      this.toggle$.next(false);
+    }
+    if (this.type == 'group') {
+      this.toggle$.next(true);
     }
   }
 
@@ -51,21 +66,21 @@ export class FriendsListPage implements OnInit {
 
   getUsers() {
     this.loading = true;
-    this.friendsSvc.search('').subscribe(res => {      
+    this.friendsSvc.search('').subscribe(res => {
       this.chatSvc.friends$.next(res.data);
       this.usersFiltered = this.chatSvc.friends$.value
       this.loading = false;
     })
   }
 
-  filterUsers(){
-    if(this.searchResult){
+  filterUsers() {
+    if (this.searchResult) {
       this.usersFiltered = this.chatSvc.friends$.value.filter(user => {
-       return user.name.toLocaleLowerCase().includes(this.searchResult) 
-     }) 
-    }else{
+        return user.name.toLocaleLowerCase().includes(this.searchResult)
+      })
+    } else {
       this.usersFiltered = this.chatSvc.friends$.value
-    }    
+    }
   }
 
   getChatRooms() {
@@ -95,8 +110,8 @@ export class FriendsListPage implements OnInit {
   }
 
   openSingleChatRoom(friend) {
-    let roomOpened;  
-    
+    let roomOpened;
+
     for (let s of friend.salas) {
       let exist = this.chatSvc.rooms$.value.filter(room => { return room.id == s.id && s.type_id == 2 })[0];
       if (exist) {
@@ -105,14 +120,14 @@ export class FriendsListPage implements OnInit {
     }
 
     if (roomOpened) {
-      this.firebaseService.routerLink('/tabs/chat-room/messages/'+roomOpened.id+'/x');
+      this.firebaseService.routerLink('/tabs/chat-room/messages/' + roomOpened.id + '/x');
     } else {
       this.createSingleRoom(friend)
     }
   }
 
-  async createSingleRoom(friend) { 
-  
+  async createSingleRoom(friend) {
+
     let data = {
       message: 'ㅤ',
       sale_id: null
@@ -120,7 +135,7 @@ export class FriendsListPage implements OnInit {
     const loading = await this.firebaseService.loader().create();
     await loading.present();
 
-    this.chatSvc.sendMessage(friend.id, data).subscribe((res: any) => {    
+    this.chatSvc.sendMessage(friend.id, data).subscribe((res: any) => {
       let message = {
         chatId: res.sala_id,
         user_id: JSON.parse(localStorage.getItem('user_id')),
@@ -128,19 +143,19 @@ export class FriendsListPage implements OnInit {
         message: 'ㅤ',
         read: true
       }
-      this.firebaseService.addToCollection('messages', message).then(e => {        
-        this.firebaseService.routerLink('/tabs/chat-room/messages/'+res.sala_id+'/x');
+      this.firebaseService.addToCollection('messages', message).then(e => {
+        this.firebaseService.routerLink('/tabs/chat-room/messages/' + res.sala_id + '/x');
         loading.dismiss();
       }, error => {
         loading.dismiss();
-      })   
+      })
     }, error => {
       loading.dismiss();
       console.log(error);
     })
   }
 
- 
+
   async createGroupName() {
     let users = this.chatSvc.friends$.value.filter(e => { return e.isChecked == true });
     if (users.length > 1) {
@@ -198,7 +213,7 @@ export class FriendsListPage implements OnInit {
         read: true
       }
       this.firebaseService.addToCollection('messages', message).then(e => {
-        this.firebaseService.routerLink('/tabs/chat-room/messages/'+res.sala_id+'/x');
+        this.firebaseService.routerLink('/tabs/chat-room/messages/' + res.sala_id + '/x');
         loading.dismiss();
       })
 

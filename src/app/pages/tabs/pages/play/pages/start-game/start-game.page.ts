@@ -58,7 +58,7 @@ yds = [];
       this.firebaseSvc.routerLink('/tabs/play/score-card/'+this.id);  
       loading.dismiss();
     }, error => {
-      console.log(error);
+      console.log('error en agregar color: ',error);
       loading.dismiss();
     })
   }
@@ -100,6 +100,8 @@ yds = [];
       this.addColor();
       loading.dismiss();
     }, error => {
+      console.log('error en iniciar: ',error);
+      
       this.firebaseSvc.Toast(this.translate.instant('UTILS.error'));
       loading.dismiss();
     })
@@ -134,6 +136,7 @@ yds = [];
       }))
 
       this.detail = this.gameSvc.games$.value.filter(res => res.id == this.id)[0];
+        console.log(this.detail);
         
       this.currentUser = this.detail.users.filter(res => res.id == JSON.parse(localStorage.getItem('user_id')))[0];
       this.getGolfCourse(this.detail.campuses_id);

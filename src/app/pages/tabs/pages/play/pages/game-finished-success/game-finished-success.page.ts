@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { ModalController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { GameService } from 'src/app/core/services/game.service';
 import { UserService } from 'src/app/core/services/user.service';
+import { AlertConfirmComponent } from 'src/app/pages/tabs/components/alert-confirm/alert-confirm.component';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { CampusDataService } from '../../../campus/services/campus-data.service';
 
@@ -31,7 +33,8 @@ export class GameFinishedSuccessPage implements OnInit {
     private userService: UserService,
     private firebaseSvc: FirebaseService,
     public campusSvg: CampusDataService,
-    private actRoute: ActivatedRoute
+    private actRoute: ActivatedRoute,
+    private modalController: ModalController
   ) {
     this.id = this.actRoute.snapshot.paramMap.get('id');
     this.userService.user$.subscribe((data) => {
@@ -77,11 +80,31 @@ async  saveReview() {
       console.log(res);
       this.firebaseSvc.Toast('Reseña guardada exitosamente');
       this.firebaseSvc.routerLink('tabs/play');
+      this.createAgain();
       loading.dismiss();
     }, error => {      
       loading.dismiss();
       this.firebaseSvc.Toast('Ha ocurrido un error, intenta de nuevo');
     })
+  }
+
+  async createAgain() {
+    const modal = await this.modalController.create({
+      component: AlertConfirmComponent,
+      cssClass: 'alert-confirm',
+      componentProps: {
+        confirmText: 'Crear partida',
+        cancelText: 'No, gracias',
+        content: '¿Quieres crear una partida nueva?'
+      }
+    });
+  
+    modal.present();
+  
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+    this.firebaseSvc.routerLink('/tabs/play/create-game/x/x')
+    }
   }
 
   validator(){
@@ -108,7 +131,7 @@ async  saveReview() {
 
   async addImages() {
     const image = await Camera.getPhoto({
-      quality: 50,
+      quality: 70,
       allowEditing: true,
       resultType: CameraResultType.DataUrl,
       promptLabelHeader: 'Imagen',

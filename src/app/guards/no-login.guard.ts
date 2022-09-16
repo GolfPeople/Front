@@ -20,16 +20,12 @@ export class NoLoginGuard implements CanActivate {
     let token = localStorage.getItem('token');
 
 
-    return this.auth.authState.pipe(map(auth => {
-
-      if(auth && user_id && token){        
-        return true;
-      }else{ 
-        this.router.navigateByUrl('/login')
-        return false;
-      }  
-       
-    }))
+    if(user_id && token){        
+      return true;
+    }else{ 
+      this.router.navigateByUrl('/login')
+      return false;
+    }  
    
   }
 }

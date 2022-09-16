@@ -24,7 +24,7 @@ export class InProccessGuard implements CanActivate {
     if(this.gameSvc.game.value.campus){
       return true;
     }else{
-      this.firebaseSvc.routerLink('tabs/play/create-game/x');
+      this.firebaseSvc.routerLink('tabs/play/create-game/x/x');
       return false;
     }
   }

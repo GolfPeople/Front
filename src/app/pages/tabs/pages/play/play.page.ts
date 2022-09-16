@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { GameService } from 'src/app/core/services/game.service';
+import { UserService } from 'src/app/core/services/user.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { SwiperOptions } from 'swiper';
 import { AlertConfirmComponent } from '../../components/alert-confirm/alert-confirm.component';
@@ -43,10 +44,13 @@ export class PlayPage implements OnInit {
   inProccess = [];
   played = [];
   canceled = []
+
+  user
   constructor(
     public gameSvc: GameService,
     private firebaseSvc: FirebaseService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private userService: UserService
   ) { }
 
   ngOnInit() {
@@ -56,6 +60,7 @@ export class PlayPage implements OnInit {
   ionViewWillEnter() {
     this.getAllGames();
     this.getTournaments();
+    this.getCurrentUser();
   }
 
   doRefresh(event) {
@@ -64,6 +69,43 @@ export class PlayPage implements OnInit {
       event.target.complete();
     }, 500)
   }
+
+  getCurrentUser(){
+    this.userService.user$.subscribe((data) => {
+      this.user = data; 
+    });
+  }
+
+  createNewGame(){
+    if(this.user.profile.handicap){
+      this.firebaseSvc.routerLink('/tabs/play/create-game/x/x')
+    }else{
+     this.handicapRequired();
+    }
+
+  }
+
+
+  /**
+*===================Handicap Requerido========================
+*/
+async handicapRequired() {
+  const modal = await this.modalController.create({
+    component: AlertConfirmComponent,
+    cssClass: 'alert-confirm',
+    componentProps: {
+      confirmText: 'Agregar',
+      content: 'Necesitas agregar tu handicap antes de poder crear o participar en una partida.'
+    }
+  });
+
+  modal.present();
+
+  const { data } = await modal.onWillDismiss();
+  if (data) {
+   this.firebaseSvc.routerLink('/tabs/profile/edit')
+  }
+}
 
   changeLabels() {
     if (!this.toggleGameType$.value) {
@@ -132,7 +174,7 @@ export class PlayPage implements OnInit {
     }
     this.gameSvc.getAllGames().subscribe(res => {
       this.loading = false;
-
+      
       this.gameSvc.games$.next(res.data.reverse().map(g => {
 
         return {
@@ -155,7 +197,8 @@ export class PlayPage implements OnInit {
           status: g.status,
           request_users: g.request_users,
           isInvited: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.status == '1').length ? true : false),
-          pending: (g.request_users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id'))).length ? true : false)
+          pending: (g.request_users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id'))).length ? true : false),
+          validate:(g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && ['2', '4'].includes(u.status) && u.validate).length ? true : false)
         }
       }).sort(function (a, b) {
         if (parseInt(a.status) > parseInt(b.status)) {
@@ -168,8 +211,6 @@ export class PlayPage implements OnInit {
       })
 
       )
-
-      console.log(this.gameSvc.games$.value);
 
       this.filterGames();
     })

@@ -1,14 +1,31 @@
 <app-header [title]="!toggle$.value ? 'Mensajes' : 'Actividad'"
   [icon]="!toggle$.value ? 'assets/icons/message.svg' : 'assets/icons/notifications.svg'">
 </app-header>
+<ion-toolbar color="primary">
+  <!-- Mensajes / Actividad Toggle -->
+  <app-toggle-options (click)="cleanActivityNotifications()" [toggle]="toggle$" [options]="toggleOptions">
+  </app-toggle-options>
+</ion-toolbar>
+
 
 <ion-toolbar class="toggle-toolbar" color="primary">
-  <app-toggle-options (click)="cleanActivityNotifications()" [toggle]="toggle$" [options]="toggleOptions"></app-toggle-options>
-  <ion-button *ngIf="!toggle$.value" class="new-msg-btn" routerLink="/tabs/chat-room/friends-list" fill="clear"
-    shape="round">
-    <ion-icon color="secondary" slot="start" name="add-circle-outline"></ion-icon>
-    <span>Nuevo Mensaje</span>
-  </ion-button>
+  <!-- Nuevo mensajes -->
+  <ion-buttons class="ion-padding" *ngIf="!toggle$.value" slot="start">
+    <ion-button slot="start" fill="solid" color="secondary" class="new-msg-btn"
+      routerLink="/tabs/chat-room/friends-list/single" shape="round">
+      <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+      <span>Nuevo Mensaje</span>
+    </ion-button>
+  </ion-buttons>
+
+  <!-- Nuevo Grupo -->
+  <ion-buttons class="ion-padding" *ngIf="!toggle$.value" slot="end">
+    <ion-button fill="solid" color="secondary" class="new-msg-btn" routerLink="/tabs/chat-room/friends-list/group"
+      shape="round">
+      <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+      <span>Nuevo Grupo</span>
+    </ion-button>
+  </ion-buttons>
 </ion-toolbar>
 
 <ion-content>
@@ -29,8 +46,8 @@
 
     <swiper class="p-swipper" [config]="config">
       <ng-template *ngFor="let c of chatFilters" swiperSlide>
-        <ion-button (click)="filterChats(c.id)" expand="block"
-          [color]="filterSelected == c.id ? 'secondary' : 'light'" shape="round">
+        <ion-button (click)="filterChats(c.id)" expand="block" [color]="filterSelected == c.id ? 'secondary' : 'light'"
+          shape="round">
           {{c.name}}
         </ion-button>
       </ng-template>
@@ -38,19 +55,20 @@
 
     <ion-list class="ion-padding" *ngIf="!loading" lines="none">
       <div class="chat-pt" *ngFor="let room of filteredChats; index as i">
-        <ion-item  *ngIf="room.type_id == 1" routerLink="/tabs/chat-room/messages/{{room.id}}/x">
+        <ion-item *ngIf="room.type_id == 1" routerLink="/tabs/chat-room/messages/{{room.id}}/x">
           <ion-avatar>
             <img [src]="room.image ? room.image : 'assets/img/default-avatar-gray.png'" />
           </ion-avatar>
           <ion-label class="ion-margin-start">
             <h3>{{room.name_chat}}</h3>
-            <p *ngIf="room.lastmsg && room.lastmsg !== 'ㅤ'" [ngClass]="room.unreadMsg ? 'unread' : ''">{{room.lastmsg}}</p>
+            <p *ngIf="room.lastmsg && room.lastmsg !== 'ㅤ'" [ngClass]="room.unreadMsg ? 'unread' : ''">{{room.lastmsg}}
+            </p>
             <ion-chip color="medium" mode="ios">
               <ion-label>Grupo</ion-label>
             </ion-chip>
           </ion-label>
           <span slot="end">
-            <div [ngClass]="{'no-msg': !room.unreadMsg}" class="time-ago">{{room.lastDate | timeAgo}}</div>     
+            <div [ngClass]="{'no-msg': !room.unreadMsg}" class="time-ago">{{room.lastDate | timeAgo}}</div>
             <ion-badge *ngIf="room.unreadMsg" color="danger" slot="end">{{room.unreadMsg}}</ion-badge>
           </span>
         </ion-item>
@@ -70,13 +88,13 @@
                   </ion-chip>
                 </ion-label>
                 <span slot="end">
-                  <div [ngClass]="{'no-msg': !room.unreadMsg}" class="time-ago">{{room.lastDate | timeAgo}}</div>     
+                  <div [ngClass]="{'no-msg': !room.unreadMsg}" class="time-ago">{{room.lastDate | timeAgo}}</div>
                   <ion-badge *ngIf="room.unreadMsg" color="danger" slot="end">{{room.unreadMsg}}</ion-badge>
-                </span>                 
+                </span>
               </ion-item>
             </div>
           </div>
-        </div>       
+        </div>
       </div>
     </ion-list>
 
@@ -106,6 +124,7 @@
   </div>
 
   <div class="ion-no-padding" *ngIf="toggle$.value">
-    <app-activity [readNotifications]="readNotifications" [loading]="loadingNotifications" [unreadNotifications]="unreadNotifications"></app-activity>
+    <app-activity [readNotifications]="readNotifications" [loading]="loadingNotifications"
+      [unreadNotifications]="unreadNotifications"></app-activity>
   </div>
 </ion-content>

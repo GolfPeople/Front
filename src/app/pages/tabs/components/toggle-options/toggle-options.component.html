@@ -3,9 +3,10 @@
   <div class="toggle-buttons">
     <button [ngClass]="{'active': toggle.value}" (click)="toggle.next(false)">
       {{options.one}}
+      <span *ngIf="options.one == 'Mensajes' && chatSvc.unread$.value" class="badge">{{chatSvc.unread$.value}}</span>
     </button>
     <button [ngClass]="{'active': !toggle.value}" (click)="toggle.next(true)">{{options.two}}    
-      <ion-icon *ngIf="options.two == 'Actividad' && chatSvc.unreadActivity$.value" class="notification" color="danger" name="ellipse"></ion-icon>
+      <span *ngIf="options.two == 'Actividad' && chatSvc.unreadActivityCounter$.value" class="badge">{{chatSvc.unreadActivityCounter$.value}}</span>
     </button>
   </div>
 </div>

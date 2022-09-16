@@ -25,17 +25,17 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   
-  <div #mapElement class="map"></div>
+  <div #mapElement [ngClass]="{'active': !hiddenMap}" class="map"></div>
 
-  <div [ngClass]="{'none': !hiddenMap}" class="campus-container">
+  <div *ngIf="!loading" class="switch">
+    <ion-button class="ion-no-padding" (click)="hiddenMap = !hiddenMap" shape="round">
+      <ion-icon [name]="hiddenMap ? 'map' : 'list'"></ion-icon>
+    </ion-button>
+  </div>
+
+  
     <div *ngIf="!loading">
-      <div style="padding: 5px 0px 5px 0px;" class="ion-text-center">
-        <ion-button (click)="hideGolfCourses()" class="open-btn">
-          <ion-icon color="medium" [name]="hiddenMap ? 'arrow-down' : 'arrow-up'"></ion-icon>
-        </ion-button>
-      </div>
-
-      <div *ngIf="!hiddenCourses">
+      <div style="padding-top:70px;" *ngIf="hiddenMap">
       <div *ngFor="let g of campusSvg.golfCourses.value" style="padding-top: 5px;" class="ion-padding">
         <div style="border-bottom: 1px solid #DDD;padding-bottom: 10px;">
           <div>
@@ -60,9 +60,9 @@
             <ion-label class="ion-text-wrap">
               <div class="name">{{g.courseName}}</div>
               <div class="av">{{g.address}}</div>
-              <!-- <div class="street">11310 Sotogrande, Cadiz</div> -->
+            
             </ion-label>
-            <!-- <span class="distance" slot="end">0.50 km</span> -->
+ 
           </ion-item>
           <ion-item class="ion-no-padding" lines="none">
             <ion-buttons slot="start">
@@ -109,7 +109,7 @@
         </div>
       </div>
     </div>
-  </div>
+  
 
 
 

@@ -13,9 +13,11 @@
           <div [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="location">{{g.address}}
           </div>
         </ion-label>
+
+      
         <span *ngIf="g.status == '1'" slot="end">
-          <ion-icon class="item-icon" (click)="g.fav = !g.fav" [color]="g.fav ? 'danger' :'medium'"
-            [name]="g.fav ? 'heart' : 'heart-outline'"></ion-icon>
+          <ion-icon routerLink="/tabs/play/edit-game/{{g.id}}" *ngIf="toggleUserGames$.value" class="item-icon-pencil" src="assets/icon/pencil.svg"></ion-icon>
+          <ion-icon class="item-icon" (click)="g.fav = !g.fav" [color]="g.fav ? 'danger' :'medium'" [name]="g.fav ? 'heart' : 'heart-outline'"></ion-icon>
           <ion-icon (click)="share(g.id)" class="item-icon" color="medium" name="share-social-outline"></ion-icon>
         </span>
       </ion-item>
@@ -186,11 +188,11 @@
         <!--================Si la partida finalizó y es del usuario================-->
         <span class="ion-text-center" *ngIf="toggleUserGames$.value && g.status == '2' || g.status == '4'" slot="end">
          <div *ngIf="g.noColor">
-            <ion-button *ngIf="g.status == '2'" routerLink="score-card/{{g.id}}" class="join-btn" mode="ios" color="secondary" shape="round"
+            <ion-button *ngIf="g.status == '2' && !g.validate" routerLink="score-card/{{g.id}}" class="join-btn" mode="ios" color="secondary" shape="round"
               fill="solid">
               Ver Partida
             </ion-button>
-            <ion-button *ngIf="g.status == '4'" routerLink="validate-score-card/{{g.id}}" class="join-btn" mode="ios" color="secondary" shape="round"
+            <ion-button *ngIf="g.status == '4' || g.validate" routerLink="validate-score-card/{{g.id}}" class="join-btn" mode="ios" color="secondary" shape="round"
             fill="solid">
             Ver Resultados
           </ion-button>
@@ -205,7 +207,7 @@
             Ver Resultados
           </ion-button>
           </div>
-          <ion-button (click)="confirmRemove(g.id)" class="btn-group" color="medium" fill="clear" size="small">
+          <ion-button *ngIf="g.status == '4'" (click)="confirmRemove(g.id)" class="btn-group" color="medium" fill="clear" size="small">
             <ion-icon slot="start" name="remove-circle-outline"></ion-icon>
             Eliminar
           </ion-button>

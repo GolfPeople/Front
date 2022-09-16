@@ -16,8 +16,9 @@ export class ChatService {
 
   rooms$ = new BehaviorSubject([]);
   friends$ = new BehaviorSubject([]);
-  unread$ = new BehaviorSubject(false);
+  unread$ = new BehaviorSubject(0);
   unreadActivity$ = new BehaviorSubject(false);
+  unreadActivityCounter$ = new BehaviorSubject(0);
 
   constructor(
     private http: HttpClient,

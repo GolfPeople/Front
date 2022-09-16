@@ -22,6 +22,7 @@ export class FriendsPage implements OnInit {
 
   loadingUsers: boolean;
   loadingFriends: boolean;
+  loadingChats: boolean;
 
   user_id;
 
@@ -48,8 +49,9 @@ export class FriendsPage implements OnInit {
   ionViewWillEnter() {
     this.user_id = JSON.parse(localStorage.getItem('user_id'));
     this.getChatRooms();
-    this.searchUsersOrFriends();    
-  } 
+    this.searchUsersOrFriends();
+    this.getChatRooms();
+  }
 
   searchUsersOrFriends() {
     this.getUsers();
@@ -59,39 +61,48 @@ export class FriendsPage implements OnInit {
   getUsers() {
     this.loadingUsers = true;
     this.friendsSvc.search(this.search).subscribe(res => {
+      this.loadingUsers = false;
+
       this.users = res.data.map(u => {
+
+        let isFriend = u.friends.filter(friend => friend.connections.status == 2)[0]
+        let pending = u.friends.filter(friend => friend.connections.status == 1)[0];
+
         return {
           id: u.id,
           name: u.name,
           profile: u.profile,
           friends: u.friends,
           salas: u.salas,
-          pending: u.friends.filter(f => f.connections.status == 1 && f.connections.id == this.user_id).length
+          isFriend: (isFriend && isFriend.connect.filter(c => c.user_id == this.user_id).length ? true : false),
+          pending: (pending && pending.connect.filter(c => c.user_id == this.user_id).length ? true : false)
         }
-      });     
-      this.loadingUsers = false;
+      });
+
     })
   }
 
   getFriends() {
     this.loadingFriends = true;
     this.friendsSvc.searchFriend(this.search).subscribe(res => {
-      this.friends = res.data;   
+      this.friends = res.data;
       this.loadingFriends = false;
     })
   }
 
-  getChatRooms(){
+  getChatRooms() {
+    this.loadingChats = true;
     this.chatSvc.getRoom().subscribe((rooms: any) => {
       this.chatSvc.rooms$.next(rooms)
+      this.loadingChats = false;
     })
   }
 
   openSingleChatRoom(friend) {
     console.log(friend);
-    
-    let roomOpened;  
-    
+
+    let roomOpened;
+
     for (let s of friend.salas) {
       let exist = this.chatSvc.rooms$.value.filter(room => { return room.id == s.id && s.type_id == 2 })[0];
       if (exist) {
@@ -99,17 +110,14 @@ export class FriendsPage implements OnInit {
       }
     }
 
-    console.log(roomOpened);
-    
-
-    // if (roomOpened) {
-    //   this.firebaseSvc.routerLink('/tabs/chat-room/messages/'+roomOpened.id+'/x');
-    // } else {
-    //   this.createSingleRoom(friend)
-    // }
+    if (roomOpened) {
+      this.firebaseSvc.routerLink('/tabs/chat-room/messages/' + roomOpened.id + '/x');
+    } else {
+      this.createSingleRoom(friend)
+    }
   }
 
-  async createSingleRoom(friend) {     
+  async createSingleRoom(friend) {
     let data = {
       message: 'ㅤ',
       sale_id: null
@@ -118,7 +126,7 @@ export class FriendsPage implements OnInit {
     await loading.present();
 
     this.chatSvc.sendMessage(friend.id, data).subscribe((res: any) => {
-      
+
       let message = {
         chatId: res.sala_id,
         user_id: JSON.parse(localStorage.getItem('user_id')),
@@ -126,12 +134,12 @@ export class FriendsPage implements OnInit {
         message: 'ㅤ',
         read: true
       }
-      this.firebaseSvc.addToCollection('messages', message).then(e => {        
-        this.firebaseSvc.routerLink('/tabs/chat-room/messages/'+res.sala_id+'/x');
+      this.firebaseSvc.addToCollection('messages', message).then(e => {
+        this.firebaseSvc.routerLink('/tabs/chat-room/messages/' + res.sala_id + '/x');
         loading.dismiss();
       }, error => {
         loading.dismiss();
-      })   
+      })
     }, error => {
       loading.dismiss();
       console.log(error);
@@ -143,31 +151,39 @@ export class FriendsPage implements OnInit {
 
   /**===================Dejar de seguir============== */
   async confirmUnfollow(user) {
-    console.log(user);
-    
-    // const modal = await this.modalController.create({
-    //   component: AlertConfirmComponent,
-    //   cssClass: 'alert-confirm',
-    //   componentProps: {
-    //     confirmText: 'Dejar de seguir',
-    //     content: `¿Quieres dejar de seguir a ${(user.name)}?`
-    //   }
-    // });
 
-    // modal.present();
+// obtener el connection_id del usuario
+    user.friends.map(u => {
+      u.connect.map(c => {
+        if(c.user_id == this.user_id){
+         user.connection_id = c.connection_id
+        }
+      })
+    })
 
-    // const { data } = await modal.onWillDismiss();
-    // if (data) {
-    //   this.Unfollow(user)
-    // }
+    const modal = await this.modalController.create({
+      component: AlertConfirmComponent,
+      cssClass: 'alert-confirm',
+      componentProps: {
+        confirmText: 'Dejar de seguir',
+        content: `¿Quieres dejar de seguir a ${(user.name)}?`
+      }
+    });
+
+    modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.Unfollow(user)
+    }
   }
 
   async Unfollow(user) {
+
     const loading = await this.firebaseSvc.loader().create();
     await loading.present();
 
-    this.friendsSvc.declineRequest(user.id).subscribe(res => {
-      console.log(res);
+    this.friendsSvc.declineRequest(user.connection_id).subscribe(res => {
       this.ionViewWillEnter();
       this.firebaseSvc.Toast(`Haz dejado de seguir a ${(user.name)}`)
       loading.dismiss();

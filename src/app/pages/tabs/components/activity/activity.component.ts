@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { ChatService } from 'src/app/core/services/chat/chat.service';
 import { FriendsService } from 'src/app/core/services/friends.service';
 import { GameService } from 'src/app/core/services/game.service';
 import { NotificationsService } from 'src/app/core/services/notifications.service';
@@ -23,7 +24,8 @@ export class ActivityComponent implements OnInit {
     private friendService: FriendsService,
     private firebaseService: FirebaseService,
     private gameSvc: GameService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    public chatSvc: ChatService
   ) { }
 
   ngOnInit() { }
@@ -35,6 +37,7 @@ export class ActivityComponent implements OnInit {
   goToPost(id){   
     this.firebaseService.routerLink('/tabs/post/'+id);   
   }
+
 
   async goToGame(game_id){
     const modal = await this.modalController.create({
@@ -154,7 +157,8 @@ async declineJoinRequest(e, index) {
     const loading = await this.firebaseService.loader().create();
     await loading.present();
 
-    this.notificationSvc.userNotifications$.value.splice(index, 1);
+    this.unreadNotifications.splice(index, 1);
+    this.chatSvc.unreadActivityCounter$.next(this.chatSvc.unreadActivityCounter$.value - 1);
     this.notificationSvc
       .markAsReadOne(notificationId)
       .subscribe((res) => {       

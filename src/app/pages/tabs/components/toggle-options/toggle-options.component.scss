@@ -3,6 +3,18 @@
   top: 2px;
 }
 
+.badge{
+  background: var(--ion-color-danger);
+  padding: 5px;
+  border-radius: 5px;
+  width: 20px;
+  height: 20px;
+
+  &.active{
+    background: var(--ion-color-light);
+  }
+}
+
 .toggle-tab {
     position: relative;
     width: 100%;

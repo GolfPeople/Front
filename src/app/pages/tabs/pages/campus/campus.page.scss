@@ -41,9 +41,26 @@ ion-content {
   --background: none;
 }
 
+.switch{
+  position: absolute;
+  transform: translate(-50%,-50%);
+  top: 7%;
+  left: 91%;
+  z-index: 1;
+  
+  ion-button{
+    width: 60px;
+    height: 60px;
+  }
+}
+
 .map{
   width: 100%;
   height: 100%;
+  display: none;
+  &.active{
+    display: block;
+  }
 }
 
 .container {

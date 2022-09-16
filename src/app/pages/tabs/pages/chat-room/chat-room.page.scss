@@ -20,8 +20,11 @@ h3{
 .new-msg-btn {
   text-transform: capitalize;
   color: white;
-  position: relative;
-  bottom: 10px;
+  font-size: 12px;
+  span{
+   padding-right: 5px;
+  }
+  
 }
 
 .new-msg-btn span {

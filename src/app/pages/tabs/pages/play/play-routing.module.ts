@@ -10,7 +10,7 @@ const routes: Routes = [
     component: PlayPage
   },
   {
-    path: 'create-game/:id',
+    path: 'create-game/:id/:playerId',
     loadChildren: () => import('./pages/create-game/create-game.module').then( m => m.CreateGamePageModule)
   },   {
     path: 'available-hours',
@@ -63,6 +63,10 @@ const routes: Routes = [
   {
     path: 'game-finished-success/:id',
     loadChildren: () => import('./pages/game-finished-success/game-finished-success.module').then( m => m.GameFinishedSuccessPageModule)
+  },
+  {
+    path: 'edit-game/:id',
+    loadChildren: () => import('./pages/edit-game/edit-game.module').then( m => m.EditGamePageModule)
   },
 
 

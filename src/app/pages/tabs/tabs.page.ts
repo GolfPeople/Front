@@ -81,16 +81,18 @@ export class TabsPage implements OnInit {
             };
           })
           if (msg.length) {
-            this.chatSvc.unread$.next(true)
+            console.log('mensajes',msg.length);
+            
+            this.chatSvc.unread$.next(msg.length)
             this.notification.play();
           } else {
-            this.chatSvc.unread$.next(false)
+            this.chatSvc.unread$.next(0)
           }
         })        
     });
   }
 
-/**=============Notificación de actividad nueva============== */
+/**=============Notificación de actividad nuevas============== */
   getActivityNotification() {
     this.firebaseService.getCollectionConditional('activity',
       ref => ref

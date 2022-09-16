@@ -64,9 +64,9 @@
       <p>Socio Real Club Valderrama</p>
     </div>
     <div *ngIf="!isMyProfile" class="header-buttons">
-      <!-- <ion-button
-        [routerLink]="['/chat', id]"
-        *ngIf="following"
+      <ion-button
+       (click)="createSingleRoom()" 
+        *ngIf="following && !loadingChats"
         class="message-button header-button"
       >
         <img
@@ -75,14 +75,13 @@
         />
         Enviar Mensaje
       </ion-button>
-      <ion-button *ngIf="following" class="play-button header-button">
+      <ion-button *ngIf="following" routerLink="/tabs/play/create-game/x/{{userInfo.id}}"  class="play-button header-button">
         <img
           src="../../../../assets/icons/user-profile/play-button.svg"
           alt=""
         />
-
         Jugar Partida
-      </ion-button> -->
+      </ion-button>
       <ion-button
         *ngIf="!following && isPrivate"
         class="request-button"

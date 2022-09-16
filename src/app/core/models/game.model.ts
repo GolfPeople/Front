@@ -10,6 +10,9 @@ export interface Game {
     hours:any[];
     campus: any;  
     skipExtra: boolean;
+    hour: string;
+    reservation: any[]
+    currentUserPlaying: boolean;
   }
 
 export interface Tournament{

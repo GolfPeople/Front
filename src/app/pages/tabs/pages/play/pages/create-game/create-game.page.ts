@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
@@ -5,8 +6,11 @@ import { BehaviorSubject } from 'rxjs';
 import { Campus } from 'src/app/core/models/campus.interface';
 import { Game } from 'src/app/core/models/game.model';
 import { CampusService } from 'src/app/core/services/campus/campus.service';
+import { FriendsService } from 'src/app/core/services/friends.service';
 import { GameService } from 'src/app/core/services/game.service';
+import { UserService } from 'src/app/core/services/user.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { SwiperOptions } from 'swiper';
 import { SelectFriendComponent } from '../../../../components/select-friend/select-friend.component';
 
 @Component({
@@ -15,6 +19,11 @@ import { SelectFriendComponent } from '../../../../components/select-friend/sele
   styleUrls: ['./create-game.page.scss'],
 })
 export class CreateGamePage implements OnInit {
+
+  config: SwiperOptions = {
+    slidesPerView: 3.5,
+    spaceBetween: 10,
+  };
 
   players$ = new BehaviorSubject([]);
   date$ = new BehaviorSubject('');
@@ -29,20 +38,49 @@ export class CreateGamePage implements OnInit {
   creating: boolean;
 
   campus_id;
+  player_id;
+
+  loadingUsers: boolean;
+
+  user;
+
+  currentDate = '';
+
+  currentUserPlaying: boolean = true;
   constructor(
     private modalController: ModalController,
     private campusSvc: CampusService,
     public gameSvc: GameService,
-    private firebaseSvc: FirebaseService,  
-    private actRoute: ActivatedRoute
-  ) { 
-    if(this.actRoute.snapshot.paramMap.get('id') !== 'x'){
+    private firebaseSvc: FirebaseService,
+    private actRoute: ActivatedRoute,
+    private friendsSvc: FriendsService,
+    private userService: UserService,
+    private datePipe: DatePipe
+  ) {
+
+    /**
+     * Si el usuario viene desde un campo, se selecciona el campo automaticamente con su id.
+     * Si este valor es 'x' entonces el campo no se selecciona.
+     */
+    if (this.actRoute.snapshot.paramMap.get('id') !== 'x') {
       this.campus_id = JSON.parse(this.actRoute.snapshot.paramMap.get('id'))
+    } else {
+      this.campus_id = this.actRoute.snapshot.paramMap.get('id')
     }
-    
+
+    /**
+     * Si el usuario viene desde el perfil de un amigo, se agrega ese usuario a la partida automaticamente con su id.
+     * Si este valor es 'x' entonces no hay jugadores selecciona.
+     */
+    if (this.actRoute.snapshot.paramMap.get('playerId') !== 'x') {
+      this.player_id = JSON.parse(this.actRoute.snapshot.paramMap.get('playerId'))
+    } else {
+      this.player_id = this.actRoute.snapshot.paramMap.get('playerId')
+    }
+
   }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.getAllCampus();
     this.creating = false;
   }
@@ -54,16 +92,40 @@ export class CreateGamePage implements OnInit {
     }, 500)
   }
 
+  ionViewWillEnter() {
+    this.getUsers();
+    this.getCurrentUser();
+    this.currentDate = this.datePipe.transform(Date.now(), 'yyyy-MM-dd')+'T00:00:00';
+  }
+
+  getCurrentUser(){
+    this.userService.user$.subscribe((data) => {
+      this.user = data; 
+    });
+  }
+
+  getUsers() {
+    if (this.player_id !== 'x') {
+      this.loadingUsers = true;
+      this.friendsSvc.search('').subscribe(res => {
+        let player = res.data.filter(u => u.id == this.player_id)
+
+        this.loadingUsers = false;
+        this.players$.next(player)
+      });
+    }
+  }
+
   getAllCampus() {
     this.loading = true;
     this.campusSvc.getAllCampus().subscribe(res => {
       this.loading = false;
-       
-      this.campus = res.data;   
-      if(this.campus_id !== 'x'){
-          this.campusSelected = this.campus.filter(res => res.id == this.campus_id)[0];                 
-      }    
-    
+
+      this.campus = res.data;
+      if (this.campus_id !== 'x') {
+        this.campusSelected = this.campus.filter(res => res.id == this.campus_id)[0];
+      }
+
     })
   }
 
@@ -73,26 +135,32 @@ export class CreateGamePage implements OnInit {
     this.gameSvc.game.value.long = this.campusSelected.longitude;
     this.gameSvc.game.value.date = this.date$.value;
     this.gameSvc.game.value.campus = this.campusSelected;
-    this.gameSvc.game.value.campus.hour = this.gameSvc.game.value.campus.hour;  
+    this.gameSvc.game.value.campus.hour = [].push(this.gameSvc.game.value.campus.hour);
     this.gameSvc.game.value.campus.day = this.gameSvc.game.value.campus.day;
     this.gameSvc.game.value.campus.services = this.gameSvc.game.value.campus.services;
     this.gameSvc.game.value.users = this.players$.value;
-   
-    this.firebaseSvc.routerLink('/tabs/play/available-hours');    
+    this.gameSvc.game.value.extra = this.gameSvc.game.value.reservation;
+    this.gameSvc.game.value.currentUserPlaying = this.currentUserPlaying;
+    this.firebaseSvc.routerLink('/tabs/play/available-hours');
   }
 
   async selectPlayers() {
     const modal = await this.modalController.create({
       component: SelectFriendComponent,
-      cssClass: 'fullscreen-modal'
+      cssClass: 'fullscreen-modal',
+      componentProps: {usersId: this.players$.value.map(u => { return (u.profile.id) })}
     });
 
     modal.present();
 
     const { data } = await modal.onWillDismiss();
     if (data) {
-      this.players$.next(data.players)
+      this.players$.value.push(...data.players); 
     }
+  }
+
+  removePlayer(index){
+   this.players$.value.splice(index, 1);
   }
 
   validator() {

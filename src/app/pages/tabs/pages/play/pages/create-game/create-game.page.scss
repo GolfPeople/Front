@@ -3,6 +3,13 @@ ion-content {
 
 }
 
+ion-item{
+  --background: white;
+  ion-checkbox{
+    --background: white;
+  }
+}
+
 .game-btn{
   font-size: 13px;
   text-transform: capitalize;
@@ -56,6 +63,18 @@ ion-content {
   padding: 50px;
   position: fixed;
 
+}
+
+.input-side{
+  display: flex;
+  justify-content: left;
+  align-items: flex-start;
+
+  .input{
+    position: relative;
+    top: 5px;
+    left: 5px;
+  }
 }
 
 .col-content {
@@ -126,4 +145,33 @@ ion-avatar {
 .location-text{
   padding-top: 15px;
   padding-left: 15px;
+}
+
+.extra-card{
+  border-radius: 10px;
+  border: 1px solid #d6d6d6;
+  height: 100px;
+  text-align: center;
+  font-size: 11px;
+  padding: 5px;
+  padding-top: 15px;
+  font-weight: 500;
+ 
+  ion-icon{
+      color: var(--ion-color-medium);
+      font-size: 40px;
+  }
+
+  &.selected{
+      border: 1px solid var(--ion-color-secondary);   
+      ion-icon{
+          color: var(--ion-color-secondary);
+          font-size: 40px;
+      } 
+      color: var(--ion-color-secondary);
+  }  
+  
+  .name{
+      font-size: 11px;       
+  }
 }

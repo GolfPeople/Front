@@ -88,18 +88,13 @@ export class PersonalInfoComponent implements OnInit {
     private personalSvg: PersonalInfoService,
     private userService: UserService,
     private modalCtrl: ModalController,
-    private loadingSvc: LoadingService,
     private loadingCtrl: LoadingController
   ) {}
 
   async ngOnInit() {
-    // this.loadingSvc.presentLoading();
+  
     this.form = this.initForm();
-    const loading = await this.loadingCtrl.create({
-      cssClass: 'loading-ctrl',
-      spinner: 'crescent',
-    });
-    await loading.present();
+
     this.userService.getUserInfo().subscribe((res) => {
       this.id = res.id;
 
@@ -119,7 +114,6 @@ export class PersonalInfoComponent implements OnInit {
         this.form.controls['phone'].setValue(res.profile.phone);
       }
       if (res.profile.address) {
-        // this.form.controls['address'].setValue(res.profile.address);
         this.userAddress = res.profile.address;
       }
       if (res.profile.province) {
@@ -150,8 +144,6 @@ export class PersonalInfoComponent implements OnInit {
         this.form.controls['type'].setValue(res.profile.type);
       }
 
-      // this.loadingSvc.dismissLoading();
-      loading.dismiss();
     });
   }
 
@@ -179,9 +171,6 @@ export class PersonalInfoComponent implements OnInit {
     this.userAddress = address.formatted_address;
     this.userLatitude = address.geometry.location.lat();
     this.userLongitude = address.geometry.location.lng();
-    console.log(this.userAddress);
-    console.log(this.userLatitude);
-    console.log(this.userLongitude);
   }
 
   async openModal() {
@@ -207,11 +196,7 @@ export class PersonalInfoComponent implements OnInit {
     this.form.controls['gender'].setValue(value);
   }
 
-  // selectTimePlaying(event) {
-  //   const element = event.target as HTMLInputElement;
-  //   const value = element.value;
-  //   this.form.controls['timePlaying'].setValue(value);
-  // }
+
 
   selectTypeplayer(event) {
     const element = event.target as HTMLInputElement;
@@ -232,7 +217,6 @@ export class PersonalInfoComponent implements OnInit {
         .updateInfo(dto, this.id)
         .subscribe((res) => {
           loading.dismiss()
-          console.log('RES -->', res)
           this.openModal();
         });
     } catch (error) {}

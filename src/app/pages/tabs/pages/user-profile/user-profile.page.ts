@@ -21,6 +21,9 @@ import SwiperCore, { Pagination, Lazy, Navigation } from 'swiper';
 import { PostsService } from 'src/app/core/services/posts.service';
 import { FriendsService } from 'src/app/core/services/friends.service';
 import { QrModalComponent } from './components/qr-modal/qr-modal.component';
+import { ChatService } from 'src/app/core/services/chat/chat.service';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import * as firebase from 'firebase/compat/app';
 
 SwiperCore.use([Navigation]);
 
@@ -69,6 +72,8 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
     friends: null,
   };
 
+  loadingChats: boolean;
+
   constructor(
     private actRoute: ActivatedRoute,
     private loadingCtrl: LoadingController,
@@ -76,7 +81,9 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
     private location: Location,
     private friendsSvc: FriendsService,
     private postsSvc: PostsService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private firebaseSvc: FirebaseService,
+    public chatSvc: ChatService
   ) {
     this.myId = localStorage.getItem('user_id');
   }
@@ -101,7 +108,7 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
       .subscribe((res) => {
    
         this.userInfo = res;
-
+        
         if (this.userInfo.id == this.myId) {
           this.isMyProfile = true;
           // loading.dismiss();
@@ -173,6 +180,10 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
     if (this.swiper) {
       this.swiper.updateSwiper({});
     }
+  }
+
+  ionViewWillEnter(){
+    this.getChatRooms();
   }
 
   goBack() {
@@ -262,5 +273,44 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
         console.log(error);
       }
     );
+  }
+
+
+
+  async createSingleRoom() {
+    let data = {
+      message: 'ㅤ',
+      sale_id: null
+    }
+    const loading = await this.firebaseSvc.loader().create();
+    await loading.present();
+
+    this.chatSvc.sendMessage(this.userInfo.id, data).subscribe((res: any) => {
+
+      let message = {
+        chatId: res.sala_id,
+        user_id: JSON.parse(localStorage.getItem('user_id')),
+        created_at: firebase.default.firestore.FieldValue.serverTimestamp(),
+        message: 'ㅤ',
+        read: true
+      }
+      this.firebaseSvc.addToCollection('messages', message).then(e => {
+        this.firebaseSvc.routerLink('/tabs/chat-room/messages/' + res.sala_id + '/x');
+        loading.dismiss();
+      }, error => {
+        loading.dismiss();
+      })
+    }, error => {
+      loading.dismiss();
+      console.log(error);
+    })
+  }
+
+  getChatRooms() {
+   this.loadingChats = true;
+    this.chatSvc.getRoom().subscribe((rooms: any) => {
+      this.chatSvc.rooms$.next(rooms)
+      this.loadingChats = false;
+    })
   }
 }

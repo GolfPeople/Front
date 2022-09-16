@@ -21,6 +21,13 @@ export class GameService {
   constructor(private http: HttpClient) {
     this.game.value.extra = [];
     this.game.value.hours = [];
+
+    this.game.value.reservation = [
+      { id: '1', name: 'Buggy', icon: 'assets/icons/buggy.svg', isChecked: false },
+      { id: '2', name: 'Palos', icon: 'assets/icons/equipment.svg', isChecked: false },
+      { id: '2', name: 'Caddy', icon: 'assets/icons/caddy.svg', isChecked: false },
+    ];
+
     this.tournament.value.services = [
       { id: '1', name: 'Buggy', icon: 'assets/icons/buggy.svg', isChecked: false },
       { id: '2', name: 'Equipo', icon: 'assets/icons/equipment.svg', isChecked: false },
@@ -74,6 +81,11 @@ export class GameService {
     return this.http.post<any>(`${API}${environment.gameStatus}${game_id}/${opc}`, {})
   }
 
+  validateScoreCard(data){
+    //data: {user_id, game_id}
+    return this.http.post<any>(`${API}/games/validate/user`, data)
+  }
+
   removeGame(game_id) {
     return this.http.post<any>(`${API}${environment.destroyGame}${game_id}`, {})
   }
@@ -103,4 +115,18 @@ export class GameService {
     return this.http.post<any>(`${API}/games/color/${game_id}`, data)
   }  
   
+  updateGame(game_id, data){
+
+    console.log(game_id, data);
+    
+    return this.http.post<any>(`${API}/games/edit/${game_id}`, data)
+  }
+
+  addPlayersToGame(game_id, data){
+    return this.http.post<any>(`${API}/games/add/users/${game_id}`, data)
+  }
+
+  removePlayersFromGame(game_id, data){
+    return this.http.post<any>(`${API}/games/remove/users/${game_id}`, data)
+  }
 }
