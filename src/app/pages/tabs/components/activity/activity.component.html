@@ -23,7 +23,14 @@
  <!--===============Botones=================-->
 
 
-    <ion-item lines="none">
+    <ion-item *ngIf="notificationTypesWithBtn.includes(n.data.type)" lines="none">
+
+       <!--===============Botón para calificar un campo después de terminar un juego=================-->
+       <ion-buttons *ngIf="n.data.type == 'StatusGames'" slot="start">
+        <ion-button color="success" shape="round" mode="ios" fill="solid" (click)="validateGame(n, i)">
+          Calificar
+        </ion-button>
+      </ion-buttons>
 
       <!--===============Botones para invitaciones de juegos=================-->
       <ion-buttons *ngIf="n.data.type == 'games'" slot="start">

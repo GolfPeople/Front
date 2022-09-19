@@ -8,7 +8,7 @@
   <ion-grid class="ion-padding-vertical" fixed>
     <ion-row *ngIf="!inverseBtn">
       <ion-col size="6">
-        <ion-button (click)="cancel()" expand="block" fill="clear" shape="round">
+        <ion-button class="ion-text-wrap" (click)="cancel()" expand="block" fill="clear" shape="round">
           {{cancelText ? cancelText : 'Cancelar'}}
         </ion-button>
       </ion-col>
@@ -25,7 +25,7 @@
         </ion-button>
       </ion-col>
       <ion-col style="border-left: 1px #DDD solid;" size="6">
-        <ion-button (click)="cancel()" expand="block" fill="clear" shape="round">
+        <ion-button class="ion-text-wrap" (click)="cancel()" expand="block" fill="clear" shape="round">
            {{cancelText ? cancelText : 'Cancelar'}}
         </ion-button>
       </ion-col>     

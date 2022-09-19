@@ -18,6 +18,7 @@ import { GolfCourseItemComponent } from './golf-course-item/golf-course-item.com
 import { PointsHitsModalComponent } from './points-hits-modal/points-hits-modal.component';
 import { TenStarsRatingComponent } from './ten-stars-rating/ten-stars-rating.component';
 import { UsersLoaderComponent } from './users-loader/users-loader.component';
+import { SelectGolfCourseComponent } from './select-golf-course/select-golf-course.component';
 
 
 
@@ -38,7 +39,8 @@ import { UsersLoaderComponent } from './users-loader/users-loader.component';
     GolfCourseItemComponent,
     PointsHitsModalComponent,
     TenStarsRatingComponent,
-    UsersLoaderComponent  
+    UsersLoaderComponent,
+    SelectGolfCourseComponent  
   ],
   declarations: [
     ChatMessagesComponent, 
@@ -56,7 +58,8 @@ import { UsersLoaderComponent } from './users-loader/users-loader.component';
     GolfCourseItemComponent,
     PointsHitsModalComponent,
     TenStarsRatingComponent,
-    UsersLoaderComponent  
+    UsersLoaderComponent,
+    SelectGolfCourseComponent  
   ],
   imports: [
     CommonModule, 

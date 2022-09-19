@@ -19,6 +19,9 @@ export class ActivityComponent implements OnInit {
   @Input() unreadNotifications;
   @Input() loading;
   
+
+  notificationTypesWithBtn = ['games', 'RequestGames','friends','StatusGames']
+
   constructor(
     public notificationSvc: NotificationsService,
     private friendService: FriendsService,
@@ -36,6 +39,27 @@ export class ActivityComponent implements OnInit {
 
   goToPost(id){   
     this.firebaseService.routerLink('/tabs/post/'+id);   
+  }
+
+
+  async validateGame(e, index) {
+    let data = {
+      user_id: JSON.parse(localStorage.getItem('user_id')),
+      game_id: e.data.game_id
+    }
+  
+    const loading = await this.firebaseService.loader().create();
+    await loading.present();
+    this.gameSvc.validateScoreCard(data).subscribe(res => {
+      this.firebaseService.routerLink(`/tabs/play/game-finished-success/x/${e.data.game_id}`)
+      this.markOneAsRead(e.id, index)
+      loading.dismiss();
+    }, error => {
+      console.log(error);
+      
+      this.firebaseService.Toast('Ha ocurrido un error, intenta de nuevo')
+      loading.dismiss();
+    })
   }
 
 

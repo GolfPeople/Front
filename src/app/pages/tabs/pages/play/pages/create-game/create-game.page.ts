@@ -9,9 +9,12 @@ import { CampusService } from 'src/app/core/services/campus/campus.service';
 import { FriendsService } from 'src/app/core/services/friends.service';
 import { GameService } from 'src/app/core/services/game.service';
 import { UserService } from 'src/app/core/services/user.service';
+import { AlertConfirmComponent } from 'src/app/pages/tabs/components/alert-confirm/alert-confirm.component';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { SwiperOptions } from 'swiper';
 import { SelectFriendComponent } from '../../../../components/select-friend/select-friend.component';
+import { CampusDataService } from '../../../campus/services/campus-data.service';
+import { GuestFormComponent } from '../../components/guest-form/guest-form.component';
 
 @Component({
   selector: 'app-create-game',
@@ -47,9 +50,11 @@ export class CreateGamePage implements OnInit {
   currentDate = '';
 
   currentUserPlaying: boolean = true;
+
+  searchCourse = '';
   constructor(
     private modalController: ModalController,
-    private campusSvc: CampusService,
+    private campusSvc: CampusDataService,
     public gameSvc: GameService,
     private firebaseSvc: FirebaseService,
     private actRoute: ActivatedRoute,
@@ -81,7 +86,7 @@ export class CreateGamePage implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllCampus();
+    this.getCourses();
     this.creating = false;
   }
 
@@ -95,12 +100,12 @@ export class CreateGamePage implements OnInit {
   ionViewWillEnter() {
     this.getUsers();
     this.getCurrentUser();
-    this.currentDate = this.datePipe.transform(Date.now(), 'yyyy-MM-dd')+'T00:00:00';
+    this.currentDate = this.datePipe.transform(Date.now(), 'yyyy-MM-dd') + 'T00:00:00';
   }
 
-  getCurrentUser(){
+  getCurrentUser() {
     this.userService.user$.subscribe((data) => {
-      this.user = data; 
+      this.user = data;
     });
   }
 
@@ -116,15 +121,18 @@ export class CreateGamePage implements OnInit {
     }
   }
 
-  getAllCampus() {
+  getCourses() {
     this.loading = true;
-    this.campusSvc.getAllCampus().subscribe(res => {
-      this.loading = false;
+    this.campusSvc.searchCourses(this.searchCourse).subscribe(res => {
 
-      this.campus = res.data;
+      this.loading = false;
+      this.campus = res;
       if (this.campus_id !== 'x') {
         this.campusSelected = this.campus.filter(res => res.id == this.campus_id)[0];
       }
+
+    }, err => {
+      console.log(err);
 
     })
   }
@@ -141,6 +149,7 @@ export class CreateGamePage implements OnInit {
     this.gameSvc.game.value.users = this.players$.value;
     this.gameSvc.game.value.extra = this.gameSvc.game.value.reservation;
     this.gameSvc.game.value.currentUserPlaying = this.currentUserPlaying;
+
     this.firebaseSvc.routerLink('/tabs/play/available-hours');
   }
 
@@ -148,19 +157,37 @@ export class CreateGamePage implements OnInit {
     const modal = await this.modalController.create({
       component: SelectFriendComponent,
       cssClass: 'fullscreen-modal',
-      componentProps: {usersId: this.players$.value.map(u => { return (u.profile.id) })}
+      componentProps: { usersId: this.players$.value.map(u => { return (u.profile.id) }) }
     });
 
     modal.present();
 
     const { data } = await modal.onWillDismiss();
     if (data) {
-      this.players$.value.push(...data.players); 
+      this.players$.value.push(...data.players);
     }
   }
 
-  removePlayer(index){
-   this.players$.value.splice(index, 1);
+  async addGuest() {
+    const modal = await this.modalController.create({
+      component: GuestFormComponent,
+      cssClass: 'fullscreen-modal',
+      componentProps: { playersLength: this.players$.value.length }
+    });
+
+    modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.gameSvc.game.value.guests.push(data.guest)
+    }
+  }
+
+  removePlayer(index) {
+    this.players$.value.splice(index, 1);
+  }
+  removeGuest(index) {
+    this.gameSvc.game.value.guests.splice(index, 1);
   }
 
   validator() {

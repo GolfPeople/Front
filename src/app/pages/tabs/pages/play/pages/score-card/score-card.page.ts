@@ -19,6 +19,7 @@ export class ScoreCardPage implements OnInit {
   detail;
   course;
   selectedHole = new BehaviorSubject(1);
+  reviews = new BehaviorSubject([])
 
   hcpHole;
   parHole;
@@ -115,6 +116,7 @@ export class ScoreCardPage implements OnInit {
       this.getHoleLevel();
       this.getYds();
       this.getHoleData();
+      this.filterReviews();
     }
   }
 
@@ -127,6 +129,7 @@ export class ScoreCardPage implements OnInit {
       this.getHoleLevel();
       this.getYds();
       this.getHoleData();
+      this.filterReviews();
     }
   }
 
@@ -212,6 +215,7 @@ export class ScoreCardPage implements OnInit {
       this.getHCPYPAR();
       this.getHoleLevel();
       this.getYds();
+      this.filterReviews();
       this.loadingCourse = false;
     })
 
@@ -242,6 +246,36 @@ export class ScoreCardPage implements OnInit {
     }
 
    
+  }
+
+  filterReviews() {
+    let averageLevel: any = [];
+
+    this.reviews.next(this.course.reviews.filter(r => r.hole == this.selectedHole.value).map(res => {
+      averageLevel.push(parseInt(res.difficulty))
+      let stars = []
+      for (let i = 1; i < res.rating + 1; i++) {
+        stars.push({ color: 'warning' })
+      }
+
+      if (stars.length < 5) {
+        let reduce = 5 - stars.length;
+        for (let i = 1; i < reduce + 1; i++) {
+          stars.push({ color: 'medium' })
+        }
+      }
+      return {
+        created_at: res.created_at,
+        description: res.description,
+        difficulty: res.difficulty,
+        rating: res.rating,
+        user: res.user,
+        stars: stars,
+        hole: res.hole
+      }
+    }).reverse())
+
+
   }
 
   getYds() {

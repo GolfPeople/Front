@@ -21,6 +21,7 @@ export class GameService {
   constructor(private http: HttpClient) {
     this.game.value.extra = [];
     this.game.value.hours = [];
+    this.game.value.guests = [];
 
     this.game.value.reservation = [
       { id: '1', name: 'Buggy', icon: 'assets/icons/buggy.svg', isChecked: false },

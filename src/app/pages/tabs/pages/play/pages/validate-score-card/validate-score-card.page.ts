@@ -33,6 +33,8 @@ export class ValidateScoreCardPage implements OnInit {
   holeData = [];
   players:any = [];
   course_id;
+
+  isNotValidatedGame:number;
   constructor(
     private translate: TranslateService,
     public gameSvc: GameService,
@@ -93,8 +95,25 @@ async validate() {
   const loading = await this.firebaseSvc.loader().create();
   await loading.present();
   this.gameSvc.validateScoreCard(data).subscribe(res => {
-    this.firebaseSvc.routerLink('/tabs/play/game-finished-success/'+this.detail.campuses_id)
-    console.log(res);
+
+   this.finishGame();
+    
+    loading.dismiss();
+  }, error => {
+    console.log(error);
+    
+    this.firebaseSvc.Toast('Ha ocurrido un error, intenta de nuevo')
+    loading.dismiss();
+  })
+}
+
+
+async finishGame(){
+  const loading = await this.firebaseSvc.loader().create();
+  await loading.present();
+  this.gameSvc.changeGameStatus(this.id,4).subscribe(res => {
+
+    this.firebaseSvc.routerLink(`/tabs/play/game-finished-success/+${this.detail.campuses_id}/${this.id}`)
     
     loading.dismiss();
   }, error => {

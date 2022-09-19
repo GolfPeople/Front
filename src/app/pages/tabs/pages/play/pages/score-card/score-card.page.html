@@ -51,7 +51,7 @@
 <ion-item lines="none"  class="ion-no-padding" *ngIf="detail">
   <ion-label style="font-size: 14px;" class="ion-text-wrap ion-margin-right">
    <div><strong>Modalidad:</strong> {{detail.game_init.modality}}</div> 
-   <div *ngIf="course"><strong>Campo:</strong> {{course.courseName}}</div> 
+   <div *ngIf="course"><strong>Campo:</strong> {{course.courseName ? course.courseName : course.address}}</div> 
   </ion-label>
   <span *ngIf="course" style="font-size: 17px;" class="ion-margin-left ion-text-end" slot="end">
     <div><ion-icon name="thumbs-up-outline"></ion-icon> 0</div>
@@ -148,12 +148,51 @@
       </tr>
     </table>
   </div>
+
   <div *ngIf="yds.length" style="padding-top: 70px;">
-    <div class="label-title">¿Que te ha parecido este hoyo?</div>
+
+    <div class="label-title ion-text-start ion-padding-bottom">Comentarios del Hoyo {{selectedHole.value}}</div>
+
+  <div class="comment-container" *ngFor="let r of reviews.value">
+    <ion-item lines="none" class="ion-no-padding">
+      <ion-avatar>
+        <img
+          [src]="r.user.profile.photo ? r.user.profile.photo : '../../../../../../../../../assets/img/default-avatar.png'" />
+      </ion-avatar>
+      <ion-label class="ion-padding-start">
+        <div class="username">{{r.user.name}}</div>
+        <div class="role">Golfista</div>
+        <div>
+          <ion-icon *ngFor="let s of r.stars" [color]="s.color" name="star"></ion-icon>
+        </div>
+      </ion-label>
+      <span class="level" slot="end">
+        <div>Dificultad</div>
+        <div *ngIf="r.difficulty == 1" class="level-value very-easy">Muy Fácil</div>
+        <div *ngIf="r.difficulty == 2" class="level-value easy">Fácil</div>
+        <div *ngIf="r.difficulty == 3" class="level-value medium">Media</div>
+        <div *ngIf="r.difficulty == 4" class="level-value hard">Difícil</div>
+        <div *ngIf="r.difficulty == 5" class="level-value very-hard">Muy Difícil</div>
+      </span>
+    </ion-item>
+    <p class="comment">
+      {{r.description}}
+    </p>
+
+    <div class="date">{{ r.created_at | timeAgo}}</div>
+  </div>
+
+  <div class="no-comments" *ngIf="reviews.value.length == 0">
+    <ion-icon name="chatbox-outline"></ion-icon>
+    <h3>No hay comentarios disponibles</h3>
+  </div>
+
+ 
+    
     <div class="ion-text-center" style="padding-top: 10px;">
-      <ion-button (click)="newReview()" color="secondary" mode="ios" shape="round">
+      <ion-button class="btn-comment" (click)="newReview()" color="light" expand="block" mode="ios">
         Agregar Reseña
-        <ion-icon slot="start" name="add"></ion-icon>
+        <ion-icon slot="start" class="icon-btn" color="secondary" name="add-circle-outline"></ion-icon>
       </ion-button>
     </div>
   </div>

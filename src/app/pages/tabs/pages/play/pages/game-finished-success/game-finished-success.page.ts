@@ -26,7 +26,8 @@ export class GameFinishedSuccessPage implements OnInit {
   comment = '';
   photos = [];
 
-  id;
+  course_id;
+  game_id;
 
   course;
   constructor(
@@ -34,9 +35,12 @@ export class GameFinishedSuccessPage implements OnInit {
     private firebaseSvc: FirebaseService,
     public campusSvg: CampusDataService,
     private actRoute: ActivatedRoute,
-    private modalController: ModalController
+    private modalController: ModalController,
+    public gameSvc: GameService
   ) {
-    this.id = this.actRoute.snapshot.paramMap.get('id');
+    this.course_id = this.actRoute.snapshot.paramMap.get('course_id');
+    this.game_id = this.actRoute.snapshot.paramMap.get('game_id');
+
     this.userService.user$.subscribe((data) => {
       this.user = data;
     });
@@ -59,7 +63,7 @@ export class GameFinishedSuccessPage implements OnInit {
 
   getGolfCourse() {
     this.campusSvg.getData().subscribe(res => {
-      this.course = res.data.filter(c => this.id == c.id)[0];    
+      this.course = res.data.filter(c => this.course_id == c.id)[0];    
     })
   }
 
@@ -76,11 +80,10 @@ async  saveReview() {
     const loading = await this.firebaseSvc.loader().create();
     await loading.present();
   
-    this.campusSvg.saveGeneralReview(this.id, data).subscribe(res => {
+    this.campusSvg.saveGeneralReview(this.course_id, data).subscribe(res => {
       console.log(res);
       this.firebaseSvc.Toast('Reseña guardada exitosamente');
-      this.firebaseSvc.routerLink('tabs/play');
-      this.createAgain();
+      this.validate();
       loading.dismiss();
     }, error => {      
       loading.dismiss();
@@ -88,23 +91,29 @@ async  saveReview() {
     })
   }
 
-  async createAgain() {
-    const modal = await this.modalController.create({
-      component: AlertConfirmComponent,
-      cssClass: 'alert-confirm',
-      componentProps: {
-        confirmText: 'Crear partida',
-        cancelText: 'No, gracias',
-        content: '¿Quieres crear una partida nueva?'
-      }
-    });
-  
-    modal.present();
-  
-    const { data } = await modal.onWillDismiss();
-    if (data) {
-    this.firebaseSvc.routerLink('/tabs/play/create-game/x/x')
+
+  omit(){
+    this.validate()
+  }
+
+  async validate() {
+    let data = {
+      user_id: JSON.parse(localStorage.getItem('user_id')),
+      game_id: this.game_id
     }
+  
+    const loading = await this.firebaseSvc.loader().create();
+    await loading.present();
+    this.gameSvc.validateScoreCard(data).subscribe(res => {
+  
+      this.firebaseSvc.routerLink('tabs/play');
+      loading.dismiss();
+    }, error => {
+      console.log(error);
+      
+      this.firebaseSvc.Toast('Ha ocurrido un error, intenta de nuevo')
+      loading.dismiss();
+    })
   }
 
   validator(){
@@ -141,7 +150,7 @@ async  saveReview() {
     });
     const loading = await this.firebaseSvc.loader().create();
     await loading.present();
-    let imgUrl = await this.firebaseSvc.uploadPhoto(`course_${this.id}/` + image.dataUrl.slice(30, 40), image.dataUrl);
+    let imgUrl = await this.firebaseSvc.uploadPhoto(`course_${this.course_id}/` + image.dataUrl.slice(30, 40), image.dataUrl);
     this.photos.push(imgUrl);    
     loading.dismiss();
   }

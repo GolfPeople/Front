@@ -61,7 +61,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/tournament-resumen/tournament-resumen.module').then( m => m.TournamentResumenPageModule)
   },
   {
-    path: 'game-finished-success/:id',
+    path: 'game-finished-success/:course_id/:game_id',
     loadChildren: () => import('./pages/game-finished-success/game-finished-success.module').then( m => m.GameFinishedSuccessPageModule)
   },
   {

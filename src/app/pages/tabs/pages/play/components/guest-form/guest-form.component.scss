@@ -2,10 +2,15 @@
     font-size: 13px;
     padding-bottom: 10px;
     padding-top: 20px;
+
   
-    ion-icon {
-      font-size: 20px;
-      position: relative;
-      top: 5px;
+  }
+  
+  .game-btn{
+    font-size: 13px;
+    text-transform: capitalize;
+    ion-icon{
+      padding-right: 5px;
     }
+    
   }

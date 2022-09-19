@@ -51,7 +51,35 @@
             <ion-spinner color="primary"></ion-spinner>
           </div>
 
-          <div class="ion-text-end players-length">{{currentUserPlaying ? players$.value.length + 1 : players$.value.length}} jugadores</div>
+          <div class="ion-text-end players-length">{{currentUserPlaying ? players$.value.length + 1 :
+            players$.value.length}} jugadores</div>
+
+
+
+
+          <div *ngIf="gameSvc.game.value.guests.length" class="players-container">
+            <ion-grid fixed>
+              <ion-row>
+
+                <ion-col class="ion-text-center" *ngFor="let p of gameSvc.game.value.guests; index as i" size="3">
+                  <ion-avatar style="margin: 0 auto;">
+                    <ion-icon (click)="removeGuest(i)" style="position: absolute;font-size: 25px;left: 70%;top: 2%;"
+                      color="secondary" name="close-circle"></ion-icon>
+                    <img [src]="avatar" />
+                  </ion-avatar>
+                  <div style="padding-top: 10px;text-transform: capitalize;">{{p.name}}</div>
+                </ion-col>
+
+              </ion-row>
+            </ion-grid>
+          </div>
+
+          <div class="ion-padding-vertical">
+            <ion-item class="ion-no-padding">
+              <ion-label>Agregar jugadores no registrados</ion-label>
+              <ion-icon (click)="addGuest()" slot="end" color="secondary" name="add-circle"></ion-icon>
+            </ion-item>
+          </div>
 
           <div class="ion-padding-vertical">
             <ion-item class="ion-no-padding">
@@ -59,6 +87,7 @@
               <ion-checkbox color="secondary" [(ngModel)]="currentUserPlaying" slot="end"></ion-checkbox>
             </ion-item>
           </div>
+
 
 
           <div class="label">¿Cuando?</div>
@@ -77,7 +106,8 @@
               </ion-select-option>
             </ion-select>
           </div>
-
+          <!-- <ion-input type="text" [(ngModel)]="campusSelected" class="select-container input-name"
+          placeholder="Ingresa un nombre para la partida"></ion-input> -->
 
           <div class="input-side">
             <div class="label">

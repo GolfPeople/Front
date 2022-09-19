@@ -1,14 +1,29 @@
-<div class="label">
-  Nombre del invitado
-</div>
-<ion-input type="text" class="select-container input-name" placeholder="Pedro Perez"></ion-input>
+<app-header backButtonModal="true" icon="../../../../assets/icons/tab/play.svg" title="Agregar Invitado"></app-header>
+<ion-content class="ion-padding">
 
-<div class="label">
-  Handicap
-</div>
-<ion-input type="number" class="select-container input-name" placeholder="50.0"></ion-input>
+  <div class="label">
+    Nombre del invitado
+  </div>
+  <ion-input type="text" [formControl]="name" class="select-container input-name" placeholder="Pedro Perez"></ion-input>
 
-<div class="label">
-  Correo
-</div>
-<ion-input type="email" class="select-container input-name" placeholder="Pedro Perez"></ion-input>
+  <div class="label">
+    Handicap
+  </div>
+  <ion-input type="number" [formControl]="handicap" class="select-container input-name" placeholder="50.0"></ion-input>
+
+  <div class="label">
+    Correo
+  </div>
+  <ion-input type="email" [formControl]="email" class="select-container input-name" placeholder="pedro@gmail.com">
+  </ion-input>
+
+  <div class="ion-text-center ion-padding-top">
+    <ion-button [disabled]="!validator()" (click)="addGuest()" class="game-btn" mode="ios" color="secondary"
+      expand="block" shape="round">
+      <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
+      Añadir invitado
+    </ion-button>
+
+  </div>
+  
+</ion-content>

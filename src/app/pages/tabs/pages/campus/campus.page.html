@@ -1,24 +1,10 @@
 <app-header backButton="true" title="Campos" icon="../../../../../assets/icons/golf-flag.svg"></app-header>
+<ion-toolbar color="primary" class="search-container">
+  
+  <ion-searchbar [(ngModel)]="search" (ionChange)="getCourses()"  placeholder="Buscar" [debounce]="1000"></ion-searchbar>
+</ion-toolbar>
 
-<ion-fab-list side="start">
-  <ion-fab-button>
-    <ion-icon name="logo-ionic"></ion-icon>
-  </ion-fab-button>
-  <ion-fab-button>
-    <ion-icon name="logo-angular"></ion-icon>
-  </ion-fab-button>
-</ion-fab-list>
-<div class="search-container">
-  <h3>Resultados de tu búsqueda</h3>
-  <div class="search">
-    <img src="../../../../../assets/icons/geolocation.svg" alt="" />
-    <input type="text" placeholder="Busca algún campo" />
 
-    <a>
-      <img src="../../../../../assets/icons/cancel-circle-grey.svg" alt="" />
-    </a>
-  </div>
-</div>
 <ion-content>
 
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">

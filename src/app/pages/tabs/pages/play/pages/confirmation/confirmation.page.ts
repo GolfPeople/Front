@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { Game } from 'src/app/core/models/game.model';
 import { GameService } from 'src/app/core/services/game.service';
+import { AlertConfirmComponent } from 'src/app/pages/tabs/components/alert-confirm/alert-confirm.component';
 import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
@@ -13,7 +15,8 @@ export class ConfirmationPage implements OnInit {
 
   constructor(
     public gameSvc: GameService,
-    private firebaseSvc: FirebaseService
+    private firebaseSvc: FirebaseService,
+    private modalController: ModalController
   ) { }
 
   ngOnInit() {
@@ -37,7 +40,8 @@ export class ConfirmationPage implements OnInit {
       users: users,
       hours: this.gameSvc.game.value.hour,
       extra: this.gameSvc.game.value.extra,
-      total: this.gameSvc.game.value.total
+      total: this.gameSvc.game.value.total,
+      guess: this.gameSvc.game.value.guests
     }
     
     const loading = await this.firebaseSvc.loader().create();
@@ -48,9 +52,14 @@ export class ConfirmationPage implements OnInit {
       users.map(id => {
         this.activityNotification(id);
       })
-      this.firebaseSvc.routerLink('tabs/play');
-      this.resetForm();
-      console.log(res);
+
+      if(!this.gameSvc.game.value.currentUserPlaying){
+        this.removePlayers(res.id)
+      }else{
+        this.firebaseSvc.routerLink('tabs/play');
+        this.createAgain()
+        this.resetForm();
+      }
       
     }, error =>{
       this.firebaseSvc.Toast('Ha ocurrido un error, intenta de nuevo');
@@ -58,11 +67,31 @@ export class ConfirmationPage implements OnInit {
     })
   }
 
+  async createAgain() {
+    const modal = await this.modalController.create({
+      component: AlertConfirmComponent,
+      cssClass: 'alert-confirm',
+      componentProps: {
+        confirmText: 'Crear partida',
+        cancelText: 'No, gracias',
+        content: '¿Quieres crear una partida nueva?'
+      }
+    });
+  
+    modal.present();
+  
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+    this.firebaseSvc.routerLink('/tabs/play/create-game/x/x')
+    }
+  }
+
   resetForm(){
     this.gameSvc.step$.next(1);
     this.gameSvc.game.next({} as Game);
     this.gameSvc.game.value.extra = [];
-    this.gameSvc.game.value.hours = [];   
+    this.gameSvc.game.value.hours = [];  
+    this.gameSvc.game.value.guests = []; 
     this.gameSvc.game.value.reservation = [
       { id: '1', name: 'Buggy', icon: 'assets/icons/buggy.svg', isChecked: false },
       { id: '2', name: 'Palos', icon: 'assets/icons/equipment.svg', isChecked: false },
@@ -70,26 +99,28 @@ export class ConfirmationPage implements OnInit {
     ];
   }
 
-//  async removePlayers() {
+ async removePlayers(game_id) {
 
 
-//     let data = {
-//       user_id: JSON.parse(localStorage.getItem('user_id'))
-//     }
+    let data = {
+      user_id: JSON.parse(localStorage.getItem('user_id'))
+    }
   
-//     const loading = await this.firebaseSvc.loader().create();
-//     await loading.present();
-//     this.gameSvc.removePlayersFromGame(this.game.id, data).subscribe(res => {
-     
-//       loading.dismiss();
-//     }, err => {
-//       loading.dismiss();
-//       console.log(err);
+    const loading = await this.firebaseSvc.loader().create();
+    await loading.present();
+    this.gameSvc.removePlayersFromGame(game_id, data).subscribe(res => {
+      this.firebaseSvc.routerLink('tabs/play');
+      this.createAgain()
+      this.resetForm();
+      loading.dismiss();
+    }, err => {
+      loading.dismiss();
+      console.log(err);
       
-//       this.firebaseSvc.Toast('Ha ocurrido un error, inténtalo de nuevo.')
+      this.firebaseSvc.Toast('Ha ocurrido un error, inténtalo de nuevo.')
 
-//     })
-//   }
+    })
+  }
 
   activityNotification(user_id){
     let activity = {id: user_id.toString(), user_id: user_id, notification: true}

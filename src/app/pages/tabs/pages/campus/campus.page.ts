@@ -29,6 +29,7 @@ export class CampusPage implements OnInit {
 
   hiddenMap: boolean = true;
 
+  search = '';
   constructor(
     public campusSvg: CampusDataService,   
     private modalCtrl: ModalController,
@@ -36,7 +37,7 @@ export class CampusPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-    this.getGolfCourses();
+    this.getCourses()
   }
 
   golfCourseDetail(id){ 
@@ -77,33 +78,31 @@ export class CampusPage implements OnInit {
     }, 500)
   }
 
-
-  getGolfCourses() {
+  getCourses(){
     this.loading = true;
-    this.campusSvg.getData().subscribe(async ({ data }) => {  
-      this.campusSvg.golfCourses.next(data.reverse());
+    this.campusSvg.searchCourses(this.search).subscribe(res =>{
+      this.campusSvg.golfCourses.next(res.reverse());
       this.loading = false;
-      // console.log(this.campusSvg.golfCourses.value);
         
-      let markers: Marker[] = data.map(m => {
+      let markers: Marker[] = res.map(m => {
         return {
           position: {
             lat: parseInt(m.latitude),
             lng: parseInt(m.longitude)
           },
           title: m.id.toString(),
-          icon: '../../../../../assets/img/marker-golfp.png'
+          icon: 'assets/img/marker-golfp.png'
         }
       })
 
       if (markers) {
          this.createMap(markers);   
-      }       
-      },
-      (error) => {
-        console.log('Error -->', error);
-      }
-    );
+      }   
+   
+    }, err =>{
+console.log(err);
+
+    })
   }
 
 

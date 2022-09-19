@@ -212,6 +212,8 @@ async handicapRequired() {
 
       )
 
+      console.log(this.gameSvc.games$.value);
+      
       this.filterGames();
     })
   }

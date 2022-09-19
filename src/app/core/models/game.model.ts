@@ -13,6 +13,7 @@ export interface Game {
     hour: string;
     reservation: any[]
     currentUserPlaying: boolean;
+    guests: any[]
   }
 
 export interface Tournament{

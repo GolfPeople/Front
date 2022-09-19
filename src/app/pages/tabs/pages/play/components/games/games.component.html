@@ -14,10 +14,12 @@
           </div>
         </ion-label>
 
-      
+
         <span *ngIf="g.status == '1'" slot="end">
-          <ion-icon routerLink="/tabs/play/edit-game/{{g.id}}" *ngIf="toggleUserGames$.value" class="item-icon-pencil" src="assets/icon/pencil.svg"></ion-icon>
-          <ion-icon class="item-icon" (click)="g.fav = !g.fav" [color]="g.fav ? 'danger' :'medium'" [name]="g.fav ? 'heart' : 'heart-outline'"></ion-icon>
+          <ion-icon routerLink="/tabs/play/edit-game/{{g.id}}" *ngIf="toggleUserGames$.value" class="item-icon-pencil"
+            src="assets/icon/pencil.svg"></ion-icon>
+          <ion-icon class="item-icon" (click)="g.fav = !g.fav" [color]="g.fav ? 'danger' :'medium'"
+            [name]="g.fav ? 'heart' : 'heart-outline'"></ion-icon>
           <ion-icon (click)="share(g.id)" class="item-icon" color="medium" name="share-social-outline"></ion-icon>
         </span>
       </ion-item>
@@ -33,8 +35,7 @@
 
         <!--================Partidas en pendiente que no son del usuario================-->
         <ion-buttons *ngIf="!toggleUserGames$.value && g.status == '1' && !g.pending && !g.isInvited" slot="end">
-          <ion-button (click)="openGameDetail(g.id)" class="join-btn" color="secondary" shape="round"
-            fill="solid">
+          <ion-button (click)="openGameDetail(g.id)" class="join-btn" color="secondary" shape="round" fill="solid">
             Solicitar unirme
           </ion-button>
         </ion-buttons>
@@ -44,12 +45,12 @@
         <span class="ion-text-center" *ngIf="!toggleUserGames$.value && g.isInvited" slot="end">
           <div style="font-size: 12px;font-weight: 600;color: var(--ion-color-medium);padding-bottom: 5px;">¡Has sido
             invitado <br> a esta partida!</div>
-            <div>
-              <ion-button style="width: 90px;" (click)="openGameDetail(g.id)" class="join-btn" mode="ios"
-                color="success" shape="round" fill="solid">
-                Ver Partida
-              </ion-button>
-            </div>
+          <div>
+            <ion-button style="width: 90px;" (click)="openGameDetail(g.id)" class="join-btn" mode="ios" color="success"
+              shape="round" fill="solid">
+              Ver Partida
+            </ion-button>
+          </div>
           <div>
             <ion-button style="width: 90px;" (click)="acceptGameRequest(g)" class="join-btn" mode="ios"
               color="secondary" shape="round" fill="solid">
@@ -64,8 +65,7 @@
 
         <!--================Partidas en pendiente que no son del usuario================-->
         <ion-buttons *ngIf="!toggleUserGames$.value && g.status == '1' && g.pending" slot="end">
-          <ion-button (click)="openGameDetail(g.id)" class="join-btn" color="medium" shape="round"
-            fill="solid">
+          <ion-button (click)="openGameDetail(g.id)" class="join-btn" color="medium" shape="round" fill="solid">
             Pendiente...
           </ion-button>
         </ion-buttons>
@@ -85,14 +85,14 @@
         <!--================Si la partida finalizó y es del usuario================-->
         <span class="ion-text-center" *ngIf="toggleUserGames$.value && g.status == '2' || g.status == '4'" slot="end">
           <div>
-            <ion-button *ngIf="g.status == '2'" routerLink="score-card/{{g.id}}" class="join-btn" mode="ios" color="secondary" shape="round"
-              fill="solid">
+            <ion-button *ngIf="g.status == '2'" routerLink="score-card/{{g.id}}" class="join-btn" mode="ios"
+              color="secondary" shape="round" fill="solid">
               Ver Resultados
             </ion-button>
-            <ion-button *ngIf="g.status == '4'" routerLink="validate-score-card/{{g.id}}" class="join-btn" mode="ios" color="secondary" shape="round"
-            fill="solid">
-            Ver Resultados
-          </ion-button>
+            <ion-button *ngIf="g.status == '4'" routerLink="validate-score-card/{{g.id}}" class="join-btn" mode="ios"
+              color="secondary" shape="round" fill="solid">
+              Ver Resultados
+            </ion-button>
           </div>
           <ion-button (click)="confirmRemove(g.id)" class="btn-group" color="medium" fill="clear" size="small">
             <ion-icon slot="start" name="remove-circle-outline"></ion-icon>
@@ -109,7 +109,7 @@
         class="ion-no-padding">
         <ion-buttons>
           <ion-button class="btn-group" fill="solid" size="small" shape="round" color="secondary"
-          (click)="openGameDetail(g.id)">
+            (click)="openGameDetail(g.id)">
             <span>Ver Partida</span>
           </ion-button>
           <ion-button routerLink="/tabs/play/start-game/{{g.id}}" class="btn-group" fill="solid" size="small"
@@ -161,8 +161,7 @@
 
         <!--================Partidas en pendiente que no son del usuario================-->
         <ion-buttons *ngIf="!toggleUserGames$.value && g.status == '1' && !g.pending && !g.isInvited" slot="end">
-          <ion-button (click)="openGameDetail(g.id)" class="join-btn" color="secondary" shape="round"
-            fill="solid">
+          <ion-button (click)="openGameDetail(g.id)" class="join-btn" color="secondary" shape="round" fill="solid">
             Solicitar unirme
           </ion-button>
         </ion-buttons>
@@ -184,37 +183,39 @@
           </ion-button>
         </span>
 
-            
+
         <!--================Si la partida finalizó y es del usuario================-->
-        <span class="ion-text-center" *ngIf="toggleUserGames$.value && g.status == '2' || g.status == '4'" slot="end">
-         <div *ngIf="g.noColor">
-            <ion-button *ngIf="g.status == '2' && !g.validate" routerLink="score-card/{{g.id}}" class="join-btn" mode="ios" color="secondary" shape="round"
-              fill="solid">
+        <span class="ion-text-center" *ngIf="toggleUserGames$.value && (g.status == '2' || g.status == '4')" slot="end">
+          <div *ngIf="g.noColor">
+            <ion-button *ngIf="g.status == '2' && !g.validate" routerLink="score-card/{{g.id}}" class="join-btn"
+              mode="ios" color="secondary" shape="round" fill="solid">
               Ver Partida
             </ion-button>
-            <ion-button *ngIf="g.status == '4' || g.validate" routerLink="validate-score-card/{{g.id}}" class="join-btn" mode="ios" color="secondary" shape="round"
-            fill="solid">
-            Ver Resultados
-          </ion-button>
+            <ion-button *ngIf="g.status == '4' || g.validate" routerLink="validate-score-card/{{g.id}}" class="join-btn"
+              mode="ios" color="secondary" shape="round" fill="solid">
+              Ver Resultados
+            </ion-button>
           </div>
           <div *ngIf="!g.noColor">
-            <ion-button *ngIf="g.status == '2'" routerLink="start-game/{{g.id}}" class="join-btn" mode="ios" color="secondary" shape="round"
-              fill="solid">
+            <ion-button *ngIf="g.status == '2'" routerLink="start-game/{{g.id}}" class="join-btn" mode="ios"
+              color="secondary" shape="round" fill="solid">
               Iniciar
             </ion-button>
-            <ion-button *ngIf="g.status == '4'" routerLink="validate-score-card/{{g.id}}" class="join-btn" mode="ios" color="secondary" shape="round"
-            fill="solid">
-            Ver Resultados
-          </ion-button>
+            <ion-button *ngIf="g.status == '4'" routerLink="validate-score-card/{{g.id}}" class="join-btn" mode="ios"
+              color="secondary" shape="round" fill="solid">
+              Ver Resultados
+            </ion-button>
           </div>
-          <ion-button *ngIf="g.status == '4'" (click)="confirmRemove(g.id)" class="btn-group" color="medium" fill="clear" size="small">
+            
+          <ion-button *ngIf="g.status == '4'" (click)="confirmRemove(g.id)" class="btn-group" color="medium"
+            fill="clear" size="small">
             <ion-icon slot="start" name="remove-circle-outline"></ion-icon>
             Eliminar
           </ion-button>
         </span>
       </ion-item>
       <div [ngClass]="{'less-pb': toggleUserGames$.value}" class="players-length">Jugadores: {{g.users.length}}</div>
- 
+
     </div>
   </div>
 
@@ -251,8 +252,7 @@
 
         <!--================Partidas en pendiente que no son del usuario================-->
         <ion-buttons *ngIf="!toggleUserGames$.value && g.status == '1' && !g.pending && !g.isInvited" slot="end">
-          <ion-button (click)="openGameDetail(g.id)" class="join-btn" color="secondary" shape="round"
-            fill="solid">
+          <ion-button (click)="openGameDetail(g.id)" class="join-btn" color="secondary" shape="round" fill="solid">
             Solicitar unirme
           </ion-button>
         </ion-buttons>
@@ -276,8 +276,7 @@
 
         <!--================Partidas en pendiente que no son del usuario================-->
         <ion-buttons *ngIf="!toggleUserGames$.value && g.status == '1' && g.pending" slot="end">
-          <ion-button (click)="openGameDetail(g.id)" class="join-btn" color="medium" shape="round"
-            fill="solid">
+          <ion-button (click)="openGameDetail(g.id)" class="join-btn" color="medium" shape="round" fill="solid">
             Pendiente...
           </ion-button>
         </ion-buttons>
@@ -296,15 +295,23 @@
 
         <!--================Si la partida finalizó y es del usuario================-->
         <span class="ion-text-center" *ngIf="toggleUserGames$.value && g.status == '2' || g.status == '4'" slot="end">
-         <div>
-            <ion-button *ngIf="g.status == '2'" routerLink="score-card/{{g.id}}" class="join-btn" mode="ios" color="secondary" shape="round"
-              fill="solid">
+          <div>
+            <div>
+              <ion-button style="width: 139px;" *ngIf="g.status == '4' && !g.validate"
+              routerLink="/tabs/play/game-finished-success/{{g.campuses_id}}/{{g.id}}" class="join-btn" mode="ios"
+              color="success" shape="round" fill="solid">
+              Calificar
+            </ion-button>
+            </div>
+            
+            <ion-button *ngIf="g.status == '2'" routerLink="score-card/{{g.id}}" class="join-btn" mode="ios"
+              color="secondary" shape="round" fill="solid">
               Ver Resultados
             </ion-button>
-            <ion-button *ngIf="g.status == '4'" routerLink="validate-score-card/{{g.id}}" class="join-btn" mode="ios" color="secondary" shape="round"
-            fill="solid">
-            Ver Resultados
-          </ion-button>
+            <ion-button *ngIf="g.status == '4'" routerLink="validate-score-card/{{g.id}}" class="join-btn" mode="ios"
+              color="secondary" shape="round" fill="solid">
+              Ver Resultados
+            </ion-button>
           </div>
           <ion-button (click)="confirmRemove(g.id)" class="btn-group" color="medium" fill="clear" size="small">
             <ion-icon slot="start" name="remove-circle-outline"></ion-icon>
@@ -321,7 +328,7 @@
         class="ion-no-padding">
         <ion-buttons>
           <ion-button class="btn-group" fill="solid" size="small" shape="round" color="secondary"
-          (click)="openGameDetail(g.id)">
+            (click)="openGameDetail(g.id)">
             <span>Ver Partida</span>
           </ion-button>
           <ion-button routerLink="/tabs/play/start-game/{{g.id}}" class="btn-group" fill="solid" size="small"
@@ -373,8 +380,7 @@
 
         <!--================Partidas en pendiente que no son del usuario================-->
         <ion-buttons *ngIf="!toggleUserGames$.value && g.status == '1' && !g.pending && !g.isInvited" slot="end">
-          <ion-button (click)="openGameDetail(g.id)" class="join-btn" color="secondary" shape="round"
-            fill="solid">
+          <ion-button (click)="openGameDetail(g.id)" class="join-btn" color="secondary" shape="round" fill="solid">
             Solicitar unirme
           </ion-button>
         </ion-buttons>
@@ -398,8 +404,7 @@
 
         <!--================Partidas en pendiente que no son del usuario================-->
         <ion-buttons *ngIf="!toggleUserGames$.value && g.status == '1' && g.pending" slot="end">
-          <ion-button (click)="openGameDetail(g.id)" class="join-btn" color="medium" shape="round"
-            fill="solid">
+          <ion-button (click)="openGameDetail(g.id)" class="join-btn" color="medium" shape="round" fill="solid">
             Pendiente...
           </ion-button>
         </ion-buttons>
@@ -418,15 +423,15 @@
 
         <!--================Si la partida finalizó y es del usuario================-->
         <span class="ion-text-center" *ngIf="toggleUserGames$.value && g.status == '2' || g.status == '4'" slot="end">
-         <div>
-            <ion-button *ngIf="g.status == '2'" routerLink="score-card/{{g.id}}" class="join-btn" mode="ios" color="secondary" shape="round"
-              fill="solid">
+          <div>
+            <ion-button *ngIf="g.status == '2'" routerLink="score-card/{{g.id}}" class="join-btn" mode="ios"
+              color="secondary" shape="round" fill="solid">
               Ver Resultados
             </ion-button>
-            <ion-button *ngIf="g.status == '4'" routerLink="validate-score-card/{{g.id}}" class="join-btn" mode="ios" color="secondary" shape="round"
-            fill="solid">
-            Ver Resultados
-          </ion-button>
+            <ion-button *ngIf="g.status == '4'" routerLink="validate-score-card/{{g.id}}" class="join-btn" mode="ios"
+              color="secondary" shape="round" fill="solid">
+              Ver Resultados
+            </ion-button>
           </div>
           <ion-button (click)="confirmRemove(g.id)" class="btn-group" color="medium" fill="clear" size="small">
             <ion-icon slot="start" name="remove-circle-outline"></ion-icon>
@@ -443,7 +448,7 @@
         class="ion-no-padding">
         <ion-buttons>
           <ion-button class="btn-group" fill="solid" size="small" shape="round" color="secondary"
-          (click)="openGameDetail(g.id)">
+            (click)="openGameDetail(g.id)">
             <span>Ver Partida</span>
           </ion-button>
           <ion-button routerLink="/tabs/play/start-game/{{g.id}}" class="btn-group" fill="solid" size="small"

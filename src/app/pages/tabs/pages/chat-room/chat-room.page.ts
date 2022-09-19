@@ -92,13 +92,12 @@ export class ChatRoomPage implements OnInit {
       let activity = { id: this.uid.toString(), user_id: this.uid, notification: false }
       this.firebaseService.addToCollectionById('activity', activity);
       this.unreadNotifications.map(res => {
-      console.log(res);
       
         if(res.data.type !== 'games' 
         && res.data.type !== 'RequestGames' 
-        && res.data.type !== 'friends'){
-
-     
+        && res.data.type !== 'friends'
+        && res.data.type !== 'StatusGames'
+        ){
           this.notificationSvc.markAsReadOne(res.id).subscribe()
           this.chatSvc.unreadActivityCounter$.next(this.chatSvc.unreadActivityCounter$.value - 1);
         } 
@@ -120,7 +119,7 @@ export class ChatRoomPage implements OnInit {
       })
 
       this.chatSvc.unreadActivityCounter$.next(this.unreadNotifications.length);
-
+      
       this.getNotifications();
     })
   }
@@ -138,6 +137,8 @@ export class ChatRoomPage implements OnInit {
         }
       }).filter(res => { return !notificationsId.includes(res.id) })
 
+
+      console.log(this.readNotifications);
       this.loadingNotifications = false;
     })
   }

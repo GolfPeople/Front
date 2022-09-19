@@ -50,4 +50,11 @@ export class CampusDataService {
   saveGeneralReview(course_id, data){
     return this.http.post<any>(`${URL}/campus/ratings/${course_id}`, data);
   }
+ 
+  searchCourses(name: string) {
+    const params = new HttpParams().set('search', name);
+    return this.http.get<any>(`${URL}/campus/search`, {
+      params,
+    });
+  }
 }
