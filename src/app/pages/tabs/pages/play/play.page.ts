@@ -86,6 +86,24 @@ export class PlayPage implements OnInit {
   }
 
 
+
+  async removeGame() {
+  
+    this.gameSvc.games$.value.map(game => {
+      this.gameSvc.removeGame(game.id).subscribe(res => {
+       console.log(res);
+  
+      }, error => {
+        this.firebaseSvc.Toast('Ha ocurrido un error, intenta de nuevo')
+  
+      })
+
+    })
+
+ 
+  }
+
+
   /**
 *===================Handicap Requerido========================
 */
@@ -174,6 +192,7 @@ async handicapRequired() {
     }
     this.gameSvc.getAllGames().subscribe(res => {
       this.loading = false;
+      console.log(res);
       
       this.gameSvc.games$.next(res.data.reverse().map(g => {
 

@@ -54,7 +54,7 @@
    <div *ngIf="course"><strong>Campo:</strong> {{course.courseName ? course.courseName : course.address}}</div> 
   </ion-label>
   <span *ngIf="course" style="font-size: 17px;" class="ion-margin-left ion-text-end" slot="end">
-    <div><ion-icon name="thumbs-up-outline"></ion-icon> 0</div>
+    <div><ion-icon name="heart-outline"></ion-icon> 0</div>
     <span *ngIf="stars.length"><ion-icon *ngFor="let s of stars" [color]="s.color" [name]="s.color == 'warning' ? 'star': 'star-outline'"></ion-icon></span> 
     <span *ngIf="!stars.length"><ion-icon *ngFor="let s of [1,1,1,1,1]" color="medium" name="star-outline"></ion-icon></span> 
   </span>

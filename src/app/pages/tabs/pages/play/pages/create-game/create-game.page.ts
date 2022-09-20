@@ -10,6 +10,7 @@ import { FriendsService } from 'src/app/core/services/friends.service';
 import { GameService } from 'src/app/core/services/game.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { AlertConfirmComponent } from 'src/app/pages/tabs/components/alert-confirm/alert-confirm.component';
+import { SelectGolfCourseComponent } from 'src/app/pages/tabs/components/select-golf-course/select-golf-course.component';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { SwiperOptions } from 'swiper';
 import { SelectFriendComponent } from '../../../../components/select-friend/select-friend.component';
@@ -100,6 +101,7 @@ export class CreateGamePage implements OnInit {
   ionViewWillEnter() {
     this.getUsers();
     this.getCurrentUser();
+
     this.currentDate = this.datePipe.transform(Date.now(), 'yyyy-MM-dd') + 'T00:00:00';
   }
 
@@ -165,6 +167,20 @@ export class CreateGamePage implements OnInit {
     const { data } = await modal.onWillDismiss();
     if (data) {
       this.players$.value.push(...data.players);
+    }
+  }
+
+  async selectGolfCourse() {
+    const modal = await this.modalController.create({
+      component: SelectGolfCourseComponent,
+      cssClass: 'fullscreen-modal'
+    });
+
+    modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      console.log(data.course);
     }
   }
 

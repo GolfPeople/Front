@@ -177,19 +177,16 @@ async finishGame(){
     })
   }
 
-
-
   getGolfCourse(game) {
-
-    this.campusSvg.getData().subscribe(res => {
-
-      this.course = res.data.filter(c => game.campuses_id == c.id)[0];
+   
+    this.campusSvg.getCourseGames(game.campuses_id).subscribe(res =>{
+      
+      this.course = res;
       this.course.teesList = JSON.parse(this.course.teesList);
       this.course.scorecarddetails = JSON.parse(this.course.scorecarddetails);
-
       this.getPlayersData();
-
     })
+
   }
 
   getPlayersData() {

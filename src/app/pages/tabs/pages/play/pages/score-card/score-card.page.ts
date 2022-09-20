@@ -204,10 +204,13 @@ export class ScoreCardPage implements OnInit {
     this.holeData = this.detail.points.filter(res => res.hole == this.selectedHole.value.toString());
   }
 
-  getGolfCourse(game) {
   
-    this.campusSvg.getData().subscribe(res => {
-      this.course = res.data.filter(c => game.campuses_id == c.id)[0];
+
+  getGolfCourse(game) {
+    this.loadingCourse = true;
+    this.campusSvg.getCourseGames(game.campuses_id).subscribe(res =>{
+      
+      this.course = res;
       this.course.teesList = JSON.parse(this.course.teesList);
       this.course.scorecarddetails = JSON.parse(this.course.scorecarddetails);
       
@@ -219,7 +222,6 @@ export class ScoreCardPage implements OnInit {
       this.loadingCourse = false;
     })
 
-   
   }
 
   getRating(){

@@ -66,12 +66,12 @@
         </div>
 
         <div style="padding-top: 15px;" class="ion-text-center">
-            <ion-button *ngIf="!game.pending && !game.isMember && !game.isOwner && !game.isInvited" (click)="wantToJoin()" class="join-btn" mode="ios" color="success" shape="round">
+            <!-- <ion-button *ngIf="!game.pending && !game.isMember && !game.isOwner && !game.isInvited" (click)="wantToJoin()" class="join-btn" mode="ios" color="success" shape="round">
                <span style="padding-left: 10px;padding-right: 10px;">Solicitar Unirme</span> 
             </ion-button>
             <ion-button *ngIf="game.pending" class="join-btn" mode="ios" color="medium" shape="round">
                 <span style="padding-left: 10px;padding-right: 10px;">Pendiente...</span> 
-             </ion-button>
+             </ion-button> -->
             <ion-button *ngIf="game.isOwner" routerLink="/tabs/play/start-game/{{game.id}}" class="join-btn" mode="ios" color="success" shape="round">
                 <span style="padding-left: 10px;padding-right: 10px;">Comenzar Partida</span> 
              </ion-button>
