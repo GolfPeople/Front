@@ -1,4 +1,4 @@
-<div class="card">
+<div (click)="goToCourse(course.id)" *ngIf="course" class="card">
   <img src="../../../../assets/img/card-x.jpg" alt="" />
   <div class="overlay">
     <div class="card-header">
@@ -11,8 +11,9 @@
         <img src="../../../../assets/icon/blue-star.png" alt="" />
         4.6 / 5
       </h4>
-      <h3>Real Club Valderrama</h3>
-      <p>Sotogrande, Cádiz</p>
+      <h3>{{course.courseName ? course.courseName : course.address}}</h3>
+      <p>{{course.address ? course.address : ''}}</p>
     </div>
   </div>
 </div>
+

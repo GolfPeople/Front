@@ -8,6 +8,18 @@ ngx-qrcode {
   width: 50px;
 }
 
+ion-segment-button{
+
+  --margin-start: 0px;
+  --padding-start: 0px;
+
+  ion-label{
+    color: var(--ion-color-dark);
+    font-size: 12px;
+    text-transform: capitalize;
+  }
+}
+
 .header {
   display: flex;
   flex-direction: column;

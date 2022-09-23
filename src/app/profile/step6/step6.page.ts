@@ -34,6 +34,7 @@ export class Step6Page implements OnInit, AfterViewInit {
   userLatitude: string = '';
   userLongitude: string = '';
 
+
   constructor(
     private Step6Svc: Step6Service,
     private userService: UserService,
@@ -81,6 +82,7 @@ export class Step6Page implements OnInit, AfterViewInit {
     const control = new FormControl('', {});
     return control;
   }
+
 
   // async printCurrentPosition() {
   //   const coordinates = await Geolocation.getCurrentPosition();

@@ -1,0 +1,27 @@
+ion-content{
+    --background: white;
+}
+
+ion-searchbar{
+    position: relative;
+    top: 7px;
+}
+
+.user-name{
+    text-transform: capitalize;
+    font-weight: 600;
+}
+
+.msg{
+    font-size: 12px;
+    color: gray;
+}
+
+.no-results{
+    padding-top: 40vh;
+    font-size: 20px;
+}
+
+strong{
+   color:var(--ion-color-primary)
+}

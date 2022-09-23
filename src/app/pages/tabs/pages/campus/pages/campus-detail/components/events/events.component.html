@@ -1,0 +1,50 @@
+<div class="ion-padding-top">
+
+
+<app-date-input round="true" placeholder="Filtrar eventos por fecha" [date]="date$"></app-date-input>
+
+<div class="label">Eventos disponibles</div>
+<div style="padding-top: 0;">
+  <div class="game-container">
+    <ion-item lines="none" class="ion-no-padding">
+      <span class="date" slot="start">
+        <div class="day">{{date | date:'dd'}}</div>
+        <div class="month">{{date | date:'MMMM' | slice:0:3}}</div>
+      </span>
+      <ion-label class="ion-text-wrap">
+        <div class="club-name">Halloween Tournament</div>    
+      </ion-label>
+      <span slot="end">
+        <ion-icon class="item-icon" color="medium" name="heart-outline"></ion-icon>
+        <ion-icon class="item-icon" color="medium" name="share-social-outline"></ion-icon>
+      </span>
+    </ion-item>    
+
+
+    <ion-item style="padding-bottom: 10px;" lines="none" 
+      class="ion-no-padding">
+      <ion-buttons>
+        <ion-button class="btn-group" fill="solid" size="small" shape="round" color="secondary">
+          <span>Reservar</span>
+        </ion-button>       
+      </ion-buttons>
+    </ion-item>  </div>
+</div>
+
+<!-- <div class="label">Eventos pasados</div>
+<div style="padding-top: 0;">
+  <div class="game-container">
+    <ion-item lines="none" style="padding-bottom: 10px;" class="ion-no-padding">
+      <span class="date" slot="start">
+        <div class="day">{{date | date:'dd'}}</div>
+        <div class="month">{{date | date:'MMMM' | slice:0:3}}</div>
+      </span>
+      <ion-label class="ion-text-wrap">
+        <div class="club-name">Halloween Tournament</div>    
+      </ion-label>      
+    </ion-item>   
+
+  </div>
+</div> -->
+
+</div>

@@ -1,8 +1,28 @@
-@import "../../../../scss/variables.scss";
+// @import "../../../../scss/variables.scss";
 
 ion-content {
-  --background: #00388b;
+  --background: var(--ion-color-primary);
 }
+
+
+.content-container{
+  width: 100%;
+  min-height: 40vh;
+  background: white;
+}
+
+ion-segment-button{
+
+  --margin-start: 10px;
+  --padding-start: 10px;
+
+  ion-label{
+    color: var(--ion-color-dark);
+    font-size: 12px;
+    text-transform: capitalize;
+  }
+}
+
 
 .header {
   display: flex;
@@ -28,7 +48,7 @@ ion-content {
       font-weight: 500;
       font-size: 1.1rem;
       line-height: 1.6rem;
-      color: $color-white;
+      color: white;
 
       img {
         object-fit: cover;
@@ -91,7 +111,7 @@ ion-content {
     font-size: 1.8rem;
     font-weight: bold;
     line-height: 2.2rem;
-    color: $color-white;
+    color: white;
     text-transform: uppercase;
   }
 
@@ -99,12 +119,12 @@ ion-content {
     font-size: 1.6rem;
     font-weight: 600;
     line-height: 20px;
-    color: $color-white;
+    color: white;
   }
 
   .profile-golfer {
     line-height: 2rem;
-    color: $color-white;
+    color: white;
   }
 
   .club {
@@ -187,7 +207,7 @@ ion-content {
   height: 100%;
 
   // margin-top: 30%;
-  color: $text-color;
+  color: var(--ion-color-dark);
 
   ion-icon {
     font-size: 45px;
@@ -215,19 +235,16 @@ ion-content {
   height: auto;
   min-width: 100%;
   border-radius: 30px 30px 0px 0px;
-  background: $color-white;
+  background: white;
 
   .edit-nav {
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    // position: absolute;
-    // left: 0px;
-    // top: 331px;
     width: 100%;
     height: 14rem;
     padding-bottom: 2px;
-    background: $color-white;
+    background: white;
     border-radius: 30px 30px 0px 0px;
 
     .qr-container {
@@ -262,7 +279,7 @@ ion-content {
           line-height: 1.7rem;
           /* or 131% */
 
-          color: $color-white;
+          color: white;
         }
 
         h4 {
@@ -272,7 +289,7 @@ ion-content {
           line-height: 1.7rem;
           /* identical to box height, or 142% */
 
-          color: $color-white;
+          color: white;
         }
 
         p {
@@ -280,7 +297,7 @@ ion-content {
           font-weight: 500;
           font-size: 1.3rem;
           line-height: 1.7rem;
-          color: $color-white;
+          color: white;
         }
       }
 
@@ -313,7 +330,7 @@ ion-content {
           font-weight: 500;
           font-size: 13px;
           line-height: 17px;
-          color: $text-color;
+          color: var(--ion-color-dark);
 
           &.active {
             border-bottom: 2px solid #009dd6;

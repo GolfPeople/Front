@@ -1,0 +1,97 @@
+<app-header-admin [image]="detail && detail.thumbnailImage ? detail.thumbnailImage : 'assets/img/default-img.png'"
+  title="{{'ADMIN_PANEL.holes' | translate }}"></app-header-admin>
+<ion-content *ngIf="detail">
+
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="p-title">
+    <div class="title">Administra tus Hoyos</div>
+  <div class="indicator">Incluye toda la información sobre cada uno de los hoyos de tu campo</div>
+  </div>
+  
+  <swiper *ngIf="holes.length" class="p-swipper" [config]="config">
+    <ng-template *ngFor="let h of holes; index as i" swiperSlide>
+      <div (click)="changeHole(h.holeNumber)" [ngClass]="{'selected': selectedHole.value == h.holeNumber}"
+        class="hole-card ion-activatable ripple-parent">
+        <ion-icon src="../../../../../../../../assets/icons/golf-ball.svg"></ion-icon>
+        <div class="name">HOYO {{h.holeNumber}}</div>
+        <ion-ripple-effect></ion-ripple-effect>
+      </div>
+    </ng-template>
+  </swiper>
+  <swiper *ngIf="!holes.length" class="p-swipper" [config]="config">
+    <ng-template *ngFor="let h of [1,1,1,1,1,1,1,1,1]" swiperSlide>
+      <div  class="hole-card">
+        <ion-skeleton-text animated style="width: 100%;height: 100%;"></ion-skeleton-text>
+      </div>
+    </ng-template>
+  </swiper>
+
+  <div class="ion-padding label">Handicap / Distancias</div>
+ 
+<div class="parhcp-container">
+<div>Par del Hoyo:</div>
+<div style="width: 60px;"><ion-input type="number" [(ngModel)]="parHole" class="select-container input-name"></ion-input></div>
+<div>Handicap:</div>
+<div style="width: 60px;"><ion-input type="number" [(ngModel)]="hcpHole" class="select-container input-name"></ion-input></div>
+</div>
+ 
+<div class="ion-padding colors-yds" [ngClass]="{'two-el': yds.length < 4}">
+  <div [ngClass]="{'ion-padding-end': yds.length < 4}" *ngFor="let y of yds">
+    <ion-icon class="circle-icon" *ngIf="y.color == 'FFFFFF'" color="light" name="ellipse"></ion-icon>
+    <ion-icon class="circle-icon" *ngIf="y.color !== 'FFFFFF'" [style.color]="'#'+y.color" name="ellipse"></ion-icon>
+   <span class="yds-text">{{y.yds}} </span>  
+  </div>
+</div>
+
+<div class="ion-padding"> 
+
+  <div class="ion-padding-bottom label">Consejos sobre el Hoyo {{selectedHole.value}}</div>
+
+<div class="info-container">
+  <ion-textarea [(ngModel)]="advice" placeholder="Escribe un consejo..." rows="5" cols="20">
+  </ion-textarea>
+</div>
+<div class="ion-text-end">{{advice ? advice.length : 0}}/4000</div>
+</div>
+
+<div class="ion-padding label">Fotos del Hoyo {{selectedHole.value}}</div>
+
+<ion-grid *ngIf="photos.value.length" fixed>
+  <ion-row>
+    <ion-col size="4">
+      <div (click)="addImages()" style="background: var(--ion-color-secondary);text-align: center;padding-top: 20px;" class="square">
+         <ion-icon style="font-size: 90px;" color="light" name="camera-outline"></ion-icon> 
+      </div>  
+    </ion-col> 
+    <ion-col *ngFor="let p of photos.value" size="4">
+      <div class="square">
+        <ion-icon (click)="confirmDeletePhoto(p.id)" style="position: absolute;font-size: 25px;left: 75%;top: 3%;" color="light" name="close-circle"></ion-icon>
+            <img [src]="p.url" alt="">
+      </div>  
+    </ion-col> 
+  </ion-row>
+</ion-grid>
+
+<div class="no-photos" *ngIf="!photos.value.length">
+  <ion-icon name="image-outline"></ion-icon>
+  <h3>No hay fotos disponibles</h3>
+</div>
+
+<div style="padding-top: 35px;" class="ion-text-center ion-padding-bottom">
+  <ion-button *ngIf="!loading" class="submit-btn" (click)="submit()" mode="ios" color="secondary" shape="round">
+    {{'ADMIN_PANEL.save_changes' | translate }}
+  </ion-button>
+  <ion-button *ngIf="loading" class="submit-btn" disabled  mode="ios" color="secondary" shape="round">
+    <ion-spinner color="light"></ion-spinner>
+  </ion-button>
+</div>
+</ion-content>
+<ion-content class="ion-text-center" *ngIf="!detail">
+  <div  style="padding-top: 60%;">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+</ion-content>

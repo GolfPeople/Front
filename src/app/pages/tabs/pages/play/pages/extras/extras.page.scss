@@ -1,0 +1,50 @@
+ion-content{
+    --background: white;
+  }
+.question{
+    padding: 30px 15px 30px 15px;
+    color: var(--ion-color-primary);
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.col-p{
+    padding: 5px;
+}
+.extra-card{
+    border-radius: 10px;
+    border: 1px solid #d6d6d6;
+    height: 120px;
+    text-align: center;
+    font-size: 11px;
+    padding: 5px;
+    padding-top: 15px;
+    font-weight: 500;
+   
+    ion-icon{
+        color: var(--ion-color-medium);
+        font-size: 40px;
+    }
+
+    .price{
+        font-size: 13px;
+    }
+
+    &.selected{
+        background: var(--ion-color-secondary-tint);
+        color: white;  
+        ion-icon{
+            color: white;
+            font-size: 40px;
+        } 
+    }  
+    
+    .name{
+        font-size: 11px;
+        &.long-name{
+            font-size: 10px;
+        }
+    }
+  
+}

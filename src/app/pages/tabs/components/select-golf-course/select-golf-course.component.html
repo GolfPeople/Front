@@ -1,0 +1,22 @@
+<app-header backButtonModal="true" title="Campos" icon="assets/icons/golf-flag.svg">
+</app-header>
+
+<ion-toolbar color="primary" class="search-container">
+  <ion-searchbar [(ngModel)]="search" (ionChange)="getCourses()"  placeholder="Buscar" [debounce]="1000"></ion-searchbar>
+</ion-toolbar>
+
+<ion-content>
+
+  <div *ngIf="!loading">
+    <ion-item (click)="selectGolfCourse(c)" *ngFor="let c of courses">
+    <ion-label class="ion-text-wrap">{{ c.courseName ? c.courseName : c.address }}</ion-label>
+  </ion-item>
+  </div>
+
+  <div *ngIf="loading">
+    <ion-item *ngFor="let c of [1,1,1,1,1,1,1,1,1,1,1,1,1]">
+    <ion-label><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></ion-label>
+  </ion-item>
+  </div>
+  
+</ion-content>

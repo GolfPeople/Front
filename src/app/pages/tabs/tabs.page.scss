@@ -1,12 +1,8 @@
 @import "../../scss/variables.scss";
 
 ion-tab-button {
-  ion-icon {
-    color: #ffffff;
-    margin-bottom: 7px;
-    margin-top: 1px;
-  }
-
+  --color-selected:var(--ion-color-secondary);
+  --color: white;
   .menu-icon {
     width: 22px;
     height: 15.5px;
@@ -20,13 +16,10 @@ ion-tab-button {
     font-weight: 500;
     font-size: 9px;
     line-height: 20px;
-
-    color: #ffffff;
   }
 }
 
 ion-tab-bar {
-  height: 70px;
   --background: #00388b;
 }
 
@@ -43,6 +36,14 @@ ion-menu {
   }
 }
 
+.menu-icon{
+  font-size: 26px;
+}
+
+ion-badge{
+  padding: 6px;
+  font-size: 11px;
+}
 .side-menu {
   --padding-top: 10px;
   --padding-bottom: 10px;

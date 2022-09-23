@@ -1,0 +1,58 @@
+<ion-content>
+  <ion-grid style="width: 100%;" fixed>
+    <ion-row>
+      <ion-col size="12">
+        <ion-toolbar style="--background: transparent;">
+          <ion-buttons slot="start">
+            <ion-back-button color="light" defaultHref="/tabs/home"></ion-back-button>
+          </ion-buttons>        
+        </ion-toolbar>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-padding-start" size="9">
+        <div class="campus-name">{{detail.courseName}}</div>      
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="content">
+    
+<div class="title-blue">¿Quieres administrar <br> este campo?</div>
+    
+<p>Enviaremos tu solicitud al campo, una vez tengamos noticias de tu solicitud te enviaremos una notificación.</p>
+
+<div class="ion-padding-horizontal">
+  <ion-item class="data-item" lines="none">
+  <ion-label slot="start">
+    <div class="user-name">{{user.name}}</div>
+    <div>
+      {{user.email}} <br>
+      <div *ngIf="user.profile.phone">{{user.profile.phone}}</div>
+    </div>
+  </ion-label>
+  <ion-buttons slot="end">
+    <ion-button>
+      <ion-icon name="create-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-item>
+</div>
+  
+
+
+<div class="read-email-blue">Escribe un correo electrónico asociado a la administración de este campo</div>
+<div class="ion-padding-horizontal">
+<ion-input type="email" class="select-container input-name"
+placeholder="Ex: campo@dominio.es"></ion-input>
+</div>
+
+<div style="padding-top: 30px;" class="ion-text-center">
+  <ion-button class="btn"  mode="ios" color="secondary" shape="round">
+   Solicitar Administración
+  </ion-button>
+</div>
+</div>
+
+
+</ion-content>

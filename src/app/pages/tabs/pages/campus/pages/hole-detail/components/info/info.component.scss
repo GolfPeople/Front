@@ -1,0 +1,66 @@
+.circle-icon {
+    padding-right: 5px;
+    position: relative;
+    top: 2px;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+table {
+    width: 100%;
+}
+
+.level {
+    font-size: 14px;
+}
+
+td {
+    font-size: 13px;
+}
+
+.yds-text {
+    font-size: 13px;
+}
+
+.colors-yds {
+    display: flex;
+    justify-content: space-between;
+
+    &.two-el {
+        display: flex;
+        justify-content: start;
+    }
+}
+
+.td-init {
+    background: #f8f8f8;
+    border-radius: 10px;
+    font-weight: 600;
+    padding: 7px 15px 7px 15px;
+
+}
+
+.td-first {
+    background: #f8f8f8;
+    border-radius: 10px 0px 0px 10px;
+    font-weight: 600;
+    padding: 7px 10px 7px 15px;
+    color: gray;
+}
+
+.td-medium {
+    background: #f8f8f8;
+    font-weight: 600;
+    padding: 7px 10px 7px 10px;
+}
+
+.td-final {
+    background: #f8f8f8;
+    border-radius: 0px 10px 10px 0px;
+    font-weight: 600;
+    padding: 7px 10px 7px 15px;
+}

@@ -1,0 +1,93 @@
+<ion-content class="background" *ngIf="detail">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-grid style="width: 100%;" fixed>
+    <ion-row>
+      <ion-col size="12">
+        <ion-toolbar style="--background: transparent;">
+          <ion-buttons slot="start">
+            <ion-back-button color="light" defaultHref="/tabs/home"></ion-back-button>
+          </ion-buttons>
+          <ion-buttons slot="end">
+            <ion-button>
+              <ion-icon class="icon" color="light" name="heart-outline"></ion-icon>
+            </ion-button>
+            <ion-button>
+              <ion-icon class="icon" color="light" name="bookmark-outline"></ion-icon>
+            </ion-button>
+            <ion-button>
+              <ion-icon class="icon" color="light" name="share-social-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-item lines="none">
+          <ion-avatar style="width: 65px;height: 65px;">
+            <img src="../../../../../../../assets/img/golf-course.jpg" />
+          </ion-avatar>
+          <ion-buttons slot="end">
+            <ion-button color="light">
+              <ion-icon name="heart-outline"></ion-icon>
+              <span style="color: white;font-weight: 600;font-size: 18px;padding-left: 5px;">3859</span>
+            </ion-button>
+            <ion-button *ngIf="detail.recommendRating && detail.recommendRating !== '0'" color="warning">
+              <ion-icon name="star"></ion-icon>
+              <span style="color: white;font-weight: 600;font-size: 18px;padding-left: 5px;">{{detail.recommendRating}}</span>
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-padding-start" size="9">
+        <div class="campus-name">{{detail.courseName}}</div>
+        <div class="subtext">{{detail.address}}</div>
+      </ion-col>
+    </ion-row>
+    <ion-row style="width: 100%;">
+      <ion-col class="ion-padding" size="6">
+        <ion-button (click)="goToHoles()" size="small" expand="block" mode="ios" color="secondary" shape="round">
+          Ver Hoyos
+        </ion-button>
+      </ion-col>
+      <ion-col class="ion-padding" size="6">
+        <ion-button size="small" routerLink="/tabs/play/create-game/{{detail.id}}/x" expand="block" mode="ios" color="success" shape="round">
+          Iniciar Partida
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="content">
+    <ion-segment [(ngModel)]="selectedSegment">
+      <ion-segment-button  *ngFor="let s of segments" [value]="s.id">
+        <ion-label class="segment-name">{{s.name}}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+
+    <app-info [average]="averageLevel" [reviews]="reviews" [detail]="detail" *ngIf="selectedSegment == '1'" ></app-info>
+    <app-review [average]="averageRating" [reviews]="reviews" *ngIf="selectedSegment == '2'" ></app-review>
+    <app-events *ngIf="selectedSegment == '3'" ></app-events>
+    <app-posts *ngIf="selectedSegment == '4'" ></app-posts>
+
+    
+
+
+
+  </div>
+
+</ion-content>
+
+<ion-content class="ion-text-center background" *ngIf="!detail">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+<div  style="padding-top: 50%;">
+    <ion-spinner color="light"></ion-spinner>
+</div>
+</ion-content>

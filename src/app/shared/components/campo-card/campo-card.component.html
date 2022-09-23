@@ -11,7 +11,7 @@
   </div>
   <ion-item class="ion-no-padding" lines="none">
     <ion-label>
-      <h4>{{ designer.name }}</h4>
+      <h4 *ngIf="designer.title">{{designer.title}}</h4>
       <p *ngIf="campo.location">{{ campo.location }}</p>
     </ion-label>
   </ion-item>

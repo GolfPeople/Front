@@ -1,0 +1,14 @@
+ion-content{
+    --background: white;
+  }
+
+.msg{    
+    color: var(--ion-color-primary);
+    font-size: 18px;
+    font-weight: bold;
+    padding-bottom: 15px;
+}
+
+.btn{
+    text-transform: capitalize;
+}

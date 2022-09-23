@@ -1,0 +1,50 @@
+h3 {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 125%;
+    color: #000000;
+    text-transform: capitalize;
+  }
+
+  .online-mark {
+    color: #68D391;
+    position: relative;
+    top: 3px;
+    font-size: 13px;
+  }
+
+  .offline-mark {
+    color: var(--ion-color-medium);
+    position: relative;
+    top: 3px;
+    font-size: 13px;
+  }
+
+
+  .away-mark {
+    color: var(--ion-color-warning);
+    position: relative;
+    top: 3px;
+    font-size: 13px;
+  }
+
+  .online-text {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 150%;
+    padding-left: 5px;
+    color: #000000c4;
+  }
+
+  
+  .last-con {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 11px; 
+    color: #000000c4;
+  }

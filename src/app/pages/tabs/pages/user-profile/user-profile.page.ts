@@ -21,6 +21,13 @@ import SwiperCore, { Pagination, Lazy, Navigation } from 'swiper';
 import { PostsService } from 'src/app/core/services/posts.service';
 import { FriendsService } from 'src/app/core/services/friends.service';
 import { QrModalComponent } from './components/qr-modal/qr-modal.component';
+import { ChatService } from 'src/app/core/services/chat/chat.service';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import * as firebase from 'firebase/compat/app';
+import { AlertConfirmComponent } from '../../components/alert-confirm/alert-confirm.component';
+import { BehaviorSubject } from 'rxjs';
+import { GameService } from 'src/app/core/services/game.service';
+import { CampusDataService } from '../campus/services/campus-data.service';
 
 SwiperCore.use([Navigation]);
 
@@ -42,10 +49,12 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
   profileUrl: string = 'https://golf-people.web.app/tabs/user-profile';
   value: string;
 
+  segment = 'posts'
+
   // Swiper pages
   levelTab: boolean = false;
   postsTab: boolean = true;
-
+  campusTab: boolean = false;
   // Validación de seguidor
   following: boolean = false;
   isPrivate: boolean = false;
@@ -53,7 +62,7 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
   myId;
 
   id;
-  userInfo: Friend = {
+  userInfo = {
     id: null,
     name: null,
     email: null,
@@ -69,6 +78,14 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
     friends: null,
   };
 
+  loadingChats: boolean;
+
+
+  toggleOptions = { one: 'Campos Jugados', two: 'Clubes Asociados' }
+  toggle$ = new BehaviorSubject(false);
+
+  courses = new BehaviorSubject([]);
+
   constructor(
     private actRoute: ActivatedRoute,
     private loadingCtrl: LoadingController,
@@ -76,7 +93,11 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
     private location: Location,
     private friendsSvc: FriendsService,
     private postsSvc: PostsService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private firebaseSvc: FirebaseService,
+    public chatSvc: ChatService,
+    public gameSvc: GameService,
+    public campusSvg: CampusDataService
   ) {
     this.myId = localStorage.getItem('user_id');
   }
@@ -92,7 +113,6 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
       .pipe(
         switchMap((param) => {
           this.id = param.get('id');
-          console.log('ID del perfil del usuario', this.id);
           if (this.id) {
             return this.userSvc.getUser(this.id);
           }
@@ -100,54 +120,42 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
         })
       )
       .subscribe((res) => {
-        console.log(res);
+
         this.userInfo = res;
+        console.log(res);
+        
+        this.getCourses();
 
         if (this.userInfo.id == this.myId) {
           this.isMyProfile = true;
-          // loading.dismiss();
-          // return;
+
         }
 
         if (this.userInfo.friends.length) {
-          console.log('Frends test -->');
+
           this.userInfo.friends.forEach((friendsItem) => {
             if (friendsItem.connect.length) {
-              console.log('Connect test -->');
+
               const friend = friendsItem;
-              // console.log(friend)
+
               friendsItem.connect.forEach((connectItem) => {
-                console.log('Connect forEach test -->');
-                // console.log('connect item test -->', connectItem)
 
                 if (connectItem.user_id == this.myId) {
-                  console.log('tienes conexion');
-                  // if (friend.connections) {
+
                   if (friend.connections.status === 1) {
                     this.sentFriendRequest = true;
-                    console.log('Ya has enviado una solicitud e amistad.');
+
                   } else if (friend.connections.status === 2) {
                     this.following = true;
-                    console.log('Solicitud de amistad aprobada');
+
                   } else {
                     this.following = false;
                   }
-                  // } else {
-                  //   this.following = false;
-                  // }
+
                 }
               });
             }
 
-            // if (item.connect.connection_id === 1) {
-            //     this.following = true;
-            //   console.log('Eres amigo');
-            // }
-
-            // if (item.user_id == this.myId) {
-            //   this.following = true;
-            //   console.log('Eres amigo');
-            // }
           });
         }
 
@@ -168,12 +176,18 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
           }
         );
       });
+
+
   }
 
   ngAfterContentChecked(): void {
     if (this.swiper) {
       this.swiper.updateSwiper({});
     }
+  }
+
+  ionViewWillEnter() {
+    this.getChatRooms();
   }
 
   goBack() {
@@ -183,24 +197,80 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
   friendRequest() {
     this.sentFriendRequest = true;
     this.friendsSvc.friendRequest(this.id).subscribe((res) => {
-      console.log('Id del usuario a enviar solicitud', this.id);
-      console.log('Solicitud enviada -->', res);
+
     });
   }
 
   follow() {
     this.following = true;
-
     this.friendsSvc.follow(this.id).subscribe((res) => console.log(res));
   }
 
-  unfollow() {
-    this.following = false;
 
-    this.friendsSvc.unfollow(this.id).subscribe((res) => console.log(res));
+
+  /**===================Mostrar Campos Jugados============== */
+
+  getCourses() {
+    
+    this.campusSvg.getPlayerCourses(this.userInfo.id).subscribe(res => {
+      this.courses.next(res);
+   
+    }, err => {
+      console.log(err);
+
+    })
   }
 
-  favorite() {}
+
+
+
+
+  /**===================Dejar de seguir============== */
+  async confirmUnfollow(user) {
+
+    // obtener el connection_id del usuario
+    // user.friends.map(u => {
+    //   u.connect.map(c => {
+    //     if(c.user_id == this.user_id){
+    //      user.connection_id = c.connection_id
+    //     }
+    //   })
+    // })
+
+    // const modal = await this.modalCtrl.create({
+    //   component: AlertConfirmComponent,
+    //   cssClass: 'alert-confirm',
+    //   componentProps: {
+    //     confirmText: 'Dejar de seguir',
+    //     content: `¿Quieres dejar de seguir a ${(user.name)}?`
+    //   }
+    // });
+
+    // modal.present();
+
+    // const { data } = await modal.onWillDismiss();
+    // if (data) {
+    //   this.Unfollow(user)
+    // }
+  }
+
+  async Unfollow(user) {
+
+    const loading = await this.firebaseSvc.loader().create();
+    await loading.present();
+
+    this.friendsSvc.declineRequest(user.connection_id).subscribe(res => {
+      this.ionViewWillEnter();
+      this.firebaseSvc.Toast(`Haz dejado de seguir a ${(user.name)}`)
+      loading.dismiss();
+    }, error => {
+      this.firebaseSvc.Toast('Ha ocurrido un error, inténtalo de nuevo')
+      loading.dismiss();
+    })
+  }
+
+
+  favorite() { }
 
   async shareProfile() {
     if (this.value) {
@@ -210,20 +280,9 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
         url: this.value,
       });
     }
-    // if (navigator.share) {
-    //   navigator
-    //     .share({
-    //       title: 'Mi Perfil Golfer',
-    //       text: 'Check my profile golfer',
-    //       url: this.value,
-    //     })
-    //     .then(() => console.log('Successful share'))
-    //     .catch((error) => console.log('Error sharing', error));
-    // }
   }
 
   async openModal() {
-    // this.isOpen = true;
     const modal = await this.modalCtrl.create({
       component: QrModalComponent,
       backdropDismiss: true,
@@ -264,5 +323,42 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
         console.log(error);
       }
     );
+  }
+
+  async createSingleRoom() {
+    let data = {
+      message: 'ㅤ',
+      sale_id: null
+    }
+    const loading = await this.firebaseSvc.loader().create();
+    await loading.present();
+
+    this.chatSvc.sendMessage(this.userInfo.id, data).subscribe((res: any) => {
+
+      let message = {
+        chatId: res.sala_id,
+        user_id: JSON.parse(localStorage.getItem('user_id')),
+        created_at: firebase.default.firestore.FieldValue.serverTimestamp(),
+        message: 'ㅤ',
+        read: true
+      }
+      this.firebaseSvc.addToCollection('messages', message).then(e => {
+        this.firebaseSvc.routerLink('/tabs/chat-room/messages/' + res.sala_id + '/x');
+        loading.dismiss();
+      }, error => {
+        loading.dismiss();
+      })
+    }, error => {
+      loading.dismiss();
+      console.log(error);
+    })
+  }
+
+  getChatRooms() {
+    this.loadingChats = true;
+    this.chatSvc.getRoom().subscribe((rooms: any) => {
+      this.chatSvc.rooms$.next(rooms)
+      this.loadingChats = false;
+    })
   }
 }

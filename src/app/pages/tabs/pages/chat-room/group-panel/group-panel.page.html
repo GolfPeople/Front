@@ -1,0 +1,110 @@
+<app-header backButton="true" title="Mensajes" icon="assets/icons/message.svg">
+</app-header>
+
+<ion-content *ngIf="data"  class="ion-padding">
+
+  <div class="avatar">
+    <div>
+      <div *ngIf="isAdmin" (click)="addImage()" class="avatar-pencil">
+        <ion-icon src="assets/icons/edit-pencil.svg"></ion-icon>
+      </div>
+
+      <ion-avatar class="group-avatar">
+        <img [src]="data.image ? data.image : 'assets/img/default-avatar-gray.png'" />
+      </ion-avatar>
+    </div>
+
+  </div>
+  <div *ngIf="!updateName" class="ion-text-center">
+    <div class="title">{{data.name_chat}} <ion-icon *ngIf="isAdmin" (click)="updateName = !updateName" src="assets/icons/edit-pencil-grey.svg"></ion-icon></div>   
+    <div>Grupo: {{data.user.length}} participantes</div>
+  </div>
+
+  <div class="ion-text-center ion-padding-top" *ngIf="updateName">
+    <ion-input type="text" [(ngModel)]="data.name_chat" class="select-container input-name"
+      placeholder="Ingresa un nombre"></ion-input>
+      <div class="ion-padding-top">
+        <ion-button (click)="updateName = !updateName" mode="ios" color="medium" size="small" shape="round">
+          Cancelar
+        </ion-button>
+        <ion-button [disabled]="!data.name_chat" (click)="updateGroup()" mode="ios" color="secondary" size="small" shape="round">
+          Guardar
+        </ion-button>
+      </div>
+   
+  </div>
+  <div class="options">
+    <!-- <div class="ion-text-center cont">
+      <ion-icon color="primary" name="call-outline"></ion-icon>
+      <div>Llamar</div>
+    </div> -->
+    <div *ngIf="isAdmin" (click)="newMembers()" class="ion-text-center cont">
+      <ion-icon color="primary" name="person-add-outline"></ion-icon>
+      <div>Añadir</div>
+    </div>
+    <!-- <div  class="ion-text-center cont">
+      <ion-icon color="primary" name="search-outline"></ion-icon>
+      <div>Buscar</div>
+    </div> -->
+    
+  </div>
+
+
+  <ion-item class="ion-no-padding">
+    <ion-label>Grupo creado: {{data.created_at | date: 'dd/MM/yyyy'}}</ion-label>
+  </ion-item>
+
+  <ion-searchbar [(ngModel)]="search"  placeholder="Buscar" [debounce]="1000"></ion-searchbar>
+  <ion-item class="ion-no-padding" lines="none">
+    <ion-label>{{data.user.length}} participantes</ion-label>
+    <ion-icon slot="end" name="chevron-down"></ion-icon>
+  </ion-item>
+
+
+  <ion-item *ngFor="let u of data.user; index as i" lines="none" class="ion-no-padding">
+    <ion-avatar class="ion-margin-vertical user-avatar">
+      <img  [src]="u.profile.photo ? u.profile.photo : 'assets/img/default-avatar.png'" />
+    </ion-avatar>
+    <ion-label class="ion-text-wrap ion-padding-start">
+      <div class="user-name">{{u.name}}</div>
+    </ion-label>
+    <span class="ion-text-end" slot="end">   
+
+      <div (click)="confirmDeleteMember(i, u.profile.id)" *ngIf="isAdmin && user_id !== u.profile.id"><ion-icon color="medium" style="font-size: 23px;" name="person-remove-outline"></ion-icon></div>
+      <ion-text *ngIf="u.isAdmin" color="primary">
+        Admin
+      </ion-text>
+    </span>
+   
+  </ion-item>
+
+  <div *ngIf="isAdmin" class="ion-padding ion-text-center">
+    <ion-button (click)="newMembers()" mode="ios" expand="block" color="secondary" shape="round">
+      Añadir Contacto
+    </ion-button>
+  </div>
+ 
+  <div class="line ion-padding-top"></div>
+  <ion-item (click)="confirmOutOfGroup()" lines="none" class="ion-no-padding">
+    <ion-icon slot="start" color="primary" name="log-out-outline"></ion-icon>
+    <ion-label class="ion-padding-start">Salir del Grupo</ion-label>
+  </ion-item>
+  
+  <ion-item *ngIf="!isAdmin" lines="none" class="ion-no-padding">
+    <ion-icon slot="start" color="primary" name="alert-circle-outline"></ion-icon>
+    <ion-label class="ion-padding-start">Reportar</ion-label>
+  </ion-item>
+   
+  <ion-item (click)="confirmDelete()" *ngIf="isAdmin" lines="none" class="ion-no-padding">
+    <ion-icon slot="start" color="primary" name="trash-outline"></ion-icon>
+    <ion-label class="ion-padding-start">Eliminar grupo</ion-label>
+  </ion-item>
+  <div class="line"></div>
+</ion-content>
+
+<ion-content *ngIf="!data" class="ion-text-center">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-spinner style="padding-top: 50vh;" color="primary"></ion-spinner>
+</ion-content>

@@ -1,0 +1,101 @@
+ion-grid{
+    width: 100%;
+}
+
+.icon-md{
+    font-size: 30px;
+}
+
+.map{
+    width: 100%;
+    height: 180px;
+}
+
+.days{
+    color: rgb(85, 85, 85);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.contact-name{
+    padding-top: 5px;
+    font-size: 11px;
+}
+
+.havent-play{
+    background: #fff3d4;
+    color: #ff9900;
+    padding: 10px 10px 10px 10px;
+    width: 280px;
+    border-radius: 30px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+  }
+
+ion-avatar{
+    width: 90px;
+    height: 90px;
+}  
+
+.designer-label{
+    font-size: 13px;
+}
+
+.designer-name{
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.label{
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.level{
+    font-size: 14px;
+}
+
+.hole-card{
+    border-radius: 10px;       
+    font-size: 11px;
+    font-weight: 500;   
+    ion-icon{
+        color: var(--ion-color-medium);
+        font-size: 40px;
+    }
+
+    .name{
+        padding-top: 10px;
+        font-size: 11px;     
+    }   
+  
+}
+
+.history{
+    padding-top: 10px;
+    font-size: 13px;
+    text-align: justify;
+}
+
+.schedule{
+    color: gray;
+    font-size: 14px;
+    height: 30px;
+}
+
+.partner-text{
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.enlace-btn{
+    text-transform: capitalize;
+    font-size: 13px;
+}

@@ -2,15 +2,16 @@ export interface Campus {
   id: number;
   information: string;
   services: string;
-  designer: string;
+  designer: any;
   day: string;
-  hour: string;
+  hour: any;
   created_at?: Date;
   updated_at?: Date;
   location: string;
   photo?: string;
   lat?: any;
   long?: any;
+  
 }
 
 export interface Link {

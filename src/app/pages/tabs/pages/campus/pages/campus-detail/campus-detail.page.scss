@@ -1,0 +1,63 @@
+ion-content.background{
+    --background: url(../../../../../../../assets/img/rectangle-2.jpg) 0 0/100% 100% no-repeat;
+}
+
+ion-item {
+    --background: transparent;
+}
+
+.icon {
+    font-size: 24px;
+}
+
+ion-segment-button {
+    min-width: auto;
+    --padding-start:2px;
+    --padding-end:2px;
+}
+
+.segment-name {
+    font-size: 12px;
+    text-transform: capitalize;
+  
+}
+
+.content {
+    position: relative;
+    bottom: 0;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    width: 100%;
+    height: 100%;
+    background: white;
+    overflow: auto;
+    padding: 15px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+
+.campus-name {
+    font-size: 29px;
+    color: white;
+    font-weight: 600;
+    line-height: 25px;
+    padding-bottom: 15px;
+}
+
+
+.subtext {
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+    line-height: 15px;
+
+    ion-icon {
+        font-size: 23px;
+        position: relative;
+        top: 5px;
+    }
+}

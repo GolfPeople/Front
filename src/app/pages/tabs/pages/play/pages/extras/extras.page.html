@@ -1,0 +1,29 @@
+<app-header backButton="true" start="true" stepper="true" title="Extras"></app-header>
+<app-stepper></app-stepper>
+<ion-content>
+  <div class="ion-text-center ion-padding">
+    <div class="question">
+      ¿Que necesitas para tu partida del {{ gameSvc.game.value.date | date:'dd'}} de {{gameSvc.game.value.date | date:'MMMM'}}?
+    </div>
+
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col class="col-p" *ngFor="let e of alter" (click)="selectExtras(e)" size="4">
+          <div [ngClass]="{'selected': e.isChecked}" class="extra-card ion-activatable ripple-parent">
+            <ion-icon src="../../../../../../../../assets/icons/golf-flag.svg"></ion-icon>
+            <div class="name" [ngClass]="{'long-name': e.name == 'Entretenimiento'}">{{e.name}}</div>
+            <div class="price">{{ e.price | currency: 'EUR'}}</div>
+            <ion-ripple-effect></ion-ripple-effect>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </div>
+</ion-content>
+<ion-footer class="ion-no-border ion-padding">
+  <ion-button (click)="next()" class="play-next-btn" expand="block" color="secondary" shape="round">
+    Siguiente
+    <ion-icon slot="end" name="arrow-forward"></ion-icon>
+  </ion-button>
+</ion-footer>

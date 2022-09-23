@@ -1,0 +1,80 @@
+<app-header backButton="true" title="Resumen Torneo" icon="assets/icons/tournament-trophy.svg">
+</app-header>
+<ion-content>
+  <div class="square">
+    <img [src]="gameSvc.tournament.value.photo">
+  </div>
+
+  <div class="ion-padding">
+
+    
+    <div class="name">{{gameSvc.tournament.value.name}}</div>
+    <div class="location">{{gameSvc.tournament.value.course.courseName}}</div>
+
+    <div class="date">
+      {{ gameSvc.tournament.value.date | date:'EEEE'}} <br>
+      {{ gameSvc.tournament.value.date | date:'dd'}} de {{gameSvc.tournament.value.date | date:'MMMM'}} <br>
+    </div>
+
+    <div class="label">
+      Información del Evento
+    </div>
+    <div class="description">
+      {{gameSvc.tournament.value.description}}
+    </div>
+  </div>
+
+  <div class="ion-padding">
+    <div class="border-top"></div>
+
+    <ion-item lines="none" class="ion-no-padding">
+      <ion-label><strong>Precio</strong></ion-label>
+      <span slot="end">
+        <div><strong>1 Entrada</strong> </div>
+        <div *ngIf="gameSvc.tournament.value.price">{{gameSvc.tournament.value.price | currency: 'EUR'}}</div>
+        <div *ngIf="!gameSvc.tournament.value.price">GRATIS</div>
+      </span>
+    </ion-item>
+  </div>
+
+  <div class="ion-padding-start">
+    <swiper [config]="config">
+      <ng-template *ngFor="let s of services" swiperSlide>
+        <div class="extra-card">
+          <ion-icon [src]="s.icon"></ion-icon>
+          <div class="name">{{s.name}}</div>
+          <div><strong>Incluido</strong></div>
+        </div>
+      </ng-template>
+    </swiper>
+  </div>
+  <div class="ion-padding">
+    <div class="border-bottom"></div>
+  </div>
+
+<div class="ion-padding-horizontal">
+  <div class="label"><ion-icon color="secondary" class="location-icon" name="location-outline"></ion-icon> ¿Donde se realizará?</div>
+
+  <ion-item class="ion-no-padding">
+    <ion-label>
+      <strong>{{gameSvc.tournament.value.course.courseName}}</strong>
+      <div>{{gameSvc.tournament.value.course.address}}</div>
+    </ion-label>
+  </ion-item>
+</div>
+
+<div #mapElement class="map"></div>
+
+<div class="ion-padding">
+ <ion-button routerLink="/tabs/play/create-tournament" expand="block" color="secondary" mode="ios" shape="round">
+  Editar
+</ion-button> 
+</div>
+<div class="ion-padding-horizontal ion-padding-bottom">
+  <ion-button (click)="submit()" [disabled]="creating" expand="block" color="success" mode="ios" shape="round">
+  <span *ngIf="!creating">Publicar</span> 
+  <ion-spinner *ngIf="creating" color="light"></ion-spinner>
+ </ion-button> 
+ </div>
+
+</ion-content>

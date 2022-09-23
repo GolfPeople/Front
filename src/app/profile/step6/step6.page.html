@@ -10,11 +10,19 @@
           </p>
         </div>
         <ion-list>
-          <p class="card-text text-center">Fecha de nacimiento</p>
+          <!-- <p class="card-text text-center">Fecha de nacimiento</p> -->
           <!-- <ion-item lines="none"> -->
-          <div class="birthday">
+<div style="padding-bottom: 50px;">
+  <ion-item>
+    <ion-icon class="icon-item ion-margin-end" slot="start" name="calendar-outline"></ion-icon>
+    <ion-label position="floating">Año de nacimiento</ion-label>
+    <ion-input type="number" [(ngModel)]="birthday" placeholder="Ingresa tu año de nacimiento" step="1"></ion-input>
+  </ion-item>
+</div>
+            
+          <!-- <div class="birthday">
             <app-select-date (date)="getDate($event)"></app-select-date>
-          </div>
+          </div> -->
           <p class="card-text text-center">¿Cuál es tu género?</p>
           <ion-item lines="none">
             <div class="buttons-containers">

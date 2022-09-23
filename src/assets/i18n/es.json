@@ -1,0 +1,65 @@
+{
+    "LOGIN": {
+        "email": "Correo",
+        "password": "Contraseña",
+        "login": "Ingresar",
+        "username": "Nombre de Usuario",
+        "account": "¿No tienes cuenta?",
+        "cancel": "Cancelar",
+        "confirm": "Guardar",
+        "signup": "Regístrate",
+        "emailvalid": "Ingresa tu Correo",
+        "passwordvalid": "Ingresa tu contraseña",
+        "uservalid": "El usuario no existe",
+        "wrongpassword": "Ingresa una contraseña",
+        "emailInUse": "Este correo electrónico está siendo utilizado por otro usuario.",
+        "usernamevalid": "Otro usuario está usando este nombre de usuario",
+        "emailcannot": "El correo electrónico no puede estar vacío",
+        "emailnovalid": "El correo no es válido",
+        "passwordcannot": "La contraseña no puede estar vacía",
+        "password6valid": "La contraseña debe contener al menos 6 caracteres",
+        "usernamecannot": "El nombre de usuario no puede estar vacío",
+        "usernamemust": "El nombre de usuario debe contener al menos 4 caracteres",
+        "welcome":"Bienvenido/a, "
+    },
+    "LANGUAGE": {
+        "english": "Inglés",
+        "spanish": "Español"
+    },
+    "ADMIN_PANEL": {
+        "campus_description": "Descripción del campo",
+        "holes": "Hoyos",
+        "reviews": "Reseñas",
+        "posts": "Publicaciones",
+        "messages": "Mensajes",
+        "edit": "Editar",
+        "course_name": "Nombre del Campo",
+        "email": "Correo Asociado",
+        "cif": "CIF",
+        "phone": "Teléfono",
+        "address": "Dirección",
+        "state": "Provincia",
+        "zipCode": "C.P",
+        "country": "País",
+        "language": "Idioma",
+        "save_changes":"Guardar Cambios",
+        "members":"Miembros"
+    },
+    "UTILS": {
+      "image": "Imagen",
+      "uploaded_images":"La foto se ha guardado exitosamente",
+      "choose_image": "Selecciona una imagen",
+      "take_pic": "Toma una foto",
+      "saved_success": "Guardado exitosamente",
+      "error": "Ha ocurrido un error, intenta de nuevo"
+    },
+    "MENU": {
+        "events": "Eventos",
+        "lessons": "Clases",
+        "friends": "Amigos",
+        "saved": "Guardados",
+        "campus": "Campos",
+        "my_club": "Mi Club",
+        "languages": "Lenguages"
+    }
+}

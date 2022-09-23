@@ -1,0 +1,166 @@
+<app-header backButton="/tabs/play" title="Crear una Partida" icon="../../../../../assets/icons/golf-flag.svg">
+</app-header>
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-grid>
+    <ion-row>
+      <div>
+        <ion-col class="col-title">
+          <div class="header-title">
+            <h1 style="color: white;font-weight: 600;">¿Con quien <br> quieres jugar?</h1>
+          </div>
+        </ion-col>
+      </div>
+    </ion-row>
+    <ion-row class="vertical-align-center">
+      <div>
+        <ion-col class="col-content">
+
+          <div *ngIf="!loadingUsers" class="players-container">
+            <ion-grid fixed>
+              <ion-row>
+                <ion-col size="3">
+                  <ion-button (click)="selectPlayers()" class="add-btn">
+                    <ion-icon src="../../../../../../assets/icons/tab/create.svg"></ion-icon>
+                  </ion-button>
+                </ion-col>
+                <ion-col size="3" *ngIf="user && currentUserPlaying" class="ion-text-center">
+                  <ion-avatar style="margin: 0 auto;">
+                    <img [src]="user.profile.photo ? user.profile.photo : avatar" />
+                  </ion-avatar>
+                  <div style="padding-top: 10px;text-transform: capitalize;">Tú</div>
+                </ion-col>
+                <ion-col class="ion-text-center" *ngFor="let p of players$.value; index as i"
+                  [size]="players$.value.length ? '3' : '0'">
+                  <ion-avatar style="margin: 0 auto;">
+                    <ion-icon (click)="removePlayer(i)" style="position: absolute;font-size: 25px;left: 70%;top: 2%;"
+                      color="secondary" name="close-circle"></ion-icon>
+                    <img [src]="p.profile.photo ? p.profile.photo : avatar" />
+                  </ion-avatar>
+                  <div style="padding-top: 10px;text-transform: capitalize;">{{p.name}}</div>
+                </ion-col>
+
+
+              </ion-row>
+            </ion-grid>
+          </div>
+
+          <div *ngIf="loadingUsers" class="ion-text-center ion-padding">
+            <ion-spinner color="primary"></ion-spinner>
+          </div>
+
+          <div class="ion-text-end players-length">{{currentUserPlaying ? players$.value.length + 1 :
+            players$.value.length}} jugadores</div>
+
+
+
+
+          <div *ngIf="gameSvc.game.value.guests.length" class="players-container">
+            <ion-grid fixed>
+              <ion-row>
+
+                <ion-col class="ion-text-center" *ngFor="let p of gameSvc.game.value.guests; index as i" size="3">
+                  <ion-avatar style="margin: 0 auto;">
+                    <ion-icon (click)="removeGuest(i)" style="position: absolute;font-size: 25px;left: 70%;top: 2%;"
+                      color="secondary" name="close-circle"></ion-icon>
+                    <img [src]="avatar" />
+                  </ion-avatar>
+                  <div style="padding-top: 10px;text-transform: capitalize;">{{p.name}}</div>
+                </ion-col>
+
+              </ion-row>
+            </ion-grid>
+          </div>
+
+          <div class="ion-padding-vertical">
+            <ion-item class="ion-no-padding">
+              <ion-label>Agregar jugadores no registrados</ion-label>
+              <ion-icon (click)="addGuest()" slot="end" color="secondary" name="add-circle"></ion-icon>
+            </ion-item>
+          </div>
+
+          <!-- <div class="ion-padding-vertical">
+            <ion-item class="ion-no-padding">
+              <ion-label>¿Vas a participar en esta partida?</ion-label>
+              <ion-checkbox color="secondary" [(ngModel)]="currentUserPlaying" slot="end"></ion-checkbox>
+            </ion-item>
+          </div> -->
+
+
+          <div class="label">¿Cuando?</div>
+
+          <app-date-input [min]="currentDate" day="true" [date]="date$"></app-date-input>
+
+          <div class="label">
+            <ion-icon color="secondary" name="location-outline"></ion-icon> ¿Donde?
+          </div>
+          <div style="padding-bottom: 15px;">
+            <ion-item (click)="selectGolfCourse()" class="item-select" lines="none" >
+              <ion-label *ngIf="campusSelected">
+                {{campusSelected.name ? campusSelected.courseName : campusSelected.address}}
+              </ion-label>
+              <ion-label *ngIf="!campusSelected">
+                Selecciona un campo
+              </ion-label>
+              <ion-icon slot="end" name="chevron-down"></ion-icon>
+            </ion-item>
+          </div>
+          
+         
+
+          <div class="input-side">
+            <div class="label">
+              ¿A que hora?
+            </div>
+            <div class="input">
+              <ion-input type="time" [(ngModel)]="gameSvc.game.value.hour" class="select-container input-name">
+              </ion-input>
+            </div>
+          </div>
+
+          <div class="label">
+            Nombre de la partida
+          </div>
+          <ion-input type="text" [(ngModel)]="gameSvc.game.value.name" class="select-container input-name"
+            placeholder="Ingresa un nombre para la partida"></ion-input>
+
+          <div class="ion-padding-vertical">
+            <div class="label">
+              ¿Que has reservado para esta partida?
+            </div>
+
+            <swiper [config]="config">
+              <ng-template *ngFor="let s of gameSvc.game.value.reservation" swiperSlide>
+                <div (click)="s.isChecked = !s.isChecked" [ngClass]="{'selected': s.isChecked}"
+                  class="extra-card ion-activatable ripple-parent">
+                  <ion-icon [src]="s.icon"></ion-icon>
+                  <div class="name">{{s.name}}</div>
+                  <ion-ripple-effect></ion-ripple-effect>
+                </div>
+              </ng-template>
+            </swiper>
+          </div>
+
+
+          <div class="ion-text-center btn-submit-container">
+            <ion-button *ngIf="!creating" [disabled]="!validator()" (click)="createGame()" class="game-btn" mode="ios"
+              color="secondary" expand="block" shape="round">
+              <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
+              Crear Partida
+            </ion-button>
+
+            <ion-button *ngIf="creating" disabled class="game-btn ion-text-center" mode="ios" color="secondary"
+              expand="block" shape="round">
+              <ion-spinner></ion-spinner>
+            </ion-button>
+
+          </div>
+
+
+        </ion-col>
+      </div>
+    </ion-row>
+  </ion-grid>
+</ion-content>

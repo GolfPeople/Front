@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/core/services/user.service';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 
-import {
+import { 
   NgxQrcodeElementTypes,
   NgxQrcodeErrorCorrectionLevels,
 } from '@techiediaries/ngx-qrcode';
@@ -12,6 +12,9 @@ import { element } from 'protractor';
 import { LoadingService } from 'src/app/core/services/loading/loading.service';
 import { PostsService } from 'src/app/core/services/posts.service';
 import { PostsResponse } from 'src/app/core/interfaces/interfaces';
+import { BehaviorSubject } from 'rxjs';
+import { CampusDataService } from '../campus/services/campus-data.service';
+import { GameService } from 'src/app/core/services/game.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -26,21 +29,31 @@ export class EditProfilePage implements OnInit {
   level: boolean;
   bolsa: boolean;
   campos: boolean;
-  posts: boolean = true;
+  posts: boolean  = true;
   postsPage = 1;
   postsData: PostsResponse[] = [];
   isLoadingMore: boolean = false;
+
+  segment = 'posts'
 
   elementType = NgxQrcodeElementTypes.URL;
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   value: string;
 
+
+  toggleOptions = { one: 'Campos Jugados', two: 'Clubes Asociados' }
+  toggle$ = new BehaviorSubject(false);
+
+  courses = new BehaviorSubject([]);
+  user_id: number;
   constructor(
     private userService: UserService,
     private modalCtrl: ModalController,
     private loadingSvc: LoadingService,
     private loadingCtrl: LoadingController,
-    private postsSvc: PostsService
+    private postsSvc: PostsService,
+    public gameSvc: GameService,
+    public campusSvg: CampusDataService
   ) {}
 
   async ngOnInit() {
@@ -59,14 +72,19 @@ export class EditProfilePage implements OnInit {
     });
   }
 
+  ionViewWillEnter(){
+   this.user_id = JSON.parse(localStorage.getItem('user_id'));
+   this.getCourses()
+  }
+
   ionViewDidEnter() {
-    console.log('ionViewDidEnter TEST');
+ 
     setTimeout(() => {
       this.postsSvc.myPosts(1).subscribe(
         ({ data }) => {
           this.postsData = data;
           this.postsPage = 2;
-          console.log(this.postsData);
+       
         },
         (error) => {
           console.log(error);
@@ -74,6 +92,21 @@ export class EditProfilePage implements OnInit {
       );
     }, 1000);
   }
+
+
+ /**===================Mostrar Campos Jugados============== */
+
+ getCourses() {
+    
+  this.campusSvg.getPlayerCourses(this.user_id).subscribe(res => {
+    this.courses.next(res);
+ 
+  }, err => {
+    console.log(err);
+
+  })
+}
+
 
   shareQR() {
     if (this.value) {
@@ -106,8 +139,7 @@ export class EditProfilePage implements OnInit {
       this.level = true;
       this.bolsa = false;
       this.campos = false;
-      this.posts = false;
-      console.log(value);
+      this.posts = false;   
       return;
     }
     if (value === '2') {
@@ -115,15 +147,13 @@ export class EditProfilePage implements OnInit {
       this.bolsa = true;
       this.campos = false;
       this.posts = false;
-      console.log(value);
       return;
     }
     if (value === '3') {
       this.level = false;
       this.bolsa = false;
       this.campos = true;
-      this.posts = false;
-      console.log(value);
+      this.posts = false;   
       return;
     }
     if (value === '4') {
@@ -131,7 +161,6 @@ export class EditProfilePage implements OnInit {
       this.bolsa = false;
       this.campos = false;
       this.posts = true;
-      console.log(value);
       return;
     }
   }
@@ -174,4 +203,7 @@ export class EditProfilePage implements OnInit {
       }
     );
   }
+
+
+
 }

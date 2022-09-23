@@ -28,7 +28,7 @@ export class CampoCardComponent implements OnInit {
   constructor(private campusSvc: CampusService) {}
 
   ngOnInit() {
-    this.designer = JSON.parse(this.campo.designer);
+    this.designer = JSON.parse(this.campo.designer);    
   }
 
   selectCampus(campus: Campus) {
