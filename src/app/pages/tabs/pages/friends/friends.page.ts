@@ -14,7 +14,7 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 })
 export class FriendsPage implements OnInit {
 
-  toggleUsersType = { one: 'Amigos', two: 'Personas' };
+  toggleUsersType = { one: 'Amigos', two: 'Usuarios' };
   toggleUsersType$ = new BehaviorSubject(false);
 
   users = []

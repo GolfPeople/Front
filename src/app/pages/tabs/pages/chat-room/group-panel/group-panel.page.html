@@ -42,10 +42,11 @@
       <ion-icon color="primary" name="person-add-outline"></ion-icon>
       <div>Añadir</div>
     </div>
-    <!-- <div (click)="searchMessagesModal()" class="ion-text-center cont">
+    <!-- <div  class="ion-text-center cont">
       <ion-icon color="primary" name="search-outline"></ion-icon>
       <div>Buscar</div>
     </div> -->
+    
   </div>
 
 
@@ -53,10 +54,12 @@
     <ion-label>Grupo creado: {{data.created_at | date: 'dd/MM/yyyy'}}</ion-label>
   </ion-item>
 
+  <ion-searchbar [(ngModel)]="search"  placeholder="Buscar" [debounce]="1000"></ion-searchbar>
   <ion-item class="ion-no-padding" lines="none">
     <ion-label>{{data.user.length}} participantes</ion-label>
     <ion-icon slot="end" name="chevron-down"></ion-icon>
   </ion-item>
+
 
   <ion-item *ngFor="let u of data.user; index as i" lines="none" class="ion-no-padding">
     <ion-avatar class="ion-margin-vertical user-avatar">

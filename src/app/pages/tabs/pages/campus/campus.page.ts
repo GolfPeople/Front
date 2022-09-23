@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { GoogleMap, Marker } from '@capacitor/google-maps';
-import {  ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { environment } from 'src/environments/environment';
 import { CreateFieldPage } from '../create-field/create-field.page';
@@ -31,7 +31,7 @@ export class CampusPage implements OnInit {
 
   search = '';
   constructor(
-    public campusSvg: CampusDataService,   
+    public campusSvg: CampusDataService,
     private modalCtrl: ModalController,
     private firebaseSvc: FirebaseService
   ) { }
@@ -40,14 +40,14 @@ export class CampusPage implements OnInit {
     this.getCourses()
   }
 
-  golfCourseDetail(id){ 
-    this.firebaseSvc.routerLink('/tabs/campus/campus-detail/'+id)
+  golfCourseDetail(id) {
+    this.firebaseSvc.routerLink('/tabs/campus/campus-detail/' + id)
   }
 
 
   async createMap(markers) {
 
-  let first = markers[1];
+    let first = markers[1];
 
     const map = new google.maps.Map(
       this.mapElement.nativeElement,
@@ -56,19 +56,19 @@ export class CampusPage implements OnInit {
         center: first.position,
       }
     );
-  
-    for(let m of markers){
-     let marker = new google.maps.Marker({
+
+    for (let m of markers) {
+      let marker = new google.maps.Marker({
         position: m.position,
         map,
-        title: m.title,   
-        icon: m.icon 
+        title: m.title,
+        icon: m.icon
       });
 
       marker.addListener("click", () => {
         this.golfCourseDetail(m.title)
       });
-    }    
+    }
   }
 
   doRefresh(event) {
@@ -78,13 +78,14 @@ export class CampusPage implements OnInit {
     }, 500)
   }
 
-  getCourses(){
+  getCourses() {
     this.loading = true;
-    this.campusSvg.searchCourses(this.search).subscribe(res =>{
-      this.campusSvg.golfCourses.next(res.reverse());
+    this.campusSvg.searchCourses(this.search).subscribe(res => {
+      this.campusSvg.golfCourses.next(res.all_courses);
+
       this.loading = false;
-        
-      let markers: Marker[] = res.map(m => {
+
+      let markers: Marker[] = res.all_courses.map(m => {
         return {
           position: {
             lat: parseInt(m.latitude),
@@ -96,17 +97,17 @@ export class CampusPage implements OnInit {
       })
 
       if (markers) {
-         this.createMap(markers);   
-      }   
-   
-    }, err =>{
-console.log(err);
+        this.createMap(markers);
+      }
+
+    }, err => {
+      console.log(err);
 
     })
   }
 
 
-  
+
   async createCamp() {
     const modal = await this.modalCtrl.create({
       component: CreateFieldPage,

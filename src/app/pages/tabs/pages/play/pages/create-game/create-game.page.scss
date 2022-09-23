@@ -10,6 +10,18 @@ ion-item{
   }
 }
 
+.item-select{
+  --min-height: 45px;
+  --background: rgba(221, 221, 221, 0.2);
+  --border-radius: 10px;
+  font-size: 13px;
+  color: rgb(162, 162, 162);
+
+  ion-icon{
+    font-size: 15px;
+  }
+}
+
 .game-btn{
   font-size: 13px;
   text-transform: capitalize;

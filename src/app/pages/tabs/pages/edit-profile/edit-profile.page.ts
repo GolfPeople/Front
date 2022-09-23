@@ -43,7 +43,7 @@ export class EditProfilePage implements OnInit {
   toggle$ = new BehaviorSubject(false);
 
   courses = new BehaviorSubject([]);
-
+  user_id: number;
   constructor(
     private userService: UserService,
     private modalCtrl: ModalController,
@@ -71,7 +71,8 @@ export class EditProfilePage implements OnInit {
   }
 
   ionViewWillEnter(){
-    this.getAllGames();
+   this.user_id = JSON.parse(localStorage.getItem('user_id'));
+   this.getCourses()
   }
 
   ionViewDidEnter() {
@@ -90,24 +91,20 @@ export class EditProfilePage implements OnInit {
     }, 1000);
   }
 
-  getAllGames() {
-    this.gameSvc.getAllGames().subscribe(res => {
-      let games = res.data.map(g => {
-        return {
-          campuses_id: g.campuses_id,
-          isMember: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && (u.status == '2' || u.status == '4')).length ? true : false),
-        }
-      }).filter(g => g.isMember == true)
-      this.getGolfCoursesPlayed(games);
-    })
-  }
 
-  getGolfCoursesPlayed(games) {
-    let courses_id = games.map(res => { return (res.campuses_id) });
-    this.campusSvg.getData().subscribe(res => {
-      this.courses.next(res.data.filter(c => courses_id.includes(c.id)));
-    })
-  }
+ /**===================Mostrar Campos Jugados============== */
+
+ getCourses() {
+    
+  this.campusSvg.getPlayerCourses(this.user_id).subscribe(res => {
+    this.courses.next(res);
+ 
+  }, err => {
+    console.log(err);
+
+  })
+}
+
 
   shareQR() {
     if (this.value) {

@@ -1,19 +1,26 @@
 <app-header title="Jugar" icon="assets/icons/tab/play.svg">
 </app-header>
 
-<ion-toolbar class="toggle-toolbar" color="primary">
+<ion-toolbar color="primary">
   <app-toggle-options (click)="changeLabels()" [toggle]="toggleGameType$" [options]="toggleOptionsGameType"></app-toggle-options>
 
-  <ion-button *ngIf="!toggleGameType$.value && user" class="create-btn" (click)="createNewGame()" fill="clear"
-    shape="round">
-    <ion-icon color="secondary" slot="start" name="add-circle-outline"></ion-icon>
-    <span class="create-btn-name">Crear Partida</span>
+</ion-toolbar>
+
+<ion-toolbar class="toggle-toolbar" color="primary">
+  <ion-buttons class="ion-padding" *ngIf="user" slot="start">
+    <!-- Nueva partida  -->
+  <ion-button *ngIf="!toggleGameType$.value" slot="start" fill="solid" color="secondary" class="create-btn"
+  (click)="createNewGame()" shape="round">
+    <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+    <span>Crear Partida</span>
   </ion-button>
-  <ion-button *ngIf="toggleGameType$.value" class="create-btn" routerLink="/tabs/play/create-tournament" fill="clear"
-    shape="round">
-    <ion-icon color="secondary" slot="start" name="add-circle-outline"></ion-icon>
-    <span class="create-btn-name">Crear Torneo</span>
+   <!-- Nuevo torneo  -->
+  <ion-button *ngIf="toggleGameType$.value" slot="start" fill="solid" color="secondary" class="create-btn"
+  routerLink="/tabs/play/create-tournament" shape="round">
+    <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+    <span>Crear Torneo</span>
   </ion-button>
+</ion-buttons>
 </ion-toolbar>
 
 <ion-content>

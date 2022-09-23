@@ -3,6 +3,12 @@ ion-content{
     font-size: 13px;
   }
 
+  ion-searchbar {
+    --border-radius: 100px;
+    --box-shadow: none;
+    --background: #fafafaed;    
+  }
+
 ion-text{
   font-size: 12px;
   font-weight: 600;

@@ -57,6 +57,12 @@
   --height: 100%;
 }
 
+.select-course-modal{
+  padding: 20px;
+  --height: 500px;
+  --border-radius: 20px;
+}
+
 *:not(ion-icon) {
   font-family: "Montserrat";
 }
@@ -65,6 +71,10 @@
   margin: 0;
   padding: 0;
   // box-sizing: border-box;
+}
+
+ion-button{
+  text-transform: capitalize;
 }
 
 .level-range{
