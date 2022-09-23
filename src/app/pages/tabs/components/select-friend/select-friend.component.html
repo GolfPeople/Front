@@ -1,4 +1,7 @@
 <app-header backButtonModal="true" icon="../../../../assets/icons/tab/play.svg" title="Seleccionar"></app-header>
+<ion-toolbar color="primary" class="search-container">
+  <ion-searchbar [(ngModel)]="search" (ionChange)="getPeopleWithHCP()"  placeholder="Buscar" [debounce]="1000"></ion-searchbar>
+</ion-toolbar>
 <ion-content class="ion-padding">
 
 

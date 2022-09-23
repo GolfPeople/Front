@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { PostsResponse } from 'src/app/core/interfaces/interfaces';
 import { Friend } from 'src/app/core/models/friend.interface';
 import { FriendsService } from 'src/app/core/services/friends.service';
@@ -25,28 +26,36 @@ export class HomePage implements OnInit {
   tournaments = [];
 
   loading: boolean;
+
+  resfresh: BehaviorSubject<string>;
+
   constructor(
     private userService: UserService,
     private postsSvc: PostsService,
     private friendsSvc: FriendsService,
     public campusSvg: CampusDataService,
-    public gameSvc: GameService
+    public gameSvc: GameService,
+
   ) {
 
+   
   }
 
   async ngOnInit() {
     this.getGolfCourses();
+    this.resfresh = this.userService.refreshPost;
   }
 
   ionViewWillEnter() {
     this.getUserInfo();
-    this.getPosts();
+    this.getPostPageOne();
     this.getTournaments();
     this.getPeopleUserMayKnow();
   }
 
-  
+  ionViewDidEnter() {
+    this.getPostPageOne();
+  }
 
   doRefresh(event) {
     setTimeout(() => {
@@ -60,15 +69,29 @@ export class HomePage implements OnInit {
   getPeopleUserMayKnow() {
     this.friendsSvc.mayKnow(this.peoplePage).subscribe(({ data }) => {
       this.people = data;
-      console.log(data);
     });
   }
 
-  getPosts() {
-    this.page = 1;
+  getPostPageOne() {
+    this.postsSvc.all(1).subscribe(
+      ({ data }) => {
+
+        this.posts = data;
+
+        this.page += 1;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  loadMorePost() {
+
     this.postsSvc.all(this.page).subscribe(
       ({ data }) => {
-        this.posts = data;
+
+        this.posts.push(...data);
         this.page += 1;
       },
       (error) => {

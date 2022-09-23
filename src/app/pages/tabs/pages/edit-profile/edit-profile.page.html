@@ -57,7 +57,9 @@
     </div>
     </div>
   </div>
-    <app-level *ngIf="segment == 'level'"></app-level>
+  <div class="ion-text-center"  *ngIf="segment == 'level'">
+    <img  src="assets/img/nivel.png" alt=""> 
+ </div>
     <div *ngIf="segment == 'courses'">
       <app-toggle-options color="#009838" [toggle]="toggle$" [options]="toggleOptions"></app-toggle-options>
       <app-golf-course-item [coursesPlayed]="courses" *ngIf="!toggle$.value"></app-golf-course-item>

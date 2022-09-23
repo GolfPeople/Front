@@ -237,7 +237,7 @@ export class ScoreCardPage implements OnInit {
 
 
   likeToHole() {
-    this.liked = false;
+    this.liked = !this.liked;
     this.campusSvg.likeToHole(this.detail.campuses_id, this.selectedHole).subscribe(res => {
       this.likeCounter = res.count;
 

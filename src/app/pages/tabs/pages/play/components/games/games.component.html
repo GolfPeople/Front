@@ -34,11 +34,18 @@
         </div>
 
         <!--================Partidas en pendiente que no son del usuario================-->
-        <ion-buttons *ngIf="!toggleUserGames$.value && g.status == '1' && !g.pending && !g.isInvited" slot="end">
-          <ion-button (click)="openGameDetail(g.id)" class="join-btn" color="secondary" shape="round" fill="solid">
-            Solicitar unirme
+      
+        <span class="ion-text-center" *ngIf="!toggleUserGames$.value && g.status == '1' && !g.pending && !g.isInvited" slot="end">   
+           <div>
+            <ion-button (click)="wantToJoin(g)" mode="ios" class="join-btn" color="secondary" shape="round" fill="solid">
+              Solicitar unirme
+            </ion-button>
+           </div>
+          <ion-button style="width: 140px;" (click)="openGameDetail(g.id)" class="join-btn" mode="ios" color="success"
+            shape="round" fill="solid">
+            Ver Partida
           </ion-button>
-        </ion-buttons>
+      </span>
 
 
         <!--================Si el usuario fue invitado a la partida================-->

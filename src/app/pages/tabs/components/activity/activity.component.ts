@@ -102,6 +102,9 @@ export class ActivityComponent implements OnInit {
     }, error => {
       this.firebaseService.Toast('Ha ocurrido un error, intente de nuevo.');
       console.log(error);
+      if(error == 'partida iniciada'){
+        this.markOneAsRead(e.id, index)
+      }
       loading.dismiss();
     })
   }
@@ -119,6 +122,10 @@ export class ActivityComponent implements OnInit {
     }, error => {
       this.firebaseService.Toast('Ha ocurrido un error, intente de nuevo.');
       console.log(error);
+
+      if(error == 'partida iniciada'){
+        this.markOneAsRead(e.id, index)
+      }
       loading.dismiss();
     })
   }
@@ -145,6 +152,10 @@ export class ActivityComponent implements OnInit {
     }, error => {
       this.firebaseService.Toast('Ha ocurrido un error, intente de nuevo.');
       console.log(error);
+
+      if(error == 'partida iniciada'){
+        this.markOneAsRead(e.id, index)
+      }
       loading.dismiss();
     })
   }
@@ -161,6 +172,10 @@ export class ActivityComponent implements OnInit {
     }, error => {
       console.log(error);
       this.firebaseService.Toast('Ha ocurrido un error, intente de nuevo.');
+
+      if(error == 'partida iniciada'){
+        this.markOneAsRead(e.id, index)
+      }
       loading.dismiss();
     })
   }

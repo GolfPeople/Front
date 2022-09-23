@@ -192,7 +192,7 @@ async handicapRequired() {
     }
     this.gameSvc.getAllGames().subscribe(res => {
       this.loading = false;
-      console.log(res);
+
       
       this.gameSvc.games$.next(res.data.reverse().map(g => {
 
@@ -231,7 +231,6 @@ async handicapRequired() {
 
       )
 
-      console.log(this.gameSvc.games$.value);
       
       this.filterGames();
     })
