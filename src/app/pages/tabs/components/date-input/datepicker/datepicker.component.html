@@ -1,0 +1,24 @@
+<ion-content>
+<ion-item lines="none">
+ <ion-buttons slot="start">
+  <ion-button (click)="close()">
+    <ion-icon color="medium" name="close-circle"></ion-icon>    
+  </ion-button>
+ </ion-buttons>
+</ion-item>
+<ion-datetime presentation="date" *ngIf="min" [(ngModel)]="date" [value]="min" [min]="min" display-format="DD.MM.YYYY">
+</ion-datetime> 
+
+<ion-datetime presentation="date" *ngIf="!min" [(ngModel)]="date"  display-format="DD.MM.YYYY">
+</ion-datetime> 
+
+
+
+</ion-content>
+<ion-footer class="ion-no-border">
+  <ion-footer class="ion-text-center ion-padding">
+    <ion-button [disabled]="!date" color="secondary" (click)="saveDate()" mode="ios" shape="round">
+     Aceptar
+    </ion-button>
+   </ion-footer>
+</ion-footer>

@@ -1,47 +1,56 @@
-ion-header {
-  ion-toolbar {
-    --background: #00388b !important;
-    ion-title {
-      margin-right: 50px;
+.chat-pt {
+  padding-top: 10px;
+}
 
-      h2 {
-        font-weight: 700;
-        font-size: 1.6rem;
-        line-height: 2.2rem;
+h3{
+  text-transform: capitalize;
+}
 
-        font-variant: small-caps;
-        display: flex;
-        justify-content: center;
+.time-ago{
+  color: rgb(185, 185, 185);
+  font-size: 13px;
+  font-weight: 500;
 
-        color: #ffffff;
-        text-transform: uppercase;
-
-        img {
-          margin-right: 0.8rem;
-        }
-      }
-    }
-  }
-
-  .user-info-chat {
-    --background: #fff;
-    --min-height: 85px;
-    color: #000000;
-    --border-color: #ddd;
-
-    h3 {
-      font-weight: 600;
-      font-size: 20px;
-      line-height: 125%;
-    }
-  }
-
-  ion-back-button {
-    ion-icon {
-      color: #fff;
-    }
+  &.no-msg{
+    position: relative;
+    bottom: 20px;
   }
 }
+
+.new-msg-btn {
+  text-transform: capitalize;
+  color: white;
+  font-size: 12px;
+  span{
+   padding-right: 5px;
+  }
+  
+}
+
+.new-msg-btn span {
+  padding-left: 5px; 
+}
+
+.unread{
+  font-weight: bold;
+  color: black;
+}
+
+ion-badge{
+  padding: 4px 6px 4px 6px;
+}
+
+.group-avatars {
+  position: relative;
+  right: 13px;
+  &.first{
+    left: 8px;
+  }
+  &.second{
+    right: 3px;
+  }
+}
+
 
 ion-content {
   --background: #fff;
@@ -75,11 +84,17 @@ ion-content {
     }
   }
 
+  ion-chip{
+    padding: 6px 10px 6px 10px;
+    ion-label{
+      font-size: 13px;
+    }
+  }
+
   ion-list {
     background: transparent;
 
-    ion-item {
-      --background: #f9f9f9;
+    ion-item {   
       --padding-bottom: 10px;
       --padding-top: 10px;
       --padding-start: 10px;
@@ -89,6 +104,10 @@ ion-content {
       ion-avatar {
         width: 48px;
         height: 48px;
+        &.group{
+          width: 30px;
+        height: 30px;
+        }
       }
 
       ion-label {
@@ -98,13 +117,26 @@ ion-content {
           line-height: 150%;
           color: #000;
         }
-        p {
-          font-weight: 600;
+
+        p {        
           font-size: 12px;
           line-height: 150%;
           color: rgba(0, 0, 0, 0.4);
         }
       }
     }
+
+    ion-item:hover{
+      --background: rgb(238, 237, 237);
+    }
   }
+}
+
+.no-chats{
+  padding-top: 10%;
+  text-align: center;
+  color: var(--ion-color-medium);
+}
+.no-chats ion-icon{
+ font-size: 100px;
 }

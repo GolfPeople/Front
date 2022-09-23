@@ -17,6 +17,8 @@ export class NotificationsService {
   private counter = new BehaviorSubject<number>(0);
   counter$ = this.counter.asObservable();
 
+
+  userNotifications$ = new BehaviorSubject([])
   constructor(private http: HttpClient) {}
 
   noRead() {
@@ -62,9 +64,8 @@ export class NotificationsService {
   }
 
   // Marca una notificacion como leidas
-  markAsReadOne(id) {
-    const key = id;
-    return this.http.post(`${URL}/notifications/my/markreadone`, { key });
+  markAsReadOne(id) {     
+    return this.http.post(`${URL}/notifications/my/markreadone`, { key: id });
   }
 
   delete() {

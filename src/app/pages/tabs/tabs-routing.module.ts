@@ -13,12 +13,7 @@ const routes: Routes = [
         path: '',
         redirectTo: 'home',
         pathMatch: 'full',
-      },
-      {
-        path: 'home',
-        loadChildren: () =>
-          import('./pages/home/home.module').then((m) => m.HomePageModule),
-      },
+      },     
       {
         path: 'profile',
         loadChildren: () =>
@@ -45,14 +40,6 @@ const routes: Routes = [
         loadChildren: () =>
           import('./pages/posts/posts.module').then((m) => m.PostsPageModule),
       },
-
-      {
-        path: 'friends',
-        loadChildren: () =>
-          import('./pages/friends/friends.module').then(
-            (m) => m.FriendsPageModule
-          ),
-      },
       {
         path: 'user-profile/:id',
         loadChildren: () =>
@@ -66,14 +53,7 @@ const routes: Routes = [
           import('./pages/chat-room/chat-room.module').then(
             (m) => m.ChatRoomPageModule
           ),
-      },
-      // {
-      //   path: 'admin-panel',
-      //   loadChildren: () =>
-      //     import('./pages/admin-panel/admin-panel.module').then(
-      //       (m) => m.AdminPanelPageModule
-      //     ),
-      // },
+      },      
       {
         path: 'create-field',
         loadChildren: () =>
@@ -87,13 +67,25 @@ const routes: Routes = [
           import('./pages/campus/campus.module').then(
             (m) => m.CampusPageModule
           ),
-      },
+      },      
+      {
+        path: 'play',
+        loadChildren: () => import('./pages/play/play.module').then( m => m.PlayPageModule)
+      },    
+      {
+        path: 'home',
+        loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+      },   
+      {
+        path: 'friends',
+        loadChildren: () => import('./pages/friends/friends.module').then( m => m.FriendsPageModule)
+      }, 
     ],
   },
   {
     path: 'post/:user/:id',
     component: PublicPostComponent,
-  },
+  },  
 ];
 
 @NgModule({

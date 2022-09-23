@@ -1,0 +1,78 @@
+ion-content {
+    --background: url('../../../../../../../assets/img/rectangle-2.jpg');
+}
+
+.content {
+    position: absolute;
+    bottom: 0;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    width: 100%;
+    height: 75%;
+    background: white;
+    overflow: auto;    
+}
+
+label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+
+.campus-name {
+    font-size: 29px;
+    color: white;
+    font-weight: 600;
+    line-height: 25px;
+    padding-bottom: 15px;
+}
+
+.title-blue{
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--ion-color-primary);
+    text-align: center;
+    padding-top: 30px;
+}
+
+.read-email-blue{
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ion-color-primary);
+    text-align: center;
+    padding: 30px 20px 20px 20px;
+}
+
+p{
+    text-align: center;
+    font-size: 13px;
+    padding: 20px 0px 20px 0px;
+    line-height: 20px;
+}
+
+.user-name{
+    font-weight: bold;
+    text-transform: capitalize;
+}
+.data-item{
+    font-size: 15px;
+    --background: #f8f8f8;
+    --border-radius: 10px;
+    --padding-top: 20px;
+    --padding-bottom: 20px;
+    ion-icon{
+        font-size: 30px;
+        color: gray;
+    }
+}
+
+.input-name{
+    --placeholder-color: #d0d0d0;
+    --placeholder-font-weight: 300;
+    --placeholder-opacity: 100%;
+  }
+
+  .btn{
+    text-transform: capitalize;
+    font-size: 13px;
+}

@@ -1,36 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { Platform } from '@ionic/angular';
+import { FirebaseService } from './services/firebase.service';
+import { LanguageService } from './services/language.service';
 
-import { LoginService } from './core/services/login.service';
-import { PostsService } from './core/services/posts.service';
-import { UserService } from './core/services/user.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent implements OnInit {
-  isLogged: boolean;
+export class AppComponent {
+
   constructor(
-    private loginService: LoginService,
-    private router: Router,
-    private userSvc: UserService,
-    private postsSvc: PostsService
-  ) {
-    this.userSvc.getUserInfoToSave();
+    private platform: Platform,
+    private languageService: LanguageService,
+    private firebaseSvc: FirebaseService
+    ) {
+
+      this.initializeApp();
+    }
+
+  initializeApp(){
+    this.platform.ready().then(() => {
+      this.languageService.setInitialAppLanguage();
+    })
   }
 
-  ngOnInit(): void {
-    // this.userSvc.getUserID();
-    this.loginService.isLogged$.subscribe((res) => {
-      console.log('El usuario está logueado: ', res);
-      this.isLogged = res;
-    });
-    if (this.isLogged === true) {
-      // this.router.navigate(['/website']);
-      this.userSvc.getUserInfoToSave();
-    }
-    // this.postsSvc.getPostsAction();
-  }
+
+
+
 }

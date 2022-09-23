@@ -17,7 +17,7 @@
       <div>
         <!-- <ion-col size-sm="4" offset-sm="4" class="col-content"> -->
         <ion-col class="col-content">
-          <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+          <form [formGroup]="form" class="ion-padding" (ngSubmit)="onSubmit(form)">
             <ion-list>
               <ion-item class="item-neg">
                 <ion-label position="floating" class="signup-form-title"
@@ -57,6 +57,7 @@
                 </ion-label>
               </ion-item>
             </ion-list>
+          
             <ion-button
               type="submit"
               shape="round"
@@ -75,12 +76,12 @@
               Entrar con <img src="../../assets/icons/google.svg" />
               <img src="" alt="" />
             </ion-button>
-            <ion-button class="facebook" shape="round" expand="block">
+            <ion-button (click)="onLoginFacebook()" class="facebook" shape="round" expand="block">
               Entrar con <img src="../../assets/icons/facebook.svg" />
               <img src="" alt="" />
             </ion-button>
           </form>
-          <p class="text-center pos-link">
+          <p style="padding-top: 20px;font-size: 12px;" class="text-center pos-link">
             ¿No tienes cuenta?
             <a [routerLink]="['/signup']" class="pos-link">Regístrate</a>
           </p>

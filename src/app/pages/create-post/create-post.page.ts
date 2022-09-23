@@ -24,10 +24,9 @@ import { Location } from '@angular/common';
 import { CropperComponent } from './components/cropper/cropper.component';
 import SwiperCore, { Pagination, Lazy } from 'swiper';
 import { VideoService } from 'src/app/core/services/video.service';
-import { CapacitorVideoPlayer } from 'capacitor-video-player';
+// import { CapacitorVideoPlayer } from 'capacitor-video-player';
 
-import { CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
-import { Camera as cmra } from '@awesome-cordova-plugins/camera/ngx';
+
 import { Observable } from 'rxjs';
 import { Friend } from 'src/app/core/models/friend.interface';
 import { FriendsService } from 'src/app/core/services/friends.service';
@@ -44,7 +43,7 @@ SwiperCore.use([Lazy, Pagination]);
   templateUrl: './create-post.page.html',
   styleUrls: ['./create-post.page.scss'],
 })
-export class CreatePostPage implements OnInit, AfterViewInit {
+export class CreatePostPage implements OnInit {
   @ViewChild('swiper') swiper: SwiperComponent;
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
   @ViewChild('fileInputVideo', { static: false }) fileInputVideo: ElementRef;
@@ -122,21 +121,20 @@ export class CreatePostPage implements OnInit, AfterViewInit {
     private actionSheetCtrl: ActionSheetController,
     private platform: Platform,
     private _location: Location,
-    private cmra: cmra,
     private friendsSvc: FriendsService,
     private router: Router
   ) {}
 
-  async ngAfterViewInit() {
-    this.videos = await this.videoService.loadVideos();
+  // async ngAfterViewInit() {
+  //   this.videos = await this.videoService.loadVideos();
 
-    // Inicializar el plugin de video
-    if (this.platform.is('hybrid')) {
-      this.videoPlayer = CapacitorVideoPlayer;
-    } else {
-      this.videoPlayer = CapacitorVideoPlayer;
-    }
-  }
+  //   // Inicializar el plugin de video
+  //   if (this.platform.is('hybrid')) {
+  //     this.videoPlayer = CapacitorVideoPlayer;
+  //   } else {
+  //     this.videoPlayer = CapacitorVideoPlayer;
+  //   }
+  // }
 
   async ngOnInit() {
     var direccion = document.getElementById('address') as HTMLInputElement;

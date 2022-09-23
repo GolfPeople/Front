@@ -10,6 +10,15 @@ ion-content {
     url(../../../assets/img/golf-course.jpg) no-repeat center / cover;
 }
 
+ion-input{
+  font-size: 13px;
+}
+
+.icon-item{
+  position: relative;
+  top: 15px;
+}
+
 .vertical-align-center {
   height: 100%;
   display: flex;

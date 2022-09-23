@@ -8,14 +8,16 @@ import { AdminPanelPageRoutingModule } from './admin-panel-routing.module';
 
 import { AdminPanelPage } from './admin-panel.page';
 import { SharedModule } from 'src/app/shared/shared.module';
-
+import { ComponentsModule } from 'src/app/pages/tabs/components/components.module';
+import { TranslateModule } from '@ngx-translate/core';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     AdminPanelPageRoutingModule,
-    SharedModule,
+    ComponentsModule,
+    TranslateModule
   ],
   declarations: [AdminPanelPage],
 })

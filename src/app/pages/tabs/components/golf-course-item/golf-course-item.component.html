@@ -1,0 +1,37 @@
+<div *ngIf="coursesPlayed.value.length">
+  <div (click)="goToCourseDetail(g.id)" *ngFor="let g of coursesPlayed.value" style="padding-top: 5px;" class="ion-padding">
+  <div style="border-bottom: 1px solid #DDD;padding-bottom: 10px;">
+    <div>
+      <div class="square">
+        <ion-item class="over-img" lines="none">
+          <ion-buttons slot="start">
+            <ion-button>
+              <ion-icon class="icon" style="color:red;" name="heart"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+          <ion-buttons *ngIf="g.recommendRating && g.recommendRating !== '0'" slot="end">
+            <ion-button>
+              <ion-icon class="icon" color="warning" name="star"></ion-icon>
+              <span class="rating">{{g.recommendRating}}</span>
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+        <img [src]="g.thumbnailImage ? g.thumbnailImage : 'assets/img/golf-course.jpg'">
+      </div>
+  
+    </div>
+    <ion-item style="padding-top: 10px;padding-bottom: 5px;" class="ion-no-padding" lines="none">
+      <ion-label class="ion-text-wrap">
+        <div class="name">{{g.courseName}}</div>
+        <div class="av">{{g.address}}</div>
+        <!-- <div class="street">11310 Sotogrande, Cadiz</div> -->
+      </ion-label>
+      <!-- <span class="distance" slot="end">0.50 km</span> -->
+    </ion-item>  
+  </div>
+</div>
+</div>
+<div class="no-data ion-padding" *ngIf="!coursesPlayed.value.length">
+<ion-icon name="image-outline"></ion-icon>
+<div>No hay campos disponibles</div>
+</div>

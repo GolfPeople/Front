@@ -1,91 +1,68 @@
+
 <ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  
   <section>
     <div class="banner">
-      <div class="banner-text">
-        <h2>¡Hola, {{userName}}!</h2>
+      <div *ngIf="userName" class="banner-text">
+        <h2>¡Hola, {{userName}}!</h2>        
         <p>Busca todo lo que necesites en tu comunidad golfística</p>
+      </div>
+
+      <div *ngIf="!userName" style="height: 190px;" class="ion-text-center ion-padding">
+        <ion-spinner color="light"></ion-spinner>
       </div>
       <div class="data-input">
         <input type="text" placeholder="Campos, Destinos, Torneos" />
         <img src="../../../../assets/icon/search.png" alt="" />
       </div>
 
-      <a
-        ><img src="../../../../assets/icon/busqueda-avanzada.png" alt="" />
-        Búsqueda Avanzada</a
-      >
-
-      <!-- <a (click)="openNotifications()" class="notifications">
-        <img src="../../../../assets/icon/notifications.svg" alt="" />
-        <ion-badge color="danger">{{notifications}}</ion-badge>
-      </a> -->
-      <a
-        *ngIf="notifications | async"
-        (click)="openNotifications()"
-        class="notifications"
-      >
-        <ion-icon name="notifications-outline"></ion-icon>
-        <!-- <ion-badge color="danger">{{notifications | async }}</ion-badge> -->
-      </a>
+      <a><img src="../../../../assets/icon/busqueda-avanzada.png" alt="" />
+        Búsqueda Avanzada</a>
     </div>
   </section>
   <section class="main-section">
-    <div class="slides-container">
+   
+
+    <div *ngIf="loading" style="height: 190px;" class="ion-text-center ion-padding">
+      <ion-spinner color="primary"></ion-spinner>
+    </div>
+    <div *ngIf="campusSvg.golfCourses.value.length" class="slides-container">
       <div class="slides-container__header">
         <p class="slide-text">Campos cerca de ti...</p>
-        <a class="view-map"
-          ><img src="../../../../assets/icon/busqueda-avanzada.png" alt="" />
-          Ver Mapa</a
-        >
+        <a class="view-map" routerLink="/tabs/campus"><img src="../../../../assets/icon/busqueda-avanzada.png" alt="" />
+          Ver Mapa</a>
       </div>
       <div class="galery">
         <ul class="stories-list">
-          <li *ngFor="let card of cards">
-            <app-story-card></app-story-card>
+          <li *ngFor="let c of campusSvg.golfCourses.value">
+            <app-story-card [course]="c"></app-story-card>
           </li>
         </ul>
       </div>
-
-      <!-- <swiper #swiper>
-        <ng-template  swiperSlide>Slide 1</ng-template
-        ><ng-template  swiperSlide>Slide 2</ng-template
-        ><ng-template  swiperSlide>Slide 3</ng-template
-        ><ng-template  swiperSlide>Slide 4</ng-template
-        ><ng-template  swiperSlide>Slide 5</ng-template
-        ><ng-template  swiperSlide>Slide 6</ng-template
-        ><ng-template  swiperSlide>Slide 7</ng-template
-        ><ng-template swiperSlide>Slide 8</ng-template
-        ><ng-template  swiperSlide>Slide 9</ng-template>
-      </swiper> -->
     </div>
-    <div class="slides-container">
+ 
+    <div *ngIf="tournaments.length" class="slides-container">
       <div class="slides-container__header">
         <p class="slide-text">Próximos eventos en tu zona...</p>
-        <a class="view-map"
-          ><img src="../../../../assets/icon/map.png" alt="" /> Ver Mapa</a
-        >
+        <a class="view-map"><img src="../../../../assets/icon/map.png" alt="" /> Ver Más</a>
       </div>
       <div class="gallery">
         <ul class="stories-list">
-          <li *ngFor="let card of cards">
-            <app-story-card></app-story-card>
-          </li>
+          <li *ngFor="let t of tournaments">
+            <app-event-card [tournament]="t"></app-event-card>
+          </li>          
         </ul>
       </div>
+    </div>  
+        
+  
 
-      <!-- <swiper #swiper>
-        <ng-template  swiperSlide>Slide 1</ng-template
-        ><ng-template  swiperSlide>Slide 2</ng-template
-        ><ng-template  swiperSlide>Slide 3</ng-template
-        ><ng-template  swiperSlide>Slide 4</ng-template
-        ><ng-template  swiperSlide>Slide 5</ng-template
-        ><ng-template  swiperSlide>Slide 6</ng-template
-        ><ng-template  swiperSlide>Slide 7</ng-template
-        ><ng-template swiperSlide>Slide 8</ng-template
-        ><ng-template  swiperSlide>Slide 9</ng-template>
-      </swiper> -->
-    </div>
-    <div class="slides-container">
+    <div *ngIf="people.length" class="slides-container">
       <div class="slides-container__header">
         <p class="slide-text only">Personas que quizas conozcas...</p>
       </div>
@@ -97,33 +74,11 @@
         </ul>
       </div>
 
-      <!-- <swiper #swiper>
-        <ng-template  swiperSlide>Slide 1</ng-template
-        ><ng-template  swiperSlide>Slide 2</ng-template
-        ><ng-template  swiperSlide>Slide 3</ng-template
-        ><ng-template  swiperSlide>Slide 4</ng-template
-        ><ng-template  swiperSlide>Slide 5</ng-template
-        ><ng-template  swiperSlide>Slide 6</ng-template
-        ><ng-template  swiperSlide>Slide 7</ng-template
-        ><ng-template swiperSlide>Slide 8</ng-template
-        ><ng-template  swiperSlide>Slide 9</ng-template>
-      </swiper> -->
     </div>
 
-    <!-- <app-post *ngFor="let post of posts" [post]="post"></app-post>
-    <ion-button
-      class="show-more"
-      [routerLink]="['/website/all-posts']"
-      expand="block"
-      shape="round"
-    >
-      Ver más
-    </ion-button> -->
 
-    <app-posts
-      (loadMore)="onLoadMore()"
-      [loadingMore]="isLoadingMore"
-      [posts]="posts"
-    ></app-posts>
+    <app-posts (loadMore)="onLoadMore()" [loadingMore]="isLoadingMore" [posts]="posts"></app-posts>
+
+    <div style="width: 100%;height: 20vh;background: white;" *ngIf="!tournaments.length"></div>
   </section>
 </ion-content>

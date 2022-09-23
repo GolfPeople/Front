@@ -1,0 +1,119 @@
+<ion-header class="ion-no-border">
+  <app-header backButton="/tabs/chat-room" title="Mensajes" icon="assets/icons/message.svg">
+  </app-header>
+  <div *ngIf="!data">  
+    <ion-item class="ion-no-padding">
+      <ion-avatar class="ion-margin" slot="start">
+        <ion-skeleton-text animated style="width: 100%;height: 100%;"></ion-skeleton-text>
+       </ion-avatar>
+      <ion-label class="ion-padding-start ion-padding-vertical">
+        <div style="padding-bottom: 5px;"><ion-skeleton-text animated style="width: 70%"></ion-skeleton-text></div>
+        <div><ion-skeleton-text animated style="width: 50%"></ion-skeleton-text></div>      
+    </ion-label>
+    </ion-item>
+  </div>
+  <div *ngIf="data">
+  <div *ngIf="data.type_id == 2">
+    <div *ngFor="let u of data.user">
+      <app-user-header *ngIf="user_id !== u.id" [chatId]="id" [user]="u"></app-user-header>      
+    </div>
+  </div>
+  <div *ngIf="data.type_id == 1">
+    <ion-item routerLink="/tabs/chat-room/group-panel/{{id}}" class="ion-no-padding">
+      <ion-avatar class="ion-margin">
+        <img [src]="data.image ? data.image : 'assets/img/default-avatar-gray.png'" />
+      </ion-avatar>
+      <ion-label>
+        <h3>{{data.name_chat}}</h3>
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button>
+          <ion-icon color="medium" name="ellipsis-vertical"></ion-icon>    
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+  </div>
+</div>
+</ion-header>
+
+
+
+<ion-content slot="fixed" [scrollEvents]="true" class="ion-padding">
+ 
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+
+  <div *ngIf="lastMessages.length || messages.length">
+    <ion-list>
+    <div [ngClass]="{'focus-msg': scrollEl == i}" style="padding-bottom: 15px;"  *ngFor="let msg of lastMessages; index as i">
+      <ion-item *ngIf="data && data.user" lines="none" [ngClass]="{'current-user': msg.user_id == user_id}" class="ion-no-padding msg-item">
+  
+        <span slot="start" style="padding-right: 5px;" *ngFor="let u of data.user">
+          <ion-avatar (click)="goToUserProfile(u.id)" *ngIf="msg.user_id == u.id && msg.user_id !== user_id">
+            <img [src]="u.profile.photo ? u.profile.photo :  avatarDefault" />
+          </ion-avatar>
+        </span>
+  
+        <ion-label [ngClass]="{'current-user': msg.user_id == user_id}" [slot]="msg.user_id == user_id ? 'end' : 'start'"
+          class="ion-text-wrap ">
+          <div *ngFor="let u of data.user">
+            <div class="user-name" *ngIf="(msg.user_id == u.id && msg.user_id !== user_id) && data.type_id == 1">{{u.name}}</div>
+          </div>
+          {{msg.message}}
+        </ion-label>
+  
+      </ion-item>
+      <div class="msg-date" *ngIf="data && msg && msg.created_at" [ngClass]="{'current-user': msg.user_id == user_id}">
+        {{msg.created_at | date:'short'}}
+      </div>
+    </div>
+  </ion-list>
+
+  
+  <div  style="padding-bottom: 15px;" *ngFor="let msg of messages">
+
+    <ion-item *ngIf="data && data.user" lines="none" [ngClass]="{'current-user': msg.user_id == user_id}" class="ion-no-padding msg-item">
+
+      <span slot="start" *ngFor="let u of data.user">
+        <ion-avatar (click)="goToUserProfile(u.id)" *ngIf="msg.user_id == u.id && msg.user_id !== user_id">
+          <img [src]="u.profile.photo ? u.profile.photo :  avatarDefault" />
+        </ion-avatar>
+      </span>
+
+      <ion-label [ngClass]="{'current-user': msg.user_id == user_id}" [slot]="msg.user_id == user_id ? 'end' : 'start'"
+        class="ion-text-wrap ">
+        <div *ngFor="let u of data.user">
+          <div class="user-name" *ngIf="(msg.user_id == u.id && msg.user_id !== user_id) && data.type_id == 1">{{u.name}}</div>
+        </div>
+        {{msg.message}}
+      </ion-label>
+
+    </ion-item>
+
+    <div class="msg-date" *ngIf="msg && msg.created_at" [ngClass]="{'current-user': msg.user_id == user_id}">
+      {{msg.created_at.toDate() | date:'short'}}
+    </div>
+  </div>
+</div>
+
+
+<div class="ion-text-center" *ngIf="loading && !lastMessages.length">
+<ion-spinner style="padding-top: 50%;" color="primary"></ion-spinner>
+</div>
+
+<ion-fab *ngIf="scrollEl !== null" vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button color="primary" (click)="scrollBottom()">
+    <ion-icon name="chevron-down"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+</ion-content>
+<ion-footer class="ion-no-border">
+  <div class="msg-input">
+    <textarea placeholder="Escribe un mensaje..." [formControl]="msg"></textarea>
+    <ion-icon (click)="newMessage()" class="msg-btn" [color]="msg.valid ? 'primary' : 'medium'" name="send-outline">
+    </ion-icon>
+  </div>
+</ion-footer>

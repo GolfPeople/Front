@@ -1,0 +1,65 @@
+{
+    "LOGIN":{
+        "email":"Email",
+        "password": "Password",
+        "login": "Login",
+        "username": "Username",
+        "account": "Don't you have an account?",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "signup": "Sign up",
+        "emailvalid": "Enter your email",
+        "passwordvalid": "Enter your password",
+        "uservalid":"Username does not exist",
+        "wrongpassword":"Enter a password",
+        "emailInUse":"This email is in use by another user",
+        "usernamevalid":"This username is in use by another user",
+        "emailcannot":"Email cannot be empty",
+        "emailnovalid":"Email is not valid",
+        "passwordcannot":"Password cannot be empty",
+        "password6valid":"Password must contain at least 6 characters",
+        "usernamecannot":"Username cannot be empty",
+        "usernamemust":"Username must contain at least 4 characters",
+        "welcome":"Welcome, "
+    },
+    "LANGUAGE": {
+        "english": "English",
+        "spanish": "Spanish"
+    },
+    "ADMIN_PANEL": {
+        "campus_description": "Course description",
+        "holes": "Holes",
+        "reviews": "Reviews",
+        "posts": "Posts",
+        "messages": "Messages",
+        "edit": "Edit",
+        "course_name": "Course Name",
+        "email": "Associated mail",
+        "cif": "CIF",
+        "phone": "Phone number",
+        "address": "Address",
+        "state": "State",
+        "zipCode": "C.P",
+        "country": "Country",
+        "language": "Language",
+        "save_changes":"Save Changes",
+        "members":"Members"
+    },
+    "UTILS": {
+        "image": "Image",
+        "uploaded_images":"Image saved successfully",
+        "choose_image": "Choose image",
+        "take_pic": "Take a picture",
+        "saved_success": "Successfully saved",
+        "error": "An error has occurred, please try again"
+      },
+    "MENU": {
+        "events": "Events",
+        "lessons": "Lessons",
+        "friends": "Friends",
+        "saved": "Saved",
+        "campus": "Golf Courses",
+        "my_club": "My Club",
+        "languages": "Languages"
+    }
+}

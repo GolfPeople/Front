@@ -79,31 +79,12 @@
                 CLASES
               </a>
             </ion-item>
-          </ion-menu-toggle>
-          <!-- <ion-menu-toggle>
-            <ion-item lines="none" class="list-item">
-              <a [routerLink]="['/tabs/my-posts']">
-                <div class="logo-container">
-                  <img
-                    class="classes"
-                    src="../../../../assets/icon/side-menu/grado.png"
-                    alt=""
-                  />
-                </div>
-                MIS PUBLICACIONES
-              </a>
-            </ion-item>
-          </ion-menu-toggle> -->
-
+          </ion-menu-toggle>     
           <ion-menu-toggle>
             <ion-item lines="none" class="list-item">
               <a [routerLink]="['/tabs/friends']">
-                <div class="logo-container">
-                  <img
-                    class="friends"
-                    src="../../../../assets/icons/tab/users.svg"
-                    alt=""
-                  />
+                <div class="logo-container">                  
+                  <ion-icon class="menu-icon" src="assets/icons/tab/users.svg"></ion-icon>
                 </div>
                 AMIGOS
               </a>
@@ -126,16 +107,11 @@
           <ion-menu-toggle>
             <ion-item lines="none" class="list-item">
               <a [routerLink]="['/tabs/campus']">
-                <div class="logo-container">
-                  <!-- <img
-                    class="save"
-                    src="../../../../assets/icons/tab/guardados.svg"
-                    alt=""
-                  /> -->
+                <div class="logo-container">               
                   <ion-icon
-                    color="dark"
+                    color="light"
                     size="large"
-                    name="layers-outline"
+                    src="../../../../assets/icons/golf-flag.svg"
                   ></ion-icon>
                 </div>
                 CAMPOS
@@ -182,26 +158,25 @@
 
   <ion-tabs id="main">
     <ion-tab-bar slot="bottom">
-      <ion-tab-button [routerLink]="['/create-post']">
-        <img src="../../../assets/icons/tab/create.svg" />
+      <ion-tab-button [routerLink]="['/create-post']">        
+        <ion-icon src="../../../assets/icons/tab/create.svg"></ion-icon>
         <ion-label>CREAR</ion-label>
       </ion-tab-button>
-      <ion-tab-button tab="schedule">
-        <img src="../../../assets/icons/tab/play.svg" />
-
+      <ion-tab-button tab="play">       
+        <ion-icon src="../../../assets/icons/tab/play.svg"></ion-icon>
         <ion-label>JUGAR</ion-label>
       </ion-tab-button>
-      <ion-tab-button tab="home">
-        <img src="../../../assets/icons/tab/home.svg" />
+      <ion-tab-button tab="home">        
+        <ion-icon src="../../../assets/icons/tab/home.svg"></ion-icon>
         <ion-label>HOME</ion-label>
       </ion-tab-button>
-      <ion-tab-button tab="chat-room">
-        <img src="../../../assets/icons/tab/messages.svg" />
-
+      <ion-tab-button tab="chat-room">   
+        <ion-icon src="../../../assets/icons/tab/messages.svg"></ion-icon>
         <ion-label>MENSAJES</ion-label>
+        <ion-badge color="danger" *ngIf="chatSvc.unread$.value || chatSvc.unreadActivity$.value"></ion-badge>
       </ion-tab-button>
-      <ion-tab-button (click)="openMenu() ">
-        <img class="menu-icon" src="../../../assets/icons/tab/menu.svg" />
+      <ion-tab-button (click)="openMenu() ">     
+        <ion-icon src="../../../assets/icons/tab/menu.svg"></ion-icon>
         <ion-label>MENU</ion-label>
       </ion-tab-button>
     </ion-tab-bar>

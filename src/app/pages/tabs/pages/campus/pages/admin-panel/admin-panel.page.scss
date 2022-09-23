@@ -1,7 +1,35 @@
 @import "../../../../../../scss/variables.scss";
 
-ion-content {
-  --background: #fff;
+ion-content{
+  font-size: 13px;
+  --background: white;
+}
+
+
+ion-item{
+ padding-bottom: 5px;
+ font-size: 15px;
+ font-weight: 500;
+ color: rgb(68, 68, 68);
+ text-transform: uppercase;
+}
+.name{
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.address{
+  text-align: center;  
+  font-size: 13px; 
+}
+
+.edit-btn{
+  text-transform: capitalize;
+  ion-icon{
+    padding-right: 5px;
+  }
 }
 
 .banner {
@@ -9,139 +37,9 @@ ion-content {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  padding: 2.5rem 0 4.2rem;
+  padding: 10px 20px 20px 20px;
   background: $primary-color;
   color: #fff;
-
-  h3 {
-    font-weight: 700;
-    font-size: 1.8rem;
-    line-height: 2.2rem;
-    text-transform: uppercase;
-  }
-
-  p {
-    width: 15.5rem;
-    margin-bottom: 2.6rem;
-    font-weight: 500;
-    font-size: 1.3rem;
-    line-height: 1.7rem;
-    text-align: center;
-  }
-
-  a {
-    display: flex;
-    align-items: ceter;
-    img {
-      margin-right: 0.6rem;
-    }
-    font-weight: 500;
-    font-size: 1.3rem;
-    line-height: 20px;
-    text-decoration: none;
-    color: #fff;
-  }
 }
 
-ion-list {
-  background: transparent;
 
-  ion-item {
-    --background: transparent;
-    --padding-start: 14px;
-    --padding-end: 14px;
-    --border-color: #ddd;
-    --inner-padding-end: 0;
-    --background-activated-opacity: 0;
-
-    ion-label {
-      font-family: "Montserrat";
-      font-style: normal;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 20px;
-      color: #383838;
-      text-transform: uppercase;
-    }
-
-    ion-buttons {
-      --background-activated-opacity: 0;
-
-      ion-button {
-        --background-activated-opacity: 1;
-      }
-    }
-
-    ion-icon {
-      color: $blue;
-    }
-  }
-}
-
-// ion-button {
-//   --background: #3880ff;
-//   --background-activated: #3880ff;
-//   --background-activated-opacity: 1;
-//   --background-focused: #3880ff;
-//   --background-focused-opacity: 1;
-//   --background-hover: #3880ff;
-//   --background-hover-opacity: 1;
-//   --border-color: #3880ff;
-//   --border-radius: 8px;
-//   --border-style: solid;
-//   --border-width: 8px;
-//   --box-shadow: 10px 10px;
-//   --color: #ffffff;
-//   --color-activated: #ffffff;
-//   --color-focused: #ffffff;
-//   --color-hover: #ffffff;
-//   --opacity: 1;
-//   --padding-bottom: 4px;
-//   --padding-end: 4px;
-//   --padding-start: 4px;
-//   --padding-top: 4px;
-//   --ripple-color: #1e1e1e;
-//   --transition: background-color 15ms linear;
-// }
-
-// ion-item {
-//   --background: #3880ff;
-//   --background-activated: #3880ff;
-//   --background-activated-opacity: 1;
-//   --background-focused: #3880ff;
-//   --background-focused-opacity: 1;
-//   --background-hover: #3880ff;
-//   --background-hover-opacity: 1;
-//   --border-color: #3880ff;
-//   --border-radius: 8px;
-//   --border-style: solid;
-//   --border-width: 8px;
-//   --color: #ffffff;
-//   --color-activated: #3880ff;
-//   --color-focused: #3880ff;
-//   --color-hover: #3880ff;
-//   --detail-icon-color: #989aa2;
-//   --detail-icon-font-size: 16px;
-//   --detail-icon-opacity: 1;
-//   --highlight-color-focused: #0cd1e8;
-//   --highlight-color-invalid: #f04141;
-//   --highlight-color-valid: #10dc60;
-//   --highlight-height: 32px;
-//   --inner-border-width: 8px;
-//   --inner-box-shadow: 4px 4px;
-//   --inner-padding-bottom: 4px;
-//   --inner-padding-end: 4px;
-//   --inner-padding-start: 4px;
-//   --inner-padding-top: 4px;
-//   --min-height: 24px;
-//   --padding-bottom: 4px;
-//   --padding-end: 4px;
-//   --padding-start: 4px;
-//   --padding-top: 4px;
-//   --ripple-color: #1e1e1e;
-//   --transition: background-color 15ms linear;
-// }
-
-// ion-label {
-//   --color: #3880ff;
-// }

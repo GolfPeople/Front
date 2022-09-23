@@ -1,0 +1,33 @@
+<ion-content class="ion-padding">
+  <div class="ion-padding-vertical">
+    <div class="label">
+      Golpes
+    </div>
+    <ion-input type="number" [(ngModel)]="hits" [value]="hits" class="select-container input-name">
+    </ion-input>
+  </div>
+  <div class="ion-padding-vertical">
+    <div class="label">
+      Puntos
+    </div>
+    <ion-input type="number" [(ngModel)]="points" [value]="points" class="select-container input-name">
+    </ion-input>
+  </div>
+  
+</ion-content>
+<ion-footer>
+  <ion-grid class="ion-padding-vertical" fixed>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button (click)="cancel()" expand="block" fill="clear" shape="round">
+          Cancelar
+        </ion-button>
+      </ion-col>
+      <ion-col style="border-left: 1px #DDD solid;" size="6">
+        <ion-button [disabled]="!validator()" (click)="confirm()" color="success" expand="block" fill="clear" shape="round">
+          Aceptar
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

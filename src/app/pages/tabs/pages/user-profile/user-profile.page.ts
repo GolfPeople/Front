@@ -21,6 +21,9 @@ import SwiperCore, { Pagination, Lazy, Navigation } from 'swiper';
 import { PostsService } from 'src/app/core/services/posts.service';
 import { FriendsService } from 'src/app/core/services/friends.service';
 import { QrModalComponent } from './components/qr-modal/qr-modal.component';
+import { ChatService } from 'src/app/core/services/chat/chat.service';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import * as firebase from 'firebase/compat/app';
 
 SwiperCore.use([Navigation]);
 
@@ -53,7 +56,7 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
   myId;
 
   id;
-  userInfo: Friend = {
+  userInfo = {
     id: null,
     name: null,
     email: null,
@@ -69,6 +72,8 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
     friends: null,
   };
 
+  loadingChats: boolean;
+
   constructor(
     private actRoute: ActivatedRoute,
     private loadingCtrl: LoadingController,
@@ -76,7 +81,9 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
     private location: Location,
     private friendsSvc: FriendsService,
     private postsSvc: PostsService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private firebaseSvc: FirebaseService,
+    public chatSvc: ChatService
   ) {
     this.myId = localStorage.getItem('user_id');
   }
@@ -91,8 +98,7 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
     this.actRoute.paramMap
       .pipe(
         switchMap((param) => {
-          this.id = param.get('id');
-          console.log('ID del perfil del usuario', this.id);
+          this.id = param.get('id');     
           if (this.id) {
             return this.userSvc.getUser(this.id);
           }
@@ -100,9 +106,9 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
         })
       )
       .subscribe((res) => {
-        console.log(res);
+   
         this.userInfo = res;
-
+        
         if (this.userInfo.id == this.myId) {
           this.isMyProfile = true;
           // loading.dismiss();
@@ -110,25 +116,25 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
         }
 
         if (this.userInfo.friends.length) {
-          console.log('Frends test -->');
+  
           this.userInfo.friends.forEach((friendsItem) => {
             if (friendsItem.connect.length) {
-              console.log('Connect test -->');
+       
               const friend = friendsItem;
               // console.log(friend)
               friendsItem.connect.forEach((connectItem) => {
-                console.log('Connect forEach test -->');
+           
                 // console.log('connect item test -->', connectItem)
 
                 if (connectItem.user_id == this.myId) {
-                  console.log('tienes conexion');
+       
                   // if (friend.connections) {
                   if (friend.connections.status === 1) {
                     this.sentFriendRequest = true;
-                    console.log('Ya has enviado una solicitud e amistad.');
+                  
                   } else if (friend.connections.status === 2) {
                     this.following = true;
-                    console.log('Solicitud de amistad aprobada');
+                 
                   } else {
                     this.following = false;
                   }
@@ -176,6 +182,10 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
     }
   }
 
+  ionViewWillEnter(){
+    this.getChatRooms();
+  }
+
   goBack() {
     this.location.back();
   }
@@ -183,8 +193,7 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
   friendRequest() {
     this.sentFriendRequest = true;
     this.friendsSvc.friendRequest(this.id).subscribe((res) => {
-      console.log('Id del usuario a enviar solicitud', this.id);
-      console.log('Solicitud enviada -->', res);
+
     });
   }
 
@@ -264,5 +273,44 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
         console.log(error);
       }
     );
+  }
+
+
+
+  async createSingleRoom() {
+    let data = {
+      message: 'ㅤ',
+      sale_id: null
+    }
+    const loading = await this.firebaseSvc.loader().create();
+    await loading.present();
+
+    this.chatSvc.sendMessage(this.userInfo.id, data).subscribe((res: any) => {
+
+      let message = {
+        chatId: res.sala_id,
+        user_id: JSON.parse(localStorage.getItem('user_id')),
+        created_at: firebase.default.firestore.FieldValue.serverTimestamp(),
+        message: 'ㅤ',
+        read: true
+      }
+      this.firebaseSvc.addToCollection('messages', message).then(e => {
+        this.firebaseSvc.routerLink('/tabs/chat-room/messages/' + res.sala_id + '/x');
+        loading.dismiss();
+      }, error => {
+        loading.dismiss();
+      })
+    }, error => {
+      loading.dismiss();
+      console.log(error);
+    })
+  }
+
+  getChatRooms() {
+   this.loadingChats = true;
+    this.chatSvc.getRoom().subscribe((rooms: any) => {
+      this.chatSvc.rooms$.next(rooms)
+      this.loadingChats = false;
+    })
   }
 }

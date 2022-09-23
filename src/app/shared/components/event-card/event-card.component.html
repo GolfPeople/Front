@@ -1,0 +1,25 @@
+<div *ngIf="tournament" class="card">
+  <div class="square">
+    <img [src]="tournament.image ? tournament.image : '../../../../assets/img/card-x.jpg'"/>
+  </div>
+ 
+  <div class="overlay">
+    <div class="card-header">
+      <p>Promocionado</p>
+      <a> <img src="../../../../assets/icon/save-post.png" alt="" /> </a>
+    </div>
+
+    <div class="card-info">    
+      <h3>{{tournament.name}}</h3>
+      <p>{{tournament.address}}</p>
+      <p *ngIf="tournament.price !== '0'">{{tournament.price | currency: 'EUR'}}</p>
+      <p *ngIf="tournament.price == '0'">GRATIS</p>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!tournament" class="card">
+  <ion-skeleton-text animated style="width: 100%;height: 100%;"></ion-skeleton-text>
+  <div class="overlay"> 
+  </div>
+</div>

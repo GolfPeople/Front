@@ -1,46 +1,130 @@
-<ion-header class="ion-text-center">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs">
-        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
-      </ion-back-button>
-    </ion-buttons>
-    <ion-title>
-      <h2>
-        <img src="../../../../assets/icons/message.svg" alt="" /> mensajes
-      </h2>
-    </ion-title>
-  </ion-toolbar>
-  <ion-buttons slot="end">
-    <ion-button>
-      <ion-icon slot="icon-only" name="add"></ion-icon>
+<app-header [title]="!toggle$.value ? 'Mensajes' : 'Actividad'"
+  [icon]="!toggle$.value ? 'assets/icons/message.svg' : 'assets/icons/notifications.svg'">
+</app-header>
+<ion-toolbar color="primary">
+  <!-- Mensajes / Actividad Toggle -->
+  <app-toggle-options (click)="cleanActivityNotifications()" [toggle]="toggle$" [options]="toggleOptions">
+  </app-toggle-options>
+</ion-toolbar>
+
+
+<ion-toolbar class="toggle-toolbar" color="primary">
+  <!-- Nuevo mensajes -->
+  <ion-buttons class="ion-padding" *ngIf="!toggle$.value" slot="start">
+    <ion-button slot="start" fill="solid" color="secondary" class="new-msg-btn"
+      routerLink="/tabs/chat-room/friends-list/single" shape="round">
+      <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+      <span>Nuevo Mensaje</span>
     </ion-button>
   </ion-buttons>
-</ion-header>
-<ion-content class="ion-padding">
-  <div class="search">
-    <img src="../../../../assets/messages/blue-message.svg" alt="" />
-    <input
-      placeholder="Buscar conversación"
-      type="text"
-      name=""
-      id=""
-      [(ngModel)]="searchValue"
-      (ngModelChange)="searchRoom($event)"
-    />
+
+  <!-- Nuevo Grupo -->
+  <ion-buttons class="ion-padding" *ngIf="!toggle$.value" slot="end">
+    <ion-button fill="solid" color="secondary" class="new-msg-btn" routerLink="/tabs/chat-room/friends-list/group"
+      shape="round">
+      <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+      <span>Nuevo Grupo</span>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>
+
+<ion-content>
+
+  <!--============== Refrescar los chats============== -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div *ngIf="!toggle$.value">
+    <div class="ion-padding ">
+      <div class="search">
+        <img src="../../../../assets/messages/blue-message.svg" alt="" />
+        <input (click)="searchMessagesModal()" placeholder="Buscar en conversaciones.." type="text" />
+      </div>
+    </div>
+
+
+    <swiper class="p-swipper" [config]="config">
+      <ng-template *ngFor="let c of chatFilters" swiperSlide>
+        <ion-button (click)="filterChats(c.id)" expand="block" [color]="filterSelected == c.id ? 'secondary' : 'light'"
+          shape="round">
+          {{c.name}}
+        </ion-button>
+      </ng-template>
+    </swiper>
+
+    <ion-list class="ion-padding" *ngIf="!loading" lines="none">
+      <div class="chat-pt" *ngFor="let room of filteredChats; index as i">
+        <ion-item *ngIf="room.type_id == 1" routerLink="/tabs/chat-room/messages/{{room.id}}/x">
+          <ion-avatar>
+            <img [src]="room.image ? room.image : 'assets/img/default-avatar-gray.png'" />
+          </ion-avatar>
+          <ion-label class="ion-margin-start">
+            <h3>{{room.name_chat}}</h3>
+            <p *ngIf="room.lastmsg && room.lastmsg !== 'ㅤ'" [ngClass]="room.unreadMsg ? 'unread' : ''">{{room.lastmsg}}
+            </p>
+            <ion-chip color="medium" mode="ios">
+              <ion-label>Grupo</ion-label>
+            </ion-chip>
+          </ion-label>
+          <span slot="end">
+            <div [ngClass]="{'no-msg': !room.unreadMsg}" class="time-ago">{{room.lastDate | timeAgo}}</div>
+            <ion-badge *ngIf="room.unreadMsg" color="danger" slot="end">{{room.unreadMsg}}</ion-badge>
+          </span>
+        </ion-item>
+
+        <div *ngIf="room.type_id == 2">
+          <div *ngFor="let u of room.user">
+            <div *ngIf="u.id !== uid">
+              <ion-item>
+                <ion-avatar routerLink="/tabs/chat-room/messages/{{room.id}}/x">
+                  <img [src]="u.profile.photo ? u.profile.photo : avatar" />
+                </ion-avatar>
+                <ion-label routerLink="/tabs/chat-room/messages/{{room.id}}/x" class="ion-margin-start">
+                  <h3>{{u.name}}</h3>
+                  <p *ngIf="room.lastmsg !== 'ㅤ'" [ngClass]="room.unreadMsg ? 'unread' : ''">{{room.lastmsg}}</p>
+                  <ion-chip color="medium" mode="ios">
+                    <ion-label>Amigos</ion-label>
+                  </ion-chip>
+                </ion-label>
+                <span slot="end">
+                  <div [ngClass]="{'no-msg': !room.unreadMsg}" class="time-ago">{{room.lastDate | timeAgo}}</div>
+                  <ion-badge *ngIf="room.unreadMsg" color="danger" slot="end">{{room.unreadMsg}}</ion-badge>
+                </span>
+              </ion-item>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-list>
+
+    <ion-list class="ion-padding" *ngIf="loading" lines="none">
+      <div class="chat-pt" *ngFor="let room of [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]">
+        <ion-item>
+
+          <ion-avatar>
+            <ion-skeleton-text animated style="width: 100%;height: 100%;"></ion-skeleton-text>
+          </ion-avatar>
+          <ion-label class="ion-margin-start">
+            <h3>
+              <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+            </h3>
+            <p>
+              <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+            </p>
+          </ion-label>
+        </ion-item>
+      </div>
+    </ion-list>
   </div>
-  <ion-list lines="none">
-    <ion-item
-      *ngFor="let room of searchedRooms; index as i"
-      [routerLink]="['/personal-chat', room.user_id , room.sale_id]"
-    >
-      <ion-avatar>
-        <img [src]="  room.photo ? room.photo : avatar" />
-      </ion-avatar>
-      <ion-label class="ion-margin-start">
-        <h3>{{room.name}}</h3>
-        <p>Last message</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+
+  <div class="no-chats" *ngIf="!filteredChats.length && !loading">
+    <ion-icon name="chatbox-outline"></ion-icon>
+    <h3>No tienes mensajes</h3>
+  </div>
+
+  <div class="ion-no-padding" *ngIf="toggle$.value">
+    <app-activity [readNotifications]="readNotifications" [loading]="loadingNotifications"
+      [unreadNotifications]="unreadNotifications"></app-activity>
+  </div>
 </ion-content>

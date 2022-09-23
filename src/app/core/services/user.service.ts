@@ -13,13 +13,13 @@ export class UserService {
   private id = new BehaviorSubject<number>(0);
   id$ = this.id.asObservable();
 
-  private user = new BehaviorSubject<UserPublicData>({
+   user = new BehaviorSubject<UserPublicData>({
     email: '',
     id: 0,
     name: '',
     profile: {},
   });
-  private userPhoto = new BehaviorSubject<string>('');
+   userPhoto = new BehaviorSubject<string>('');
   user$ = this.user.asObservable();
   userPhoto$ = this.userPhoto.asObservable();
   userName: string;
@@ -46,10 +46,7 @@ export class UserService {
   }
 
   getUserInfoToSave() {
-    this.http.get<any>(`${this.apiUrl}/auth/user`).subscribe((data) => {
-      this.user.next(data);
-      this.userPhoto.next(data.profile.photo);
-    });
+   return this.http.get<any>(`${this.apiUrl}/auth/user`);
   }
 
   getUserID() {

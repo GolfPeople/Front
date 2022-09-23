@@ -8,14 +8,17 @@ import { CampusPageRoutingModule } from './campus-routing.module';
 
 import { CampusPage } from './campus.page';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
+import { ComponentsModule } from '../../components/components.module';
 @NgModule({
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     CampusPageRoutingModule,
-    SharedModule,
+    ComponentsModule
   ],
   declarations: [CampusPage],
 })

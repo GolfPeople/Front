@@ -26,6 +26,8 @@ import { PostsComponent } from './components/posts/posts.component';
 import { HeaderComponent } from './components/header/header.component';
 import { DesignerAvatarComponent } from './components/designer-avatar/designer-avatar.component';
 import { CampoCardComponent } from './components/campo-card/campo-card.component';
+import { EventCardComponent } from './components/event-card/event-card.component';
+
 
 const components = [
   SelectDateComponent,
@@ -47,6 +49,7 @@ const components = [
   HeaderComponent,
   DesignerAvatarComponent,
   CampoCardComponent,
+  EventCardComponent
 ];
 
 @NgModule({
@@ -59,7 +62,7 @@ const components = [
     SwiperModule,
     FormsModule,
     RouterModule,
-    ImageCropperModule,
+    ImageCropperModule,   
   ],
   exports: [components, JsonToDataPipe],
 })

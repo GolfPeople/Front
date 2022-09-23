@@ -1,0 +1,193 @@
+<app-header backButton="true" title="Scorecard">
+</app-header>
+<div *ngIf="course && detail && (detail.status == '2' && !detail.validate)" class="toolbar-container-btn">
+  <div class="title">Valida el ScoreCard</div>
+
+  <div  class="btn-container">
+    <div class="btn">
+      <ion-button color="light" mode="ios" fill="outline" shape="round">
+        <ion-icon slot="start" name="bookmark-outline"></ion-icon>
+        Guardar
+      </ion-button>
+    </div>
+    <div class="btn">
+      <ion-button (click)="validateGame()" color="success" mode="ios" shape="round">
+        <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
+        Validar
+      </ion-button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="course && detail && (detail.status == '4' || detail.validate)" class="toolbar-container-btn">
+  <div class="title">Partida Finalizada</div>
+
+</div>
+<ion-content *ngIf="course">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-item style="padding-top: 15px;" lines="none">
+    <ion-label class="ion-text-wrap">
+      <div class="course-name">{{course.courseName ? course.courseName : course.address}}</div>
+      <div class="date">{{ detail.date | date:'dd MMMM y'}}</div>
+    </ion-label>
+    <span class="modality" slot="end">
+      {{detail.game_init.modality}}
+    </span>
+  </ion-item>
+
+  <div class="ion-padding">
+    <table>
+      <tr class="table-header">
+        <td>Jugador</td>
+        <td class="ion-text-center">Golpes</td>
+        <td class="ion-text-center">Puntuación</td>
+      </tr>
+      <tr>
+        <td>ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ</td>
+        <td class="ion-text-center">ㅤㅤ</td>
+        <td class="ion-text-center">ㅤㅤ</td>
+      </tr>
+    </table>
+    <div *ngFor="let p of players; index as i">
+      <table>
+        <tr (click)="openPlayerData(p)" class="table-value">
+          <td [ngClass]="{'first': i == 0}">
+            <ion-item class="ion-no-padding" lines="none">
+              <ion-avatar slot="start">
+                <img [src]="p.photo ? p.photo : 'assets/img/default-avatar.png'" />
+                <ion-icon *ngIf="p.teeColor" class="avatar-circle-icon" [style.color]="'#'+p.teeColor" name="ellipse"></ion-icon>
+              </ion-avatar>
+              <ion-label style="padding-left: 10px;text-transform: capitalize;" class="ion-text-wrap">{{p.name}}</ion-label>
+            </ion-item>
+          </td>
+          <td [ngClass]="{'first': i == 0}" class="ion-text-center hits">{{p.totalHits}}</td>
+          <td [ngClass]="{'first': i == 0}" class="ion-text-center points">
+            <ion-icon *ngIf="i == 0" class="trophy" src="assets/icons/trophy.svg"></ion-icon>
+            <span *ngIf="i !== 0">ㅤ</span>
+            {{p.totalPoints}}
+            <ion-icon color="medium" [name]="p.opened ? 'chevron-up' : 'chevron-down'"></ion-icon>
+          </td>
+        </tr>
+      </table>
+   
+      <div *ngIf="p.opened" class="animate__animated animate__fadeIn">
+        <div class="ion-text-end">Desliza para ver más <ion-icon color="secondary" class="slice-arrow" name="arrow-forward"></ion-icon></div>
+    <div class="table-container">
+        <table>       
+        <tr>
+          <td>Hoyo</td>
+          <td class="hole-circle-container" *ngFor="let h of p.points9">
+            <div style="display: flex;align-items: center;justify-content: center;">
+           <div class="hole-circle">{{h.hole}}</div> 
+          </div>
+          </td>
+          <td>ㅤ</td>
+        </tr>       
+        <tr>
+          <td>Par</td>
+          <td class="values-table-container" *ngFor="let h of p.par9">
+           <div class="value">{{h}}</div> 
+          </td>
+          <td class="result pl">{{p.totalPar9}}</td>
+        </tr>      
+        <tr>
+          <td>Golpes</td>
+          <td class="values-table-container" *ngFor="let h of p.points9">
+           <div class="value">{{h.hits}}</div> 
+          </td>
+          <td>ㅤ</td>
+        </tr>     
+        <tr>
+          <td>ㅤ</td>
+          <td class="values-table-container" *ngFor="let h of p.points9">
+           <div style="font-size: 30px;" class="value">*</div> 
+          </td>
+          <td class="pl">
+            <span style="position: relative;bottom: 12px;">9</span> 
+            <span style="font-size: 30px;" class="value">*</span> 
+          </td>
+        </tr>
+        <tr>
+          <td>Puntos</td>
+          <td class="values-table-container" *ngFor="let h of p.points9">
+           <div class="value result">{{h.points}}</div> 
+          </td>
+          <td class="result pl">{{p.totalPoints9}}</td>
+        </tr>     
+      </table>
+<div class="ion-padding-top" *ngIf="limit == 18">
+    <table>      
+        <tr>
+          <td>Hoyo</td>
+          <td class="hole-circle-container" *ngFor="let h of p.points18">
+            <div style="display: flex;align-items: center;justify-content: center;">
+           <div class="hole-circle">{{h.hole}}</div> 
+          </div>
+          </td>
+          <td>ㅤ</td>
+        </tr>        
+        <tr>
+          <td>Par</td>
+          <td class="values-table-container" *ngFor="let h of p.par18">
+           <div class="value">{{h}}</div> 
+          </td>
+          <td class="result pl">{{p.totalPar18}}</td>
+        </tr>       
+        <tr>
+          <td>Golpes</td>
+          <td class="values-table-container" *ngFor="let h of p.points18">
+           <div class="value">{{h.hits}}</div> 
+          </td>
+          <td>ㅤ</td>
+        </tr>
+        <tr>
+          <td>ㅤ</td>
+          <td class="values-table-container" *ngFor="let h of p.points18">
+           <div style="font-size: 30px;" class="value">*</div> 
+          </td>
+          <td class="pl">
+            <span style="position: relative;bottom: 12px;">9</span> 
+            <span style="font-size: 30px;" class="value">*</span> 
+          </td>
+        </tr>
+        <tr>
+          <td>Puntos</td>
+          <td class="values-table-container" *ngFor="let h of p.points18">
+           <div class="value result">{{h.points}}</div> 
+          </td>
+          <td class="result pl">{{p.totalPoints18}}</td>
+        </tr>     
+      </table>
+    </div>
+    </div>   
+</div>
+    </div>
+
+
+<div *ngIf="detail && (detail.status == '2' && !detail.validate)" class="ion-text-center ion-padding-top">
+  <div class="ion-padding-vertical">
+    <ion-button (click)="validateGame()" class="btn-bottom" color="success" mode="ios" shape="round">
+      <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
+      Validar Resultados
+    </ion-button>
+  </div>
+ 
+
+  <ion-button class="btn-bottom" mode="ios" fill="outline" shape="round">
+    <ion-icon slot="start" name="bookmark-outline"></ion-icon>
+    Guardar para luego
+  </ion-button>
+</div>
+    
+  </div>
+
+</ion-content>
+<ion-content *ngIf="!course" class="ion-text-center">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+<ion-spinner style="padding-top: 50%;" color="primary"></ion-spinner>
+</ion-content>

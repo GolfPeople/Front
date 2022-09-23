@@ -1,0 +1,120 @@
+ion-content{
+    font-size: 13px;
+    --background: white;
+}
+
+.p-title{
+    padding: 40px 20px 0px 20px;
+}
+
+.title{
+    color: var(--ion-color-primary);
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-align: center;
+}
+
+.indicator{
+    font-size: 14px;
+    text-align: center;
+}
+.content{
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.rating-number{
+    font-size: 50px;
+    font-weight: 600;
+}
+
+.range{
+    --bar-height: 8px;
+    --knob-size: 0px;
+    --bar-background: #dddddd;
+    --bar-background-active: var(--ion-color-success);
+
+    &.medium{
+        --bar-background-active: var(--ion-color-warning); 
+    }
+    &.low{
+        --bar-background-active: var(--ion-color-danger); 
+    }
+}
+
+ion-row{
+    height: 30px;
+}
+
+.review-label{
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+
+.comment-container{
+    padding-bottom: 15px;
+}
+
+ion-avatar{
+    width: 70px;
+    height: 70px;
+}
+
+.username{
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.role{
+    font-size: 13px;
+    font-weight: 500;
+    color: gray;
+}
+
+.comment{
+    padding-top: 5px;
+    font-size: 13px;
+    color: gray;  
+    text-align: start;
+}
+
+.no-comments{
+    padding-top: 15%;
+    text-align: center;
+    color: var(--ion-color-medium);
+  }
+  .no-comments ion-icon{
+   font-size: 100px;
+  }
+
+.level{
+    font-size: 12px;
+}
+
+.date{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: rgb(163, 163, 163);
+    font-size: 11px;   
+    text-align: start;
+}
+
+.answer{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: var(--ion-color-secondary);
+    font-size: 13px;
+    border-bottom: 1px solid #ddd;
+    text-align: end; 
+}
+
+.ellipsis-icon{
+    position: relative;
+    bottom: 10px;
+    font-size: 20px;
+    color: gray;
+}

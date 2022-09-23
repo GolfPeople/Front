@@ -1,48 +1,102 @@
-<!-- <app-header text="administración de campos"></app-header> -->
-<ion-header>
-  <ion-toolbar mode="md" class="ion-no-border ion-no-margin">
-    <ion-buttons slot="start">
-      <ion-back-button mode="md" defaultHref="/tabs">
-        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
-        <!-- <img src="assets/icons/arrow-back.svg" alt=""> -->
-      </ion-back-button>
-    </ion-buttons>
-    <ion-title>
-      <h2>{{'administración de campos' | uppercase}}</h2>
-    </ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="createCamp()">
-        <ion-icon slot="icon-only" name="add"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<app-header backButton="true" title="Campos" icon="../../../../../assets/icons/golf-flag.svg"></app-header>
+<ion-toolbar color="primary" class="search-container">
+  
+  <ion-searchbar [(ngModel)]="search" (ionChange)="getCourses()"  placeholder="Buscar" [debounce]="1000"></ion-searchbar>
+</ion-toolbar>
 
-<ion-fab-list side="start">
-  <ion-fab-button><ion-icon name="logo-ionic"></ion-icon></ion-fab-button>
-  <ion-fab-button><ion-icon name="logo-angular"></ion-icon></ion-fab-button>
-</ion-fab-list>
-<div class="search-container">
-  <h3>Resultados de tu búsqueda</h3>
-  <div class="search">
-    <img src="../../../../../assets/icons/geolocation.svg" alt="" />
-    <input
-      type="text"
-      placeholder="Busca algún campo"
-      [(ngModel)]="text"
-      (ngModelChange)="searchCampo($event)"
-    />
 
-    <a (click)="clearInput()">
-      <img src="../../../../../assets/icons/cancel-circle-grey.svg" alt="" />
-    </a>
-  </div>
-</div>
 <ion-content>
-  <ion-list class="ion-padding">
-    <app-campo-card
-      *ngFor="let campo of searchedCampos"
-      [campo]="campo"
-    ></app-campo-card>
-  </ion-list>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
+  <div #mapElement [ngClass]="{'active': !hiddenMap}" class="map"></div>
+
+  <div *ngIf="!loading" class="switch">
+    <ion-button class="ion-no-padding" (click)="hiddenMap = !hiddenMap" shape="round">
+      <ion-icon [name]="hiddenMap ? 'map' : 'list'"></ion-icon>
+    </ion-button>
+  </div>
+
+  
+    <div *ngIf="!loading">
+      <div style="padding-top:70px;" *ngIf="hiddenMap">
+      <div *ngFor="let g of campusSvg.golfCourses.value" style="padding-top: 5px;" class="ion-padding">
+        <div style="border-bottom: 1px solid #DDD;padding-bottom: 10px;">
+          <div>
+            <div  class="square">
+              <ion-item class="over-img" lines="none">
+                <ion-buttons slot="start">
+                  <ion-button>
+                    <ion-icon class="icon" style="color:red;" name="heart"></ion-icon>
+                  </ion-button>
+                </ion-buttons>
+                <ion-buttons *ngIf="g.recommendRating && g.recommendRating !== '0'" slot="end">
+                  <ion-button>
+                    <ion-icon class="icon" color="warning" name="star"></ion-icon>
+                    <span class="rating">{{g.recommendRating}}</span>
+                  </ion-button>
+                </ion-buttons>
+              </ion-item>
+              <img [src]="g.thumbnailImage ? g.thumbnailImage : 'assets/img/golf-course.jpg'">
+            </div>            
+          </div>
+          <ion-item style="padding-top: 10px;padding-bottom: 5px;" class="ion-no-padding" lines="none">
+            <ion-label class="ion-text-wrap">
+              <div class="name">{{g.courseName}}</div>
+              <div class="av">{{g.address}}</div>
+            
+            </ion-label>
+ 
+          </ion-item>
+          <ion-item class="ion-no-padding" lines="none">
+            <ion-buttons slot="start">
+              <ion-button (click)="golfCourseDetail(g.id)" class="btn-field" color="secondary" fill="solid" shape="round" mode="ios">
+                Ver campo
+              </ion-button>
+              <ion-button routerLink="admin-panel/{{g.id}}" class="btn-field" color="success" fill="solid" shape="round" mode="ios">
+                Administrar
+              </ion-button>
+            </ion-buttons>
+            <ion-buttons slot="end">
+              <ion-button>
+                <ion-icon class="icon" color="medium" name="bookmark-outline"></ion-icon>
+              </ion-button>
+              <ion-button>
+                <ion-icon class="icon" color="medium" name="share-social-outline"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-item>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div *ngIf="loading">
+      <div *ngFor="let g of [1,1,1,1,1,1,1]" class="ion-padding">
+        <div style="border-bottom: 1px solid #DDD;padding-bottom: 10px;">
+          <div>
+            <div class="square">
+              <ion-skeleton-text animated style="width: 100%;height: 100%;"></ion-skeleton-text>
+            </div>
+          </div>
+          <ion-item style="padding-top: 10px;padding-bottom: 5px;" class="ion-no-padding" lines="none">
+            <ion-label>
+              <div style="padding-bottom: 5px;">
+                <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+              </div>
+              <div class="av">
+                <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+              </div>
+            </ion-label>
+
+          </ion-item>
+        </div>
+      </div>
+    </div>
+  
+
+
+
 </ion-content>

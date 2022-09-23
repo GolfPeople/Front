@@ -10,13 +10,24 @@ import {
 } from '@angular/fire/compat/firestore';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+import { Platform } from '@ionic/angular';
 
+
+import { getAdditionalUserInfo } from 'firebase/auth';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   public user$: Observable<UserAuth>;
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {
+
+
+  constructor(
+    private afAuth: AngularFireAuth,
+    private afs: AngularFirestore,
+    private platform: Platform
+  ) {
+
     this.user$ = this.afAuth.authState.pipe(
       switchMap((user) => {
         if (user) {
@@ -39,13 +50,74 @@ export class AuthService {
     }
   }
 
+  async googleSignInMobile() {
+
+    let googleUser = await GoogleAuth.signIn();
+    const credential = firebase.auth.GoogleAuthProvider.credential(googleUser.authentication.idToken);
+    const { user } = await this.afAuth.signInWithCredential(credential)
+    this.updateUserData(user);
+    return user;
+
+  }
+
   async loginGoogle(): Promise<any> {
+    let user;
     try {
-      const { user } = await this.afAuth.signInWithPopup(
-        new firebase.auth.GoogleAuthProvider()
-      );
-      this.updateUserData(user);
-      return user;
+
+      if (this.platform.is('capacitor')) {
+
+        let googleUser = await GoogleAuth.signIn();
+        const credential = firebase.auth.GoogleAuthProvider.credential(googleUser.authentication.idToken)
+        await this.afAuth.signInWithCredential(credential).then(res => {
+          user = res;
+        })
+
+        this.updateUserData(user.user);
+        return user;
+
+      } else {
+
+        await this.afAuth.signInWithPopup(
+          new firebase.auth.GoogleAuthProvider()
+        ).then(res => {
+          user = res;
+        })
+        this.updateUserData(user.user);
+
+        return user;
+      }
+
+    } catch (error) {
+      console.log('Error -->', error);
+    }
+  }
+
+  async loginFacebook(): Promise<any> {
+
+    let user;
+
+    try {
+
+      if (this.platform.is('capacitor')) {
+
+        // let googleUser = await GoogleAuth.signIn();
+        // const credential = firebase.auth.GoogleAuthProvider.credential(googleUser.authentication.idToken);
+        // const { user } = await this.afAuth.signInWithCredential(credential)
+        // this.updateUserData(user);
+        // return user;
+
+      } else {
+
+        await this.afAuth.signInWithPopup(
+          new firebase.auth.FacebookAuthProvider()
+        ).then(res => {
+          user = res;
+        })
+
+        this.updateUserData(user.user);
+        return user;
+      }
+
     } catch (error) {
       console.log('Error -->', error);
     }

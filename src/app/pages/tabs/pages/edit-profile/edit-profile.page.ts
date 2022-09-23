@@ -12,6 +12,9 @@ import { element } from 'protractor';
 import { LoadingService } from 'src/app/core/services/loading/loading.service';
 import { PostsService } from 'src/app/core/services/posts.service';
 import { PostsResponse } from 'src/app/core/interfaces/interfaces';
+import { BehaviorSubject } from 'rxjs';
+import { CampusDataService } from '../campus/services/campus-data.service';
+import { GameService } from 'src/app/core/services/game.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -26,7 +29,7 @@ export class EditProfilePage implements OnInit {
   level: boolean;
   bolsa: boolean;
   campos: boolean;
-  posts: boolean = true;
+  posts: boolean  = true;
   postsPage = 1;
   postsData: PostsResponse[] = [];
   isLoadingMore: boolean = false;
@@ -35,12 +38,20 @@ export class EditProfilePage implements OnInit {
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   value: string;
 
+
+  toggleOptions = { one: 'Campos Jugados', two: 'Clubes Asociados' }
+  toggle$ = new BehaviorSubject(false);
+
+  courses = new BehaviorSubject([]);
+
   constructor(
     private userService: UserService,
     private modalCtrl: ModalController,
     private loadingSvc: LoadingService,
     private loadingCtrl: LoadingController,
-    private postsSvc: PostsService
+    private postsSvc: PostsService,
+    public gameSvc: GameService,
+    public campusSvg: CampusDataService
   ) {}
 
   async ngOnInit() {
@@ -59,20 +70,43 @@ export class EditProfilePage implements OnInit {
     });
   }
 
+  ionViewWillEnter(){
+    this.getAllGames();
+  }
+
   ionViewDidEnter() {
-    console.log('ionViewDidEnter TEST');
+ 
     setTimeout(() => {
       this.postsSvc.myPosts(1).subscribe(
         ({ data }) => {
           this.postsData = data;
           this.postsPage = 2;
-          console.log(this.postsData);
+       
         },
         (error) => {
           console.log(error);
         }
       );
     }, 1000);
+  }
+
+  getAllGames() {
+    this.gameSvc.getAllGames().subscribe(res => {
+      let games = res.data.map(g => {
+        return {
+          campuses_id: g.campuses_id,
+          isMember: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && (u.status == '2' || u.status == '4')).length ? true : false),
+        }
+      }).filter(g => g.isMember == true)
+      this.getGolfCoursesPlayed(games);
+    })
+  }
+
+  getGolfCoursesPlayed(games) {
+    let courses_id = games.map(res => { return (res.campuses_id) });
+    this.campusSvg.getData().subscribe(res => {
+      this.courses.next(res.data.filter(c => courses_id.includes(c.id)));
+    })
   }
 
   shareQR() {
@@ -106,8 +140,7 @@ export class EditProfilePage implements OnInit {
       this.level = true;
       this.bolsa = false;
       this.campos = false;
-      this.posts = false;
-      console.log(value);
+      this.posts = false;   
       return;
     }
     if (value === '2') {
@@ -115,15 +148,13 @@ export class EditProfilePage implements OnInit {
       this.bolsa = true;
       this.campos = false;
       this.posts = false;
-      console.log(value);
       return;
     }
     if (value === '3') {
       this.level = false;
       this.bolsa = false;
       this.campos = true;
-      this.posts = false;
-      console.log(value);
+      this.posts = false;   
       return;
     }
     if (value === '4') {
@@ -131,7 +162,6 @@ export class EditProfilePage implements OnInit {
       this.bolsa = false;
       this.campos = false;
       this.posts = true;
-      console.log(value);
       return;
     }
   }
@@ -174,4 +204,7 @@ export class EditProfilePage implements OnInit {
       }
     );
   }
+
+
+
 }

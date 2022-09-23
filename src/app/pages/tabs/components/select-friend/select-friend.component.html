@@ -1,0 +1,52 @@
+<app-header backButtonModal="true" icon="../../../../assets/icons/tab/play.svg" title="Seleccionar"></app-header>
+<ion-content class="ion-padding">
+
+
+
+<div *ngIf="!loading">
+  <div style="font-size: 14px;" class="ion-padding">Selecciona a los jugadores para tu partida</div>
+  <div class="pb-sm" *ngFor="let f of peopleWitHCP">
+    <div class="card-user">
+      <ion-item lines="none">
+        <ion-avatar slot="start">
+          <img [src]="f.profile.photo ? f.profile.photo : '../../../../../assets/img/default-avatar.png'" />
+        </ion-avatar>
+        <ion-label>
+          <div class="name">{{f.name}}</div>
+          <div *ngIf="f.profile.address" class="country">{{f.profile.address}}</div>
+          <div *ngIf="f.profile.handicap" class="hcp">HCP {{f.profile.handicap}}</div>
+        </ion-label>
+        <ion-checkbox [(ngModel)]="f.isChecked"></ion-checkbox>
+      </ion-item>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div *ngIf="loading">
+  <div class="pb-sm" *ngFor="let f of [1,1,1,1,1,1,1,1,1]">
+    <div class="card-user">
+      <ion-item lines="none">
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated style="width: 65px;height: 65px;"></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label class="ion-padding">
+          <div class="pb-sm">
+            <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+          </div>
+          <div>
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+          </div>
+        </ion-label>
+      </ion-item>
+    </div>
+  </div>
+</div>
+</ion-content>
+<ion-footer class="ion-text-center ion-padding">
+ <ion-button (click)="savePlayers()" mode="ios" shape="round">
+  Agregar Jugadores
+ </ion-button>
+</ion-footer>

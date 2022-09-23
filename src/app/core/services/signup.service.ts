@@ -25,7 +25,7 @@ export class SignupService {
     name,
     username,
     password,
-    password_confirmation}
+    password_confirmation},firebase_id
   ) {
     const opts = {
       headers: new HttpHeaders({
@@ -36,7 +36,7 @@ export class SignupService {
     return this.http
       .post<SignupResponseData>(
         `${this.apiUrl}/signup`,
-        { email, name,username, password, password_confirmation },
+        { email, name,username, password, password_confirmation, firebase_id },
         opts
       )
       .pipe(

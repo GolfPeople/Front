@@ -7,7 +7,18 @@ const routes: Routes = [
   {
     path: '',
     component: ChatRoomPage
-  }
+  },   {
+    path: 'friends-list/:type',
+    loadChildren: () => import('./friends-list/friends-list.module').then( m => m.FriendsListPageModule)
+  },
+  {
+    path: 'messages/:id/:id_msg',
+    loadChildren: () => import('./messages/messages.module').then( m => m.MessagesPageModule)
+  },
+  {
+    path: 'group-panel/:id',
+    loadChildren: () => import('./group-panel/group-panel.module').then( m => m.GroupPanelPageModule)
+  },
 ];
 
 @NgModule({

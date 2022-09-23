@@ -1,79 +1,75 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar class="ion-no-border">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs">
-        <ion-icon slot="start" name="arrow-back"></ion-icon>
-      </ion-back-button>
-    </ion-buttons>
-    <ion-title class="ion-justify-content-center">
-      <h2>
-        <img src="../../../../assets/icons/tab/users.svg  " alt="" />
-        AMIGOS
-      </h2>
-    </ion-title>
-  </ion-toolbar>
-  <div class="search-container">
-    <h3>Busca o agrega amigos</h3>
+<app-header backButton="true" title="Amigos" icon="assets/icons/tab/users.svg">
+</app-header>
 
-    <div class="search">
-      <input
-        type="text"
-        placeholder="Escribe algo..."
-        [(ngModel)]="searchItem"
-        (ngModelChange)="search($event)"
-      />
-      <img src="../../../../assets/icons/search.svg" alt="" />
-    </div>
-  </div>
-</ion-header>
+<ion-toolbar color="primary" class="search-container">
+  <div class="title ion-padding-horizontal">Busca o agrega amigos</div> 
+  <ion-searchbar [(ngModel)]="search" (ionChange)="searchUsersOrFriends()"  placeholder="Buscar" [debounce]="1000"></ion-searchbar>
+</ion-toolbar>
 
-<ion-content class="content">
-  <div class="toggle-tab">
-    <div [ngClass]="{'active': all}" class="fondo"></div>
-    <div class="toggle-buttons">
-      <button [ngClass]="{'active': following}" (click)="prev() ">
-        Amigos
-      </button>
-      <button [ngClass]="{'active': all}" (click)="next()">Usuarios</button>
-    </div>
+
+<ion-content>
+  <app-toggle-options color="#009838" [toggle]="toggleUsersType$" [options]="toggleUsersType"></app-toggle-options>
+
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="ion-padding-horizontal">
+      <div *ngIf="!toggleUsersType$.value" class="title">Tus Amigos</div>
+  <div *ngIf="toggleUsersType$.value" class="title">Personas que quizá conozcas...</div>
   </div>
 
-  <swiper #swiper [allowTouchMove]="false" class="mySwiper">
-    <ng-template swiperSlide>
-      <p class="searching" *ngIf="isLoading">Buscando...</p>
 
-      <ion-list
-        *ngIf="friends$ | async as fr"
-        class="Searched-friends"
-        lines="none"
-      >
-        <p class="searching" *ngIf="!searchItem && !fr.length">
-          No tienes amigos
-        </p>
-        <p class="searching" *ngIf="searchItem &&  !fr.length">
-          No se ha encontrado usuarios
-        </p>
-        <h3 *ngIf="fr.length" class="list-title">Tus amigos</h3>
+  <!--==========================Amigos=========================-->
+  <div class="ion-padding-bottom" *ngIf="friends.length && !loadingFriends && !toggleUsersType$.value">
+    <div class="user-container" *ngFor="let u of friends">
+      <ion-item  lines="none">
+        <ion-avatar routerLink="/tabs/user-profile/{{u.id}}" class="ion-margin-end ion-margin-vertical" slot="start">
+          <img [src]="u.profile.photo ? u.profile.photo : 'assets/img/default-avatar.png'" />
+        </ion-avatar>
+        <ion-label>
+          <div class="name ion-margin-end">{{u.name}}</div>
+          <div *ngIf="u.profile.address" class="country">{{u.profile.address}}</div>
+          <div *ngIf="u.profile.handicap" class="hcp">HCP {{u.profile.handicap}}</div>
+        </ion-label>
+        <ion-icon *ngIf="!loadingChats" (click)="openSingleChatRoom(u)" color="secondary" slot="end" src="assets/icons/message.svg"></ion-icon>
+        <ion-icon routerLink="/tabs/play/create-game/x/{{u.id}}"  color="secondary" class="play-icon" slot="end" src="assets/icons/play.svg"></ion-icon>
+        <ion-icon (click)="confirmUnfollow(u)" color="secondary" slot="end" src="assets/icons/user-remove.svg"></ion-icon>
+      </ion-item>
+    </div> 
+  </div>
 
-        <app-friend
-          *ngFor="let data of friends$ | async"
-          [user]="data"
-          [isFriend]="true"
-        ></app-friend>
-      </ion-list>
-    </ng-template>
-    <ng-template swiperSlide>
-      <p class="searching" *ngIf="isLoading">Buscando...</p>
-      <ion-list *ngIf="users$ | async as us" lines="none">
-        <p class="searching" *ngIf="searchItem &&  !us.length">
-          No se ha encontrado usuarios
-        </p>
-        <h3 *ngIf="us.length" class="list-title">Usuarios</h3>
-        <app-friend
-          *ngFor="let data of users$ | async"
-          [user]="data"
-        ></app-friend>
-      </ion-list>
-    </ng-template>
-  </swiper>
+    <!--==========================Personas=========================-->
+  <div class="ion-padding-bottom" *ngIf="users.length && !loadingUsers && toggleUsersType$.value">
+    <div class="user-container" *ngFor="let u of users">
+      <ion-item  lines="none">
+        <ion-avatar routerLink="/tabs/user-profile/{{u.id}}" class="ion-margin-end ion-margin-vertical" slot="start">
+          <img [src]="u.profile.photo ? u.profile.photo : 'assets/img/default-avatar.png'" />
+        </ion-avatar>
+        <ion-label>
+          <div class="name">{{u.name}}</div>
+          <div *ngIf="u.pending" class="pending">Solicitud Pendiente</div>
+          <div *ngIf="u.profile.address" class="country">{{u.profile.address}}</div>
+          <div *ngIf="u.profile.handicap" class="hcp">HCP {{u.profile.handicap}}</div>
+        </ion-label>
+        <ion-icon *ngIf="!loadingChats" (click)="openSingleChatRoom(u)" color="secondary" slot="end" src="assets/icons/message.svg"></ion-icon>       
+        <ion-icon *ngIf="!u.pending && !u.isFriend" (click)="confirmFriendRequest(u)" color="secondary" slot="end" src="assets/icons/user-add.svg"></ion-icon>
+        <ion-icon *ngIf="u.pending" color="secondary" slot="end" name="time-outline"></ion-icon>
+        <ion-icon *ngIf="u.isFriend" (click)="confirmUnfollow(u)" color="secondary" slot="end" src="assets/icons/user-remove.svg"></ion-icon>
+      </ion-item>
+    </div> 
+  </div>
+ 
+
+    <!--==========================Cargando=========================-->
+    <app-users-loader *ngIf="loadingUsers && !toggleUsersType$.value"></app-users-loader>
+    <app-users-loader *ngIf="loadingUsers && toggleUsersType$.value"></app-users-loader>
+
+    <!--==========================Sin Amigos=========================-->
+  <div class="no-users" *ngIf="!friends.length && !loadingUsers && !toggleUsersType$.value">
+    <ion-icon src="assets/icons/tab/users.svg"></ion-icon>
+    <h3>{{search ? 'No hay resultados' : 'No tienes amigos'}}</h3>
+  </div>
+
 </ion-content>

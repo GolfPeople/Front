@@ -1,0 +1,30 @@
+<div class="ion-padding">
+  <div *ngFor="let g of filteredTournaments" class="game-container">
+    <div class="square">
+      <img [src]="g.image" alt="">
+    </div>
+  <ion-item lines="none" class="ion-no-padding">
+    <span [ngClass]="{'canceled': g.status == '3'}" class="date" slot="start">
+      <div [ngClass]="{'canceled': g.status == '3'}" class="day">{{g.date | date:'dd'}}</div>
+      <div class="month">{{g.date | date:'MMMM' | slice:0:3}}</div>
+    </span>
+    <ion-label class="ion-text-wrap">
+      <div [ngClass]="{'canceled': g.status == '3'}" class="club-name">{{g.name}}</div>
+      <div [ngClass]="{'canceled': g.status == '3'}" class="location">{{g.address}}</div>
+    </ion-label>
+    <span *ngIf="g.status == '1'" slot="end">
+      <ion-icon class="item-icon" (click)="g.fav = !g.fav" [color]="g.fav ? 'danger' :'medium'"
+        [name]="g.fav ? 'heart' : 'heart-outline'"></ion-icon>
+      <ion-icon class="item-icon" color="medium" name="share-social-outline"></ion-icon>
+    </span>
+  </ion-item>
+  <ion-item>
+  <ion-buttons slot="start">
+    <ion-button class="join-btn" color="secondary"
+    shape="round" fill="solid">
+   <span class="ion-padding-horizontal">Reservar</span> 
+  </ion-button>
+  </ion-buttons>  
+  </ion-item>
+  </div>
+</div>
