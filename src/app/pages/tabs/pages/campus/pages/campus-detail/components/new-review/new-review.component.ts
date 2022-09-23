@@ -65,9 +65,6 @@ export class NewReviewComponent implements OnInit {
     if (!this.rating) {
       return false;
     }
-    if (!this.description) {
-      return false;
-    }
     if (!this.levelRange) {
       return false;
     }

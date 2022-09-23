@@ -37,8 +37,8 @@
 
   </ion-title>
   <ion-buttons slot="end">
-    <ion-button>
-      <ion-icon name="heart-outline"></ion-icon>
+    <ion-button (click)="likeToHole()">
+      <ion-icon [name]="liked ? 'heart' : 'heart-outline'"></ion-icon>
     </ion-button>
   </ion-buttons>
 </ion-toolbar>
@@ -54,11 +54,21 @@
    <div *ngIf="course"><strong>Campo:</strong> {{course.courseName ? course.courseName : course.address}}</div> 
   </ion-label>
   <span *ngIf="course" style="font-size: 17px;" class="ion-margin-left ion-text-end" slot="end">
-    <div><ion-icon name="heart-outline"></ion-icon> 0</div>
+    <div><ion-icon color="danger" style="position: relative;top: 2px;" name="heart"></ion-icon> {{likeCounter}}</div>
     <span *ngIf="stars.length"><ion-icon *ngFor="let s of stars" [color]="s.color" [name]="s.color == 'warning' ? 'star': 'star-outline'"></ion-icon></span> 
     <span *ngIf="!stars.length"><ion-icon *ngFor="let s of [1,1,1,1,1]" color="medium" name="star-outline"></ion-icon></span> 
   </span>
 </ion-item>
+
+<ion-item class="ion-no-padding" *ngIf="detail" lines="none">
+  <ion-buttons slot="start">
+    <ion-button fill="solid" color="secondary" shape="round" (click)="getGame()">
+      <ion-icon slot="start" name="refresh"></ion-icon>
+      Refrescar
+    </ion-button>
+  </ion-buttons>
+</ion-item>
+
   <table *ngIf="detail">
     <tr>
       <th class="ion-text-start">Jugadores</th>
@@ -175,7 +185,7 @@
         <div *ngIf="r.difficulty == 5" class="level-value very-hard">Muy Difícil</div>
       </span>
     </ion-item>
-    <p class="comment">
+    <p *ngIf="r.description" class="comment">
       {{r.description}}
     </p>
 

@@ -57,4 +57,17 @@ export class CampusDataService {
       params,
     });
   }
+
+  likeToHole(course_id, hole){
+ 
+    return this.http.post<any>(`${URL}/campus/toogle/like/${course_id}`, { hole: hole.value });
+  }
+
+  getHoleLikes(course_id, hole){
+    return this.http.get<any>(`${URL}/campus/show/like/${course_id}/${hole.value}`);
+  }
+
+  getPlayerCourses(user_id){
+    return this.http.get<any>(`${URL}/auth/courses/${user_id}`);
+  }
 }

@@ -24,6 +24,7 @@ export class GroupPanelPage implements OnInit {
   isAdmin: boolean;
   user_id;
 
+  search = ''
   constructor(
     public chatSvc: ChatService,
     private actRoute: ActivatedRoute,

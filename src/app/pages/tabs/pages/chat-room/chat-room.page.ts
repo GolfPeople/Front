@@ -120,6 +120,8 @@ export class ChatRoomPage implements OnInit {
 
       this.chatSvc.unreadActivityCounter$.next(this.unreadNotifications.length);
       
+      console.log(this.unreadNotifications);
+      
       this.getNotifications();
     })
   }

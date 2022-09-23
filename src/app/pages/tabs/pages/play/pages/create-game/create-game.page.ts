@@ -87,8 +87,7 @@ export class CreateGamePage implements OnInit {
   }
 
   ngOnInit() {
-    this.getCourses();
-    this.creating = false;
+  
   }
 
   doRefresh(event) {
@@ -101,6 +100,7 @@ export class CreateGamePage implements OnInit {
   ionViewWillEnter() {
     this.getUsers();
     this.getCurrentUser();
+    this.getGolfCourse();
 
     this.currentDate = this.datePipe.transform(Date.now(), 'yyyy-MM-dd') + 'T00:00:00';
   }
@@ -123,20 +123,26 @@ export class CreateGamePage implements OnInit {
     }
   }
 
-  getCourses() {
-    this.loading = true;
-    this.campusSvc.searchCourses(this.searchCourse).subscribe(res => {
+  async selectGolfCourse() {
+    const modal = await this.modalController.create({
+      component: SelectGolfCourseComponent,
+      cssClass: 'select-course-modal'
+    });
 
-      this.loading = false;
-      this.campus = res;
-      if (this.campus_id !== 'x') {
-        this.campusSelected = this.campus.filter(res => res.id == this.campus_id)[0];
-      }
+    modal.present();
 
-    }, err => {
-      console.log(err);
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+     this.campusSelected = data.course;
+    }
+  }
 
-    })
+  getGolfCourse() {
+    if (this.campus_id !== 'x') {
+      this.campusSvc.getCourseGames(this.campus_id).subscribe(res => {
+        this.campusSelected = res;
+      })
+    }
   }
 
   async createGame() {
@@ -170,19 +176,6 @@ export class CreateGamePage implements OnInit {
     }
   }
 
-  async selectGolfCourse() {
-    const modal = await this.modalController.create({
-      component: SelectGolfCourseComponent,
-      cssClass: 'fullscreen-modal'
-    });
-
-    modal.present();
-
-    const { data } = await modal.onWillDismiss();
-    if (data) {
-      console.log(data.course);
-    }
-  }
 
   async addGuest() {
     const modal = await this.modalController.create({

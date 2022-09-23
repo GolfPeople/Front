@@ -18,9 +18,9 @@ export class ActivityComponent implements OnInit {
   @Input() readNotifications;
   @Input() unreadNotifications;
   @Input() loading;
-  
 
-  notificationTypesWithBtn = ['games', 'RequestGames','friends','StatusGames']
+
+  notificationTypesWithBtn = ['games', 'RequestGames', 'friends', 'StatusGames']
 
   constructor(
     public notificationSvc: NotificationsService,
@@ -33,37 +33,22 @@ export class ActivityComponent implements OnInit {
 
   ngOnInit() { }
 
-  goToUserProfile(id){   
-    this.firebaseService.routerLink('/tabs/user-profile/'+id);   
+  goToUserProfile(id) {
+    this.firebaseService.routerLink('/tabs/user-profile/' + id);
   }
 
-  goToPost(id){   
-    this.firebaseService.routerLink('/tabs/post/'+id);   
+  goToPost(id) {
+    this.firebaseService.routerLink('/tabs/post/' + id);
   }
 
 
   async validateGame(e, index) {
-    let data = {
-      user_id: JSON.parse(localStorage.getItem('user_id')),
-      game_id: e.data.game_id
-    }
-  
-    const loading = await this.firebaseService.loader().create();
-    await loading.present();
-    this.gameSvc.validateScoreCard(data).subscribe(res => {
-      this.firebaseService.routerLink(`/tabs/play/game-finished-success/x/${e.data.game_id}`)
-      this.markOneAsRead(e.id, index)
-      loading.dismiss();
-    }, error => {
-      console.log(error);
-      
-      this.firebaseService.Toast('Ha ocurrido un error, intenta de nuevo')
-      loading.dismiss();
-    })
+    this.firebaseService.routerLink(`/tabs/play/game-finished-success/x/${e.data.game_id}`)
+    this.markOneAsRead(e.id, index)
   }
 
 
-  async goToGame(game_id){
+  async goToGame(game_id) {
     const modal = await this.modalController.create({
       component: GameDetailPage,
       componentProps: { game_id },
@@ -71,15 +56,16 @@ export class ActivityComponent implements OnInit {
     });
 
     await modal.present();
-    
+
   }
-  
+
   async acceptFriendRequest(e, index) {
-        
+
     const loading = await this.firebaseService.loader().create();
     await loading.present();
     this.friendService.acceptRequest(e.data.connection_id).subscribe(res => {
       this.firebaseService.Toast('Solicitud de amistad aceptada')
+      this.activityNotification(e.data.user_id) 
       this.markOneAsRead(e.id, index)
       loading.dismiss();
     })
@@ -96,66 +82,69 @@ export class ActivityComponent implements OnInit {
   }
 
 
-/**
- * 
- * @param e 
- * @param index 
- * Aceptar solicitud de juego. (Usuario que solicitó unirse a una partida)
- * ===========================================
- */
- async acceptJoinRequest(e, index) { 
-       
-  const loading = await this.firebaseService.loader().create();
-  await loading.present();
-  
-  this.gameSvc.acceptOrDeclineJoinRequest(1,e.data.game_id, e.data.user_sender.id).subscribe(res => {        
-    this.firebaseService.Toast('Solicitud de juego aceptada')
-    this.markOneAsRead(e.id, index)
-    loading.dismiss();
-  }, error =>{
-    this.firebaseService.Toast('Ha ocurrido un error, intente de nuevo.');
-    console.log(error);      
-    loading.dismiss();
-  })
-}
+  /**
+   * 
+   * @param e 
+   * @param index 
+   * Aceptar solicitud de juego. (Usuario que solicitó unirse a una partida)
+   * ===========================================
+   */
+  async acceptJoinRequest(e, index) {
 
-
-async declineJoinRequest(e, index) {
-  
-  const loading = await this.firebaseService.loader().create();
-  await loading.present();
-  this.gameSvc.acceptOrDeclineJoinRequest(2,e.data.game_id, e.data.user_sender.id).subscribe(res => {
-    this.firebaseService.Toast('Solicitud de juego rechazada')
-    this.markOneAsRead(e.id, index)
-    loading.dismiss();
-  }, error =>{
-    this.firebaseService.Toast('Ha ocurrido un error, intente de nuevo.');
-    console.log(error);    
-    loading.dismiss();
-  })
-}
-//================================================================
-
-
-
-/**
- * 
- * @param e 
- * @param index 
- * Aceptar solicitud de juego. (Usuario que se añadió a una partida)
- * ===========================================
- */
-  async acceptGameRequest(e, index) {       
     const loading = await this.firebaseService.loader().create();
-    await loading.present(); 
-    
-    this.gameSvc.acceptOrDeclineGameRequest(2,e.data.game_id).subscribe(res => {     
+    await loading.present();
+
+    this.gameSvc.acceptOrDeclineJoinRequest(1, e.data.game_id, e.data.user_sender.id).subscribe(res => {
       this.firebaseService.Toast('Solicitud de juego aceptada')
+      this.activityNotification(e.data.user_id) 
       this.markOneAsRead(e.id, index)
       loading.dismiss();
-    }, error =>{
+    }, error => {
       this.firebaseService.Toast('Ha ocurrido un error, intente de nuevo.');
-      console.log(error);      
+      console.log(error);
+      loading.dismiss();
+    })
+  }
+
+
+  async declineJoinRequest(e, index) {
+
+    const loading = await this.firebaseService.loader().create();
+    await loading.present();
+    this.gameSvc.acceptOrDeclineJoinRequest(2, e.data.game_id, e.data.user_sender.id).subscribe(res => {
+      this.firebaseService.Toast('Solicitud de juego rechazada')
+      this.activityNotification(e.data.user_id) 
+      this.markOneAsRead(e.id, index)
+      loading.dismiss();
+    }, error => {
+      this.firebaseService.Toast('Ha ocurrido un error, intente de nuevo.');
+      console.log(error);
+      loading.dismiss();
+    })
+  }
+  //================================================================
+
+
+
+  /**
+   * 
+   * @param e 
+   * @param index 
+   * Aceptar solicitud de juego. (Usuario que se añadió a una partida)
+   * ===========================================
+   */
+  async acceptGameRequest(e, index) {
+    const loading = await this.firebaseService.loader().create();
+    await loading.present();
+
+    this.gameSvc.acceptOrDeclineGameRequest(2, e.data.game_id).subscribe(res => {
+      this.firebaseService.Toast('Solicitud de juego aceptada')
+      this.activityNotification(e.data.user_id) 
+      this.markOneAsRead(e.id, index)
+      loading.dismiss();
+    }, error => {
+      this.firebaseService.Toast('Ha ocurrido un error, intente de nuevo.');
+      console.log(error);
       loading.dismiss();
     })
   }
@@ -164,17 +153,18 @@ async declineJoinRequest(e, index) {
   async declineGameRequest(e, index) {
     const loading = await this.firebaseService.loader().create();
     await loading.present();
-    this.gameSvc.acceptOrDeclineGameRequest(3,e.data.game_id).subscribe(res => {
-      this.firebaseService.Toast('Solicitud de juego rechazada') 
+    this.gameSvc.acceptOrDeclineGameRequest(3, e.data.game_id).subscribe(res => {
+      this.firebaseService.Toast('Solicitud de juego rechazada')
+      this.activityNotification(e.data.user_id) 
       this.markOneAsRead(e.id, index)
       loading.dismiss();
-    }, error =>{
+    }, error => {
       console.log(error);
       this.firebaseService.Toast('Ha ocurrido un error, intente de nuevo.');
       loading.dismiss();
     })
   }
-//================================================================
+  //================================================================
 
 
   async markOneAsRead(notificationId, index) {
@@ -185,8 +175,19 @@ async declineJoinRequest(e, index) {
     this.chatSvc.unreadActivityCounter$.next(this.chatSvc.unreadActivityCounter$.value - 1);
     this.notificationSvc
       .markAsReadOne(notificationId)
-      .subscribe((res) => {       
+      .subscribe((res) => {
         loading.dismiss();
       });
+  }
+
+
+
+ /**
+  * It adds a new activity to the activity collection in the database.
+  * @param user_id - The user id of the user you want to send the notification to.
+  */
+  activityNotification(user_id) {
+    let activity = { id: user_id.toString(), user_id: user_id, notification: true }
+    this.firebaseService.addToCollectionById('activity', activity);
   }
 }

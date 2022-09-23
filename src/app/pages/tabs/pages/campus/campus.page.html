@@ -1,4 +1,4 @@
-<app-header backButton="true" title="Campos" icon="../../../../../assets/icons/golf-flag.svg"></app-header>
+<app-header backButton="true" title="Campos" icon="assets/icons/golf-flag.svg"></app-header>
 <ion-toolbar color="primary" class="search-container">
   
   <ion-searchbar [(ngModel)]="search" (ionChange)="getCourses()"  placeholder="Buscar" [debounce]="1000"></ion-searchbar>
@@ -27,11 +27,6 @@
           <div>
             <div  class="square">
               <ion-item class="over-img" lines="none">
-                <ion-buttons slot="start">
-                  <ion-button>
-                    <ion-icon class="icon" style="color:red;" name="heart"></ion-icon>
-                  </ion-button>
-                </ion-buttons>
                 <ion-buttons *ngIf="g.recommendRating && g.recommendRating !== '0'" slot="end">
                   <ion-button>
                     <ion-icon class="icon" color="warning" name="star"></ion-icon>
@@ -59,9 +54,9 @@
                 Administrar
               </ion-button>
             </ion-buttons>
-            <ion-buttons slot="end">
+            <ion-buttons class="ion-margin-start" slot="end">
               <ion-button>
-                <ion-icon class="icon" color="medium" name="bookmark-outline"></ion-icon>
+                <ion-icon class="icon" color="medium" name="heart-outline"></ion-icon>
               </ion-button>
               <ion-button>
                 <ion-icon class="icon" color="medium" name="share-social-outline"></ion-icon>

@@ -13,6 +13,7 @@ import { LevelComponent } from './components/level/level.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SwiperModule } from 'swiper/angular';
 import { QrModalComponent } from './components/qr-modal/qr-modal.component';
+import { ComponentsModule } from '../../components/components.module';
 
 const components = [LevelComponent, QrModalComponent];
 
@@ -24,6 +25,7 @@ const components = [LevelComponent, QrModalComponent];
     IonicModule,
     UserProfilePageRoutingModule,
     SharedModule,
+    ComponentsModule,
     SwiperModule,
     NgxQRCodeModule,
   ],

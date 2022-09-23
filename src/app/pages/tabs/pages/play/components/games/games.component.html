@@ -42,25 +42,11 @@
 
 
         <!--================Si el usuario fue invitado a la partida================-->
-        <span class="ion-text-center" *ngIf="!toggleUserGames$.value && g.isInvited" slot="end">
-          <div style="font-size: 12px;font-weight: 600;color: var(--ion-color-medium);padding-bottom: 5px;">¡Has sido
-            invitado <br> a esta partida!</div>
-          <div>
+        <span class="ion-text-center" *ngIf="!toggleUserGames$.value && g.isInvited" slot="end">    
             <ion-button style="width: 90px;" (click)="openGameDetail(g.id)" class="join-btn" mode="ios" color="success"
               shape="round" fill="solid">
               Ver Partida
             </ion-button>
-          </div>
-          <div>
-            <ion-button style="width: 90px;" (click)="acceptGameRequest(g)" class="join-btn" mode="ios"
-              color="secondary" shape="round" fill="solid">
-              Unirme
-            </ion-button>
-          </div>
-          <ion-button style="width: 90px;" (click)="declineGameRequest(g)" class="btn-group" color="medium"
-            shape="round" size="small" mode="ios">
-            Rechazar
-          </ion-button>
         </span>
 
         <!--================Partidas en pendiente que no son del usuario================-->
@@ -83,7 +69,7 @@
         </span>
 
         <!--================Si la partida finalizó y es del usuario================-->
-        <span class="ion-text-center" *ngIf="toggleUserGames$.value && g.status == '2' || g.status == '4'" slot="end">
+        <span class="ion-text-center" *ngIf="toggleUserGames$.value && (g.status == '2' || g.status == '4')" slot="end">
           <div>
             <ion-button *ngIf="g.status == '2'" routerLink="score-card/{{g.id}}" class="join-btn" mode="ios"
               color="secondary" shape="round" fill="solid">
@@ -294,7 +280,7 @@
         </span>
 
         <!--================Si la partida finalizó y es del usuario================-->
-        <span class="ion-text-center" *ngIf="toggleUserGames$.value && g.status == '2' || g.status == '4'" slot="end">
+        <span class="ion-text-center" *ngIf="toggleUserGames$.value && (g.status == '2' || g.status == '4')" slot="end">
           <div>
             <div>
               <ion-button style="width: 139px;" *ngIf="g.status == '4' && !g.validate"
@@ -422,7 +408,7 @@
         </span>
 
         <!--================Si la partida finalizó y es del usuario================-->
-        <span class="ion-text-center" *ngIf="toggleUserGames$.value && g.status == '2' || g.status == '4'" slot="end">
+        <span class="ion-text-center" *ngIf="toggleUserGames$.value && (g.status == '2' || g.status == '4')" slot="end">
           <div>
             <ion-button *ngIf="g.status == '2'" routerLink="score-card/{{g.id}}" class="join-btn" mode="ios"
               color="secondary" shape="round" fill="solid">

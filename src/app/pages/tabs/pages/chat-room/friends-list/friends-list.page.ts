@@ -76,7 +76,7 @@ export class FriendsListPage implements OnInit {
   filterUsers() {
     if (this.searchResult) {
       this.usersFiltered = this.chatSvc.friends$.value.filter(user => {
-        return user.name.toLocaleLowerCase().includes(this.searchResult)
+        return user.name.toLocaleLowerCase().includes(this.searchResult.toLocaleLowerCase())
       })
     } else {
       this.usersFiltered = this.chatSvc.friends$.value

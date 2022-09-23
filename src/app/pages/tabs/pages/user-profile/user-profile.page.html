@@ -20,32 +20,21 @@
       </div>
 
       <div class="end">
-        <!-- <ion-button
-          class="ion-margin-end action-button"
-          [ngClass]="{'unfollow': following}"
-          shape="round"
-          (click)="following ? unfollow() : follow()"
-        >
-          {{following ? 'Unfollow' : 'Follow'}}
-        </ion-button> -->
+        <a *ngIf="!isMyProfile && following" class="favorite">
+          <ion-icon style="font-size: 24px;" color="light" src="assets/icons/user-remove.svg"></ion-icon>
+         </a>
         <a *ngIf="!isMyProfile" class="favorite" (click)="favorite()">
           <img
             class="share-icon"
-            src="../../../../assets/icons/user-profile/save.svg"
+            src="assets/icons/user-profile/save.svg"
             alt=""
         /></a>
         <a class="share" (click)="shareProfile()">
           <img
             class="share-icon"
-            src="../../../../assets/icons/user-profile/share.svg"
+            src="assets/icons/user-profile/share.svg"
             alt=""
         /></a>
-        <!-- <a (click)="following ? unfollow() : follow()">
-          <img
-            class="follow-icon"
-            [src]=" following ?  '../../../../assets/icons/user-profile/user-remove.svg' :  '../../../../assets/icons/user-profile/users.svg'"
-            alt=""
-        /></a> -->
       </div>
     </div>
 
@@ -70,14 +59,14 @@
         class="message-button header-button"
       >
         <img
-          src="../../../../assets/icons/user-profile/message-button.svg"
+          src="assets/icons/user-profile/message-button.svg"
           alt=""
         />
         Enviar Mensaje
       </ion-button>
       <ion-button *ngIf="following" routerLink="/tabs/play/create-game/x/{{userInfo.id}}"  class="play-button header-button">
         <img
-          src="../../../../assets/icons/user-profile/play-button.svg"
+          src="assets/icons/user-profile/play-button.svg"
           alt=""
         />
         Jugar Partida
@@ -97,34 +86,44 @@
     class="profile-card"
     [ngClass]="{'private-card': isPrivate && !following}"
   >
-    <!-- <div *ngIf="!following && !isPrivate" class="edit-nav"> -->
-    <div *ngIf="following" class="edit-nav">
-      <div *ngIf="isMyProfile" class="qr-container">
-        <div class="qr-info">
-          <h3>MyGolfPass</h3>
-          <h4>5768 2948 4872 9692</h4>
-          <p>{{userInfo.name}}</p>
-        </div>
-        <div class="qr" (click)="openModal()">
-          <img src="../../../../assets/icon/qr.png" alt="" />
-        </div>
-      </div>
-      <ul>
-        <li>
-          <a (click)="prev()" id="4" [ngClass]="{'active': postsTab}"
-            >Publicaciones</a
-          >
-        </li>
-
-        <li><a>Campos</a></li>
-        <li>
-          <a (click)="next()" id="1" [ngClass]="{'active': levelTab}">Nivel</a>
-        </li>
-        <li>
-          <a>Bolsa</a>
-        </li>
-      </ul>
+    <div *ngIf="following" class="ion-padding-top">
+      <ion-segment [(ngModel)]="segment" color="secondary">
+        <ion-segment-button value="posts">
+          <ion-label>Publicaciones</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="courses">
+          <ion-label>Campos</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="level">
+          <ion-label>Nivel</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="bolsa">
+          <ion-label>Bolsa</ion-label>
+        </ion-segment-button>
+      </ion-segment>
     </div>
+
+
+  <div class="content-container" *ngIf="following">
+    <app-posts
+    *ngIf="segment == 'posts'"
+    (loadMore)="onLoadMore()"
+    [loadingMore]="isLoadingMore"
+    [posts]="posts"
+  ></app-posts>
+
+  <div class="ion-text-center"  *ngIf="segment == 'level'">
+     <img  src="../../../../../assets/img/nivel.png" alt=""> 
+  </div>
+
+
+
+  <div *ngIf="segment == 'courses'">
+    <app-toggle-options color="#009838" [toggle]="toggle$" [options]="toggleOptions"></app-toggle-options>
+    <app-golf-course-item [coursesPlayed]="courses" *ngIf="!toggle$.value"></app-golf-course-item>
+  
+  </div>
+  </div>
 
     <div *ngIf="isPrivate && !following" class="isPrivate">
       <ion-icon slot="icon-only" name="lock-closed-outline"></ion-icon>
@@ -134,17 +133,6 @@
       </div>
     </div>
 
-    <swiper *ngIf="following" #swiper class="mySwiper">
-      <ng-template swiperSlide>
-        <app-posts
-          (loadMore)="onLoadMore()"
-          [loadingMore]="isLoadingMore"
-          [posts]="posts"
-        ></app-posts>
-      </ng-template>
-      <ng-template swiperSlide>
-        <app-level></app-level>
-      </ng-template>
-    </swiper>
+ 
   </div>
 </ion-content>

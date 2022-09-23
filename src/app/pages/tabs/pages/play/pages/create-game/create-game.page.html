@@ -81,13 +81,12 @@
             </ion-item>
           </div>
 
-          <div class="ion-padding-vertical">
+          <!-- <div class="ion-padding-vertical">
             <ion-item class="ion-no-padding">
               <ion-label>¿Vas a participar en esta partida?</ion-label>
               <ion-checkbox color="secondary" [(ngModel)]="currentUserPlaying" slot="end"></ion-checkbox>
             </ion-item>
-          </div>
-
+          </div> -->
 
 
           <div class="label">¿Cuando?</div>
@@ -98,15 +97,18 @@
             <ion-icon color="secondary" name="location-outline"></ion-icon> ¿Donde?
           </div>
           <div style="padding-bottom: 15px;">
-            <ion-skeleton-text *ngIf="loading" animated style="width: 60%"></ion-skeleton-text>
-            <ion-select *ngIf="!loading" [(ngModel)]="campusSelected" cancel-text="" interface="popover"
-              placeholder="Selecciona un campo">
-              <ion-select-option class="ion-text-wrap" *ngFor="let c of campus" [value]="c">
-                {{c.courseName ? c.courseName : c.address}}
-              </ion-select-option>
-            </ion-select>
+            <ion-item (click)="selectGolfCourse()" class="item-select" lines="none" >
+              <ion-label *ngIf="campusSelected">
+                {{campusSelected.name ? campusSelected.courseName : campusSelected.address}}
+              </ion-label>
+              <ion-label *ngIf="!campusSelected">
+                Selecciona un campo
+              </ion-label>
+              <ion-icon slot="end" name="chevron-down"></ion-icon>
+            </ion-item>
           </div>
           
+         
 
           <div class="input-side">
             <div class="label">

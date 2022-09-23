@@ -33,6 +33,10 @@ export class ScoreCardPage implements OnInit {
   loadingCourse: boolean;
 
   players = [];
+
+  likeCounter: number;
+  liked: boolean;
+
   constructor(
     private translate: TranslateService,
     public gameSvc: GameService,
@@ -110,26 +114,36 @@ export class ScoreCardPage implements OnInit {
   nextHole() {
     if (this.selectedHole.value < this.limit) {
       this.selectedHole.next(this.selectedHole.value + 1);
-      this.getRating();
+
+      this.getHoleData();
+      this.getHoleLikes();
       this.getPlayersData();
       this.getHCPYPAR();
-      this.getHoleLevel();
       this.getYds();
-      this.getHoleData();
-      this.filterReviews();
+
+      if (this.course.reviews) {
+        this.getRating();
+        this.getHoleLevel();
+        this.filterReviews();
+      }
+      
     }
   }
 
   backHole() {
     if (this.selectedHole.value > 1) {
       this.selectedHole.next(this.selectedHole.value - 1);
-      this.getRating();
+      this.getHoleData();
+      this.getHoleLikes();
       this.getPlayersData();
       this.getHCPYPAR();
-      this.getHoleLevel();
       this.getYds();
-      this.getHoleData();
-      this.filterReviews();
+
+      if (this.course.reviews) {
+        this.getRating();
+        this.getHoleLevel();
+        this.filterReviews();
+      }
     }
   }
 
@@ -159,10 +173,10 @@ export class ScoreCardPage implements OnInit {
     this.gameSvc.getAllGames().subscribe(res => {
 
       this.gameSvc.games$.next(res.data.reverse().map(g => {
-        
+
         return {
           campuses_id: g.campuses_id,
-          address: g.address,                  
+          address: g.address,
           created_at: g.created_at,
           points: g.points,
           date: g.date,
@@ -182,19 +196,21 @@ export class ScoreCardPage implements OnInit {
           isInvited: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.status == '1').length ? true : false),
           pending: (g.request_users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id'))).length ? true : false)
         }
-      }))    
-      
+      }))
+
       this.detail = this.gameSvc.games$.value.filter(res => res.id == this.id)[0];
-     console.log(this.detail);
-     
+
+
       if (this.detail.game_init.path == '1') {
         this.limit = 18;
       } else {
         this.limit = 9;
-      }   
-        
+      }
+
+
       this.getPlayersData();
       this.getHoleData();
+      this.getHoleLikes();
       this.getGolfCourse(this.detail);
     })
   }
@@ -204,31 +220,65 @@ export class ScoreCardPage implements OnInit {
     this.holeData = this.detail.points.filter(res => res.hole == this.selectedHole.value.toString());
   }
 
-  
+  getHoleLikes() {
+    this.liked = false;
+    this.likeCounter = 0;
+    this.campusSvg.getHoleLikes(this.detail.campuses_id, this.selectedHole).subscribe(res => {
+      this.likeCounter = res.count;
+
+      //chequea si el usuario dio like al hoyo
+      res.data.map(user => {
+        if (user.user_id == JSON.parse(localStorage.getItem('user_id'))) {
+          this.liked = true
+        }
+      })
+    })
+  }
+
+
+  likeToHole() {
+    this.liked = false;
+    this.campusSvg.likeToHole(this.detail.campuses_id, this.selectedHole).subscribe(res => {
+      this.likeCounter = res.count;
+
+      //chequea si el usuario dio like al hoyo
+      res.data.map(user => {
+        if (user.user_id == JSON.parse(localStorage.getItem('user_id'))) {
+          this.liked = true
+        }
+      })
+
+    })
+  }
 
   getGolfCourse(game) {
     this.loadingCourse = true;
-    this.campusSvg.getCourseGames(game.campuses_id).subscribe(res =>{
-      
+    this.campusSvg.getCourseGames(game.campuses_id).subscribe(res => {
+
       this.course = res;
       this.course.teesList = JSON.parse(this.course.teesList);
       this.course.scorecarddetails = JSON.parse(this.course.scorecarddetails);
-      
-      this.getRating();
+
+
       this.getHCPYPAR();
-      this.getHoleLevel();
       this.getYds();
-      this.filterReviews();
+
+      if (this.course.reviews) {
+        this.getRating();
+        this.getHoleLevel();
+        this.filterReviews();
+      }
+
       this.loadingCourse = false;
     })
 
   }
 
-  getRating(){
+  getRating() {
     let op = []
-    this.course.reviews.filter(r => r.hole == this.selectedHole.value).map(res => {      
+    this.course.reviews.filter(r => r.hole == this.selectedHole.value).map(res => {
       this.stars = []
-      
+
       op.push(res)
       for (let i = 1; i < res.rating + 1; i++) {
         this.stars.push({ color: 'warning' })
@@ -240,14 +290,14 @@ export class ScoreCardPage implements OnInit {
           this.stars.push({ color: 'medium' })
         }
       }
-     
-      
+
+
     })
-    if(!op.length){
+    if (!op.length) {
       this.stars = []
     }
 
-   
+
   }
 
   filterReviews() {
@@ -324,7 +374,7 @@ export class ScoreCardPage implements OnInit {
   }
 
 
-  getPlayersData() {   
+  getPlayersData() {
     this.players = this.detail.users.map(u => {
       let points = this.detail.points.filter(res => { return res.user_id == u.user_id }).map(r => {
         return {
@@ -335,10 +385,10 @@ export class ScoreCardPage implements OnInit {
       })
       return {
         id: u.user_id,
-        name: u.data.name,        
+        name: u.data.name,
         photo: u.data.profile.photo,
-        points: points.filter(p => {return p.hole == this.selectedHole.value.toString()})[0].points,
-        hits: points.filter(p => {return p.hole == this.selectedHole.value.toString()})[0].hits,
+        points: points.filter(p => { return p.hole == this.selectedHole.value.toString() })[0].points,
+        hits: points.filter(p => { return p.hole == this.selectedHole.value.toString() })[0].hits,
         teeColor: u.teeColor
       }
     }).sort(function (a, b) {
@@ -349,7 +399,7 @@ export class ScoreCardPage implements OnInit {
         return -1;
       }
       return 0;
-    });     
-    
+    });
+
   }
 }
