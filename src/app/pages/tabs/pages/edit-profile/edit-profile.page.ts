@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/core/services/user.service';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 
-import {
+import { 
   NgxQrcodeElementTypes,
   NgxQrcodeErrorCorrectionLevels,
 } from '@techiediaries/ngx-qrcode';
@@ -33,6 +33,8 @@ export class EditProfilePage implements OnInit {
   postsPage = 1;
   postsData: PostsResponse[] = [];
   isLoadingMore: boolean = false;
+
+  segment = 'posts'
 
   elementType = NgxQrcodeElementTypes.URL;
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;

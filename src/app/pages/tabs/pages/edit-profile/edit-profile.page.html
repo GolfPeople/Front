@@ -36,36 +36,38 @@
           <img src="../../../../assets/icon/qr.png" alt="" />
         </div>
       </div>
-      <ul>
-        <li>
-          <a (click)="selectPage($event)" id="1" [ngClass]="{'active': level}"
-            >Nivel</a
-          >
-        </li>
-        <li>
-          <a>Bolsa</a>
-        </li>
-        <li><a (click)="selectPage($event)" id="3" [ngClass]="{'active': campos}">Campos</a></li>
-        <li>
-          <a (click)="selectPage($event)" id="4" [ngClass]="{'active': posts}"
-            >Publicaciones</a
-          >
-        </li>
-      </ul>
+      <div
+      class="profile-card"
+    >
+      <div class="ion-padding-top">
+      <ion-segment [(ngModel)]="segment" color="secondary">
+        <ion-segment-button value="level">
+          <ion-label>Nivel</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="bolsa">
+          <ion-label>Bolsa</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="courses">
+          <ion-label>Campos</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="posts">
+          <ion-label>Publicaciones</ion-label>
+        </ion-segment-button>
+      </ion-segment> 
     </div>
-    <app-level *ngIf="level"></app-level>
-
-    <div *ngIf="campos">
+    </div>
+  </div>
+    <app-level *ngIf="segment == 'level'"></app-level>
+    <div *ngIf="segment == 'courses'">
       <app-toggle-options color="#009838" [toggle]="toggle$" [options]="toggleOptions"></app-toggle-options>
       <app-golf-course-item [coursesPlayed]="courses" *ngIf="!toggle$.value"></app-golf-course-item>
-    
     </div>
     <!-- <app-posts *ngIf="posts"></app-posts> -->
     <app-posts
       (loadMore)="onLoadMore()"
       [loadingMore]="isLoadingMore"
       [posts]="postsData"
-      *ngIf="posts"
+      *ngIf="segment == 'posts'"
     ></app-posts>
   </div>
 </ion-content>
