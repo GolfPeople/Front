@@ -1,7 +1,7 @@
 <div style="padding-top: 0;" class="ion-padding">
   <div *ngIf="upcoming()" class="label">Partidas Próximas</div>
   <div *ngFor="let g of filteredGames">
-    <div *ngIf="g.status == '1'" class="game-container">
+    <div *ngIf="g.status == '1' && (g.users && g.users.length)" class="game-container">
       <ion-item lines="none" class="ion-no-padding">
         <span [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="date" slot="start">
           <div [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="day">{{g.date | date:'dd'}}
@@ -124,7 +124,7 @@
 
   <div *ngIf="inProcess()" class="label">Partidas en proceso</div>
   <div *ngFor="let g of filteredGames">
-    <div *ngIf="g.status == '2'" class="game-container">
+    <div *ngIf="g.status == '2' && (g.users && g.users.length)" class="game-container">
       <ion-item lines="none" class="ion-no-padding">
         <span [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="date" slot="start">
           <div [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="day">{{g.date | date:'dd'}}
@@ -214,7 +214,7 @@
 
   <div *ngIf="played()" class="label">Partidas Jugadas</div>
   <div *ngFor="let g of filteredGames">
-    <div *ngIf="g.status == '4'" class="game-container">
+    <div *ngIf="g.status == '4' && (g.users && g.users.length)" class="game-container">
       <ion-item lines="none" class="ion-no-padding">
         <span [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="date" slot="start">
           <div [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="day">{{g.date |
@@ -342,7 +342,7 @@
 
   <div *ngIf="canceled()" class="label">Partidas Anuladas</div>
   <div *ngFor="let g of filteredGames">
-    <div *ngIf="g.status == '3'" class="game-container">
+    <div *ngIf="g.status == '3' && (g.users && g.users.length)" class="game-container">
       <ion-item lines="none" class="ion-no-padding">
         <span [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="date" slot="start">
           <div [ngClass]="{'canceled': g.status == '3','finalized': g.status == '4'}" class="day">{{g.date |

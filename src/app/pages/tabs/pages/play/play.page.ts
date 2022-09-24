@@ -61,6 +61,7 @@ export class PlayPage implements OnInit {
     this.getAllGames();
     this.getTournaments();
     this.getCurrentUser();
+
   }
 
   doRefresh(event) {
@@ -70,17 +71,17 @@ export class PlayPage implements OnInit {
     }, 500)
   }
 
-  getCurrentUser(){
+  getCurrentUser() {
     this.userService.user$.subscribe((data) => {
-      this.user = data; 
+      this.user = data;
     });
   }
 
-  createNewGame(){
-    if(this.user.profile.handicap){
+  createNewGame() {
+    if (this.user.profile.handicap) {
       this.firebaseSvc.routerLink('/tabs/play/create-game/x/x')
-    }else{
-     this.handicapRequired();
+    } else {
+      this.handicapRequired();
     }
 
   }
@@ -88,42 +89,39 @@ export class PlayPage implements OnInit {
 
 
   async removeGame() {
-  
-    this.gameSvc.games$.value.map(game => {
-      this.gameSvc.removeGame(game.id).subscribe(res => {
-       console.log(res);
-  
-      }, error => {
-        this.firebaseSvc.Toast('Ha ocurrido un error, intenta de nuevo')
-  
-      })
+
+    this.gameSvc.removeGame(29).subscribe(res => {
+      console.log(res);
+
+    }, error => {
+      this.firebaseSvc.Toast('Ha ocurrido un error, intenta de nuevo')
 
     })
 
- 
+
   }
 
 
   /**
 *===================Handicap Requerido========================
 */
-async handicapRequired() {
-  const modal = await this.modalController.create({
-    component: AlertConfirmComponent,
-    cssClass: 'alert-confirm',
-    componentProps: {
-      confirmText: 'Agregar',
-      content: 'Necesitas agregar tu handicap antes de poder crear o participar en una partida.'
+  async handicapRequired() {
+    const modal = await this.modalController.create({
+      component: AlertConfirmComponent,
+      cssClass: 'alert-confirm',
+      componentProps: {
+        confirmText: 'Agregar',
+        content: 'Necesitas agregar tu handicap antes de poder crear o participar en una partida.'
+      }
+    });
+
+    modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.firebaseSvc.routerLink('/tabs/profile/edit')
     }
-  });
-
-  modal.present();
-
-  const { data } = await modal.onWillDismiss();
-  if (data) {
-   this.firebaseSvc.routerLink('/tabs/profile/edit')
   }
-}
 
   changeLabels() {
     if (!this.toggleGameType$.value) {
@@ -190,35 +188,47 @@ async handicapRequired() {
     if (!this.filteredGames.length) {
       this.loading = true;
     }
+
+   let gamesWithoutCreator = [];
+
     this.gameSvc.getAllGames().subscribe(res => {
       this.loading = false;
 
-      
-      this.gameSvc.games$.next(res.data.reverse().map(g => {
+      console.log(res);
 
-        return {
-          game_init: g.game_init,
-          address: g.address,
-          created_at: g.created_at,
-          campuses_id: g.campuses_id,
-          date: g.date,
-          id: g.id,
-          lat: g.lat,
-          long: g.long,
-          name: g.name,
-          reserves: g.reserves,
-          isOwner: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.status == '4').length ? true : false),
-          owner_id: g.users.filter(u => u.status == '4')[0].user_id,
-          users: g.users.filter(u => { return ['2', '4'].includes(u.status) }),
-          noColor: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && !u.teeColor).length ? false : true),
-          fav: false,
-          isMember: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && ['2', '4'].includes(u.status)).length ? true : false),
-          status: g.status,
-          request_users: g.request_users,
-          isInvited: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.status == '1').length ? true : false),
-          pending: (g.request_users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id'))).length ? true : false),
-          validate:(g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && ['2', '4'].includes(u.status) && u.validate).length ? true : false)
+      //Verficar si hay partidas sin creador
+      res.data.map(game => {
+        if (!game.users.filter(user => user.status == '4')[0]) {
+          gamesWithoutCreator.push(game.id)
         }
+      })
+
+      this.gameSvc.games$.next(res.data.reverse().filter(g => !gamesWithoutCreator.includes(g.id)).map(g => {
+
+          return {
+            game_init: g.game_init,
+            address: g.address,
+            created_at: g.created_at,
+            campuses_id: g.campuses_id,
+            date: g.date,
+            id: g.id,
+            lat: g.lat,
+            long: g.long,
+            name: g.name,
+            reserves: g.reserves,
+            isOwner: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.status == '4').length ? true : false),
+            owner_id: g.users.filter(u => u.status == '4')[0].user_id,
+            users: g.users.filter(u => { return ['2', '4'].includes(u.status) }),
+            noColor: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && !u.teeColor).length ? false : true),
+            fav: false,
+            isMember: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && ['2', '4'].includes(u.status)).length ? true : false),
+            status: g.status,
+            request_users: g.request_users,
+            isInvited: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.status == '1').length ? true : false),
+            pending: (g.request_users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id'))).length ? true : false),
+            validate: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && ['2', '4'].includes(u.status) && u.validate).length ? true : false)
+          }
+
       }).sort(function (a, b) {
         if (parseInt(a.status) > parseInt(b.status)) {
           return 1;
@@ -231,7 +241,7 @@ async handicapRequired() {
 
       )
 
-      
+
       this.filterGames();
     })
   }

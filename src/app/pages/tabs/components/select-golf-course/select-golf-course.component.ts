@@ -29,8 +29,13 @@ export class SelectGolfCourseComponent implements OnInit {
    
     this.campusSvc.searchCourses(this.search).subscribe(res => {
       
-      this.courses = res.my_courses;
-      this.courses.push(...res.all_courses)
+      if(!this.search){
+        this.courses = res.my_courses;
+        this.courses.push(...res.all_courses)
+      }else{
+        this.courses = res.all_courses;
+      }
+      
 
       this.loading = false;
     }, err => {
