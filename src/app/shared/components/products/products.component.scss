@@ -1,0 +1,85 @@
+.img-product {
+  position: absolute;
+    width: 83px;
+    height: 57px;
+    left: 4px;
+    top: 65px;
+}
+
+.card {
+  width: 90px;
+  height: 100px; 
+  border: 1px solid #DDDDDD;
+  border-radius: 10px;
+  margin-top: -12px;
+  margin-left: -3px;
+
+  ion-avatar {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 5px;
+  }
+
+  a {
+    width: 96px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #009dd6;
+    border-radius: 17.5px;
+
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 17px;
+    color: #fff;
+
+    &:active {
+      background: #007aa7;
+    }
+  }
+
+  ion-button {
+    width: 96px;
+    height: 24px;
+    --background: #009dd6;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 17px;
+    --color: #ffffff;
+    text-transform: none;
+  }
+  .connected {
+    --background: #009838;
+  }
+}
+
+.text-content{
+  text-align: center;
+  justify-content: center;
+  display: flex;
+}
+
+.text-product{
+
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 16px;
+  text-align: center;
+  color: #8F8F8F;
+  margin-top: 8px;
+  width: 89px;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+}
+
+.img-card {
+  position: absolute;
+  width: 81px;
+  height: 86px;
+  margin-top: 5px;
+  margin-left: 2px;
+}

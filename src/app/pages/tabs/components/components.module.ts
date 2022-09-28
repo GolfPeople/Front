@@ -15,14 +15,18 @@ import { TimeAgoPipe } from 'src/app/shared/pipes/time-ago.pipe';
 import { AlertConfirmComponent } from './alert-confirm/alert-confirm.component';
 import { GameItemComponent } from './game-item/game-item.component';
 import { GolfCourseItemComponent } from './golf-course-item/golf-course-item.component';
+import { StockExchangeComponent } from './stock-exchange/stock-exchange.component';
+import { ClubsComponent } from './clubs/clubs.component';
 import { PointsHitsModalComponent } from './points-hits-modal/points-hits-modal.component';
 import { TenStarsRatingComponent } from './ten-stars-rating/ten-stars-rating.component';
 import { UsersLoaderComponent } from './users-loader/users-loader.component';
 import { SelectGolfCourseComponent } from './select-golf-course/select-golf-course.component';
-
-
-
-@NgModule({
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { SharedModule } from 'src/app/shared/shared.module';
+@NgModule({  
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ],
   exports: [
     ChatMessagesComponent, 
     HeaderComponent,   
@@ -30,6 +34,7 @@ import { SelectGolfCourseComponent } from './select-golf-course/select-golf-cour
     ActivityComponent,
     SearchMessagesComponent,
     SelectFriendComponent,
+    StockExchangeComponent,
     DateInputComponent,
     DatepickerComponent,
     StepperComponent,
@@ -37,25 +42,30 @@ import { SelectGolfCourseComponent } from './select-golf-course/select-golf-cour
     AlertConfirmComponent,
     GameItemComponent,
     GolfCourseItemComponent,
+    StockExchangeComponent,
+    ClubsComponent,
     PointsHitsModalComponent,
-    TenStarsRatingComponent,
+    TenStarsRatingComponent, 
     UsersLoaderComponent,
-    SelectGolfCourseComponent  
+    SelectGolfCourseComponent,
+     
   ],
   declarations: [
     ChatMessagesComponent, 
     HeaderComponent,
     ToggleOptionsComponent,
     ActivityComponent,  
+    StockExchangeComponent,
     SearchMessagesComponent,
     SelectFriendComponent,
     DateInputComponent,
     DatepickerComponent,
     StepperComponent,
-    TimeAgoPipe,
+    TimeAgoPipe, 
     AlertConfirmComponent,
     GameItemComponent,
     GolfCourseItemComponent,
+    ClubsComponent ,
     PointsHitsModalComponent,
     TenStarsRatingComponent,
     UsersLoaderComponent,
@@ -65,6 +75,7 @@ import { SelectGolfCourseComponent } from './select-golf-course/select-golf-cour
     CommonModule, 
     IonicModule, 
     FormsModule, 
+    SharedModule,
     ReactiveFormsModule
   ]
 })
