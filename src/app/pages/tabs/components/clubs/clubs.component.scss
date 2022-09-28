@@ -50,17 +50,23 @@ ion-header {
 
 
 ion-button {
-  --background: #009dd6; 
-  // width: 54px;
-  // height: 100%;
-
- 
+  --background: #009dd6;  
+  font-family: Montserrat;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 17px;
+  letter-spacing: 0em;
+  text-align: center;
+  width: 40%;
+  height: 55%; 
 } 
 
 ion-icon{
-  color: #009DD6; 
-  --font-size: xxx-large;
-  --font-weight: bold;
+  color: #009DD6;  
+}
+
+ion-icon {
+  --ionicon-stroke-width: 50px
 }
 
 
