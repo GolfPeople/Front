@@ -413,12 +413,13 @@ ion-list {
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-top: -15px;
+   // margin-top: -15px;
     &__header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 20px;
+      padding: 0 0px;
+      margin-left: 15px;
       // margin-bottom: 27.5px;
 
       .slide-text {
@@ -453,7 +454,8 @@ ion-list {
       list-style-type: none;
 
       li {
-        margin: 16px;
+        margin-left: 18px;
+        margin-top: 13px;
       }
     }
   }
