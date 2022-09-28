@@ -44,8 +44,8 @@
         <ion-segment-button value="level">
           <ion-label>Nivel</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="bolsa">
-          <ion-label>Bolsa</ion-label>
+        <ion-segment-button value="clubs">
+          <ion-label>Clubs</ion-label>
         </ion-segment-button>
         <ion-segment-button value="courses">
           <ion-label>Campos</ion-label>
@@ -53,10 +53,22 @@
         <ion-segment-button value="posts">
           <ion-label>Publicaciones</ion-label>
         </ion-segment-button>
+        <ion-segment-button value="bolsa">
+          <ion-label>Bolsa</ion-label>
+        </ion-segment-button>
       </ion-segment> 
     </div>
     </div>
   </div>
+
+  <div *ngIf="segment == 'clubs'">
+    <app-clubs [clubsData]="clubs" *ngIf="!toggle$.value"></app-clubs>
+  </div>
+
+  <div *ngIf="segment == 'bolsa'">
+    <app-stock-exchange [exchangeData]="bolsa" *ngIf="!toggle$.value"></app-stock-exchange>
+  </div>
+  
   <div class="ion-text-center"  *ngIf="segment == 'level'">
     <img  src="assets/img/nivel.png" alt=""> 
  </div>
