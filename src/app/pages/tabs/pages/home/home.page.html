@@ -76,8 +76,9 @@
 
     </div>
 
+    <ion-input type="hidden" [value]="resfresh.value" (ionChange)="getPostPageOne()" placeholder="Awesome Input"></ion-input>
 
-    <app-posts (loadMore)="onLoadMore()" [loadingMore]="isLoadingMore" [posts]="posts"></app-posts>
+    <app-posts (loadMore)="loadMorePost()" [loadingMore]="isLoadingMore" [posts]="posts"></app-posts>
 
     <div style="width: 100%;height: 20vh;background: white;" *ngIf="!tournaments.length"></div>
   </section>

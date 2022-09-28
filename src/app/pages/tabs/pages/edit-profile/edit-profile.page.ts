@@ -93,6 +93,9 @@ export class EditProfilePage implements OnInit {
     }, 1000);
   }
 
+  getPosts(){
+
+  }
 
  /**===================Mostrar Campos Jugados============== */
 
@@ -132,38 +135,6 @@ export class EditProfilePage implements OnInit {
     await modal.present();
   }
 
-  selectPage(event: Event) {
-    const element = event.target as HTMLElement;
-    const value = element.id;
-    if (value === '1') {
-      this.level = true;
-      this.bolsa = false;
-      this.campos = false;
-      this.posts = false;   
-      return;
-    }
-    if (value === '2') {
-      this.level = false;
-      this.bolsa = true;
-      this.campos = false;
-      this.posts = false;
-      return;
-    }
-    if (value === '3') {
-      this.level = false;
-      this.bolsa = false;
-      this.campos = true;
-      this.posts = false;   
-      return;
-    }
-    if (value === '4') {
-      this.level = false;
-      this.bolsa = false;
-      this.campos = false;
-      this.posts = true;
-      return;
-    }
-  }
 
   async startScan() {
     BarcodeScanner.hideBackground(); // make background of WebView transparent

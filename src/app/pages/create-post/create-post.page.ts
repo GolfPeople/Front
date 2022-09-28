@@ -32,6 +32,7 @@ import { Friend } from 'src/app/core/models/friend.interface';
 import { FriendsService } from 'src/app/core/services/friends.service';
 import { finalize, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/core/services/user.service';
 
 declare var google: any;
 declare var window: any;
@@ -122,7 +123,8 @@ export class CreatePostPage implements OnInit {
     private platform: Platform,
     private _location: Location,
     private friendsSvc: FriendsService,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {}
 
   // async ngAfterViewInit() {
@@ -564,7 +566,12 @@ export class CreatePostPage implements OnInit {
           {
             text: 'OK, GRACIAS',
             handler: () => {
-              this.router.navigate(['/tabs/profile']);
+              this.userService.refreshPost.next('refrescar');
+              setTimeout(() => {
+                this.userService.refreshPost.next(null);
+              }, 1000);
+              
+              this.router.navigateByUrl('tabs/home')
               this.backgroundImages = [];
               this.textArea.setValue('');
               this.hashtagsInput.setValue('');

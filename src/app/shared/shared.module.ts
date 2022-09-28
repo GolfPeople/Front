@@ -27,11 +27,13 @@ import { HeaderComponent } from './components/header/header.component';
 import { DesignerAvatarComponent } from './components/designer-avatar/designer-avatar.component';
 import { CampoCardComponent } from './components/campo-card/campo-card.component';
 import { EventCardComponent } from './components/event-card/event-card.component';
-
+import { ProductsComponent } from './components/products/products.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 const components = [
   SelectDateComponent,
   StoryCardComponent,
+  ProductsComponent,
   PeopleComponent,
   PostComponent,
   PostsComponent,
@@ -53,6 +55,7 @@ const components = [
 ];
 
 @NgModule({
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   entryComponents: [CropperComponent],
   declarations: [components, JsonToDataPipe],
 

@@ -1,0 +1,60 @@
+<ion-list> 
+  <ion-item lines="none"> 
+    <div class="slides-container">
+      <div class="slides-container__header">
+        <h3 class="title-section">Mis Palos</h3>
+      </div>
+      <div class="galery">
+        <ul class="stories-list">
+          <li *ngFor="let product of products">
+            <app-products [products]="product"></app-products>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </ion-item>
+  <ion-item lines="none"> 
+    <div class="slides-container">
+      <div class="slides-container__header">
+        <h3 class="title-section">Mis Bolas</h3>
+      </div>
+      <div class="galery">
+        <ul class="stories-list">
+          <li *ngFor="let product of products">
+            <app-products [products]="product"></app-products>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </ion-item>
+  <ion-item lines="none"> 
+    <div class="slides-container">
+      <div class="slides-container__header">
+        <h3 class="title-section">Mis Bolsas</h3>
+      </div>
+      <div class="galery">
+        <ul class="stories-list">
+          <li *ngFor="let product of products">
+            <app-products [products]="product"></app-products>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </ion-item>
+  <ion-item lines="none"> 
+    <div class="container">
+      <div class="section-new">
+        <h3 class="title-section">Nueva Sección</h3>
+        <div>
+          <div>
+            <ion-buttons class="ion-padding" slot="start">
+                <ion-icon slot="start" [style.font-size]="'64px'" name="add-circle-outline"></ion-icon>
+                <span></span> 
+            </ion-buttons>
+            <h5 class="text-product">Añadir producto</h5>
+          </div> 
+        </div>
+      </div> 
+    </div>
+  </ion-item>  
+</ion-list>

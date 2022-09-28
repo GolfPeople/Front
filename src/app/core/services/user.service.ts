@@ -25,11 +25,14 @@ export class UserService {
   userName: string;
   private apiUrl = `${environment.golfpeopleAPI}/api`;
 
+  refreshPost = new BehaviorSubject(null);
+
   constructor(
     private http: HttpClient,
     private loadingCtrl: LoadingController
   ) {}
 
+  
   getUserInfo() {
     return this.http.get<any>(`${this.apiUrl}/auth/user`);
   }

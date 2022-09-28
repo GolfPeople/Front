@@ -95,13 +95,20 @@ export class ActivityComponent implements OnInit {
     await loading.present();
 
     this.gameSvc.acceptOrDeclineJoinRequest(1, e.data.game_id, e.data.user_sender.id).subscribe(res => {
-      this.firebaseService.Toast('Solicitud de juego aceptada')
+
+      if(res == 'partida iniciada'){
+        this.firebaseService.Toast('No puedes entrar en esta partida porque ya se inició.')
+      }else{
+        this.firebaseService.Toast('Solicitud de juego aceptada')
+      }
+    
       this.activityNotification(e.data.user_id) 
       this.markOneAsRead(e.id, index)
       loading.dismiss();
     }, error => {
       this.firebaseService.Toast('Ha ocurrido un error, intente de nuevo.');
       console.log(error);
+      
       loading.dismiss();
     })
   }
@@ -112,13 +119,21 @@ export class ActivityComponent implements OnInit {
     const loading = await this.firebaseService.loader().create();
     await loading.present();
     this.gameSvc.acceptOrDeclineJoinRequest(2, e.data.game_id, e.data.user_sender.id).subscribe(res => {
-      this.firebaseService.Toast('Solicitud de juego rechazada')
+
+      if(res == 'partida iniciada'){
+        this.firebaseService.Toast('No puedes entrar en esta partida porque ya se inició.')
+      }else{
+        this.firebaseService.Toast('Solicitud de juego rechazada')
+      }
+      
       this.activityNotification(e.data.user_id) 
       this.markOneAsRead(e.id, index)
       loading.dismiss();
     }, error => {
       this.firebaseService.Toast('Ha ocurrido un error, intente de nuevo.');
       console.log(error);
+
+      
       loading.dismiss();
     })
   }
@@ -138,13 +153,20 @@ export class ActivityComponent implements OnInit {
     await loading.present();
 
     this.gameSvc.acceptOrDeclineGameRequest(2, e.data.game_id).subscribe(res => {
-      this.firebaseService.Toast('Solicitud de juego aceptada')
+     
+      if(res == 'partida iniciada'){
+        this.firebaseService.Toast('No puedes entrar en esta partida porque ya se inició.')
+      }else{
+        this.firebaseService.Toast('Solicitud de juego aceptada')
+      }
       this.activityNotification(e.data.user_id) 
       this.markOneAsRead(e.id, index)
       loading.dismiss();
     }, error => {
       this.firebaseService.Toast('Ha ocurrido un error, intente de nuevo.');
       console.log(error);
+
+      
       loading.dismiss();
     })
   }
@@ -154,13 +176,21 @@ export class ActivityComponent implements OnInit {
     const loading = await this.firebaseService.loader().create();
     await loading.present();
     this.gameSvc.acceptOrDeclineGameRequest(3, e.data.game_id).subscribe(res => {
-      this.firebaseService.Toast('Solicitud de juego rechazada')
+
+      if(res == 'partida iniciada'){
+        this.firebaseService.Toast('No puedes entrar en esta partida porque ya se inició.')
+      }else{
+        this.firebaseService.Toast('Solicitud de juego rechazada')
+      }
+     
       this.activityNotification(e.data.user_id) 
       this.markOneAsRead(e.id, index)
       loading.dismiss();
     }, error => {
       console.log(error);
       this.firebaseService.Toast('Ha ocurrido un error, intente de nuevo.');
+
+      
       loading.dismiss();
     })
   }

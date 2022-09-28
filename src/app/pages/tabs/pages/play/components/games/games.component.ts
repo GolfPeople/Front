@@ -61,6 +61,52 @@ avatar: string = 'assets/img/default-avatar.png';
     });
   }
 
+
+
+
+
+  async wantToJoin(e) {
+    
+    const modal = await this.modalController.create({
+      component: AlertConfirmComponent,
+      cssClass: 'alert-confirm',
+      componentProps: {
+        confirmText: 'Unirme',
+        content: '¿Quieres solicitar unirte a esta partida?'
+      }
+    });
+
+    modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.sendJoinRequest(e);
+    }
+  }
+
+
+  async sendJoinRequest(e) {
+    const loading = await this.firebaseSvc.loader().create();
+    await loading.present();
+
+    this.gameSvc.joinRequest(e.id).subscribe(res => {
+      this.activityNotification(e);
+      this.firebaseSvc.routerLink('/tabs/play/success-request');
+      loading.dismiss();
+    }, error =>{
+      console.log(error);
+      
+      this.firebaseSvc.Toast('Ha ocurrido un error, intenta de nuevo')
+      loading.dismiss();
+    })
+  }
+
+  activityNotification(e){
+    let activity = {id: e.owner_id.toString(), user_id: e.owner_id, notification: true}
+    this.firebaseSvc.addToCollectionById('activity', activity);
+  }
+
+  
     /**
 * 
 * @param e  

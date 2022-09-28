@@ -13,6 +13,7 @@ export class SelectFriendComponent implements OnInit {
   loading: boolean;
 
   peopleWitHCP = [];
+  search = '';
 
   @Input() usersId = [];
   constructor(
@@ -29,7 +30,7 @@ export class SelectFriendComponent implements OnInit {
 
   getPeopleWithHCP() {
     this.loading = true;
-    this.friendsSvc.search('').subscribe(res => {
+    this.friendsSvc.searchFriend(this.search).subscribe(res => {
       this.peopleWitHCP = res.data.filter(user => user.profile.handicap).filter(user => !this.usersId.includes(user.id));
       
       this.loading = false;
