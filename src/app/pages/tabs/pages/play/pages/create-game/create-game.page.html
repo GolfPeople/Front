@@ -17,15 +17,24 @@
     <ion-row class="vertical-align-center">
       <div>
         <ion-col class="col-content">
+<ion-item>
 
+  <ion-buttons slot="end">
+    <ion-button (click)="selectPlayers()">
+      <ion-icon slot="end" name="add"></ion-icon>
+    {{players$.value.length == 3 ? 'Agregar Grupo' : 'Agregar Jugadores'}}
+    </ion-button>
+  </ion-buttons>
+
+</ion-item>
           <div *ngIf="!loadingUsers" class="players-container">
             <ion-grid fixed>
               <ion-row>
-                <ion-col size="3">
+                <!-- <ion-col size="3">
                   <ion-button (click)="selectPlayers()" class="add-btn">
                     <ion-icon src="../../../../../../assets/icons/tab/create.svg"></ion-icon>
                   </ion-button>
-                </ion-col>
+                </ion-col> -->
                 <ion-col size="3" *ngIf="user && currentUserPlaying" class="ion-text-center">
                   <ion-avatar style="margin: 0 auto;">
                     <img [src]="user.profile.photo ? user.profile.photo : avatar" />

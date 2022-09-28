@@ -161,6 +161,8 @@ export class CreateGamePage implements OnInit {
     this.firebaseSvc.routerLink('/tabs/play/available-hours');
   }
 
+
+  
   async selectPlayers() {
     const modal = await this.modalController.create({
       component: SelectFriendComponent,
