@@ -32,6 +32,8 @@ export class CreateGamePage implements OnInit {
   players$ = new BehaviorSubject([]);
   date$ = new BehaviorSubject('');
   campusSelected;
+  groups = 0;
+  listPlayers = [];
 
   avatar: string = 'assets/img/default-avatar.png';
 
@@ -161,17 +163,23 @@ export class CreateGamePage implements OnInit {
     this.firebaseSvc.routerLink('/tabs/play/available-hours');
   }
 
+
+  
   async selectPlayers() {
+    console.log(this.listPlayers);
     const modal = await this.modalController.create({
       component: SelectFriendComponent,
       cssClass: 'fullscreen-modal',
-      componentProps: { usersId: this.players$.value.map(u => { return (u.profile.id) }) }
+      componentProps: { listPlayers: this.listPlayers, groups: this.groups, usersId: this.players$.value.map(u => { return (u.profile.id) }) }
     });
 
     modal.present();
 
     const { data } = await modal.onWillDismiss();
     if (data) {
+      this.groups = data.groups+1;
+      //se hace push a listPlayers para obtener los grupos
+      this.listPlayers.push(data.listPlayers);
       this.players$.value.push(...data.players);
     }
   }

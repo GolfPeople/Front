@@ -16,6 +16,9 @@ export class SelectFriendComponent implements OnInit {
   search = '';
 
   @Input() usersId = [];
+  @Input() groups;
+  @Input() listPlayers = [];
+  
   constructor(
     private friendsSvc: FriendsService,
     public chatSvc: ChatService,
@@ -24,26 +27,47 @@ export class SelectFriendComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getPeopleWithHCP();
+    console.log(this.groups)
+    this.getPeople();
   }
 
 
-  getPeopleWithHCP() {
+  
+  getPeople() {
     this.loading = true;
-    this.friendsSvc.searchFriend(this.search).subscribe(res => {
-      this.peopleWitHCP = res.data.filter(user => user.profile.handicap).filter(user => !this.usersId.includes(user.id));
-      
+
+    this.friendsSvc.search(this.search).subscribe(res => {
+      this.peopleWitHCP = res.data.filter(user => !this.usersId.includes(user.id));
+
+   
       this.loading = false;
     })
   }
 
-  savePlayers() {
-    let players = this.peopleWitHCP.filter(f => { return f.isChecked == true });
+  // getPeopleWithHCP() {
+  //   this.loading = true;
+  //   this.friendsSvc.searchFriend(this.search).subscribe(res => {
+  //     this.peopleWitHCP = res.data.filter(user => user.profile.handicap).filter(user => !this.usersId.includes(user.id));
+      
+  //     this.loading = false;
+  //   })
+  // }
 
+  savePlayers() {
+   
+    let players: any[] = this.peopleWitHCP.filter(f => { return f.isChecked == true });
+   
+    let arrayData:any = [];
+    for (const i in players) {
+      arrayData.push(players[i]);
+    }
+ 
     if (players.length <= 3) {
-      this.modalController.dismiss({ players });
+      this.modalController.dismiss({ listPlayers:arrayData, groups: this.groups, players });
     } else {
-      this.firebaseSvc.Toast('Puedes agregar máximo 3 jugadores')
+     
+      this.modalController.dismiss({ listPlayers:arrayData, groups: this.groups, players: players.slice(0,3) });
+      this.firebaseSvc.Toast('Puedes agregar máximo 4 jugadores por grupo. Crea un nuevo grupo')
     }
 
 
