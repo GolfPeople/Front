@@ -87,7 +87,10 @@
     [ngClass]="{'private-card': isPrivate && !following}"
   >
     <div *ngIf="following" class="ion-padding-top">
-      <ion-segment [(ngModel)]="segment" color="secondary">
+      <ion-segment 
+      scrollable="true" 
+      [(ngModel)]="segment"
+      (ionChange)="segmentChanged($event)" color="secondary">
         <ion-segment-button value="level">
           <ion-label>Nivel</ion-label>
         </ion-segment-button>

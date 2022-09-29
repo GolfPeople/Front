@@ -23,6 +23,7 @@ import { UsersLoaderComponent } from './users-loader/users-loader.component';
 import { SelectGolfCourseComponent } from './select-golf-course/select-golf-course.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { SwiperModule } from 'swiper/angular';
 @NgModule({  
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
@@ -76,7 +77,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     IonicModule, 
     FormsModule, 
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule, 
+    SwiperModule
   ]
 })
 export class ComponentsModule { }
