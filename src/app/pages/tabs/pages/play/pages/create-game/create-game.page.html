@@ -22,7 +22,7 @@
   <ion-buttons slot="end">
     <ion-button (click)="selectPlayers()">
       <ion-icon slot="end" name="add"></ion-icon>
-    {{players$.value.length == 3 ? 'Agregar Grupo' : 'Agregar Jugadores'}}
+    {{players$.value.length > 2 ? 'Agregar Grupo' : 'Agregar Jugadores'}}
     </ion-button>
   </ion-buttons>
 

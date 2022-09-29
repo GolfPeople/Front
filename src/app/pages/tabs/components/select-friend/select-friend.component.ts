@@ -16,6 +16,9 @@ export class SelectFriendComponent implements OnInit {
   search = '';
 
   @Input() usersId = [];
+  @Input() groups;
+  @Input() listPlayers = [];
+  
   constructor(
     private friendsSvc: FriendsService,
     public chatSvc: ChatService,
@@ -24,6 +27,7 @@ export class SelectFriendComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.groups)
     this.getPeople();
   }
 
@@ -31,6 +35,7 @@ export class SelectFriendComponent implements OnInit {
   
   getPeople() {
     this.loading = true;
+
     this.friendsSvc.search(this.search).subscribe(res => {
       this.peopleWitHCP = res.data.filter(user => !this.usersId.includes(user.id));
 
@@ -49,13 +54,19 @@ export class SelectFriendComponent implements OnInit {
   // }
 
   savePlayers() {
+   
     let players: any[] = this.peopleWitHCP.filter(f => { return f.isChecked == true });
-
+   
+    let arrayData:any = [];
+    for (const i in players) {
+      arrayData.push(players[i]);
+    }
+ 
     if (players.length <= 3) {
-      
-      this.modalController.dismiss({ players });
+      this.modalController.dismiss({ listPlayers:arrayData, groups: this.groups, players });
     } else {
-      this.modalController.dismiss({ players: players.slice(0,3) });
+     
+      this.modalController.dismiss({ listPlayers:arrayData, groups: this.groups, players: players.slice(0,3) });
       this.firebaseSvc.Toast('Puedes agregar máximo 4 jugadores por grupo. Crea un nuevo grupo')
     }
 
