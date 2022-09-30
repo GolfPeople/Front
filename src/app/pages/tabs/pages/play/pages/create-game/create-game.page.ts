@@ -270,8 +270,7 @@ export class CreateGamePage implements OnInit {
   }
 
 filterToSwapPlayers(userIdFrom, userIdTo){
-  console.log('ids',userIdFrom, userIdTo);
-  
+
   let indexFrom;
   let indexTo;
 
@@ -296,8 +295,8 @@ swapPlayers(indexFrom, indexTo){
   this.players$.value[indexFrom] = this.players$.value[indexTo]
   this.players$.value[indexTo] = element
   
-  this.swapActive = false
-  this.playerToSwapId = null
+  this.swapActive = false;
+  this.playerToSwapId = null;
   this.getPlayersGroups();
 }
 

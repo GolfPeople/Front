@@ -12,10 +12,11 @@
       </ion-col>
 
       <!--====== Grupo ========== -->
-      <ion-col class="ion-text-center" *ngFor="let p of group; index as i"
+      <ion-col [ngClass]="{'toChange': createGame.playerToSwapId == p.profile.id}" class="ion-text-center" *ngFor="let p of group; index as i"
         [size]="group.length ? '3' : '0'">
+       
         <ion-avatar style="margin: 0 auto;">
-            <ion-icon (click)="playerOptions($event, p.profile.id)" class="option-btn" name="ellipsis-vertical"></ion-icon>
+            <ion-icon *ngIf="!createGame.swapActive" (click)="playerOptions($event, p.profile.id)" class="option-btn" name="ellipsis-vertical"></ion-icon>
           <img [src]="p.profile.photo ? p.profile.photo : 'assets/img/default-avatar.png'" />
         </ion-avatar>
         <div style="padding-top: 10px;text-transform: capitalize;">{{p.name}}</div>
@@ -25,6 +26,9 @@
             <ion-icon slot="start" name="swap-horizontal-outline"></ion-icon>
           </ion-button>
         </div>
+        <ion-text *ngIf="createGame.playerToSwapId == p.profile.id" color="secondary">
+          <div style="padding: 5px;" ><ion-icon style="font-size: 23px;" name="swap-horizontal-outline"></ion-icon></div>
+         </ion-text>
       </ion-col>
     </ion-row>
 

@@ -16,8 +16,7 @@ export class SelectFriendComponent implements OnInit {
   search = '';
 
   @Input() usersId = [];
-  @Input() groups;
-  @Input() listPlayers = [];
+  
 
   constructor(
     private friendsSvc: FriendsService,
