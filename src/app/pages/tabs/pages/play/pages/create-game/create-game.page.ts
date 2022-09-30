@@ -14,6 +14,7 @@ import { SelectFriendComponent } from '../../../../components/select-friend/sele
 import { CampusDataService } from '../../../campus/services/campus-data.service';
 import { GuestFormComponent } from '../../components/guest-form/guest-form.component';
 
+
 @Component({
   selector: 'app-create-game',
   templateUrl: './create-game.page.html',
@@ -54,6 +55,9 @@ export class CreateGamePage implements OnInit {
     seven: [],
   } as PlayersGroup;
 
+  swapActive = false;
+  playerToSwapId: number;
+
   constructor(
     private modalController: ModalController,
     private campusSvc: CampusDataService,
@@ -62,9 +66,8 @@ export class CreateGamePage implements OnInit {
     private actRoute: ActivatedRoute,
     private friendsSvc: FriendsService,
     private userService: UserService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
   ) {
-
     /**
      * Si el usuario viene desde un campo, se selecciona el campo automaticamente con su id.
      * Si este valor es 'x' entonces el campo no se selecciona.
@@ -111,6 +114,8 @@ export class CreateGamePage implements OnInit {
     });
   }
 
+
+
   /**
    * We're checking if the player_id is not equal to 'x' (which is the default value). If it's not, we're
    * setting the loadingUsers variable to true, and then we're calling the search function from the
@@ -130,6 +135,7 @@ export class CreateGamePage implements OnInit {
 
         this.loadingUsers = false;
         this.players$.next(player)
+        this.getPlayersGroups()
       });
     }
   }
@@ -263,8 +269,37 @@ export class CreateGamePage implements OnInit {
     this.playersGroup.six = this.players$.value.slice(19, 23);
   }
 
+filterToSwapPlayers(userIdFrom, userIdTo){
+  console.log('ids',userIdFrom, userIdTo);
+  
+  let indexFrom;
+  let indexTo;
+
+  this.players$.value.map((player, index) =>{
+
+    if(player.profile.id == userIdFrom){
+      indexFrom = index;       
+    }
+
+    if(player.profile.id == userIdTo){
+      indexTo = index;
+    }
+  })
+
+  this.swapPlayers(indexFrom, indexTo);
+  
+}
 
 
+swapPlayers(indexFrom, indexTo){
+  let element = this.players$.value[indexFrom]
+  this.players$.value[indexFrom] = this.players$.value[indexTo]
+  this.players$.value[indexTo] = element
+  
+  this.swapActive = false
+  this.playerToSwapId = null
+  this.getPlayersGroups();
+}
 
   validator() {
     if (this.players$.value.length == 0) {

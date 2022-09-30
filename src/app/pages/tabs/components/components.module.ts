@@ -27,6 +27,7 @@ import { SwiperModule } from 'swiper/angular';
 import { GuestFormComponent } from '../pages/play/components/guest-form/guest-form.component';
 import { PlayersGroupComponent } from '../pages/play/components/players-group/players-group.component';
 import { PlayersGroupReadOnlyComponent } from '../pages/play/components/players-group-read-only/players-group-read-only.component';
+import { PlayerOptionsComponent } from '../pages/play/components/player-options/player-options.component';
 @NgModule({  
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
@@ -54,7 +55,8 @@ import { PlayersGroupReadOnlyComponent } from '../pages/play/components/players-
     SelectGolfCourseComponent,
     GuestFormComponent, 
     PlayersGroupComponent,
-    PlayersGroupReadOnlyComponent
+    PlayersGroupReadOnlyComponent,
+    PlayerOptionsComponent
      
   ],
   declarations: [
@@ -79,7 +81,8 @@ import { PlayersGroupReadOnlyComponent } from '../pages/play/components/players-
     SelectGolfCourseComponent,  
     GuestFormComponent, 
     PlayersGroupComponent,
-    PlayersGroupReadOnlyComponent
+    PlayersGroupReadOnlyComponent,
+    PlayerOptionsComponent
   ],
   imports: [
     CommonModule, 
