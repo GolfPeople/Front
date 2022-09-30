@@ -6,46 +6,60 @@
 
   <ion-item lines="none">
     <ion-avatar>
-      <img [src]="gameSvc.game.value.campus.thumbnailImage ? gameSvc.game.value.campus.thumbnailImage : 'assets/img/profile-image.png'" />
+      <img
+        [src]="gameSvc.game.value.campus.thumbnailImage ? gameSvc.game.value.campus.thumbnailImage : 'assets/img/profile-image.png'" />
     </ion-avatar>
     <ion-label class="p-label ion-text-wrap">
       <div class="club">{{gameSvc.game.value.campus.courseName}}</div>
       <div class="location">{{gameSvc.game.value.campus.address}}</div>
     </ion-label>
   </ion-item>
-  
-  
+
+
   <div class="date">
     {{ gameSvc.game.value.date | date:'EEEE'}} <br>
     {{ gameSvc.game.value.date | date:'dd'}} de {{gameSvc.game.value.date | date:'MMMM'}} <br>
     <!-- 11:15 hr -->
   </div>
-  <div class="players">Jugadores:  {{gameSvc.game.value.currentUserPlaying ? gameSvc.game.value.users.length + 1 : gameSvc.game.value.users.length}}</div>
+  <div class="players">Jugadores: {{gameSvc.game.value.currentUserPlaying ? gameSvc.game.value.users.length + 1 :
+    gameSvc.game.value.users.length}}</div>
 
-  <ion-grid fixed>
-    <ion-row>
-      <ion-col size="3" *ngIf="user && gameSvc.game.value.currentUserPlaying" class="ion-text-center">
-        <ion-avatar style="margin: 0 auto;">
-          <img [src]="user.profile.photo ? user.profile.photo : avatar" />
-        </ion-avatar>
-        <div style="padding-top: 10px;text-transform: capitalize;">Tú</div>
-      </ion-col>
-      <ion-col [size]="gameSvc.game.value.users.length ? '3' : '0'" class="ion-text-center" *ngFor="let u of gameSvc.game.value.users">
-        <ion-avatar style="margin: 0 auto;">
-          <img [src]="u.profile.photo ? u.profile.photo : avatar" /> 
-        </ion-avatar>
-        <div style="padding-top: 10px;text-transform: capitalize;">{{u.name}}</div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
- 
+
+
+  <!-- Grupo 1 -->
+  <app-players-group-read-only  [group]="playersGroup.one" [groupNumber]="1" [user]="user"></app-players-group-read-only>
+
+  <!-- Grupo 2 -->
+  <app-players-group-read-only *ngIf="playersGroup.two.length" [group]="playersGroup.two" [groupNumber]="2">
+  </app-players-group-read-only>
+
+  <!-- Grupo 3 -->
+  <app-players-group-read-only *ngIf="playersGroup.three.length" [group]="playersGroup.three" [groupNumber]="3">
+  </app-players-group-read-only>
+  <!-- Grupo 4 -->
+  <app-players-group-read-only *ngIf="playersGroup.four.length" [group]="playersGroup.four" [groupNumber]="4">
+  </app-players-group-read-only>
+
+  <!-- Grupo 5 -->
+  <app-players-group-read-only *ngIf="playersGroup.five.length" [group]="playersGroup.five" [groupNumber]="5">
+  </app-players-group-read-only>
+
+  <!-- Grupo 6 -->
+  <app-players-group-read-only *ngIf="playersGroup.six.length" [group]="playersGroup.six" [groupNumber]="6">
+  </app-players-group-read-only>
+
+  <!-- Grupo 7 -->
+  <app-players-group-read-only *ngIf="playersGroup.seven.length" [group]="playersGroup.seven" [groupNumber]="7">
+  </app-players-group-read-only>
+
 </ion-content>
 <ion-footer class="ion-no-border ion-padding">
 
   <div *ngIf="!gameSvc.game.value.skipExtra" class="payment-amount">
     <!-- <div style="padding-bottom: 0;" class="label">Subtotal:</div> -->
     <ion-item lines="none">
-      <ion-label>Green Fee <span *ngIf="gameSvc.game.value.hours.length > 1">x{{gameSvc.game.value.hours.length}}</span> </ion-label>
+      <ion-label>Green Fee <span *ngIf="gameSvc.game.value.hours.length > 1">x{{gameSvc.game.value.hours.length}}</span>
+      </ion-label>
       <span slot="end">{{ getHoursTotal() | currency: 'EUR'}}</span>
     </ion-item>
     <ion-item lines="none" *ngFor="let e of gameSvc.game.value.extra; index as i">

@@ -46,6 +46,9 @@ export class EditProfilePage implements OnInit {
 
   courses = new BehaviorSubject([]);
   user_id: number;
+
+  clubs = [];
+  
   constructor(
     private userService: UserService,
     private modalCtrl: ModalController,

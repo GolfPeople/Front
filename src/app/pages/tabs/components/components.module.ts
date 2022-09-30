@@ -24,6 +24,9 @@ import { SelectGolfCourseComponent } from './select-golf-course/select-golf-cour
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SwiperModule } from 'swiper/angular';
+import { GuestFormComponent } from '../pages/play/components/guest-form/guest-form.component';
+import { PlayersGroupComponent } from '../pages/play/components/players-group/players-group.component';
+import { PlayersGroupReadOnlyComponent } from '../pages/play/components/players-group-read-only/players-group-read-only.component';
 @NgModule({  
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
@@ -49,6 +52,9 @@ import { SwiperModule } from 'swiper/angular';
     TenStarsRatingComponent, 
     UsersLoaderComponent,
     SelectGolfCourseComponent,
+    GuestFormComponent, 
+    PlayersGroupComponent,
+    PlayersGroupReadOnlyComponent
      
   ],
   declarations: [
@@ -70,7 +76,10 @@ import { SwiperModule } from 'swiper/angular';
     PointsHitsModalComponent,
     TenStarsRatingComponent,
     UsersLoaderComponent,
-    SelectGolfCourseComponent  
+    SelectGolfCourseComponent,  
+    GuestFormComponent, 
+    PlayersGroupComponent,
+    PlayersGroupReadOnlyComponent
   ],
   imports: [
     CommonModule, 

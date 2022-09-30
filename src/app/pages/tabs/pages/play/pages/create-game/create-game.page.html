@@ -17,44 +17,43 @@
     <ion-row class="vertical-align-center">
       <div>
         <ion-col class="col-content">
-<ion-item>
-
-  <ion-buttons slot="end">
-    <ion-button (click)="selectPlayers()">
-      <ion-icon slot="end" name="add"></ion-icon>
-    {{players$.value.length > 2 ? 'Agregar Grupo' : 'Agregar Jugadores'}}
-    </ion-button>
-  </ion-buttons>
-
-</ion-item>
-          <div *ngIf="!loadingUsers" class="players-container">
-            <ion-grid fixed>
-              <ion-row>
-                <!-- <ion-col size="3">
-                  <ion-button (click)="selectPlayers()" class="add-btn">
-                    <ion-icon src="../../../../../../assets/icons/tab/create.svg"></ion-icon>
-                  </ion-button>
-                </ion-col> -->
-                <ion-col size="3" *ngIf="user && currentUserPlaying" class="ion-text-center">
-                  <ion-avatar style="margin: 0 auto;">
-                    <img [src]="user.profile.photo ? user.profile.photo : avatar" />
-                  </ion-avatar>
-                  <div style="padding-top: 10px;text-transform: capitalize;">Tú</div>
-                </ion-col>
-                <ion-col class="ion-text-center" *ngFor="let p of players$.value; index as i"
-                  [size]="players$.value.length ? '3' : '0'">
-                  <ion-avatar style="margin: 0 auto;">
-                    <ion-icon (click)="removePlayer(i)" style="position: absolute;font-size: 25px;left: 70%;top: 2%;"
-                      color="secondary" name="close-circle"></ion-icon>
-                    <img [src]="p.profile.photo ? p.profile.photo : avatar" />
-                  </ion-avatar>
-                  <div style="padding-top: 10px;text-transform: capitalize;">{{p.name}}</div>
-                </ion-col>
 
 
-              </ion-row>
-            </ion-grid>
+          <div class="ion-text-center">
+            <ion-button mode="ios" color="secondary" shape="round" (click)="selectPlayers()">
+              <ion-icon slot="end" name="add"></ion-icon>
+              Agregar Jugadores
+            </ion-button>
           </div>
+
+
+          <!-- Grupo 1 -->
+          <app-players-group *ngIf="!loadingUsers"  [group]="playersGroup.one" [groupNumber]="1" [user]="user"
+            [currentUserPlaying]="currentUserPlaying"></app-players-group>
+
+          <!-- Grupo 2 -->
+          <app-players-group *ngIf="playersGroup.two.length" [group]="playersGroup.two" [groupNumber]="2">
+          </app-players-group>
+
+          <!-- Grupo 3 -->
+          <app-players-group *ngIf="playersGroup.three.length" [group]="playersGroup.three" [groupNumber]="3">
+          </app-players-group>
+          <!-- Grupo 4 -->
+          <app-players-group *ngIf="playersGroup.four.length" [group]="playersGroup.four" [groupNumber]="4">
+          </app-players-group>
+
+          <!-- Grupo 5 -->
+          <app-players-group *ngIf="playersGroup.five.length" [group]="playersGroup.five" [groupNumber]="5">
+          </app-players-group>
+
+          <!-- Grupo 6 -->
+          <app-players-group *ngIf="playersGroup.six.length" [group]="playersGroup.six" [groupNumber]="6">
+          </app-players-group>
+
+          <!-- Grupo 7 -->
+          <app-players-group *ngIf="playersGroup.seven.length" [group]="playersGroup.seven" [groupNumber]="7">
+          </app-players-group>
+
 
           <div *ngIf="loadingUsers" class="ion-text-center ion-padding">
             <ion-spinner color="primary"></ion-spinner>
@@ -74,7 +73,7 @@
                   <ion-avatar style="margin: 0 auto;">
                     <ion-icon (click)="removeGuest(i)" style="position: absolute;font-size: 25px;left: 70%;top: 2%;"
                       color="secondary" name="close-circle"></ion-icon>
-                    <img [src]="avatar" />
+                    <img src="assets/img/default-avatar.png" />
                   </ion-avatar>
                   <div style="padding-top: 10px;text-transform: capitalize;">{{p.name}}</div>
                 </ion-col>
@@ -106,7 +105,7 @@
             <ion-icon color="secondary" name="location-outline"></ion-icon> ¿Donde?
           </div>
           <div style="padding-bottom: 15px;">
-            <ion-item (click)="selectGolfCourse()" class="item-select" lines="none" >
+            <ion-item (click)="selectGolfCourse()" class="item-select" lines="none">
               <ion-label *ngIf="campusSelected">
                 {{campusSelected.name ? campusSelected.courseName : campusSelected.address}}
               </ion-label>
@@ -116,8 +115,8 @@
               <ion-icon slot="end" name="chevron-down"></ion-icon>
             </ion-item>
           </div>
-          
-         
+
+
 
           <div class="input-side">
             <div class="label">

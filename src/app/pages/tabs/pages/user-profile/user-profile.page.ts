@@ -51,6 +51,9 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
 
   segment = 'posts'
 
+  bolsa = []
+  clubs = []
+
   // Swiper pages
   levelTab: boolean = false;
   postsTab: boolean = true;

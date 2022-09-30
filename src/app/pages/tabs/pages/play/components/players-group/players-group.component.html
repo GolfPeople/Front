@@ -1,0 +1,27 @@
+<div class="players-container">
+ <div style="font-size: 14px;" *ngIf="createGame.players$.value.length >= 4" class="ion-padding-bottom">Grupo {{groupNumber}}</div> 
+  <ion-grid fixed>
+    <ion-row>
+      <!--====== Usuario actual========== -->
+      <ion-col size="3" *ngIf="(user && currentUserPlaying) && groupNumber == 1" class="ion-text-center">
+        <ion-avatar style="margin: 0 auto;">
+          <img [src]="user.profile.photo ? user.profile.photo : 'assets/img/default-avatar.png'" />
+        </ion-avatar>
+        <div style="padding-top: 10px;text-transform: capitalize;">Tú</div>
+      </ion-col>
+
+      <!--====== Grupo ========== -->
+      <ion-col class="ion-text-center" *ngFor="let p of group; index as i"
+        [size]="group.length ? '3' : '0'">
+        <ion-avatar style="margin: 0 auto;">
+          <ion-icon *ngIf="!onlyRead" (click)="removePlayer(p.profile.id)" style="position: absolute;font-size: 25px;left: 70%;top: 2%;"
+            color="secondary" name="close-circle"></ion-icon>
+          <img [src]="p.profile.photo ? p.profile.photo : 'assets/img/default-avatar.png'" />
+        </ion-avatar>
+        <div style="padding-top: 10px;text-transform: capitalize;">{{p.name}}</div>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</div>
+
