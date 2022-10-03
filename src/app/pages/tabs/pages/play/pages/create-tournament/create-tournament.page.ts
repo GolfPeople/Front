@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { ModalController } from '@ionic/angular';
@@ -7,6 +8,8 @@ import { GameService } from 'src/app/core/services/game.service';
 import { AlertConfirmComponent } from 'src/app/pages/tabs/components/alert-confirm/alert-confirm.component';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { SwiperOptions } from 'swiper';
+import { SelectGolfCourseComponent } from 'src/app/pages/tabs/components/select-golf-course/select-golf-course.component';
+import { CampusDataService } from '../../../campus/services/campus-data.service';
 
 @Component({
   selector: 'app-create-tournament',
@@ -25,12 +28,16 @@ export class CreateTournamentPage implements OnInit {
   date$ = new BehaviorSubject('');
   creating: boolean;
   loading: boolean;
+  currentDate = '';
+  campus_id;
 
   constructor(
     private firebaseSvc: FirebaseService,
     private campusSvc: CampusService,
+    private campusSvcData: CampusDataService,
     public gameSvc: GameService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private datePipe: DatePipe,
   ) { }
 
   ngOnInit() {
@@ -99,8 +106,43 @@ export class CreateTournamentPage implements OnInit {
     }, 500)
   }
 
+    /**
+   * The function gets the golf course information from the database and displays it on the page
+   */
+     getGolfCourse() {
+      if (this.campus_id !== 'x') {
+        this.campusSvcData.getCourseGames(this.campus_id).subscribe(res => {
+          this.campusSelected = res;
+        })
+      }
+    }
+
+      /**
+   * It creates a modal, presents it, and then waits for the modal to be dismissed. 
+   * 
+   * When the modal is dismissed, it checks to see if the modal passed back any data. If it did, it sets
+   * the campusSelected variable to the data that was passed back.
+   */
+  async selectGolfCourse() {
+  
+    const modal = await this.modalController.create({
+      component: SelectGolfCourseComponent,
+      cssClass: 'select-course-modal'
+    });
+
+    modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.campusSelected = data.course;
+      this.gameSvc.tournament.value.course = data.course;
+    }
+  }
+
   ionViewWillEnter() {
     this.getAllCampus();
+    this.currentDate = this.datePipe.transform(Date.now(), 'yyyy-MM-dd') + 'T00:00:00';
+ 
   }
 
   getAllCampus() {
