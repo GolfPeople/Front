@@ -20,7 +20,6 @@ export class ReservationDetailTournamentPage implements OnInit {
 
   constructor(
   ) { }
-  
 
   ngOnInit() {
 
