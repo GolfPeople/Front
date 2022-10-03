@@ -57,6 +57,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/create-tournament/create-tournament.module').then( m => m.CreateTournamentPageModule)
   },
   {
+    path: 'reservation-detail/:id',
+    loadChildren: () => import('./pages/reservation-detail-tournament/reservation-detail-tournament.module').then( m => m.ReservationDetailTournamentPageModule)
+  },
+  {
     path: 'tournament-resumen',
     loadChildren: () => import('./pages/tournament-resumen/tournament-resumen.module').then( m => m.TournamentResumenPageModule)
   },
