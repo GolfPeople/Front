@@ -101,31 +101,32 @@
  
   </div>
 
-  <div class="ion-padding-bottom" style="width: 100%;position: absolute;">
-   <div class="label content-address">
-      <img src="assets/img/img-map.png" class="map">
-    </div>
-  </div>
   
+<div class="ion-padding-vertical">
+  <div #mapElement class="map"></div>
+</div>
 
-  <div class="ion-padding-bottom content-info-description">
+  <div class="ion-padding-bottom" style="width: 100%;">
+   <div class="label content-address"> 
+    </div>
     <div class="label title-description">
       Información del Evento
     </div> 
     <div class="label text-tescription">
     ¡Un auténtico links en el sur de España!.
     Valle Guadiana Links Golf Club, un auténtico campo links ubicado en el municipio onubense de Ayamonte, fronterizo con Portugal, acogerá el sábado 11 de septiembre el torneo abierto del XI Circuito Andalucía Golf Challenge - Destino PGA Riviera Maya Bahía Príncipe. La inscripción cuesta 57 euros e incluye welcome pack y almuerzo. Las salidas serán al tiro a las 9.30.
-    Habrá trofeos y premios para el ganador scratch y los tres primeros clasificados de cada categoría, así como para drive más largo y bola más cercana a bandera. Ver más.
+    Habrá trofeos y premios para el ganador scratch y los tres primeros clasificados de cada categoría, así como para drive más largo y bola más cercana a bandera. <a>Ver más.</a>
     </div>
-  </div> 
-
-  <div class="ion-text-center ion-padding-top btn-submit-container">
-    <ion-button (click)="submit()" class="game-btn" mode="ios" expand="block"
-      shape="round">
-      COMENZAR TORNEO
-    </ion-button> 
-
+    <div class="ion-text-center ion-padding-top btn-submit-container">
+      <ion-button (click)="submit()" class="game-btn" mode="ios" expand="block"
+        shape="round">
+        COMENZAR TORNEO
+      </ion-button> 
+  
+    </div>
   </div>
+
+
 
 
 

@@ -1,15 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { ModalController } from '@ionic/angular';
-import { BehaviorSubject } from 'rxjs';
-import { CampusService } from 'src/app/core/services/campus/campus.service';
-import { GameService } from 'src/app/core/services/game.service';
-import { AlertConfirmComponent } from 'src/app/pages/tabs/components/alert-confirm/alert-confirm.component';
-import { FirebaseService } from 'src/app/services/firebase.service';
-import { SwiperOptions } from 'swiper';
-import { SelectGolfCourseComponent } from 'src/app/pages/tabs/components/select-golf-course/select-golf-course.component';
-import { CampusDataService } from '../../../campus/services/campus-data.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+
+declare const google;
 
 @Component({
   selector: 'app-reservation-detail-tournament',
@@ -18,12 +10,38 @@ import { CampusDataService } from '../../../campus/services/campus-data.service'
 })
 export class ReservationDetailTournamentPage implements OnInit {
 
+  @ViewChild('mapElement', { static: false }) mapElement;
+
   constructor(
   ) { }
   
 
   ngOnInit() {
 
+  }
+
+  
+  ngAfterViewInit(): void {
+    this.createMap();  
+  }
+
+  async createMap() {
+    let latitude = '34.798730554262';
+    let longitude = '126.9701314345';
+    const map = new google.maps.Map(
+      this.mapElement.nativeElement,
+      {
+        zoom: 5,
+        center: {lat: parseInt(latitude) , lng: parseInt(longitude)},
+      }
+    );
+
+    new google.maps.Marker({
+      position:{lat: parseInt(latitude) , lng: parseInt(longitude)},
+      map,
+      title: 'Map',
+      icon: '../../../../../assets/img/marker-golfp.png'
+    });
   }
  
 }
