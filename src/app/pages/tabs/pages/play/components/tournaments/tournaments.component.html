@@ -20,7 +20,7 @@
   </ion-item> 
   <ion-item>
   <ion-buttons slot="start">
-    <ion-button routerLink="/tabs/play/reservation-detail/1" class="join-btn" color="secondary"
+    <ion-button *ngIf="toggleUserGames$.value" routerLink="/tabs/play/reservation-detail/1" class="join-btn" color="secondary"
     shape="round" fill="solid"> 
    <span class="ion-padding-horizontal">Ver reserva</span> 
   </ion-button>
