@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TournamentService } from 'src/app/core/services/tournament.service';
+import { LoadingController } from '@ionic/angular';
 
 declare const google;
 
@@ -19,29 +20,39 @@ export class ReservationDetailTournamentPage implements OnInit {
   constructor(
     private route:ActivatedRoute,
     public tournamentSvc: TournamentService,
+    private loadingCtrl: LoadingController
   ) { }
   
 
-  ngOnInit() {
+  async ngOnInit() {
+    const loading = await this.loadingCtrl.create({
+      cssClass: 'loading-ctrl',
+    });
+
+    await loading.present();
     this.id = this.route.snapshot.paramMap.get('id');
     console.log(this.id);
 
     this.tournamentSvc.getTournamentDetail(this.id).subscribe(res => {
   
       this.tournaments = res;
-      console.log(this.tournaments)
+      if (res.lat) {
+        this.createMap(res.lat, res.long);
+      }
+      console.log(this.tournaments);
+      loading.dismiss();
     })
 
   }
 
   
   ngAfterViewInit(): void {
-    this.createMap();  
+   // this.createMap();  
   }
 
-  async createMap() {
-    let latitude = '34.798730554262';
-    let longitude = '126.9701314345';
+  async createMap(lat, long) {
+    let latitude = lat;
+    let longitude = long;
     const map = new google.maps.Map(
       this.mapElement.nativeElement,
       {

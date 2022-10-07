@@ -37,6 +37,7 @@ ion-content{
     align-items: center;
     font-variant: small-caps;
     color: #383838;
+    text-transform: uppercase;
 }
 
 .subtitle {
@@ -74,6 +75,7 @@ ion-content{
     align-items: center;
     color: #009DD6;
     width: 228px;
+    text-transform: uppercase;
 }
 
 .text-ticket{
@@ -151,6 +153,8 @@ ion-content{
 .img-tournament{
     width: 150em;
     height: 193px;
+    border-radius: 0px 0px 15px 15px;
+    image-rendering: -webkit-optimize-contrast;
 }
 
 .item-select{
