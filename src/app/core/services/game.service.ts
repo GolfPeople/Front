@@ -18,6 +18,7 @@ export class GameService {
   step$ = new BehaviorSubject(1);
   title$ = new BehaviorSubject('');
   games$ = new BehaviorSubject([]);
+  tournament$ = new BehaviorSubject([]);
   constructor(private http: HttpClient) {
     this.game.value.extra = [];
     this.game.value.hours = [];

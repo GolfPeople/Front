@@ -1,5 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { TournamentService } from 'src/app/core/services/tournament.service';
 
 declare const google;
 
@@ -11,12 +13,24 @@ declare const google;
 export class ReservationDetailTournamentPage implements OnInit {
 
   @ViewChild('mapElement', { static: false }) mapElement;
-
+  public id :string;
+  tournaments = [];
+  loading: boolean;
   constructor(
+    private route:ActivatedRoute,
+    public tournamentSvc: TournamentService,
   ) { }
   
 
   ngOnInit() {
+    this.id = this.route.snapshot.paramMap.get('id');
+    console.log(this.id);
+
+    this.tournamentSvc.getTournamentDetail(this.id).subscribe(res => {
+  
+      this.tournaments = res;
+      console.log(this.tournaments)
+    })
 
   }
 
