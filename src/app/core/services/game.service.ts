@@ -83,9 +83,18 @@ export class GameService {
     return this.http.post<any>(`${API}${environment.gameStatus}${game_id}/${opc}`, {})
   }
 
+  changeTournamentStatus(id, opc) {
+    return this.http.post<any>(`${API}/tournaments/status/toogle/${id}/${opc}`, {})
+  }
+
   validateScoreCard(data){
     //data: {user_id, game_id}
     return this.http.post<any>(`${API}/games/validate/user`, data)
+  }
+
+  validateTournamentScoreCard(data){
+    //data: {user_id, game_id}
+    return this.http.post<any>(`${API}/tournaments/validate/user`, data)
   }
 
   removeGame(game_id) {
@@ -104,6 +113,13 @@ export class GameService {
     return this.http.post<any>(`${API}/games/points/${id}`, data)
   }
 
+  writePointsTournamentAndHits(id, data) {
+    return this.http.post<any>(`${API}/tournaments/points/${id}`, data)
+  } 
+
+  getPointsTournamentAndHits(id, hole) {
+    return this.http.get<any>(`${API}/tournaments/points/${id}/${hole}`)
+  } 
 
   getTournaments() {
     return this.http.get<any>(`${API}/tournaments/show/all`)
@@ -115,6 +131,10 @@ export class GameService {
 
   selectStartColor(game_id, data) {
     return this.http.post<any>(`${API}/games/color/${game_id}`, data)
+  } 
+  
+  selectStartTournamentsColor(id, data) {
+    return this.http.post<any>(`${API}/tournaments/color/${id}`, data)
   }  
   
   updateGame(game_id, data){

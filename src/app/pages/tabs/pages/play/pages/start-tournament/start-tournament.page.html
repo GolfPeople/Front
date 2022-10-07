@@ -1,0 +1,94 @@
+<app-header backButton="/tabs/play" title="Inicia tu torneo">
+</app-header>
+<ion-toolbar color="primary">
+  <h2 class="ion-text-center" style="text-transform: capitalize;" *ngIf="detail">{{detail.name}}</h2>
+
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="8">
+        <ion-card>
+          <ion-grid fixed>
+            <ion-row>
+              <ion-col size="6">
+                <img src="../../../../../../../assets/img/weather1.png" width="100%" alt="">
+              </ion-col>
+              <ion-col style="padding-top: 25px;" class="ion-text-center" size="6">
+                <div class="sut">SUT</div>
+                <div class="temp">+20°C</div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </ion-col>
+      <ion-col size="4">
+        <ion-card class="ion-text-center">
+          <ion-icon style="font-size: 70px;" src="../../../../../../../assets/icons/wing.svg"></ion-icon>
+          <div class="temp">14 km/hr</div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="date" *ngIf="detail">{{ detail.date | date:'dd MMMM y | h:mm a'}}</div>
+</ion-toolbar>
+<ion-content *ngIf="course" class="ion-padding">
+
+<div *ngIf="!detail.game_init">
+  <div class="label">
+    Recorrido
+  </div>
+  <div style="padding: 15px;" class="select-container">
+    <!-- <ion-skeleton-text *ngIf="loading" animated style="width: 60%"></ion-skeleton-text> -->
+    <ion-select [(ngModel)]="path" cancel-text="" interface="popover" placeholder="Selecciona tu recorrido">
+      <ion-select-option class="ion-text-wrap" *ngFor="let c of optionsPath" [value]="c.value">
+        {{c.name}}
+      </ion-select-option>
+    </ion-select>
+  </div>
+
+  <div class="label">
+    Modalidad
+  </div>
+  <div style="padding: 15px;" class="select-container">
+    <!-- <ion-skeleton-text *ngIf="loading" animated style="width: 60%"></ion-skeleton-text> -->
+    <ion-select [(ngModel)]="modality" cancel-text="" interface="popover" placeholder="Selecciona una modalidad">
+      <ion-select-option class="ion-text-wrap" *ngFor="let c of optionsModality" [value]="c">
+        {{c}}
+      </ion-select-option>
+    </ion-select>
+  </div>
+</div>
+ 
+
+  <div class="label ion-text-center">
+    Selecciona tu punto de torneo
+  </div>
+  <div class="ion-padding colors-yds" [ngClass]="{'two-el': yds.length < 4}">
+    <div (click)="selectTee(y.color)" [ngClass]="{'ion-padding-end': yds.length < 4, 'selected-tee': selectedTee == y.color}" *ngFor="let y of yds">
+      <ion-icon class="circle-icon" *ngIf="y.color == 'FFFFFF'" color="light" name="ellipse"></ion-icon>
+      <ion-icon class="circle-icon" *ngIf="y.color !== 'FFFFFF'" [style.color]="'#'+y.color" name="ellipse"></ion-icon>
+     <span class="yds-text">{{y.colorName}} </span>  
+    </div>
+  </div>
+
+  <div style="padding-top: 25px;" class="ion-text-center">
+    <ion-button *ngIf="!detail.game_init" (click)="submit()" [disabled]="!validatorStandar()" class="start-btn" mode="ios" expand="block" color="secondary"
+      shape="round">
+      <ion-icon slot="start" src="../../../../../../../assets/icons/tab/play.svg"></ion-icon>
+      <span style="padding-left: 10px;padding-right: 10px;">Iniciar torneo</span>
+    </ion-button>
+    <ion-button *ngIf="detail.game_init" (click)="addColor()" [disabled]="!validatorColor()" class="start-btn" mode="ios" expand="block" color="secondary"
+      shape="round">
+      <ion-icon slot="start" src="../../../../../../../assets/icons/tab/play.svg"></ion-icon>
+      <span style="padding-left: 10px;padding-right: 10px;">Iniciar torneo</span>
+    </ion-button>
+    
+    <ion-button *ngIf="loading" disabled class="start-btn" mode="ios" expand="block" color="secondary" shape="round">
+      <ion-spinner color="light"></ion-spinner>
+    </ion-button>
+  </div>
+</ion-content>
+
+<ion-content class="ion-text-center ion-padding" *ngIf="!course">
+  <ion-spinner style="padding-top: 50%;" color="primary"></ion-spinner>
+</ion-content>

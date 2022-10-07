@@ -45,6 +45,18 @@ const routes: Routes = [
     loadChildren: () => import('./pages/start-game/start-game.module').then( m => m.StartGamePageModule)
   },
   {
+    path: 'start-tournament/:id',
+    loadChildren: () => import('./pages/start-tournament/start-tournament.module').then( m => m.StartTournamentPageModule)
+  },
+  {
+    path: 'score-card-tournament/:id',
+    loadChildren: () => import('./pages/score-card/score-card.module').then( m => m.ScoreCardPageModule)
+  },
+  {
+    path: 'validate-score-card-tournament/:id',
+    loadChildren: () => import('./pages/validate-score-card/validate-score-card.module').then( m => m.ValidateScoreCardPageModule)
+  },
+  {
     path: 'score-card/:id',
     loadChildren: () => import('./pages/score-card/score-card.module').then( m => m.ScoreCardPageModule)
   },
@@ -67,6 +79,10 @@ const routes: Routes = [
   {
     path: 'game-finished-success/:course_id/:game_id',
     loadChildren: () => import('./pages/game-finished-success/game-finished-success.module').then( m => m.GameFinishedSuccessPageModule)
+  },
+  {
+    path: 'game-finished-tournament/:course_id/:tournament_id',
+    loadChildren: () => import('./pages/game-finished-tournament/game-finished-tournament.module').then( m => m.GameFinishedTournamentPageModule)
   },
   {
     path: 'edit-game/:id',
