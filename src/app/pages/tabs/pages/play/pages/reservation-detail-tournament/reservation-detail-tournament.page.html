@@ -1,9 +1,7 @@
 <app-header backButton="true" title="mis torneos" icon="assets/icons/tab/play.svg">
 </app-header>
 <ion-content class="ion-padding">
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
+ 
 
   <div class="">
     <div class="div-content-img"> 
@@ -118,7 +116,7 @@
     Habrá trofeos y premios para el ganador scratch y los tres primeros clasificados de cada categoría, así como para drive más largo y bola más cercana a bandera. <a>Ver más.</a>
     </div>
     <div class="ion-text-center ion-padding-top btn-submit-container">
-      <ion-button (click)="submit()" class="game-btn" mode="ios" expand="block"
+      <ion-button  class="game-btn" mode="ios" expand="block"
         shape="round">
         COMENZAR TORNEO
       </ion-button> 
