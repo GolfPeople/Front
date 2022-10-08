@@ -34,11 +34,13 @@
       <app-toggle-options (click)="filterGames()" [toggle]="toggleUserGames$" color="#009838"
         [options]="toggleOptionsUserGames">
       </app-toggle-options>
-      <app-date-input round="true" placeholder="Filtrar partidas por fecha" [date]="date$"></app-date-input>
+      <app-date-input (click)="filterDates()" round="true" placeholder="Filtrar partidas por fecha" [date]="date$"></app-date-input>
+      <ion-input type="hidden" (ionChange)="filterDates()" [(ngModel)]="dateResult" [value]="date$.value">
+      </ion-input>
 
     </div>
     <div class="searchbar-container">
-      <ion-searchbar class="search-location" search-icon="location-outline" show-clear-button="focus" mode="ios"
+      <ion-searchbar class="search-location" [(ngModel)]="searchAddressResult" (ionChange)="filterByAddress()" search-icon="location-outline" show-clear-button="focus" mode="ios"
         placeholder="Cerca de mi - Marbella +10km"></ion-searchbar>
     </div>
     <div class="searchbar-container">
@@ -58,13 +60,14 @@
     </swiper>
 
 
-    <div class="ion-padding ion-text-center not-found" *ngIf="searchResult && !filteredGames.length">No se han
+    <div class="ion-padding ion-text-center not-found" *ngIf="!filteredGames.length">No se han
       encontrado resultados.</div>
 
       
       <app-games *ngIf="!toggleGameType$.value" [filteredGames]="filteredGames" [toggleUserGames$]="toggleUserGames$"></app-games>
      
-     
+      <div class="ion-padding ion-text-center not-found" *ngIf="!filteredTournaments.length">No se han
+        encontrado resultados.</div>
       <app-tournaments *ngIf="toggleGameType$.value" [filteredTournaments]="filteredTournaments" [toggleUserGames$]="toggleUserGames$"></app-tournaments>
     </div>
 

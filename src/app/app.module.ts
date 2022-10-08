@@ -25,6 +25,10 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DatePipe } from '@angular/common';
+import { registerLocaleData } from '@angular/common';
+import {LOCALE_ID } from '@angular/core';
+import localeEs from '@angular/common/locales/es'; 
+registerLocaleData(localeEs, 'es');
 export function createTranslateLoader(http: HttpClient){
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json')
 }
@@ -57,6 +61,7 @@ export function createTranslateLoader(http: HttpClient){
     }),   
   ],
   providers: [   
+    {provide: LOCALE_ID, useValue: 'es'},
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     DatePipe

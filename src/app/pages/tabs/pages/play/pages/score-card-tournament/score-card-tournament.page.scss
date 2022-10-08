@@ -1,0 +1,241 @@
+ion-content{
+  --background: white;
+}
+
+.circle-icon {
+  padding-right: 5px;
+  position: relative;
+  top: 2px;
+}
+
+strong{
+  color: gray;
+}
+
+.avatar-circle-icon {
+ position: relative;
+ bottom: 20px;
+ left: 25px;
+}
+
+.label-title{
+  color: black;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+ion-title {
+    font-variant: small-caps;
+    text-transform: uppercase;
+    font-size: 17px;
+}
+
+.hole-toolbar{
+    font-size: 26px;
+    height: 40px;
+
+  .hole{
+    position: relative;
+    bottom: 3px;
+    padding: 10px 20px 10px 20px;
+    font-weight: 500;
+}  
+}
+
+.data-toolbar{
+   margin-top: 0; 
+   padding-top: 0;
+   border-bottom-left-radius: 20px;
+   border-bottom-right-radius: 20px;
+   text-align: center;
+
+   .level{
+    font-size: 11px;
+   }
+
+   ion-icon{
+    font-size: 25px;
+   }
+}
+
+table{
+  padding-top: 15px;
+  width: 100%;
+}
+
+.bb{
+  border-bottom: 1px solid #eeeded;;
+}
+
+td{
+  padding: 10px;
+  font-size: 13px;
+  text-align: center;
+  .username{    
+    color: gray;
+    font-size: 16px;
+    text-transform: capitalize;
+  }
+
+  .hcp{
+   color: var(--ion-color-dark);
+  }
+
+  .hits{
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 18px;
+    font-weight: bold;    
+  }
+
+  ion-icon{
+    padding-right: 10px;
+    font-size: 19px;
+  }
+}
+
+.score{ 
+   background: #eeeded;
+   font-size: 24px;
+   color: gray;
+   font-weight: bold;   
+  
+    ion-icon{
+      font-size: 23px;    
+    }
+
+   .active{
+    color: var(--ion-color-success);   
+   }
+
+   &.border-top{
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+   }
+   &.border-bottom{
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+   }
+}
+
+.tee-value{ 
+  background: #eeeded;
+  font-size: 16px;
+  color: black;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  &.border-top{
+   border-top-right-radius: 10px;
+   border-top-left-radius: 10px;
+  }
+  &.border-bottom{
+   border-bottom-right-radius: 20px;
+   border-bottom-left-radius: 20px;
+  }
+}
+
+.tee-label{
+  color: gray;
+  font-size: 16px;
+}
+
+.border-t{
+  border-top: 1px #d4d3d3  solid;
+}
+
+.border-b{
+  border-bottom: 1px #d4d3d3  solid;
+}
+
+.yds-text{
+  width: 40px;
+}
+
+
+
+//==========================
+//Comments Class
+
+.btn-comment{
+  --border-color: #d8d8d8;
+  --border-style: solid;
+  --border-width: 1px;
+
+}
+
+.icon-btn{
+  font-size: 35px;
+}
+
+.section-container{
+  padding-bottom: 80px;
+}
+
+.comment-container{
+  padding-bottom: 15px;
+}
+
+.no-comments{
+  text-align: center;
+  color: var(--ion-color-medium);
+}
+.no-comments ion-icon{
+ font-size: 100px;
+}
+
+ion-avatar{
+  width: 70px;
+  height: 70px;
+}
+
+.username{
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.role{
+  font-size: 13px;
+  font-weight: 500;
+  color: gray;
+}
+
+.level{
+  font-size: 14px;
+}
+
+.level-value{  
+  font-weight: 600;
+  text-align: end;
+
+  &.very-easy{
+      color: green;
+  }
+  &.easy{
+      color: #baff3a;
+  }
+  &.medium{
+      color: #ffdb3a;
+  }
+  &.hard{
+      color: #e59840;
+  }
+  &.very-hard{
+      color: #e5405e;
+  }
+}
+
+.comment{
+  padding-top: 5px;
+  font-size: 13px;
+  color: gray;  
+}
+
+.date{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: rgb(163, 163, 163);
+  font-size: 11px;
+  border-bottom: 1px solid #ddd;
+}

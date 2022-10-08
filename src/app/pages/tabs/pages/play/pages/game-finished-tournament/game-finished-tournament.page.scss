@@ -1,0 +1,127 @@
+ion-content{
+  --background: white;
+  font-size: 15px;
+  font-weight: 550;
+}
+
+.raiting-container{ 
+    padding-top: 30px; 
+}
+
+.line{
+    border-top: 1px solid #dbdbdb;
+}
+
+.username{
+    text-transform: capitalize;
+}
+
+.label{
+    padding: 10px;
+}
+
+.heart{
+    font-size: 80px;
+}
+
+.tell-us{
+    padding-top: 23px;
+    font-weight: 600;
+    color: var(--ion-color-primary);
+}
+
+.you-liked{
+    padding-top: 20px;
+    padding-bottom: 10px;
+    font-size: 13px;
+    font-weight: 450;
+}
+
+.photos-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.big-toolbar {
+    padding: 0px 20px 20px 20px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    text-align: center;
+
+    ion-icon {
+        font-size: 50px; 
+        padding-bottom: 0;     
+    }
+
+    h1{       
+        margin-top: 5px;
+    }
+}
+
+.center-all{
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 45%;
+    left: 50%;
+    width: 70%;
+}
+
+p{
+    padding-bottom: 20px;
+    font-size: 15px;
+}
+
+ion-button{
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.select-photo{
+    width: 120px;
+    height: 120px;
+    background: rgba(221, 221, 221, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    ion-icon{
+        color: gray;
+        font-size: 70px;
+    }
+}
+
+.select-photo-grid{
+    background: rgba(221, 221, 221, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    ion-icon{
+        color: gray;
+        font-size: 70px;
+    }
+}
+
+.square {
+    width: 33vw;
+    height: 120px;
+    background: transparent;
+    overflow: hidden; 
+    position: relative;
+    display: inline-block;
+    text-align: center;
+  }
+  
+  .square img {
+    width: 100%;
+    height: auto;
+  }
+  
+  @supports(object-fit: cover) {
+    .square img {
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+    }
+  }
