@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TournamentService } from 'src/app/core/services/tournament.service';
 import { LoadingController } from '@ionic/angular';
+import { Tournament } from 'src/app/core/models/game.model';
 
 declare const google;
 
@@ -15,13 +16,15 @@ export class ReservationDetailTournamentPage implements OnInit {
 
   @ViewChild('mapElement', { static: false }) mapElement;
   public id :string;
-  tournaments = [];
+  tournaments : Tournament;
   loading: boolean;
   constructor(
     private route:ActivatedRoute,
     public tournamentSvc: TournamentService,
     private loadingCtrl: LoadingController
-  ) { }
+  ) {
+    this.tournaments = new Tournament();
+   }
   
 
   async ngOnInit() {
@@ -34,7 +37,7 @@ export class ReservationDetailTournamentPage implements OnInit {
     console.log(this.id);
 
     this.tournamentSvc.getTournamentDetail(this.id).subscribe(res => {
-  
+      
       this.tournaments = res;
       if (res.lat) {
         this.createMap(res.lat, res.long);
@@ -48,6 +51,13 @@ export class ReservationDetailTournamentPage implements OnInit {
   
   ngAfterViewInit(): void {
    // this.createMap();  
+  }
+
+  doRefresh(event) {
+    setTimeout(() => {
+      this.ngOnInit();
+      event.target.complete();
+    }, 500)
   }
 
   async createMap(lat, long) {
