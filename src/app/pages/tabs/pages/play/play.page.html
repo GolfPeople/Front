@@ -34,7 +34,7 @@
       <app-toggle-options (click)="filterGames()" [toggle]="toggleUserGames$" color="#009838"
         [options]="toggleOptionsUserGames">
       </app-toggle-options>
-      <app-date-input (click)="filterDates()" round="true" placeholder="Filtrar partidas por fecha" [date]="date$"></app-date-input>
+      <app-date-input round="true" placeholder="Filtrar partidas por fecha" [date]="date$"></app-date-input>
       <ion-input type="hidden" (ionChange)="filterDates()" [(ngModel)]="dateResult" [value]="date$.value">
       </ion-input>
 
