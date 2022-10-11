@@ -82,6 +82,19 @@ ion-content{
   font-weight: 600;
 }
 
+.title-principal {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 121.9%;
+  display: flex;
+  align-items: center;
+  font-variant: small-caps;
+  color: #383838;
+  text-transform: uppercase;
+}
+
 .location{
   font-size: 14px;
   font-weight: 500;
