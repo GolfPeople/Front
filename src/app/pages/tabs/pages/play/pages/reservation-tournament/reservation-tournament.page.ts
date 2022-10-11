@@ -4,21 +4,29 @@ import { ActivatedRoute } from '@angular/router';
 import { TournamentService } from 'src/app/core/services/tournament.service';
 import { LoadingController } from '@ionic/angular';
 import { Tournament } from 'src/app/core/models/game.model';
+import { SwiperOptions } from 'swiper';
 
 declare const google;
 
 @Component({
-  selector: 'app-reservation-detail-tournament',
-  templateUrl: './reservation-detail-tournament.page.html',
-  styleUrls: ['./reservation-detail-tournament.page.scss'],
+  selector: 'app-reservation-tournament',
+  templateUrl: './reservation-tournament.page.html',
+  styleUrls: ['./reservation-tournament.page.scss'],
 })
-export class ReservationDetailTournamentPage implements OnInit {
+export class ReservationTournamentPage implements OnInit {
 
   @ViewChild('mapElement', { static: false }) mapElement;
   public id :string;
   tournaments : Tournament;
   loading: boolean;
   isMember:any;
+  services = [];
+
+  config: SwiperOptions = {
+    slidesPerView: 3.5,
+    spaceBetween: 10,
+  };
+  
   constructor(
     private route:ActivatedRoute,
     public tournamentSvc: TournamentService,
@@ -39,8 +47,10 @@ export class ReservationDetailTournamentPage implements OnInit {
 
     this.tournamentSvc.getTournamentDetail(this.id).subscribe(res => {
       
-      this.tournaments = res;
-      this.isMember = (res.players.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && ['2', '4'].includes(u.status)).length ? true : false);
+      this.tournaments = res; 
+      let dataServicesJson = eval(res.services);
+      console.log(dataServicesJson);
+      this.services = dataServicesJson;
            
       if (res.lat) {
         this.createMap(res.lat, res.long);
