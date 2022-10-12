@@ -31,6 +31,9 @@ export class PlayPage implements OnInit {
   searchAddressResult = '';
   dateResult = '';
 
+  filteredApplyGames = 0;
+  filteredApplyTournamen = 0;
+
   loading: boolean;
 
   config: SwiperOptions = {
@@ -137,6 +140,9 @@ export class PlayPage implements OnInit {
 
   changeLabels() {
 
+    this.filteredApplyGames = 0;
+    this.filteredApplyTournamen = 0;
+
     if (!this.toggleGameType$.value) {
       this.toggleOptionsUserGames = { one: 'Partidas', two: 'Mis Partidas' };
     } else { 
@@ -147,7 +153,8 @@ export class PlayPage implements OnInit {
     this.searchAddressResult = '';
   //  this.dateResult = '';
      this.filteredGames = this.gameSvc.games$.value.filter(g => g.isMember == false);
-     this.filteredTournaments = this.gameSvc.tournament$.value;
+     this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.isMember == false);
+     console.log(this.filteredTournaments);
   }
 
   async openGameDetail(id) {
@@ -169,7 +176,7 @@ export class PlayPage implements OnInit {
     } else {
       if (!this.toggleUserGames$.value) { 
         this.filteredGames = this.gameSvc.games$.value.filter(g => g.isMember == false);
-        this.filteredTournaments = this.gameSvc.tournament$.value;
+      //  this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.isMember == false);
     
       } else { 
         this.filterByStatus();
@@ -180,7 +187,7 @@ export class PlayPage implements OnInit {
         this.filterByName();
       } else {
         if (!this.toggleUserGames$.value) { 
-          this.filteredTournaments = this.gameSvc.tournament$.value; 
+          this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.isMember == false); 
         
         } else { 
           this.filterByStatus();
@@ -192,19 +199,40 @@ export class PlayPage implements OnInit {
   filterDates(){
  
 
-    this.filteredGames = this.gameSvc.games$.value.filter(g => g.isMember == false);
-    this.filteredTournaments = this.gameSvc.tournament$.value;
+   // this.filteredGames = this.gameSvc.games$.value.filter(g => g.isMember == false);
+   // this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.isMember == false);
  
     if(this.toggleGameType$.value == false){
+      if (!this.toggleUserGames$.value) {
+        this.filteredApplyGames = 1;
       const datePipe: DatePipe = new DatePipe(this.translateService.currentLang);
       this.filteredGames = this.gameSvc.games$.value.filter(g => g.isMember == false).filter(g => {
         return datePipe.transform(g.date, 'mediumDate').includes(datePipe.transform(this.date$.value, 'mediumDate'));
       })
-    }else if(this.toggleGameType$.value == true){
+    } else {
+      this.filteredApplyGames = 1;
       const datePipe: DatePipe = new DatePipe(this.translateService.currentLang);
-      this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => {
+      this.filteredGames = this.gameSvc.games$.value.filter(g => g.isMember == true).filter(g => {
+        return datePipe.transform(g.date, 'mediumDate').includes(datePipe.transform(this.date$.value, 'mediumDate'));
+      })
+      
+    }
+    }else if(this.toggleGameType$.value == true){
+      if (!this.toggleUserGames$.value) {
+        this.filteredApplyTournamen = 1;
+      const datePipe: DatePipe = new DatePipe(this.translateService.currentLang);
+      this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.isMember == false).filter(g => {
        return datePipe.transform(g.date, 'mediumDate').includes(datePipe.transform(this.date$.value, 'mediumDate'));
       })
+    } else {
+      this.filteredApplyTournamen = 1;
+      const datePipe: DatePipe = new DatePipe(this.translateService.currentLang);
+      this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.isMember == true
+        ).filter(g => {
+       return datePipe.transform(g.date, 'mediumDate').includes(datePipe.transform(this.date$.value, 'mediumDate'));
+      })
+      
+    }
     }
   
   }
@@ -212,21 +240,57 @@ export class PlayPage implements OnInit {
   filterByName() {
     if(this.toggleGameType$.value == false){
     if (!this.toggleUserGames$.value) {
+       this.filteredApplyGames = 1;
       this.filteredGames = this.gameSvc.games$.value.filter(g => g.isMember == false).filter(g => {
         return g.name.toLocaleLowerCase().includes(this.searchResult.toLocaleLowerCase())
       })
     } else {
+      this.filteredApplyGames = 1;
       this.filteredGames = this.gameSvc.games$.value.filter(g => g.isMember == true).filter(g => {
         return g.name.toLocaleLowerCase().includes(this.searchResult.toLocaleLowerCase())
       })
     }
   }else if(this.toggleGameType$.value == true){
     if (!this.toggleUserGames$.value) {
-      this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => {
+      this.filteredApplyTournamen = 1;
+      this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.isMember == false).filter(g => {
+        return g.name.toLocaleLowerCase().includes(this.searchResult.toLocaleLowerCase())
+      })
+    }else{
+      this.filteredApplyTournamen = 1;
+      this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.isMember == true).filter(g => {
         return g.name.toLocaleLowerCase().includes(this.searchResult.toLocaleLowerCase())
       })
     }
   }
+  }
+
+  filterByAddress() {  
+    if(this.toggleGameType$.value == false){
+      if (!this.toggleUserGames$.value) {
+        this.filteredApplyGames = 1;
+        this.filteredGames = this.gameSvc.games$.value.filter(g => g.isMember == false).filter(g => {
+          return g.address.toLocaleLowerCase().includes(this.searchAddressResult.toLocaleLowerCase())
+        })
+      } else {
+        this.filteredApplyGames = 1;
+        this.filteredGames = this.gameSvc.games$.value.filter(g => g.isMember == true).filter(g => {
+          return g.address.toLocaleLowerCase().includes(this.searchAddressResult.toLocaleLowerCase())
+        })
+      }
+    }else if(this.toggleGameType$.value == true){
+      if (!this.toggleUserGames$.value) {
+        this.filteredApplyTournamen = 1;
+        this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.isMember == false).filter(g => {
+          return g.address.toLocaleLowerCase().includes(this.searchAddressResult.toLocaleLowerCase())
+        })
+      }else{
+        this.filteredApplyTournamen = 1;
+        this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.isMember == true).filter(g => {
+          return g.address.toLocaleLowerCase().includes(this.searchAddressResult.toLocaleLowerCase())
+        })
+      }
+    }
   }
 
   filterByStatus() {
@@ -238,27 +302,11 @@ export class PlayPage implements OnInit {
     }
   }else if(this.toggleGameType$.value == true){
    if (this.filterSelected !== '0') {
-      this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.status == this.filterSelected);
+      this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.isMember == true && g.status == this.filterSelected);
     }else {
       this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.isMember == true);
     }
   }
-  }
-
-  filterByAddress() {
-    if(this.toggleGameType$.value == false){
-    const datePipe: DatePipe = new DatePipe(this.translateService.currentLang);
-    this.filteredGames = this.gameSvc.games$.value.filter(g => g.isMember == false).filter(g => {
-      
-      return g.address.toLocaleLowerCase().includes(this.searchAddressResult.toLocaleLowerCase())
-    })
-    }else if(this.toggleGameType$.value == true){
-      const datePipe: DatePipe = new DatePipe(this.translateService.currentLang);
-      this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => {
-        return g.address.toLocaleLowerCase().includes(this.searchAddressResult.toLocaleLowerCase())
-      })
-
-    }
   }
 
   getTournaments() {
@@ -271,10 +319,7 @@ export class PlayPage implements OnInit {
   
       this.gameSvc.getTournaments().subscribe(res => {
         this.loading = false;
-  
-console.log(res);
 
-  
         //Verficar si hay partidas sin creador
        
         this.gameSvc.tournament$.next(res.data.reverse().filter(t => !tournamentWithoutCreator.includes(t.id)).map(t => {
@@ -293,7 +338,7 @@ console.log(res);
               lat: t.lat,
               long: t.long,
               services: t.services,
-              isMember: (t.players.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && ['2', '4'].includes(u.status)).length ? true : false),
+              isMember: (t.players.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id'))).length ? true : false),
             //  isMember: (t.players.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && ['2', '4'].includes(u.status)).length ? true : false),
            
               description: t.description,

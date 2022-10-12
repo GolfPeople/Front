@@ -98,23 +98,11 @@ export class ReservationTournamentPage implements OnInit {
     let data = {
       users
     }
-
-    //
-    // this.gameSvc.changeTournamentStatus(this.tournaments.id, 1).subscribe(res => {
-    //mensaje por definir
-    // this.firebaseSvc.Toast('La partida ha sido restaurada');
-
-    //   loading.dismiss();
-    // }, error => {
-    //   this.firebaseSvc.Toast('Ha ocurrido un error, intenta de nuevo')
-    //   loading.dismiss();
-    // })
-
-    //agrega los jugadores a los torneos pero se comento por que en el grupo comentaros algo de los estatus que aun no comprendo
-
+ 
     this.gameSvc.addPlayersToTournaments(this.tournaments.id, data).subscribe(res => {
       //  this.firebaseSvc.Toast('Se ha enviado invitación a los jugadores agregados');
       console.log(res);
+    //  this.firebaseSvc.Toast('La partida ha sido restaurada');
 
       this.firebaseSvc.routerLink('/tabs/play');
       loading.dismiss();//tabs/play/success-request
