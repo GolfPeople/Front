@@ -20,10 +20,10 @@ declare const google;
 export class ReservationTournamentPage implements OnInit {
 
   @ViewChild('mapElement', { static: false }) mapElement;
-  public id :string;
-  tournaments : Tournament;
+  public id: string;
+  tournaments: Tournament;
   loading: boolean;
-  isMember:any;
+  isMember: any;
   services = [];
 
   config: SwiperOptions = {
@@ -32,7 +32,7 @@ export class ReservationTournamentPage implements OnInit {
   };
 
   constructor(
-    private route:ActivatedRoute,
+    private route: ActivatedRoute,
     public tournamentSvc: TournamentService,
     private loadingCtrl: LoadingController,
     public gameSvc: GameService,
@@ -40,8 +40,8 @@ export class ReservationTournamentPage implements OnInit {
     private modalController: ModalController,
   ) {
     this.tournaments = new Tournament();
-   } 
-  
+  }
+
 
   async ngOnInit() {
     const loading = await this.loadingCtrl.create({
@@ -53,12 +53,12 @@ export class ReservationTournamentPage implements OnInit {
     console.log(this.id);
 
     this.tournamentSvc.getTournamentDetail(this.id).subscribe(res => {
-      
-      this.tournaments = res; 
+
+      this.tournaments = res;
       let dataServicesJson = eval(res.services);
       console.log(dataServicesJson);
       this.services = dataServicesJson;
-           
+
       if (res.lat) {
         this.createMap(res.lat, res.long);
       }
@@ -69,7 +69,7 @@ export class ReservationTournamentPage implements OnInit {
   }
 
   async wantToJoin(e) {
-    
+
     const modal = await this.modalController.create({
       component: AlertConfirmComponent,
       cssClass: 'alert-confirm',
@@ -90,42 +90,48 @@ export class ReservationTournamentPage implements OnInit {
   async sendJoinRequest(e) {
     const loading = await this.firebaseSvc.loader().create();
     await loading.present();
+    let users = [];
+    let user_id = JSON.parse(localStorage.getItem('user_id'));
+    users.push(user_id);
+
 
     let data = {
-      users: e.players.map(u => { return (u.id) })
+      users
     }
-     
+
     //
-    this.gameSvc.changeTournamentStatus(this.tournaments.id, 1).subscribe(res => {
+    // this.gameSvc.changeTournamentStatus(this.tournaments.id, 1).subscribe(res => {
     //mensaje por definir
-      // this.firebaseSvc.Toast('La partida ha sido restaurada');
-      
-      loading.dismiss();
-    }, error => {
-      this.firebaseSvc.Toast('Ha ocurrido un error, intenta de nuevo')
-      loading.dismiss();
-    })
+    // this.firebaseSvc.Toast('La partida ha sido restaurada');
+
+    //   loading.dismiss();
+    // }, error => {
+    //   this.firebaseSvc.Toast('Ha ocurrido un error, intenta de nuevo')
+    //   loading.dismiss();
+    // })
 
     //agrega los jugadores a los torneos pero se comento por que en el grupo comentaros algo de los estatus que aun no comprendo
-   
-  /*  this.gameSvc.addPlayersToTournaments(this.tournaments.id, data).subscribe(res => {
-    //  this.firebaseSvc.Toast('Se ha enviado invitación a los jugadores agregados');
+
+    this.gameSvc.addPlayersToTournaments(this.tournaments.id, data).subscribe(res => {
+      //  this.firebaseSvc.Toast('Se ha enviado invitación a los jugadores agregados');
+      console.log(res);
+
       this.firebaseSvc.routerLink('/tabs/play');
       loading.dismiss();//tabs/play/success-request
     }, err => {
       this.firebaseSvc.Toast('Ha ocurrido un error, inténtalo de nuevo.');
-    })*/
- 
+    })
+
   }
 
-  activityNotification(e){
-    let activity = {id: e.owner_id.toString(), user_id: e.owner_id, notification: true}
+  activityNotification(e) {
+    let activity = { id: e.owner_id.toString(), user_id: e.owner_id, notification: true }
     this.firebaseSvc.addToCollectionById('activity', activity);
   }
 
-  
+
   ngAfterViewInit(): void {
-   // this.createMap();  
+    // this.createMap();  
   }
 
   doRefresh(event) {
@@ -142,16 +148,16 @@ export class ReservationTournamentPage implements OnInit {
       this.mapElement.nativeElement,
       {
         zoom: 5,
-        center: {lat: parseInt(latitude) , lng: parseInt(longitude)},
+        center: { lat: parseInt(latitude), lng: parseInt(longitude) },
       }
     );
 
     new google.maps.Marker({
-      position:{lat: parseInt(latitude) , lng: parseInt(longitude)},
+      position: { lat: parseInt(latitude), lng: parseInt(longitude) },
       map,
       title: 'Map',
       icon: '../../../../../assets/img/marker-golfp.png'
     });
   }
- 
+
 }

@@ -272,13 +272,14 @@ export class PlayPage implements OnInit {
       this.gameSvc.getTournaments().subscribe(res => {
         this.loading = false;
   
-      //  console.log(res);
+console.log(res);
+
   
         //Verficar si hay partidas sin creador
        
         this.gameSvc.tournament$.next(res.data.reverse().filter(t => !tournamentWithoutCreator.includes(t.id)).map(t => {
   
-            console.log(t.players);
+ 
             return {
               id: t.id,
               campuses_id: t.campuses_id,
