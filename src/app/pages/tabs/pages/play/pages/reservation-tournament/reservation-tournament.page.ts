@@ -5,6 +5,10 @@ import { TournamentService } from 'src/app/core/services/tournament.service';
 import { LoadingController } from '@ionic/angular';
 import { Tournament } from 'src/app/core/models/game.model';
 import { SwiperOptions } from 'swiper';
+import { GameService } from 'src/app/core/services/game.service';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { ModalController } from '@ionic/angular';
+import { AlertConfirmComponent } from 'src/app/pages/tabs/components/alert-confirm/alert-confirm.component';
 
 declare const google;
 
@@ -26,11 +30,14 @@ export class ReservationTournamentPage implements OnInit {
     slidesPerView: 3.5,
     spaceBetween: 10,
   };
-  
+
   constructor(
     private route:ActivatedRoute,
     public tournamentSvc: TournamentService,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    public gameSvc: GameService,
+    private firebaseSvc: FirebaseService,
+    private modalController: ModalController,
   ) {
     this.tournaments = new Tournament();
    } 
@@ -59,6 +66,61 @@ export class ReservationTournamentPage implements OnInit {
       loading.dismiss();
     })
 
+  }
+
+  async wantToJoin(e) {
+    
+    const modal = await this.modalController.create({
+      component: AlertConfirmComponent,
+      cssClass: 'alert-confirm',
+      componentProps: {
+        confirmText: 'Reservar',
+        content: '¿Quieres reservar esta plaza?'
+      }
+    });
+
+    modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.sendJoinRequest(e);
+    }
+  }
+
+  async sendJoinRequest(e) {
+    const loading = await this.firebaseSvc.loader().create();
+    await loading.present();
+
+    let data = {
+      users: e.players.map(u => { return (u.id) })
+    }
+     
+    //
+    this.gameSvc.changeTournamentStatus(this.tournaments.id, 1).subscribe(res => {
+    //mensaje por definir
+      // this.firebaseSvc.Toast('La partida ha sido restaurada');
+      
+      loading.dismiss();
+    }, error => {
+      this.firebaseSvc.Toast('Ha ocurrido un error, intenta de nuevo')
+      loading.dismiss();
+    })
+
+    //agrega los jugadores a los torneos pero se comento por que en el grupo comentaros algo de los estatus que aun no comprendo
+   
+  /*  this.gameSvc.addPlayersToTournaments(this.tournaments.id, data).subscribe(res => {
+    //  this.firebaseSvc.Toast('Se ha enviado invitación a los jugadores agregados');
+      this.firebaseSvc.routerLink('/tabs/play');
+      loading.dismiss();//tabs/play/success-request
+    }, err => {
+      this.firebaseSvc.Toast('Ha ocurrido un error, inténtalo de nuevo.');
+    })*/
+ 
+  }
+
+  activityNotification(e){
+    let activity = {id: e.owner_id.toString(), user_id: e.owner_id, notification: true}
+    this.firebaseSvc.addToCollectionById('activity', activity);
   }
 
   

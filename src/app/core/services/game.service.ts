@@ -148,6 +148,10 @@ export class GameService {
     return this.http.post<any>(`${API}/games/add/users/${game_id}`, data)
   }
 
+  addPlayersToTournaments(id, data){
+    return this.http.post<any>(`${API}/tournaments/add/users/${id}`, data)
+  }
+
   removePlayersFromGame(game_id, data){
     return this.http.post<any>(`${API}/games/remove/users/${game_id}`, data)
   }

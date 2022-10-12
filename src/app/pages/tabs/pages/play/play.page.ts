@@ -139,7 +139,7 @@ export class PlayPage implements OnInit {
 
     if (!this.toggleGameType$.value) {
       this.toggleOptionsUserGames = { one: 'Partidas', two: 'Mis Partidas' };
-    } else {
+    } else { 
       this.toggleOptionsUserGames = { one: 'Torneos', two: 'Mis Torneos' };
     }
   //  this.date$.next('');
@@ -164,32 +164,25 @@ export class PlayPage implements OnInit {
   filterGames() {
   
     if(this.toggleGameType$.value == false){
-    if (this.searchResult) {
-      console.log('if 1 mis partidas')
+    if (this.searchResult) { 
       this.filterByName();
     } else {
-      if (!this.toggleUserGames$.value) {
-        console.log('else if mis partidas')
+      if (!this.toggleUserGames$.value) { 
         this.filteredGames = this.gameSvc.games$.value.filter(g => g.isMember == false);
         this.filteredTournaments = this.gameSvc.tournament$.value;
     
-      } else {
-        console.log('else mis partidas')
+      } else { 
         this.filterByStatus();
       }
     }
     }else if(this.toggleGameType$.value == true){
-      if (this.searchResult) {
-        console.log('if mis torneos')
+      if (this.searchResult) { 
         this.filterByName();
       } else {
-        if (!this.toggleUserGames$.value) {
-          console.log('else if mis torneos')
-          this.filteredTournaments = this.gameSvc.tournament$.value;
-          console.log(this.filteredTournaments)
+        if (!this.toggleUserGames$.value) { 
+          this.filteredTournaments = this.gameSvc.tournament$.value; 
         
-        } else {
-          console.log('else mis torneos')
+        } else { 
           this.filterByStatus();
         }
       }
@@ -197,9 +190,7 @@ export class PlayPage implements OnInit {
   }
 
   filterDates(){
-
-    console.log('filterDates filterDates');
-    console.log(this.date$.value);
+ 
 
     this.filteredGames = this.gameSvc.games$.value.filter(g => g.isMember == false);
     this.filteredTournaments = this.gameSvc.tournament$.value;
@@ -240,21 +231,16 @@ export class PlayPage implements OnInit {
 
   filterByStatus() {
    if(this.toggleGameType$.value == false){
-    if (this.filterSelected !== '0') {
-      console.log(this.filterSelected)
+    if (this.filterSelected !== '0') { 
       this.filteredGames = this.gameSvc.games$.value.filter(g => g.isMember == true && g.status == this.filterSelected);
-      console.log(this.filteredGames)
     } else {
       this.filteredGames = this.gameSvc.games$.value.filter(g => g.isMember == true);
-      console.log(this.filteredGames)
     }
   }else if(this.toggleGameType$.value == true){
    if (this.filterSelected !== '0') {
       this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.status == this.filterSelected);
-      console.log(this.filteredTournaments)
     }else {
       this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.isMember == true);
-      console.log(this.filteredTournaments)
     }
   }
   }
@@ -292,7 +278,7 @@ export class PlayPage implements OnInit {
        
         this.gameSvc.tournament$.next(res.data.reverse().filter(t => !tournamentWithoutCreator.includes(t.id)).map(t => {
   
-            
+            console.log(t.players);
             return {
               id: t.id,
               campuses_id: t.campuses_id,
@@ -307,6 +293,7 @@ export class PlayPage implements OnInit {
               long: t.long,
               services: t.services,
               isMember: (t.players.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && ['2', '4'].includes(u.status)).length ? true : false),
+            //  isMember: (t.players.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && ['2', '4'].includes(u.status)).length ? true : false),
            
               description: t.description,
               image: t.image,
