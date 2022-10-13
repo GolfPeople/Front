@@ -144,17 +144,35 @@ export class PlayPage implements OnInit {
     this.filteredApplyTournamen = 0;
 
     if (!this.toggleGameType$.value) {
+
       this.toggleOptionsUserGames = { one: 'Partidas', two: 'Mis Partidas' };
+     
+    
+      if(this.toggleUserGames$.value == true && this.toggleGameType$.value == false){
+        this.filteredGames = this.gameSvc.games$.value.filter(g => g.isMember == true);
+      }else{
+        this.filteredGames = this.gameSvc.games$.value.filter(g => g.isMember == false);
+      }
+
+      if(this.filteredGames.length == 0){
+       this.filteredApplyGames = 1;
+      }
     } else { 
       this.toggleOptionsUserGames = { one: 'Torneos', two: 'Mis Torneos' };
+      if(this.toggleUserGames$.value == true && this.toggleGameType$.value == true){
+        this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.isMember == true);
+      }else{
+        this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.isMember == false);
+      }
+     if(this.filteredTournaments.length == 0){
+       this.filteredApplyTournamen = 1;
+      }
     }
   //  this.date$.next('');
     this.searchResult = '';
     this.searchAddressResult = '';
   //  this.dateResult = '';
-     this.filteredGames = this.gameSvc.games$.value.filter(g => g.isMember == false);
-     this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.isMember == false);
-     console.log(this.filteredTournaments);
+  
   }
 
   async openGameDetail(id) {
@@ -176,6 +194,9 @@ export class PlayPage implements OnInit {
     } else {
       if (!this.toggleUserGames$.value) { 
         this.filteredGames = this.gameSvc.games$.value.filter(g => g.isMember == false);
+        if(this.filteredGames.length == 0){
+         this.filteredApplyGames = 1;
+        }
       //  this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.isMember == false);
     
       } else { 
@@ -188,6 +209,9 @@ export class PlayPage implements OnInit {
       } else {
         if (!this.toggleUserGames$.value) { 
           this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.isMember == false); 
+          if(this.filteredTournaments.length == 0){
+            this.filteredApplyTournamen = 1;
+           }
         
         } else { 
           this.filterByStatus();
@@ -300,12 +324,18 @@ export class PlayPage implements OnInit {
     } else {
       this.filteredGames = this.gameSvc.games$.value.filter(g => g.isMember == true);
     }
+    if(this.filteredGames.length == 0){
+      this.filteredApplyGames = 1;
+     }
   }else if(this.toggleGameType$.value == true){
    if (this.filterSelected !== '0') {
       this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.isMember == true && g.status == this.filterSelected);
     }else {
       this.filteredTournaments = this.gameSvc.tournament$.value.filter(g => g.isMember == true);
     }
+    if(this.filteredTournaments.length == 0){
+      this.filteredApplyTournamen = 1;
+     }
   }
   }
 
@@ -323,16 +353,16 @@ export class PlayPage implements OnInit {
         //Verficar si hay partidas sin creador
        
         this.gameSvc.tournament$.next(res.data.reverse().filter(t => !tournamentWithoutCreator.includes(t.id)).map(t => {
-  
  
             return {
               id: t.id,
               campuses_id: t.campuses_id,
-              game_init: t.game_init,
+              tournament_init: t.tournament_init,
               address: t.address,
               created_at: t.created_at,
               name: t.name,
               date: t.date,
+              points: t.points,
               players: t.players,
               price: t.price,
               lat: t.lat,
@@ -385,7 +415,6 @@ export class PlayPage implements OnInit {
       })
 
       this.gameSvc.games$.next(res.data.reverse().filter(g => !gamesWithoutCreator.includes(g.id)).map(g => {
-
           return {
             game_init: g.game_init,
             address: g.address,

@@ -35,7 +35,7 @@ export class ReservationDetailTournamentPage implements OnInit {
 
     await loading.present();
     this.id = this.route.snapshot.paramMap.get('id');
-    console.log(this.id);
+   // console.log(this.id);
 
     this.tournamentSvc.getTournamentDetail(this.id).subscribe(res => {
       
@@ -45,7 +45,7 @@ export class ReservationDetailTournamentPage implements OnInit {
       if (res.lat) {
         this.createMap(res.lat, res.long);
       }
-      console.log(this.tournaments);
+   //   console.log(this.tournaments);
       loading.dismiss();
     })
 

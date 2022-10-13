@@ -50,11 +50,11 @@ const routes: Routes = [
   },
   {
     path: 'score-card-tournament/:id',
-    loadChildren: () => import('./pages/score-card/score-card.module').then( m => m.ScoreCardPageModule)
+    loadChildren: () => import('./pages/score-card-tournament/score-card-tournament.module').then( m => m.ScoreCardTournamentPageModule)
   },
   {
     path: 'validate-score-card-tournament/:id',
-    loadChildren: () => import('./pages/validate-score-card/validate-score-card.module').then( m => m.ValidateScoreCardPageModule)
+    loadChildren: () => import('./pages/validate-score-card-tournament/validate-score-card-tournament.module').then( m => m.ValidateScoreCardTournamentPageModule)
   },
   {
     path: 'score-card/:id',

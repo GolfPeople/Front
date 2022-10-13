@@ -42,6 +42,10 @@ export class CampusDataService {
     return this.http.get<any>(`${URL}/games/course/${id}`);
   }
 
+  getCourseTournament(id){
+    return this.http.get<any>(`${URL}/tournaments/course/${id}`);
+  }
+
 
   deleteGolfPhoto(id){
     return this.http.post<any>(`${URL}/campus/delete/images/holes/${id}`,{})

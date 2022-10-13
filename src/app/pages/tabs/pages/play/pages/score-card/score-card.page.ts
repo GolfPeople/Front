@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GameService } from 'src/app/core/services/game.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
@@ -77,12 +77,14 @@ export class ScoreCardPage implements OnInit {
     });
 
     modal.present();
-
+   
     const { data } = await modal.onWillDismiss();
 
     if (data) {
       user.points = data.points;
-      user.hits = data.hits
+      user.hits = data.hits;
+      user.user_id = user.user.user_id,
+      
       this.writePointsAndHits(user)
     }
 
@@ -91,11 +93,13 @@ export class ScoreCardPage implements OnInit {
 
   async writePointsAndHits(user) {
     let data = {
-      user_id: user.user.id,
+      user_id: user.user_id,
       hole: this.selectedHole.value,
       hits: user.hits,
       points: user.points
     }
+
+    console.log(data);
 
     const loading = await this.firebaseSvc.loader().create();
     await loading.present();
@@ -384,7 +388,9 @@ export class ScoreCardPage implements OnInit {
         }
       })
       return {
+       
         id: u.user_id,
+        user: u,
         name: u.data.name,
         photo: u.data.profile.photo,
         points: points.filter(p => { return p.hole == this.selectedHole.value.toString() })[0].points,

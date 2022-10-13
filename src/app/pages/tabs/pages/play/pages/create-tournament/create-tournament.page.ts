@@ -111,7 +111,7 @@ export class CreateTournamentPage implements OnInit {
    */
      getGolfCourse() {
       if (this.campus_id !== 'x') {
-        this.campusSvcData.getCourseGames(this.campus_id).subscribe(res => {
+        this.campusSvcData.getCourseTournament(this.campus_id).subscribe(res => {
           this.campusSelected = res;
         })
       }

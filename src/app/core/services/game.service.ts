@@ -94,7 +94,7 @@ export class GameService {
 
   validateTournamentScoreCard(data){
     //data: {user_id, game_id}
-    return this.http.post<any>(`${API}/tournaments/validate/user`, data)
+    return this.http.post<any>(`${API}/tournaments/validate/user/`, data)
   }
 
   removeGame(game_id) {
@@ -107,6 +107,10 @@ export class GameService {
 
   startGame(id, data) {
     return this.http.post<any>(`${API}/games/init/${id}`, data)
+  }
+
+  startTournament(id, data) {
+    return this.http.post<any>(`${API}/tournaments/init/${id}`, data)
   }
 
   writePointsAndHits(id, data) {
