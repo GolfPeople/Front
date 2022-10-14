@@ -57,7 +57,7 @@ export class ConfirmationPage implements OnInit {
         this.removePlayers(res.id)
       }else{
         this.firebaseSvc.routerLink('tabs/play');
-        this.createAgain()
+      //  this.createAgain()
         this.resetForm();
       }
       
@@ -66,7 +66,7 @@ export class ConfirmationPage implements OnInit {
       loading.dismiss();
     })
   }
-
+ /*
   async createAgain() {
     const modal = await this.modalController.create({
       component: AlertConfirmComponent,
@@ -84,7 +84,7 @@ export class ConfirmationPage implements OnInit {
     if (data) {
     this.firebaseSvc.routerLink('/tabs/play/create-game/x/x')
     }
-  }
+  }*/
 
   resetForm(){
     this.gameSvc.step$.next(1);
@@ -110,7 +110,7 @@ export class ConfirmationPage implements OnInit {
     await loading.present();
     this.gameSvc.removePlayersFromGame(game_id, data).subscribe(res => {
       this.firebaseSvc.routerLink('tabs/play');
-      this.createAgain()
+     // this.createAgain()
       this.resetForm();
       loading.dismiss();
     }, err => {

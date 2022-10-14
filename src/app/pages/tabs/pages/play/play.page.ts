@@ -80,7 +80,7 @@ export class PlayPage implements OnInit {
   }
 
   doRefresh(event) {
-    setTimeout(() => {
+    setTimeout(() => { 
       this.ionViewWillEnter();
       event.target.complete();
     }, 500)
@@ -460,6 +460,35 @@ export class PlayPage implements OnInit {
     this.filterSelected = id;
     this.filterGames();
   }
+
+/*
+  getPostPageOne() {
+    this.postsSvc.all(1).subscribe(
+      ({ data }) => {
+
+        this.posts = data;
+
+        this.page += 1;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  loadMorePost() {
+
+    this.postsSvc.all(this.page).subscribe(
+      ({ data }) => {
+
+        this.posts.push(...data);
+        this.page += 1;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }*/
 
 
 }
