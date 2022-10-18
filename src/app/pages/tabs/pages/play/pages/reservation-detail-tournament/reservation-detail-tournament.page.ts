@@ -19,6 +19,7 @@ export class ReservationDetailTournamentPage implements OnInit {
   tournaments : Tournament;
   loading: boolean;
   isMember:any;
+  isInvited= false;
   constructor(
     private route:ActivatedRoute,
     public tournamentSvc: TournamentService,
@@ -40,9 +41,16 @@ export class ReservationDetailTournamentPage implements OnInit {
     this.tournamentSvc.getTournamentDetail(this.id).subscribe(res => {
       
       this.tournaments = res;
-      this.isMember = (res.players.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && ['2', '4'].includes(u.status)).length ? true : false);
-           
+      (res.players.filter(u => 
+        {
+          if(u.user.id == JSON.parse(localStorage.getItem('user_id')) &&  u.admin == 1){
+            this.isInvited = true; 
+           } 
+        }));
+      this.isMember = (res.players.filter(u => u.user.id == JSON.parse(localStorage.getItem('user_id')) && ['2', '4'].includes(u.status)).length ? true : false);
+     
       if (res.lat) {
+
         this.createMap(res.lat, res.long);
       }
    //   console.log(this.tournaments);
@@ -53,7 +61,7 @@ export class ReservationDetailTournamentPage implements OnInit {
 
   
   ngAfterViewInit(): void {
-   // this.createMap();  
+   // this.createMap();   
   }
 
   doRefresh(event) {

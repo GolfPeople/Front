@@ -10,7 +10,7 @@
         Guardar
       </ion-button>
     </div>
-    <div class="btn">
+    <div *ngIf="isInvited == true" class="btn">
       <ion-button (click)="validateGame()" color="success" mode="ios" shape="round">
         <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
         Validar
@@ -168,7 +168,7 @@
 
 
 <div *ngIf="detail && (detail.status == '2' && !detail.validate)" class="ion-text-center ion-padding-top">
-  <div class="ion-padding-vertical">
+  <div *ngIf="isInvited == true" class="ion-padding-vertical">
     <ion-button (click)="validateGame()" class="btn-bottom" color="success" mode="ios" shape="round">
       <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
       Validar Resultados

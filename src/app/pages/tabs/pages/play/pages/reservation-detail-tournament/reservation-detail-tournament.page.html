@@ -113,7 +113,7 @@
     <div class="label text-tescription">
       {{tournaments.description}} <!--a>Ver más.</a-->
     </div>
-    <div class="ion-text-center ion-padding-top btn-submit-container">
+    <div *ngIf="isInvited" class="ion-text-center ion-padding-top btn-submit-container">
       <ion-button routerLink="/tabs/play/start-tournament/{{id}}"  class="game-btn" mode="ios" expand="block"
         shape="round">
         COMENZAR TORNEO

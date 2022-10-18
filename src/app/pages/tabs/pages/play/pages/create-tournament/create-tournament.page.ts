@@ -89,9 +89,9 @@ export class CreateTournamentPage implements OnInit {
     if (!this.gameSvc.tournament.value.description) {
       return false
     }
-    if (!this.gameSvc.tournament.value.link) {
+   /* if (!this.gameSvc.tournament.value.link) {
       return false
-    }
+    }*/
     if (!this.gameSvc.tournament.value.course) {
       return false
     }

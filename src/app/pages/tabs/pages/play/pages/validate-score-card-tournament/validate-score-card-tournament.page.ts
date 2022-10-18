@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ModalController } from '@ionic/angular';
 import { CampusDataService } from '../../../campus/services/campus-data.service';
 import { AlertConfirmComponent } from 'src/app/pages/tabs/components/alert-confirm/alert-confirm.component';
+import { TournamentService } from 'src/app/core/services/tournament.service';
 
 @Component({
   selector: 'app-validate-score-card-tournament',
@@ -29,7 +30,7 @@ export class ValidateScoreCardTournamentPage implements OnInit {
 
   limit;
   yds = [];
-
+  isInvited= false;
   holeData = [];
   players:any = [];
   course_id;
@@ -39,6 +40,7 @@ export class ValidateScoreCardTournamentPage implements OnInit {
     private translate: TranslateService,
     public gameSvc: GameService,
     private actRoute: ActivatedRoute,
+    public tournamentSvc: TournamentService,
     private firebaseSvc: FirebaseService,
     public campusSvg: CampusDataService,
     private modalController: ModalController
@@ -65,7 +67,7 @@ export class ValidateScoreCardTournamentPage implements OnInit {
 
     /**
  *=================== Validar partida========================
- * @param tournament_id 
+ * @param tournament_id  
  */
  async validateGame() {
   const modal = await this.modalController.create({
@@ -136,11 +138,26 @@ async finishGame(){
 
 
   getTournament() {
+   
+
+    this.tournamentSvc.getTournamentDetail(this.id).subscribe(res => {
+       
+      (res.players.filter(u => 
+        {
+          if(u.user.id == JSON.parse(localStorage.getItem('user_id')) &&  u.admin == 1){
+            this.isInvited = true; 
+           } 
+        }));
+   
+    })
+
+    console.log('this.isInvited')
+    console.log(this.isInvited)
 
     this.gameSvc.getTournaments().subscribe(res => {
 
       this.gameSvc.tournament$.next(res.data.reverse().map(t => {
-        console.log(t);
+       
 
           return {
             id: t.id,
@@ -157,6 +174,7 @@ async finishGame(){
             long: t.long,
             services: t.services,
             isMember: (t.players.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id'))).length ? true : false),
+            isInvited: (t.players.filter(u => u.user.id == JSON.parse(localStorage.getItem('user_id')) &&  u.admin == 1).length ? true : false ),
           //  isMember: (t.players.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && ['2', '4'].includes(u.status)).length ? true : false),
          
             description: t.description,
