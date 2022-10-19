@@ -172,7 +172,7 @@ export class PlayPage implements OnInit {
     this.searchResult = '';
     this.searchAddressResult = '';
   //  this.dateResult = '';
-  
+  console.log(this.filteredTournaments);
   }
 
   async openGameDetail(id) {
@@ -218,6 +218,7 @@ export class PlayPage implements OnInit {
         }
       }
     }
+    console.log(this.filteredTournaments);
   }
 
   filterDates(){
@@ -370,8 +371,9 @@ export class PlayPage implements OnInit {
               services: t.services,
               isMember: (t.players.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id'))).length ? true : false),
               isInvited: (t.players.filter(u => u.user.id == JSON.parse(localStorage.getItem('user_id')) &&  u.admin == 1).length ? true : false ),
-              validate: (t.players.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && ['2', '4'].includes(u.status) && u.validate).length ? true : false),
-        
+             // validate: (t.players.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && ['2', '4'].includes(u.status) && u.validate).length ? true : false),
+              validate: (t.players.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.validate == 1 ).length ? true : false),
+       
               description: t.description,
               image: t.image,
               status: t.status,

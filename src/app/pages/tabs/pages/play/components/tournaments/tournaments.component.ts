@@ -15,6 +15,8 @@ export class TournamentsComponent implements OnInit {
 
 @Input() filteredTournaments;
 @Input() toggleUserGames$;
+avatar: string = 'assets/img/default-avatar.png';
+
   constructor(
     public gameSvc: GameService,
     private firebaseSvc: FirebaseService,
