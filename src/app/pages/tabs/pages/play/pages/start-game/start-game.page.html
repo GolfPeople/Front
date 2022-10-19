@@ -57,6 +57,19 @@
       </ion-select-option>
     </ion-select>
   </div>
+
+  <div class="label">
+    <!-- tiene que guardarse en la base de datos y estar disponible en detail.game_init -->
+    Sistema de Puntuación
+  </div>
+  <div style="padding: 15px;" class="select-container">
+    <!-- <ion-skeleton-text *ngIf="loading" animated style="width: 60%"></ion-skeleton-text> -->
+    <ion-select [(ngModel)]="scoringMode" cancel-text="" interface="popover" placeholder="Selecciona un sistema de puntuación">
+      <ion-select-option class="ion-text-wrap" *ngFor="let c of optionsScoringModes" [value]="c">
+        {{c}}
+      </ion-select-option>
+    </ion-select>
+  </div>
 </div>
  
 

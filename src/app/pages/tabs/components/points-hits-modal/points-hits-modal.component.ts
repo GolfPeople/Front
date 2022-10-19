@@ -26,7 +26,7 @@ export class PointsHitsModalComponent implements OnInit {
 
   validator(){
     if(!this.points){
-      return false;
+      //return false;
     }
     if(!this.hits){
       return false;
