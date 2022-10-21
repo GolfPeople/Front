@@ -27,6 +27,7 @@ export class ScoreCardPage implements OnInit {
 
   limit;
   yds = [];
+  teesLists = {};
 
   holeData = [];
   stars = [];
@@ -81,7 +82,7 @@ export class ScoreCardPage implements OnInit {
     const { data } = await modal.onWillDismiss();
 
     if (data) {
-      user.points = data.points;
+      user.points = this.calcPoints(data.hits, user);
       user.hits = data.hits;
       user.user_id = user.user.user_id,
       
@@ -91,9 +92,163 @@ export class ScoreCardPage implements OnInit {
   }
 
 
+  calcPoints(hits, user){
+    let miPuntuacion;
+
+    if (this.detail.game_init.modality == "Stableford"){
+
+      const stablefordScore = [
+        {"points":5, "name":"Albatros",    "color":"red"},
+        {"points":4, "name":"Eagle",       "color":"limegreen"},
+        {"points":3, "name":"Birdie",      "color":"dodgerblue"},
+        {"points":2, "name":"Par",         "color":"white"},
+        {"points":1, "name":"Bogey",       "color":"lightgrey"},
+        {"points":0, "name":"Doble Bogey", "color":"dimgrey"}
+      ];
+
+      let diferencia = hits - this.getExtraHits(user) - this.parHole;
+
+      switch (true) {
+        case (diferencia <= -3):
+            miPuntuacion = stablefordScore[0];
+            break;
+        case (diferencia == -2):
+            miPuntuacion = stablefordScore[1];
+            break;
+        case (diferencia == -1):
+            miPuntuacion = stablefordScore[2];
+            break;
+        case (diferencia == 0):
+            miPuntuacion = stablefordScore[3];
+            break;
+        case (diferencia == 1):
+            miPuntuacion = stablefordScore[4];
+            break;
+        default:
+            miPuntuacion = stablefordScore[5];
+            break;
+      }
+
+      return miPuntuacion.points;
+    }
+    else if (this.detail.game_init.modality == "Contra Par"){
+
+      const contraParScore = [
+        {"points":1,  "name":"Bajo par",  "color":"red"},
+        {"points":0,  "name":"Par",       "color":"white"},
+        {"points":-1, "name":"Sobre par", "color":"dimgrey"},
+      ];
+
+      let extra = this.getExtraHits(user);
+      let diferencia = hits - extra - this.parHole;
+
+      switch (true) {
+        case (diferencia < 0):
+            miPuntuacion = contraParScore[0];
+            break;
+        case (diferencia == 0):
+            miPuntuacion = contraParScore[1];
+            break;
+        case (diferencia > 0):
+            miPuntuacion = contraParScore[2];
+            break;
+        default:
+            miPuntuacion = contraParScore[2];
+            break;
+      }
+
+      return miPuntuacion.points;
+    }
+
+    return hits;
+  }
+
+  getExtraHits(user){
+    const hcpJuego = this.hcpJuego(user);
+    let goplesExtraMinimoHoyo = Math.trunc(hcpJuego / this.course.layoutTotalHoles);
+    let golpesExtraSobrante = 0;
+
+    if (goplesExtraMinimoHoyo == 0){
+      golpesExtraSobrante = hcpJuego;
+    }
+    else if (goplesExtraMinimoHoyo > 3){
+      goplesExtraMinimoHoyo = 4;
+      golpesExtraSobrante = 0;
+    }
+    else{
+      golpesExtraSobrante = hcpJuego - (goplesExtraMinimoHoyo * this.course.layoutTotalHoles);
+    }
+
+    let golpesExtra = goplesExtraMinimoHoyo;
+    if (this.hcpHole <= golpesExtraSobrante){
+        golpesExtra = 1 + goplesExtraMinimoHoyo;
+    }
+
+    return golpesExtra;
+  }
+
+
+  hcpJuego(user){
+    const porcentaje = 0.95;
+    const userHCP = user.handicap;
+    const hcpJuego = porcentaje * (userHCP * this.getVCVS(user).vs / 113 + this.getVCVS(user).vc - this.getParTotal(user));
+    return Math.round(hcpJuego);
+  }
+
+  getVCVS(user){
+    let gender = '';
+    if (user.gender == 2){
+      gender = 'men';
+    }
+    else if (user.gender == 1){
+      gender = 'wmn';
+    }
+    else { // que hacer cuando no hay genero
+      gender = '';
+    }
+
+    this.getTeesLists();
+    let genderColor = gender + user.teeColor;
+    return {vc: this.teesLists[genderColor].rating, vs: this.teesLists[genderColor].slope}
+  }  
+
+  getParTotal(user){
+    if (user.gender == '1'){
+      return this.course.scorecarddetails.wmnScorecardList[0].parTotal
+    }
+    else if (user.gender == '2'){
+      return this.course.scorecarddetails.menScorecardList[0].parTotal
+    }
+  }
+
+
+  getTeesLists() {
+    for (let t of this.course.teesList.teesList) {
+      let genderColor = t.gender + t.teeColorValue;
+      let slope, rating = 0;
+      if (t.gender == "men"){
+        slope = t.slopeMen;
+        rating = t.ratingMen;
+      }
+      else{
+        slope = t.slopeWomen;
+        rating = t.ratingWomen;
+      }
+
+      this.teesLists[genderColor] = {
+        gender: t.gender, 
+        rating: rating, 
+        slope: slope, 
+        teeColorValue: t.teeColorValue, 
+        teeColorName: t.teeColorName
+      };
+    }
+  }
+
+
   async writePointsAndHits(user) {
     let data = {
-      user_id: user.user_id,
+      user_id: user.id,
       hole: this.selectedHole.value,
       hits: user.hits,
       points: user.points
@@ -361,8 +516,8 @@ export class ScoreCardPage implements OnInit {
   }
 
   getHCPYPAR() {
-    let hcpHole = this.course.scorecarddetails.menScorecardList[0].hcpHole;
-    let parHole = this.course.scorecarddetails.menScorecardList[0].parHole;
+    let hcpHole = this.course.scorecarddetails.menScorecardList[0].hcpHole; // no se puede poner por defecto menScorecardList, dependerá del sexo
+    let parHole = this.course.scorecarddetails.menScorecardList[0].parHole; // no se puede poner por defecto menScorecardList, dependerá del sexo
 
     hcpHole.map((n, index) => {
       if (index == this.selectedHole.value - 1) {
@@ -392,9 +547,12 @@ export class ScoreCardPage implements OnInit {
         id: u.user_id,
         user: u,
         name: u.data.name,
+        gender: u.data.profile.gender, // si el usuario no tiene genero deberá escogerlo al comienzo de la partida y quedará guardado aquí
         photo: u.data.profile.photo,
+        handicap: u.data.profile.handicap,
         points: points.filter(p => { return p.hole == this.selectedHole.value.toString() })[0].points,
         hits: points.filter(p => { return p.hole == this.selectedHole.value.toString() })[0].hits,
+        extraHits: '**', // aquí debe guardarse un array con los golpes extras que tendrá el jugador. Debe calcularse antes de iniciar la partida
         teeColor: u.teeColor
       }
     }).sort(function (a, b) {

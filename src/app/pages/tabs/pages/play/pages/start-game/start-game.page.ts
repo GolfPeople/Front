@@ -25,7 +25,8 @@ yds = [];
     { name: 'Recorrido 1 - 18 Hoyos', value: 1 },
     { name: 'Recorrido 2 - 9 Hoyos', value: 2 }
   ];
-  optionsModality = ['Match Play', 'Medal Play', 'Stableford', 'Fourball', 'Greensome'];
+  optionsModality = ['Match Play', 'Medal Play', 'Stableford', 'Fourball', 'Greensome', 'Contra Par'];
+  optionsScoringModes = ['Stableford', 'Contra Par', 'Stroke Play', 'Match Play'];
   selectedTee = '';
   currentUser;
   constructor(
