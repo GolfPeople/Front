@@ -20,7 +20,7 @@ export class StartGamePage implements OnInit {
   detail;
   course;
 yds = [];
-
+ 
   optionsPath = [
     { name: 'Recorrido 1 - 18 Hoyos', value: 1 },
     { name: 'Recorrido 2 - 9 Hoyos', value: 2 }
@@ -157,8 +157,20 @@ yds = [];
         
     for (let t of this.course.teesList.teesList) {
       t.ydsHole.map((res, index) => {
+       
         if (index == 0) {
+        let genderId = JSON.parse(localStorage.getItem('user_gender_id'));
+        let typegender = '';
+        if(genderId == 2){
+          typegender = "men"
+        }
+        if(genderId == 1){
+          typegender = "wmn"
+        }
+        
+         if(typegender == t.gender) {
           this.yds.push({ yds: res, color: t.teeColorValue, colorName: t.teeColorName});
+         }
         }
       })
     }
