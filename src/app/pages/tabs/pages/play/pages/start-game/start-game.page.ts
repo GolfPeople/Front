@@ -13,11 +13,14 @@ export class StartGamePage implements OnInit {
 
   date = Date.now();
   path;
+  selectValueGender : number;
+  gender;
   modality;
   loading: boolean;
-
+  typegender;
   id;
   detail;
+ 
   course;
 yds = [];
  
@@ -25,6 +28,18 @@ yds = [];
     { name: 'Recorrido 1 - 18 Hoyos', value: 1 },
     { name: 'Recorrido 2 - 9 Hoyos', value: 2 }
   ];
+
+  genders = [
+    {
+      value: 1,
+      text: 'Femenino',
+    },
+    {
+      value: 2,
+      text: 'Masculino',
+    },
+  ];
+
   optionsModality = ['Match Play', 'Medal Play', 'Stableford', 'Fourball', 'Greensome', 'Contra Par'];
   optionsScoringModes = ['Stableford', 'Contra Par', 'Stroke Play', 'Match Play'];
   selectedTee = '';
@@ -37,6 +52,7 @@ yds = [];
     public campusSvg: CampusDataService
   ) {
     this.id = this.actRoute.snapshot.paramMap.get('id');
+    this.selectValueGender = 0;
   }
 
   ngOnInit() {
@@ -152,6 +168,14 @@ yds = [];
     })
   }
 
+  selectGender(event) {
+    const element = event.target as HTMLInputElement;
+    const value = element.value;
+    this.selectValueGender=1;
+    this.gender = value;
+    this.getYds();
+  }
+
   getYds() {
     this.yds = [];
         
@@ -160,15 +184,18 @@ yds = [];
        
         if (index == 0) {
         let genderId = JSON.parse(localStorage.getItem('user_gender_id'));
-        let typegender = '';
+        this.typegender = ''; 
+        if(this.gender != undefined){
+         genderId = this.gender
+        }
         if(genderId == 2){
-          typegender = "men"
+          this.typegender = "men"
         }
         if(genderId == 1){
-          typegender = "wmn"
+          this.typegender = "wmn"
         }
-        
-         if(typegender == t.gender) {
+
+         if(this.typegender == t.gender) {
           this.yds.push({ yds: res, color: t.teeColorValue, colorName: t.teeColorName});
          }
         }
