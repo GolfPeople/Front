@@ -24,12 +24,15 @@ export class ScoreCardPage implements OnInit {
   hcpHole;
   parHole;
   level;
-
+  hcpValueJuego;
   limit;
   yds = [];
-  teesLists = {};
+  teesLists = [];
 
   holeData = [];
+  hitsExtraData = [];
+ // listWER={};
+  listWER=[];
   stars = [];
   loadingCourse: boolean;
 
@@ -82,7 +85,8 @@ export class ScoreCardPage implements OnInit {
     const { data } = await modal.onWillDismiss();
 
     if (data) {
-      user.points = this.calcPoints(data.hits, user);
+    //  user.points = this.calcPoints(data.hits, user);
+      user.points = parseInt(user.points),
       user.hits = data.hits;
       user.user_id = user.user.user_id,
       
@@ -90,7 +94,7 @@ export class ScoreCardPage implements OnInit {
     }
 
   }
-
+/*
 
   calcPoints(hits, user){
     let miPuntuacion;
@@ -106,7 +110,7 @@ export class ScoreCardPage implements OnInit {
         {"points":0, "name":"Doble Bogey", "color":"dimgrey"}
       ];
 
-      let diferencia = hits - this.getExtraHits(user) - this.parHole;
+      let diferencia = hits - this.golpesExtras(user) - this.parHole;
 
       switch (true) {
         case (diferencia <= -3):
@@ -139,7 +143,7 @@ export class ScoreCardPage implements OnInit {
         {"points":-1, "name":"Sobre par", "color":"dimgrey"},
       ];
 
-      let extra = this.getExtraHits(user);
+      let extra = this.golpesExtras(user);
       let diferencia = hits - extra - this.parHole;
 
       switch (true) {
@@ -161,11 +165,14 @@ export class ScoreCardPage implements OnInit {
     }
 
     return hits;
-  }
+  }*/
 
-  getExtraHits(user){
-    const hcpJuego = this.hcpJuego(user);
-    let goplesExtraMinimoHoyo = Math.trunc(hcpJuego / this.course.layoutTotalHoles);
+  golpesExtras(user){
+    console.log('user golpesExtras');
+    console.log(user);
+    this.hcpJuego(user);
+    console.log(this.hitsExtraData);
+   /* let goplesExtraMinimoHoyo = Math.trunc(hcpJuego / this.course.layoutTotalHoles);
     let golpesExtraSobrante = 0;
 
     if (goplesExtraMinimoHoyo == 0){
@@ -184,35 +191,131 @@ export class ScoreCardPage implements OnInit {
         golpesExtra = 1 + goplesExtraMinimoHoyo;
     }
 
-    return golpesExtra;
+    console.log(golpesExtra);*/
   }
 
 
   hcpJuego(user){
     const porcentaje = 0.95;
     const userHCP = user.handicap;
-    const hcpJuego = porcentaje * (userHCP * this.getVCVS(user).vs / 113 + this.getVCVS(user).vc - this.getParTotal(user));
-    return Math.round(hcpJuego);
+    user.filter(res=>{
+      let gender = '';
+      if (user.gender == 2){
+        gender = 'men';
+      }
+      else if (user.gender == 1){
+        gender = 'wmn';
+      }
+      else { // que hacer cuando no hay genero
+        gender = '';
+      }
+  
+     // console.log(res.teeColor)
+       
+      this.campusSvg.getCourseGames(this.detail.campuses_id).subscribe(course => {
+        this.course = course;
+      //  console.log(JSON.parse(this.course.scorecarddetails));
+     
+        for (let t of JSON.parse(this.course.teesList).teesList) {
+        //  console.log(t);
+          let genderColor = t.gender + t.teeColorValue;
+          let slope, rating = 0;
+          if (t.gender == "men"){
+            slope = t.slopeMen;
+            rating = t.ratingMen;
+          }
+          else{
+            slope = t.slopeWomen;
+            rating = t.ratingWomen;
+          }
+  
+        //  console.log('genderColor ', genderColor.toString() );
+    
+          
+          this.teesLists = [
+            { 
+              genderColor: genderColor,
+              gender: t.gender, 
+              rating: rating, 
+              slope: slope, 
+              teeColorValue: t.teeColorValue, 
+              teeColorName: t.teeColorName
+             },
+          ]
+
+          console.log(JSON.parse(this.course.scorecarddetails));
+        //  console.log(JSON.parse(this.course.scorecarddetails).wmnScorecardList[0].parTotal);
+        //  console.log(JSON.parse(this.course.scorecarddetails).menScorecardList[0].parTotal);
+
+          if (res.data.profile.gender == '1'){
+             this.hcpValueJuego = porcentaje * (res.data.profile.handicap * rating / 113 + slope - JSON.parse(this.course.scorecarddetails).wmnScorecardList[0].parOut);
+
+             
+          }
+          else if (res.data.profile.gender == '2'){
+            this.hcpValueJuego = porcentaje * (res.data.profile.handicap * rating / 113 + slope - JSON.parse(this.course.scorecarddetails).menScorecardList[0].parOut);
+
+             
+          }
+
+          console.log(this.hcpValueJuego);
+          let hcpJuegoUser = [
+             { UserId: res.data.profile.user_id, hcpJuegoUser: Math.round(this.hcpValueJuego) },
+           ]
+           // console.log(hcpJuegoUser);
+           this.hitsExtraData.push(hcpJuegoUser);
+          
+        }
+
+        
+     
+   
+     
+        
+  
+        
+  
+      //  this.listWER.push(this.teesLists);
+      
+  
+      })
+  
+     /* console.log('asdasdasdasdasdasd');
+      console.log(this.listWER);
+  
+      this.listWER.filter(res => {
+        console.log('resresresresresresresres')
+        console.log(res)
+      });*/
+      
+   
+   //   return {vc: 54546, vs: 654}
+      //  return {vc: this.teesLists, vs: this.teesLists}
+      // return {vc: this.teesLists[genderColor].rating, vs: this.teesLists[genderColor].slope}
+     
+      
+    })
+    console.log(this.hitsExtraData);
+    
+
   }
 
-  getVCVS(user){
-    let gender = '';
-    if (user.gender == 2){
-      gender = 'men';
-    }
-    else if (user.gender == 1){
-      gender = 'wmn';
-    }
-    else { // que hacer cuando no hay genero
-      gender = '';
-    }
+  
+  h1cpJuego()
+  {
+    const porcentaje = 0.95;
+/*
+      $hcpJuego = $this->porcentaje * ($this->hcpJugador * $this->vs / 113 + $this->vc - $this->par);
+      $this->hcpJuego = intval(round($hcpJuego));
+      return $this->hcpJuego;*/
+  }
 
-    this.getTeesLists();
-    let genderColor = gender + user.teeColor;
-    return {vc: this.teesLists[genderColor].rating, vs: this.teesLists[genderColor].slope}
+  getVCVS(user, res){
+  
   }  
 
   getParTotal(user){
+   // console.log(this.course)
     if (user.gender == '1'){
       return this.course.scorecarddetails.wmnScorecardList[0].parTotal
     }
@@ -223,26 +326,12 @@ export class ScoreCardPage implements OnInit {
 
 
   getTeesLists() {
-    for (let t of this.course.teesList.teesList) {
-      let genderColor = t.gender + t.teeColorValue;
-      let slope, rating = 0;
-      if (t.gender == "men"){
-        slope = t.slopeMen;
-        rating = t.ratingMen;
-      }
-      else{
-        slope = t.slopeWomen;
-        rating = t.ratingWomen;
-      }
+  //  console.log(this.detail)
+ 
 
-      this.teesLists[genderColor] = {
-        gender: t.gender, 
-        rating: rating, 
-        slope: slope, 
-        teeColorValue: t.teeColorValue, 
-        teeColorName: t.teeColorName
-      };
-    }
+   
+
+
   }
 
 
@@ -254,7 +343,7 @@ export class ScoreCardPage implements OnInit {
       points: user.points
     }
 
-    console.log(data);
+   // console.log(data);
 
     const loading = await this.firebaseSvc.loader().create();
     await loading.present();
@@ -278,6 +367,7 @@ export class ScoreCardPage implements OnInit {
       this.getHoleLikes();
       this.getPlayersData();
       this.getHCPYPAR();
+      this.getusersExtrahits();
       this.getYds();
 
       if (this.course.reviews) {
@@ -296,6 +386,7 @@ export class ScoreCardPage implements OnInit {
       this.getHoleLikes();
       this.getPlayersData();
       this.getHCPYPAR();
+      this.getusersExtrahits();
       this.getYds();
 
       if (this.course.reviews) {
@@ -358,6 +449,7 @@ export class ScoreCardPage implements OnInit {
       }))
 
       this.detail = this.gameSvc.games$.value.filter(res => res.id == this.id)[0];
+      //console.log(this.detail);
 
 
       if (this.detail.game_init.path == '1') {
@@ -370,9 +462,15 @@ export class ScoreCardPage implements OnInit {
       this.getPlayersData();
       this.getHoleData();
       this.getHoleLikes();
+      this.getusersExtrahits(); 
       this.getGolfCourse(this.detail);
     })
   }
+
+  getusersExtrahits() {
+    this.golpesExtras(this.detail.users);
+  }
+
 
 
   getHoleData() {
