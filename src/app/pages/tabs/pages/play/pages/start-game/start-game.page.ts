@@ -41,7 +41,7 @@ yds = [];
   ];
 
   optionsModality = ['Match Play', 'Medal Play', 'Stableford', 'Fourball', 'Greensome', 'Contra Par'];
-  optionsScoringModes = ['Stableford', 'Contra Par', 'Stroke Play', 'Match Play'];
+  optionsScoringModes = ['Stableford', 'Contra Par', 'Stroke Play', 'Match Play']; // este dato hay que guardarlo en la configuración de la partida
   selectedTee = '';
   currentUser;
   constructor(
