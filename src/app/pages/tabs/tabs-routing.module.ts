@@ -85,7 +85,12 @@ const routes: Routes = [
   {
     path: 'post/:user/:id',
     component: PublicPostComponent,
-  },  
+  },
+  {
+    path: 'handicap',
+    loadChildren: () => import('./pages/handicap/handicap.module').then( m => m.HandicapPageModule)
+  },
+ 
 ];
 
 @NgModule({
