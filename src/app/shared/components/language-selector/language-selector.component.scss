@@ -1,0 +1,25 @@
+language-selector {
+    position: relative;
+    display: flex;
+    flex: 0 0 auto;
+    z-index: 4;
+
+    &.below {
+        z-index: 2;
+    }
+    ion-popover {
+        ion-button{
+            display: flex;
+        }
+    }
+    
+}
+:host{
+    .language-button{
+        button{
+            margin:10px !important;
+            display: flex;
+        }
+        
+    }
+}
