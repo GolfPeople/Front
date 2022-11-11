@@ -12,14 +12,20 @@
         <ion-list>
           <!-- <p class="card-text text-center">Fecha de nacimiento</p> -->
           <!-- <ion-item lines="none"> -->
-<div style="padding-bottom: 50px;">
-  <ion-item>
-    <ion-icon class="icon-item ion-margin-end" slot="start" name="calendar-outline"></ion-icon>
-    <ion-label position="floating">Año de nacimiento</ion-label>
-    <ion-input type="number" [(ngModel)]="birthday" placeholder="Ingresa tu año de nacimiento" step="1"></ion-input>
-  </ion-item>
-</div>
-            
+          <div style="padding-bottom: 50px">
+            <p class="card-text text-center">Fecha de Nacimiento</p>
+            <ion-item>
+              <ion-icon class="icon-item ion-margin-end" slot="start" name="calendar-outline"></ion-icon>
+              <!-- <ion-label position="floating">Fecha de cumpleaño</ion-label> -->
+              <ion-input
+                type="date"
+                [formControl]="birthday"
+                placeholder="Ingresa tu año de nacimiento"
+                step="1"
+              ></ion-input>
+            </ion-item>
+          </div>
+
           <!-- <div class="birthday">
             <app-select-date (date)="getDate($event)"></app-select-date>
           </div> -->
