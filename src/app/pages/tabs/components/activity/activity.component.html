@@ -24,6 +24,12 @@
 
 
     <ion-item *ngIf="notificationTypesWithBtn.includes(n.data.type)" lines="none">
+      
+      <ion-buttons *ngIf="n.data.type == 'TournamentsFinalized'" slot="start">
+        <ion-button color="success" shape="round" mode="ios" fill="solid" (click)="validateTournament(n, i)">
+          Calificar
+        </ion-button>
+      </ion-buttons>
 
        <!--===============Botón para calificar un campo después de terminar un juego=================-->
        <ion-buttons *ngIf="n.data.type == 'StatusGames'" slot="start">

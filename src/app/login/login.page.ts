@@ -125,7 +125,10 @@ export class LoginPage implements OnInit {
       this.userService.userPhoto.next(data.profile.photo);
       this.loadingCtrl.dismiss();
 
-      localStorage.setItem('user_id', data.id)
+      console.log(data);
+      
+      localStorage.setItem('user_gender_id', data.profile.gender);
+      localStorage.setItem('user_id', data.id);
 
       if (isNewUser) {
         this.router.navigate(['/complete-profile']);

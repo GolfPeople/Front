@@ -51,6 +51,7 @@
 <ion-item lines="none"  class="ion-no-padding" *ngIf="detail">
   <ion-label style="font-size: 14px;" class="ion-text-wrap ion-margin-right">
    <div><strong>Modalidad:</strong> {{detail.game_init.modality}}</div> 
+   <div><strong>Sitema de puntuación:</strong> pendiente</div> 
    <div *ngIf="course"><strong>Campo:</strong> {{course.courseName ? course.courseName : course.address}}</div> 
   </ion-label>
   <span *ngIf="course" style="font-size: 17px;" class="ion-margin-left ion-text-end" slot="end">
@@ -87,9 +88,10 @@
       </td>
       <td style="width: 100px;">
         <div class="username">{{u.name}}</div>
-        <div class="hcp">HCP 14</div>
+        <div class="hcp">HCP {{u.handicap}}</div>
       </td>
       <td>
+        <div class="extraHits">{{u.extraHits}}</div>
         <div class="hits">{{u.hits ? u.hits : 0}}</div>
       </td>
       <td  [ngClass]="{'border-top': i == 0}" class="score ion-text-center">
@@ -98,7 +100,7 @@
       </td>
     
       <td>
-        <div class="hits">{{u.points ? u.points : 0}}</div>
+        <div class="points">{{u.points ? u.points : 0}}</div>
       </td>
     </tr>
   </table>

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
 export class User {
+  private _id: any;
   constructor(
     private access_token: string,
     private expires_at: string,
