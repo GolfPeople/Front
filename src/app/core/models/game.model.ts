@@ -17,6 +17,7 @@ export interface Game {
   }
 
   export class Tournament{
+  id: number;
   photo: string;
   name: string;
   courses: any;

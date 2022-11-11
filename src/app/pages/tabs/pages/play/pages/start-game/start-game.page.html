@@ -5,7 +5,7 @@
 
   <ion-grid fixed>
     <ion-row>
-      <ion-col size="8">
+      <ion-col size="8"> 
         <ion-card>
           <ion-grid fixed>
             <ion-row>
@@ -43,7 +43,7 @@
       <ion-select-option class="ion-text-wrap" *ngFor="let c of optionsPath" [value]="c.value">
         {{c.name}}
       </ion-select-option>
-    </ion-select>
+    </ion-select> 
   </div>
 
   <div class="label">
@@ -57,7 +57,34 @@
       </ion-select-option>
     </ion-select>
   </div>
-</div>
+
+  <div class="label">
+    <!-- tiene que guardarse en la base de datos y estar disponible en detail.game_init -->
+    Sistema de Puntuación
+  </div>
+  <div style="padding: 15px;" class="select-container">
+    <!-- <ion-skeleton-text *ngIf="loading" animated style="width: 60%"></ion-skeleton-text> -->
+    <ion-select [(ngModel)]="scoringMode" cancel-text="" interface="popover" placeholder="Selecciona un sistema de puntuación">
+      <ion-select-option class="ion-text-wrap" *ngFor="let c of optionsScoringModes" [value]="c">
+        {{c}}
+      </ion-select-option>
+    </ion-select>
+  </div>
+
+  <div *ngIf="typegender == '' && yds.length == 0 || selectValueGender == 1" class="label">
+    <!-- tiene que guardarse en la base de datos y estar disponible en detail.game_init -->
+   Género
+  </div>
+  <div *ngIf="typegender == '' && yds.length == 0 || selectValueGender == 1" style="padding: 15px;" class="select-container">
+    <!-- <ion-skeleton-text *ngIf="loading" animated style="width: 60%"></ion-skeleton-text> -->
+    <ion-select  [(ngModel)]="gender" (ionChange)="selectGender($event)" cancel-text="" interface="popover" placeholder="Seleccione género">
+      <ion-select-option class="ion-text-wrap"       *ngFor="let gender of genders"
+      [value]="gender.value">
+      {{ gender.text }}
+      </ion-select-option>
+    </ion-select>
+  </div>
+</div> 
  
 
   <div class="label ion-text-center">
@@ -70,6 +97,7 @@
      <span class="yds-text">{{y.colorName}} </span>  
     </div>
   </div>
+
 
   <div style="padding-top: 25px;" class="ion-text-center">
     <ion-button *ngIf="!detail.game_init" (click)="submit()" [disabled]="!validatorStandar()" class="start-btn" mode="ios" expand="block" color="secondary"

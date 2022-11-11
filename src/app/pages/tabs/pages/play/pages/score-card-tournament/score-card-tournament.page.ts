@@ -51,7 +51,7 @@ export class ScoreCardTournamentPage implements OnInit {
 
 
   ngOnInit() {
-
+   
   }
 
   ionViewWillEnter() {
@@ -67,6 +67,7 @@ export class ScoreCardTournamentPage implements OnInit {
 
 
   async editScoreCard(user) {
+   
     const modal = await this.modalController.create({
       component: PointsHitsModalComponent,
       cssClass: 'points-hits',
@@ -82,7 +83,8 @@ export class ScoreCardTournamentPage implements OnInit {
 
     if (data) {
       user.points = data.points;
-      user.hits = data.hits
+      user.hits = data.hits;
+      user.user_id = user.user.user_id,
       this.writePointsTournamentAndHits(user)
     }
 
@@ -90,12 +92,14 @@ export class ScoreCardTournamentPage implements OnInit {
 
 
   async writePointsTournamentAndHits(user) {
+    console.log(user)
     let data = {
-      user_id: user.user.id,
+      user_id: user.user_id,
       hole: this.selectedHole.value,
       hits: user.hits,
       points: user.points
     }
+    console.log(data)
 
     const loading = await this.firebaseSvc.loader().create();
     await loading.present();
@@ -166,27 +170,29 @@ export class ScoreCardTournamentPage implements OnInit {
 
     if (data) {
       this.getTournament();
-    }
+    } 
   }
   getTournament() {
     this.loadingCourse = true;
     this.gameSvc.getTournaments().subscribe(res => {
 
       this.gameSvc.tournament$.next(res.data.reverse().map(t => {
+        
         return {
-          id: t.id,
+          id: t.id, 
           campuses_id: t.campuses_id,
-          game_init: t.game_init,
+          tournament_init: t.tournament_init,
           address: t.address,
           created_at: t.created_at,
           name: t.name,
           date: t.date,
           players: t.players,
+          points: t.points,
           price: t.price,
           lat: t.lat,
           long: t.long,
           services: t.services,
-
+          isMember: (t.players.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id'))).length ? true : false),
           description: t.description,
           image: t.image,
           status: t.status,
@@ -196,8 +202,7 @@ export class ScoreCardTournamentPage implements OnInit {
 
       this.detail = this.gameSvc.tournament$.value.filter(res => res.id == this.id)[0];
 
-
-      if (this.detail.game_init.path == '1') {
+      if (this.detail.tournament_init.path == '1') {
         this.limit = 18;
       } else {
         this.limit = 9;
@@ -249,7 +254,7 @@ export class ScoreCardTournamentPage implements OnInit {
 
   getGolfCourse(game) {
     this.loadingCourse = true;
-    this.campusSvg.getCourseGames(game.campuses_id).subscribe(res => {
+    this.campusSvg.getCourseTournament(game.campuses_id).subscribe(res => {
 
       this.course = res;
       this.course.teesList = JSON.parse(this.course.teesList);
@@ -371,7 +376,8 @@ export class ScoreCardTournamentPage implements OnInit {
 
 
   getPlayersData() {
-    this.players = this.detail.users.map(u => {
+    this.players = this.detail.players.map(u => {
+      console.log(u);
       let points = this.detail.points.filter(res => { return res.user_id == u.user_id }).map(r => {
         return {
           points: r.points,
@@ -380,12 +386,13 @@ export class ScoreCardTournamentPage implements OnInit {
         }
       })
       return {
-        id: u.user_id,
-        name: u.data.name,
-        photo: u.data.profile.photo,
+        id: u.user.user_id,
+        user: u,
+        name: u.user.name,
+        photo: u.user.profile.photo,
         points: points.filter(p => { return p.hole == this.selectedHole.value.toString() })[0].points,
         hits: points.filter(p => { return p.hole == this.selectedHole.value.toString() })[0].hits,
-        teeColor: u.teeColor
+        teeColor: u.user.teeColor
       }
     }).sort(function (a, b) {
       if (a.totalPoints < b.totalPoints) {

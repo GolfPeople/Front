@@ -50,7 +50,7 @@
 
 <ion-item lines="none"  class="ion-no-padding" *ngIf="detail">
   <ion-label style="font-size: 14px;" class="ion-text-wrap ion-margin-right">
-   <div><strong>Modalidad:</strong> {{detail.game_init.modality}}</div> 
+   <div><strong>Modalidad:</strong> {{detail.tournament_init.modality}}</div> 
    <div *ngIf="course"><strong>Campo:</strong> {{course.courseName ? course.courseName : course.address}}</div> 
   </ion-label>
   <span *ngIf="course" style="font-size: 17px;" class="ion-margin-left ion-text-end" slot="end">
@@ -62,7 +62,7 @@
 
 <ion-item class="ion-no-padding" *ngIf="detail" lines="none">
   <ion-buttons slot="start">
-    <ion-button fill="solid" color="secondary" shape="round" (click)="getGame()">
+    <ion-button fill="solid" color="secondary" shape="round" (click)="getTournament()">
       <ion-icon slot="start" name="refresh"></ion-icon>
       Refrescar
     </ion-button>

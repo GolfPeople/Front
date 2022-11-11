@@ -54,7 +54,7 @@ yds = [];
     const loading = await this.firebaseSvc.loader().create();
     await loading.present();
     this.gameSvc.selectStartTournamentsColor(this.id, data).subscribe(res => {   
-      this.firebaseSvc.Toast(this.translate.instant('Has iniciado la partida'));
+      this.firebaseSvc.Toast(this.translate.instant('Has iniciado el torneo'));
       this.firebaseSvc.routerLink('/tabs/play/score-card-tournament/'+this.id);  
       loading.dismiss(); 
     }, error => {
@@ -96,7 +96,7 @@ yds = [];
     const loading = await this.firebaseSvc.loader().create();
     await loading.present();
      
-    this.gameSvc.startGame(this.id, data).subscribe(res => {      
+    this.gameSvc.startTournament(this.id, data).subscribe(res => {  
       this.addColor();
       loading.dismiss();
     }, error => {
@@ -115,27 +115,29 @@ yds = [];
         this.gameSvc.tournament$.next(res.data.reverse().map(t => {
         return {
           id: t.id,
-          campuses_id: t.campuses_id,
-          game_init: t.game_init,
-          address: t.address,
-          created_at: t.created_at,
-          name: t.name,
-          date: t.date,
-          players: t.players,
-          price: t.price,
-          lat: t.lat,
-          long: t.long,
-          services: t.services,
-
-          description: t.description,
-          image: t.image,
-          status: t.status,
-          courses: t.courses, 
+              campuses_id: t.campuses_id,
+              tournament_init: t.tournament_init,
+              address: t.address,
+              created_at: t.created_at,
+              name: t.name,
+              date: t.date,
+              players: t.players,
+              price: t.price,
+              points: t.points,
+              lat: t.lat,
+              long: t.long,
+              services: t.services,
+              isMember: (t.players.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id'))).length ? true : false),
+            //  isMember: (t.players.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && ['2', '4'].includes(u.status)).length ? true : false),
+           
+              description: t.description,
+              image: t.image,
+              status: t.status,
+              courses: t.courses, 
          }
       }))
 
       this.detail = this.gameSvc.tournament$.value.filter(res => res.id == this.id)[0];
-        console.log(this.detail);
          
    //   this.currentUser = this.detail.users.filter(res => res.id == JSON.parse(localStorage.getItem('user_id')))[0];
       this.getGolfCourse(this.detail.campuses_id);
@@ -143,7 +145,7 @@ yds = [];
   }
 
   getGolfCourse(id){
-    this.campusSvg.getCourseGames(id).subscribe(res =>{
+    this.campusSvg.getCourseTournament(id).subscribe(res =>{
       this.course = res; 
       this.course.teesList = JSON.parse(this.course.teesList); 
       this.getYds();                    

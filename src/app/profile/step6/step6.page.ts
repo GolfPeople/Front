@@ -17,8 +17,8 @@ declare var google;
 export class Step6Page implements OnInit, AfterViewInit {
   autocomplete: any;
 
-  gender;
-  birthday: string;
+  gender: number = 1;
+  birthday: FormControl;
   address: FormControl;
   coords = { lat: 40.731, lng: -73.997 };
 
@@ -40,7 +40,9 @@ export class Step6Page implements OnInit, AfterViewInit {
     private userService: UserService,
     private geolocationService: GeolocationService,
     private router: Router
-  ) {}
+  ) {
+    this.chooseGender();
+  }
 
   ngAfterViewInit(): void {
     this.initAutoComplete();
@@ -48,6 +50,8 @@ export class Step6Page implements OnInit, AfterViewInit {
 
   async ngOnInit() {
     this.address = this.initFormcontrol();
+    this.birthday = this.initFormcontrol('1975-12-06');
+
     // await this.printCurrentPosition();
     const coordinates = await this.geolocationService.currentPosition();
     const { latitude, longitude } = await coordinates.coords;
@@ -70,7 +74,8 @@ export class Step6Page implements OnInit, AfterViewInit {
         }
       }
       if (profile.birthday) {
-        this.birthday = profile.birthday;
+        //this.birthday = profile.birthday;
+        this.birthday.setValue(profile.birthday);
       }
       if (profile.address) {
         this.address.setValue(profile.address);
@@ -78,8 +83,8 @@ export class Step6Page implements OnInit, AfterViewInit {
     });
   }
 
-  initFormcontrol() {
-    const control = new FormControl('', {});
+  initFormcontrol(value?: any) {
+    const control = new FormControl(value ? value : '', [Validators.required]);
     return control;
   }
 
@@ -95,23 +100,28 @@ export class Step6Page implements OnInit, AfterViewInit {
   //   return coordinates;
   // }
 
-  chooseGender(event) {
-    const element = event.target;
-    if (element.value === '1') {
+  chooseGender(event?:any) {
+    let element;
+    
+    if (event) {
+      element = event.target;
+    }
+
+    if (!event || element.value === '1') {
       this.isActive1 = true;
       this.isActive2 = false;
       this.isActive3 = false;
       this.gender = 1;
       return;
     }
-    if (element.value === '2') {
+    if (event && element.value === '2') {
       this.isActive1 = false;
       this.isActive2 = true;
       this.isActive3 = false;
       this.gender = 2;
       return;
     }
-    if (element.value === '3') {
+    if (event && element.value === '3') {
       this.isActive1 = false;
       this.isActive2 = false;
       this.isActive3 = true;
@@ -124,19 +134,20 @@ export class Step6Page implements OnInit, AfterViewInit {
     if (date === '0000-00-00') {
       return;
     } else {
-      this.birthday = date;
+      //this.birthday = date;
     }
   }
 
   resetInput() {
     this.address.reset();
+    this.birthday.reset();
   }
 
   onSubmit() {
     this.geoCodeLatLong(this.coords);
     // this.codeAddress();
     this.Step6Svc.dateAndLocation(
-      this.birthday,
+      this.birthday.value,
       this.gender,
       this.userAddress
     ).subscribe((res) => {
