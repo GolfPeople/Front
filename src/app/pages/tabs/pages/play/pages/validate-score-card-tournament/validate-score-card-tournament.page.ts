@@ -7,7 +7,6 @@ import { BehaviorSubject } from 'rxjs';
 import { ModalController } from '@ionic/angular';
 import { CampusDataService } from '../../../campus/services/campus-data.service';
 import { AlertConfirmComponent } from 'src/app/pages/tabs/components/alert-confirm/alert-confirm.component';
-import { TournamentService } from 'src/app/core/services/tournament.service';
 
 @Component({
   selector: 'app-validate-score-card-tournament',
@@ -30,7 +29,7 @@ export class ValidateScoreCardTournamentPage implements OnInit {
 
   limit;
   yds = [];
-  isInvited= false;
+
   holeData = [];
   players:any = [];
   course_id;
@@ -40,7 +39,6 @@ export class ValidateScoreCardTournamentPage implements OnInit {
     private translate: TranslateService,
     public gameSvc: GameService,
     private actRoute: ActivatedRoute,
-    public tournamentSvc: TournamentService,
     private firebaseSvc: FirebaseService,
     public campusSvg: CampusDataService,
     private modalController: ModalController
@@ -67,7 +65,7 @@ export class ValidateScoreCardTournamentPage implements OnInit {
 
     /**
  *=================== Validar partida========================
- * @param tournament_id  
+ * @param tournament_id 
  */
  async validateGame() {
   const modal = await this.modalController.create({
@@ -75,7 +73,7 @@ export class ValidateScoreCardTournamentPage implements OnInit {
     cssClass: 'alert-confirm',
     componentProps: {
       confirmText: 'Si, válidar y finalizar',
-      content: '¿Estas seguro de que quieres validar los resultados y cerrar el torneo?',
+      content: '¿Estas seguro de que quieres validar los resultados y cerrar la partida?',
       inverseBtn: true
     }
   });
@@ -108,7 +106,7 @@ async validate() {
     loading.dismiss();
   })
 }
- 
+
 
 async finishGame(){
   const loading = await this.firebaseSvc.loader().create();
@@ -138,55 +136,38 @@ async finishGame(){
 
 
   getTournament() {
-   
-
-    this.tournamentSvc.getTournamentDetail(this.id).subscribe(res => {
-       
-      (res.players.filter(u => 
-        {
-          if(u.user.id == JSON.parse(localStorage.getItem('user_id')) &&  u.admin == 1){
-            this.isInvited = true; 
-           } 
-        }));
-   
-    })
-
-    console.log('this.isInvited')
-    console.log(this.isInvited)
 
     this.gameSvc.getTournaments().subscribe(res => {
 
-      this.gameSvc.tournament$.next(res.data.reverse().map(t => {
-       
-
-          return {
-            id: t.id,
-            campuses_id: t.campuses_id,
-            tournament_init: t.tournament_init,
-            address: t.address,
-            created_at: t.created_at,
-            name: t.name,
-            date: t.date,
-            players: t.players,
-            price: t.price,
-            lat: t.lat,
-            points: t.points,
-            long: t.long,
-            services: t.services,
-            isMember: (t.players.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id'))).length ? true : false),
-            isInvited: (t.players.filter(u => u.user.id == JSON.parse(localStorage.getItem('user_id')) &&  u.admin == 1).length ? true : false ),
-          //  isMember: (t.players.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && ['2', '4'].includes(u.status)).length ? true : false),
-         
-            description: t.description,
-            image: t.image,
-            status: t.status,
-            courses: t.courses, 
-           }
+      this.gameSvc.tournament$.next(res.data.reverse().map(g => {
+        return {
+          campuses_id: g.campuses_id,
+          address: g.address,
+          created_at: g.created_at,
+          points: g.points,
+          date: g.date,
+          id: g.id,
+          lat: g.lat,
+          long: g.long,
+          name: g.name,
+          game_init: g.game_init,
+          reserves: g.reserves,
+          isOwner: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.status == '4').length ? true : false),
+          owner_id: g.users.filter(u => u.status == '4')[0].user_id,
+          users: g.users.filter(u => { return ['2', '4'].includes(u.status) }),
+          fav: false,
+          isMember: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.status == '2').length ? true : false),
+          status: g.status,
+          request_users: g.request_users,
+          isInvited: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.status == '1').length ? true : false),
+          pending: (g.request_users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id'))).length ? true : false),
+          validate:(g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && ['2', '4'].includes(u.status) && u.validate).length ? true : false)
+        }
       }))
 
       this.detail = this.gameSvc.tournament$.value.filter(res => res.id == this.id)[0];
 
-      if (this.detail.tournament_init.path == '1') {
+      if (this.detail.game_init.path == '1') {
         this.limit = 18;
       } else {
         this.limit = 9;
@@ -198,7 +179,7 @@ async finishGame(){
 
   getGolfCourse(game) {
    
-    this.campusSvg.getCourseTournament(game.campuses_id).subscribe(res =>{
+    this.campusSvg.getCourseGames(game.campuses_id).subscribe(res =>{
       
       this.course = res;
       this.course.teesList = JSON.parse(this.course.teesList);
@@ -210,8 +191,7 @@ async finishGame(){
 
   getPlayersData() {
     this.parHole = this.course.scorecarddetails.menScorecardList[0].parHole;
-    
-    this.players = this.detail.players.map(u => {
+    this.players = this.detail.users.map(u => {
       let points = this.detail.points.filter(res => { return res.user_id == u.user_id }).map(r => {
         return {
           points: r.points,
@@ -219,11 +199,10 @@ async finishGame(){
           hole: r.hole
         }
       })
-      console.log(u);
-      return { 
-        id: u.user.id,
-        name: u.user.name,        
-        photo: u.user.profile.photo,
+      return {
+        id: u.user_id,
+        name: u.data.name,        
+        photo: u.data.profile.photo,
         teeColor: u.teeColor,
         totalHits: points.reduce((i, j) => i + parseInt(j.hits), 0),
         totalPoints: points.reduce((i, j) => i + parseInt(j.points), 0),

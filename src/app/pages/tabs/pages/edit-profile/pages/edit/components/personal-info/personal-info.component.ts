@@ -188,7 +188,7 @@ export class PersonalInfoComponent implements OnInit {
   getDate(date) {
     this.birthday = date;
     this.form.controls['birthday'].setValue(date);
-  } 
+  }
 
   selectGender(event) {
     const element = event.target as HTMLInputElement;
@@ -212,8 +212,7 @@ export class PersonalInfoComponent implements OnInit {
       await loading.present()
       this.form.controls['address'].setValue(this.userAddress);
       const dto = this.form.value;
-      console.log(dto); 
-      localStorage.setItem('user_gender_id', dto.gender);
+      console.log(dto);
       this.personalSvg
         .updateInfo(dto, this.id)
         .subscribe((res) => {
