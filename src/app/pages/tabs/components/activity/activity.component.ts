@@ -19,7 +19,8 @@ export class ActivityComponent implements OnInit {
   @Input() unreadNotifications;
   @Input() loading;
 
-  notificationTypesWithBtn = ['games', 'RequestGames', 'friends', 'StatusGames', 'TournamentsFinalized']
+
+  notificationTypesWithBtn = ['games', 'RequestGames', 'friends', 'StatusGames']
 
   constructor(
     public notificationSvc: NotificationsService,
@@ -43,11 +44,6 @@ export class ActivityComponent implements OnInit {
 
   async validateGame(e, index) {
     this.firebaseService.routerLink(`/tabs/play/game-finished-success/x/${e.data.game_id}`)
-    this.markOneAsRead(e.id, index)
-  }
-
-  async validateTournament(e, index) {
-    this.firebaseService.routerLink(`/tabs/play/game-finished-tournament/x/${e.data.tournament_id}`)
     this.markOneAsRead(e.id, index)
   }
 

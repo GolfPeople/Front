@@ -33,7 +33,7 @@
 </ion-toolbar>
 <ion-content *ngIf="course" class="ion-padding">
 
-<div *ngIf="!detail.tournament_init">
+<div *ngIf="!detail.game_init">
   <div class="label">
     Recorrido
   </div>
@@ -72,12 +72,12 @@
   </div>
 
   <div style="padding-top: 25px;" class="ion-text-center">
-    <ion-button *ngIf="!detail.tournament_init" (click)="submit()" [disabled]="!validatorStandar()" class="start-btn" mode="ios" expand="block" color="secondary"
+    <ion-button *ngIf="!detail.game_init" (click)="submit()" [disabled]="!validatorStandar()" class="start-btn" mode="ios" expand="block" color="secondary"
       shape="round">
       <ion-icon slot="start" src="../../../../../../../assets/icons/tab/play.svg"></ion-icon>
       <span style="padding-left: 10px;padding-right: 10px;">Iniciar torneo</span>
     </ion-button>
-    <ion-button *ngIf="detail.tournament_init" (click)="addColor()" [disabled]="!validatorColor()" class="start-btn" mode="ios" expand="block" color="secondary"
+    <ion-button *ngIf="detail.game_init" (click)="addColor()" [disabled]="!validatorColor()" class="start-btn" mode="ios" expand="block" color="secondary"
       shape="round">
       <ion-icon slot="start" src="../../../../../../../assets/icons/tab/play.svg"></ion-icon>
       <span style="padding-left: 10px;padding-right: 10px;">Iniciar torneo</span>

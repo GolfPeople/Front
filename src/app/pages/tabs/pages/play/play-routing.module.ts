@@ -50,11 +50,11 @@ const routes: Routes = [
   },
   {
     path: 'score-card-tournament/:id',
-    loadChildren: () => import('./pages/score-card-tournament/score-card-tournament.module').then( m => m.ScoreCardTournamentPageModule)
+    loadChildren: () => import('./pages/score-card/score-card.module').then( m => m.ScoreCardPageModule)
   },
   {
     path: 'validate-score-card-tournament/:id',
-    loadChildren: () => import('./pages/validate-score-card-tournament/validate-score-card-tournament.module').then( m => m.ValidateScoreCardTournamentPageModule)
+    loadChildren: () => import('./pages/validate-score-card/validate-score-card.module').then( m => m.ValidateScoreCardPageModule)
   },
   {
     path: 'score-card/:id',
@@ -71,10 +71,6 @@ const routes: Routes = [
   {
     path: 'reservation-detail/:id',
     loadChildren: () => import('./pages/reservation-detail-tournament/reservation-detail-tournament.module').then( m => m.ReservationDetailTournamentPageModule)
-  },
-  {
-    path: 'reservation-tournament/:id',
-    loadChildren: () => import('./pages/reservation-tournament/reservation-tournament.module').then( m => m.ReservationTournamentPageModule)
   },
   {
     path: 'tournament-resumen',
