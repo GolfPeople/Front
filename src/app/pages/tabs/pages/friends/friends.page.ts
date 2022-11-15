@@ -63,10 +63,28 @@ export class FriendsPage implements OnInit {
     this.friendsSvc.search(this.search).subscribe(res => {
       this.loadingUsers = false;
 
+
       this.users = res.data.map(u => {
 
-        let isFriend = u.friends.filter(friend => friend.connections.status == 2)[0]
-        let pending = u.friends.filter(friend => friend.connections.status == 1)[0];
+        let friends = u.friends.filter(friend => friend.connections.status == 2)
+        let pendings = u.friends.filter(friend => friend.connections.status == 1);
+
+
+        //Verfica si entre las solicitudes de la persona existe el usuario logueado
+        let isPending = pendings.map(request => {
+          if (request.connect.filter(connect => connect.user_id == this.user_id).length) {
+            return true
+          }
+        }).filter(pending => pending)[0]
+
+
+        //Verfica si entre los amigos de la persona existe el usuario logueado
+        let isFriend = friends.map(request => {
+          if (request.connect.filter(connect => connect.user_id == this.user_id).length) {
+            return true
+          }
+        }).filter(friend => friend)[0]
+
 
         return {
           id: u.id,
@@ -74,8 +92,8 @@ export class FriendsPage implements OnInit {
           profile: u.profile,
           friends: u.friends,
           salas: u.salas,
-          isFriend: (isFriend && isFriend.connect.filter(c => c.user_id == this.user_id).length ? true : false),
-          pending: (pending && pending.connect.filter(c => c.user_id == this.user_id).length ? true : false)
+          isFriend: isFriend,
+          pending: isPending
         }
       });
 
@@ -152,11 +170,11 @@ export class FriendsPage implements OnInit {
   /**===================Dejar de seguir============== */
   async confirmUnfollow(user) {
 
-// obtener el connection_id del usuario
+    // obtener el connection_id del usuario
     user.friends.map(u => {
       u.connect.map(c => {
-        if(c.user_id == this.user_id){
-         user.connection_id = c.connection_id
+        if (c.user_id == this.user_id) {
+          user.connection_id = c.connection_id
         }
       })
     })

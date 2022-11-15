@@ -17,6 +17,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { SaveInfoModalComponent } from './pages/edit/components/save-info-modal/save-info-modal.component';
 import { ErrorAlertComponent } from './pages/edit/components/error-alert/error-alert.component';
 import { ComponentsModule } from '../../components/components.module';
+import { SwiperModule } from 'swiper/angular';
 
 @NgModule({
   entryComponents: [
@@ -35,7 +36,8 @@ import { ComponentsModule } from '../../components/components.module';
     NgChartsModule,
     ReactiveFormsModule,
     SharedModule,
-    ComponentsModule
+    ComponentsModule,
+    SwiperModule
   ],
 
   declarations: [

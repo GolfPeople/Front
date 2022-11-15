@@ -23,6 +23,11 @@ import { UsersLoaderComponent } from './users-loader/users-loader.component';
 import { SelectGolfCourseComponent } from './select-golf-course/select-golf-course.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { SwiperModule } from 'swiper/angular';
+import { GuestFormComponent } from '../pages/play/components/guest-form/guest-form.component';
+import { PlayersGroupComponent } from '../pages/play/components/players-group/players-group.component';
+import { PlayersGroupReadOnlyComponent } from '../pages/play/components/players-group-read-only/players-group-read-only.component';
+import { PlayerOptionsComponent } from '../pages/play/components/player-options/player-options.component';
 @NgModule({  
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
@@ -48,6 +53,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
     TenStarsRatingComponent, 
     UsersLoaderComponent,
     SelectGolfCourseComponent,
+    GuestFormComponent, 
+    PlayersGroupComponent,
+    PlayersGroupReadOnlyComponent,
+    PlayerOptionsComponent
      
   ],
   declarations: [
@@ -69,14 +78,19 @@ import { SharedModule } from 'src/app/shared/shared.module';
     PointsHitsModalComponent,
     TenStarsRatingComponent,
     UsersLoaderComponent,
-    SelectGolfCourseComponent  
+    SelectGolfCourseComponent,  
+    GuestFormComponent, 
+    PlayersGroupComponent,
+    PlayersGroupReadOnlyComponent,
+    PlayerOptionsComponent
   ],
   imports: [
     CommonModule, 
     IonicModule, 
     FormsModule, 
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule, 
+    SwiperModule
   ]
 })
 export class ComponentsModule { }

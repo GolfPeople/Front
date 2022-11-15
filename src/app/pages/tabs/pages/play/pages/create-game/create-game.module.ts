@@ -9,7 +9,7 @@ import { CreateGamePageRoutingModule } from './create-game-routing.module';
 import { CreateGamePage } from './create-game.page';
 import { ComponentsModule } from '../../../../components/components.module';
 import { SwiperModule } from 'swiper/angular';
-import { GuestFormComponent } from '../../components/guest-form/guest-form.component';
+
 
 @NgModule({
   imports: [
@@ -21,6 +21,6 @@ import { GuestFormComponent } from '../../components/guest-form/guest-form.compo
     ComponentsModule,
     SwiperModule
   ],
-  declarations: [CreateGamePage, GuestFormComponent]
+  declarations: [CreateGamePage]
 })
 export class CreateGamePageModule {}

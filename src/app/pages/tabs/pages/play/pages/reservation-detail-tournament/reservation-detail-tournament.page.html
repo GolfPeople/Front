@@ -1,0 +1,130 @@
+<app-header backButton="true" title="mis torneos" icon="assets/icons/tab/play.svg">
+</app-header>
+<ion-content class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+ 
+  <div *ngIf="tournaments.image" class="">
+    <div class="div-content-img"> 
+      <img class="img-tournament" src="{{tournaments.image}}">
+    </div> 
+  </div>
+
+  <div class="ion-padding-vertical content-info">
+    <div class="label title-alert">
+     <h6 class="content-text-alert"> ¡No has jugado en este campo!  </h6> 
+    </div>
+
+    <div *ngIf="tournaments.name" class="label">
+      <h5 class="title-principal">{{tournaments.name}}</h5>
+    </div> 
+    <div *ngIf="tournaments.courses" class="label subtitle-principal">
+      {{tournaments.courses.courseName}}
+    </div>
+ 
+  </div>
+
+
+
+  <div *ngIf="tournaments.date" class="ion-padding-bottom">
+    <ion-item style="--padding-bottom: 5px;" class="ion-no-padding">
+      <div class="ion-padding-bottom">
+        <div class="label title-content-principal">
+          {{tournaments.date | date:'EEEE d'}} de {{tournaments.date | date:'MMMM h:mm'}} hr.
+        </div> 
+      </div> 
+    </ion-item>
+  </div>
+
+  <div class="ion-padding-bottom">
+    <ion-item style="--padding-bottom: 5px;align-items: baseline;" class="ion-no-padding"> 
+      <div class="text-ticket">
+        <h6 class="text-content-ticket">Pago</h6>
+        <h6 class="text-content-ticket">1 Entrada
+        Cantidad Pagada
+        {{tournaments.price}} €</h6></div>
+        <div slot="end" class="container-img-card">
+        <ion-icon slot="end" class="icon-color" name="card-outline"></ion-icon>
+          <div class="title-card">Tarjeta</div>
+        </div>
+    </ion-item>
+  </div>
+
+  <div class="ion-padding-bottom" style="padding-bottom: 0;">
+    <ion-item style="--padding-bottom: 0px;align-items: baseline;" class="ion-no-padding"> 
+      <div class="text-qr">
+        <h6 class="text-content-qr">Código de Confirmación</h6>
+        <h6 class="text-code-qr">NOSBNFFODMC09</h6>
+      </div>
+        <div slot="end" class="img-qr">
+          <img src="assets/img/code-qr.png">
+        </div>
+    </ion-item>
+  </div>
+  <div class="ion-padding-bottom" style="padding-bottom: 0;">
+    <ion-item style="--padding-bottom: 0px;"  class="ion-no-padding"> 
+      <img src="assets/img/list1.png">
+      <ion-label class="text-list">Obtener Recibo</ion-label>
+    </ion-item>
+  </div>
+  <div class="ion-padding-bottom" style="padding-bottom: 0;">
+    <ion-item style="--padding-bottom: 0px;"  class="ion-no-padding">
+      <img src="assets/img/arrow2.png">
+      <ion-label class="text-list">Enviar reserva</ion-label>
+    </ion-item>
+  </div>
+  <div class="ion-padding-bottom" style="padding-bottom: 0;">
+    <ion-item style="--padding-bottom: 0px;"  class="ion-no-padding">
+      
+      <img src="assets/img/phone3.png">
+      <ion-label class="text-list">Llamar al Oganizador del Evento</ion-label>
+    </ion-item>
+  </div>
+  <div class="ion-padding-bottom" >
+    <ion-item class="ion-no-padding"> 
+      <img src="assets/img/close4.png">
+      <ion-label class="text-list">Cancelar Reserva</ion-label>
+    </ion-item>
+  </div>
+
+  <div class="ion-padding-bottom" >
+    <div class="label">
+      <h5 class="title-address">Cómo llegar</h5>
+    </div> 
+    <div class="label content-address">
+      <img src="assets/img/icon-paste.png" class="img-address">
+      <h6 class="subtitle-address">{{tournaments.address}}</h6>
+    </div>
+ 
+  </div>
+
+  
+<div class="ion-padding-vertical">
+  <div #mapElement class="map"></div>
+</div>
+
+  <div class="ion-padding-bottom" style="width: 100%;">
+   <div class="label content-address"> 
+    </div>
+    <div class="label title-description">
+      Información del Evento
+    </div> 
+    <div class="label text-tescription">
+      {{tournaments.description}} <!--a>Ver más.</a-->
+    </div>
+    <div class="ion-text-center ion-padding-top btn-submit-container">
+      <ion-button routerLink="/tabs/play/start-tournament/{{id}}"  class="game-btn" mode="ios" expand="block"
+        shape="round">
+        COMENZAR TORNEO
+      </ion-button> 
+  
+    </div>
+  </div>
+
+
+
+
+
+
+</ion-content>

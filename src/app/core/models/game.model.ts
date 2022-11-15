@@ -16,14 +16,19 @@ export interface Game {
     guests: any[]
   }
 
-export interface Tournament{
+  export class Tournament{
   photo: string;
   name: string;
+  courses: any;
   owner_name: string;
   date: string;
   course: any;
-  price: number;
-  link: string;
+  price: any;
+  link: string; 
   services: any;
+  image: string;
+  address: string;
+  lat: string;
+  long: string;
   description: string;
 }  

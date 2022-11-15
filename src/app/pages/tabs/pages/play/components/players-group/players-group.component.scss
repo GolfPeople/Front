@@ -1,0 +1,28 @@
+.players-container {
+    width: 100%;
+    min-height: 120px;
+    background: rgba(221, 221, 221, 0.2);
+    border-radius: 20px;
+    padding: 25px 15px 0px 15px;
+   margin-top: 10px;
+    ion-col{
+      padding-bottom: 10px;
+    }
+  }
+
+.toChange{
+  color: var(--ion-color-secondary);
+}
+
+.option-btn{
+position: absolute;
+font-size: 25px;
+left: 70%;
+top: 2%;
+background: var(--ion-color-secondary);
+width: 15px;
+height: 15px;
+border-radius: 100%;
+color: white;
+padding: 4px;
+}  

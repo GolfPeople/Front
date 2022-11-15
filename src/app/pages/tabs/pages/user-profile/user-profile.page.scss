@@ -12,9 +12,13 @@ ion-content {
 }
 
 ion-segment-button{
-
-  --margin-start: 10px;
-  --padding-start: 10px;
+  --margin-start: 9px;
+  --padding-start: 0px;
+  text-align: center;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  margin-right: -2px;
 
   ion-label{
     color: var(--ion-color-dark);

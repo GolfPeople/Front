@@ -39,7 +39,7 @@ SwiperCore.use([Navigation]);
 })
 export class UserProfilePage implements OnInit, AfterContentChecked {
   @ViewChild('swiper') swiper: SwiperComponent;
-
+ 
   // Posts
   posts: PostsResponse[] = [];
   page = 1;
@@ -50,6 +50,9 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
   value: string;
 
   segment = 'posts'
+
+  bolsa = []
+  clubs = []
 
   // Swiper pages
   levelTab: boolean = false;
@@ -178,6 +181,10 @@ export class UserProfilePage implements OnInit, AfterContentChecked {
       });
 
 
+  }
+
+  segmentChanged(change){
+    console.log(change)
   }
 
   ngAfterContentChecked(): void {

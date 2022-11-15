@@ -34,18 +34,21 @@ export class EditProfilePage implements OnInit {
   postsData: PostsResponse[] = [];
   isLoadingMore: boolean = false;
 
-  segment = 'posts'
+  segment = 'posts';
+  filteredChats = [];
 
   elementType = NgxQrcodeElementTypes.URL;
   correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
   value: string;
-
-
+ 
   toggleOptions = { one: 'Campos Jugados', two: 'Clubes Asociados' }
   toggle$ = new BehaviorSubject(false);
 
   courses = new BehaviorSubject([]);
   user_id: number;
+
+  clubs = [];
+  
   constructor(
     private userService: UserService,
     private modalCtrl: ModalController,
@@ -95,6 +98,10 @@ export class EditProfilePage implements OnInit {
 
   getPosts(){
 
+  }
+
+  segmentChanged(change){
+    console.log(change)
   }
 
  /**===================Mostrar Campos Jugados============== */

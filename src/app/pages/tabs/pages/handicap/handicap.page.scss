@@ -1,0 +1,105 @@
+:host {
+    .title {
+        font-weight: 700;
+        font-size: 22px;
+        color: #002a69;
+    }
+
+    .sub-title {
+        font-weight: 600;
+        font-size: 16px;
+        color: #383838;
+    }
+
+    .hf {
+        font-weight: 500;
+        font-size: 13px;
+        color: #000000;
+    }
+
+    .row-card {
+        margin-top: -8.5rem;
+        margin-bottom: 5rem;
+    }
+
+    img {
+        width: 100%;
+    }
+
+    ion-card {
+        box-shadow: none;
+        padding: 0.5rem;
+
+        ion-card-content {
+            .title {
+                font-weight: 500;
+                font-size: 13px;
+                color: #000000;
+            }
+
+            .point {
+                font-weight: 700;
+                font-size: 18px;
+                color: #000000;
+            }
+        }
+
+        &.button-green {
+            border: 2px solid #009838;
+            box-shadow: 0px 4px 9px rgba(0, 56, 139, 0.42);
+            border-radius: 19px;
+        }
+
+        &.button-blue {
+            border: 2px solid #009dd6;
+            box-shadow: 0px 4px 9px rgba(0, 56, 139, 0.42);
+            border-radius: 19px;
+        }
+    }
+
+    #canvas_h1 {
+        height: 54% !important;
+        width: 70% !important;
+        margin: auto;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 10%;
+    }
+
+    #canvas_h2 {
+        height: 34% !important;
+        width: 46% !important;
+        margin: auto;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 20%;
+    }
+
+    .label-value {
+        box-shadow: 0px 4px 9px rgb(0 56 139 / 42%);
+        border-radius: 50%;
+        height: 22% !important;
+        width: 29% !important;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 27%;
+        margin: auto;
+        background: #fff;
+        padding-top: 1.2rem;
+
+        .value {
+            color: #383838;
+            font-weight: 700;
+            font-size: 40px;
+        }
+
+        .title-value {
+            font-weight: 500;
+            font-size: 11px;
+            color: #383838;
+        }
+    }
+}

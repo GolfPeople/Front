@@ -37,7 +37,8 @@
 
   <div class="ion-padding-bottom">
     <div class="label">¿Cuando se realizará?</div>
-    <app-date-input day="true" [date]="date$"></app-date-input>
+    <app-date-input [min]="currentDate"
+     day="true" [date]="date$"></app-date-input>
   </div>
 
 
@@ -45,14 +46,16 @@
     <div class="label">
       <ion-icon color="secondary" name="location-outline"></ion-icon> ¿Donde se realizará?
     </div>
-    <div style="padding: 15px;" class="select-container">
-      <ion-skeleton-text *ngIf="loading" animated style="width: 60%"></ion-skeleton-text>
-      <ion-select *ngIf="!loading" [(ngModel)]="gameSvc.tournament.value.course" cancel-text="" interface="popover"
-        placeholder="Selecciona un campo">
-        <ion-select-option class="ion-text-wrap" *ngFor="let c of campus" [value]="c">      
-          {{c.courseName ? c.courseName : c.address}}
-        </ion-select-option>
-      </ion-select>
+    <div style="padding-bottom: 15px;">
+      <ion-item (click)="selectGolfCourse()" class="item-select" lines="none">
+        <ion-label *ngIf="campusSelected">
+          {{campusSelected.name ? campusSelected.courseName : campusSelected.address}}
+        </ion-label>
+        <ion-label *ngIf="!campusSelected">
+          Selecciona un campo
+        </ion-label>
+        <ion-icon slot="end" name="chevron-down"></ion-icon>
+      </ion-item>
     </div>
   </div>
 

@@ -1,0 +1,209 @@
+<ion-toolbar color="primary">
+  <ion-buttons slot="start">
+    <ion-back-button defaultHref="/tabs/play"></ion-back-button>
+  </ion-buttons>
+
+  <ion-title class="ion-text-center">SCORECARD</ion-title>
+
+  <ion-buttons slot="end">
+    <ion-button routerLink="/tabs/play/validate-score-card-tournament/{{id}}">
+      <ion-icon style="font-size: 23px;" src="../../../../../../../assets/icons/clipboard.svg"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>
+<ion-toolbar class="ion-text-center hole-toolbar" color="primary">
+  <ion-icon *ngIf="limit" (click)="backHole()" name="chevron-back"></ion-icon>
+  <span class="hole">HOYO {{selectedHole.value}}</span>
+  <ion-icon *ngIf="limit" (click)="nextHole()" name="chevron-forward"></ion-icon>
+</ion-toolbar>
+<ion-toolbar class="data-toolbar" color="primary">
+  <ion-buttons slot="start">
+    <ion-button>
+      <ion-icon src="../../../../../../../assets/icons/chat-points.svg"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <ion-title>
+    <div *ngIf="parHole">PAR {{parHole}} | HCP {{hcpHole}}</div>
+    <div class="ion-text-center" *ngIf="loadingCourse">
+      <ion-spinner color="light"></ion-spinner>
+    </div>
+    <div *ngIf="level && level !== 'NaN'" class="level">Dificultad:
+      <span *ngIf="level == 1">Muy Fácil</span>
+      <span *ngIf="level == 2">Fácil</span>
+      <span *ngIf="level == 3">Media</span>
+      <span *ngIf="level == 4">Difícil</span>
+      <span *ngIf="level == 5">Muy Difícil</span>
+    </div>
+
+  </ion-title>
+  <ion-buttons slot="end">
+    <ion-button (click)="likeToHole()">
+      <ion-icon [name]="liked ? 'heart' : 'heart-outline'"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>
+<ion-content class="ion-padding">
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+<ion-item lines="none"  class="ion-no-padding" *ngIf="detail">
+  <ion-label style="font-size: 14px;" class="ion-text-wrap ion-margin-right">
+   <div><strong>Modalidad:</strong> {{detail.game_init.modality}}</div> 
+   <div *ngIf="course"><strong>Campo:</strong> {{course.courseName ? course.courseName : course.address}}</div> 
+  </ion-label>
+  <span *ngIf="course" style="font-size: 17px;" class="ion-margin-left ion-text-end" slot="end">
+    <div><ion-icon color="danger" style="position: relative;top: 2px;" name="heart"></ion-icon> {{likeCounter}}</div>
+    <span *ngIf="stars.length"><ion-icon *ngFor="let s of stars" [color]="s.color" [name]="s.color == 'warning' ? 'star': 'star-outline'"></ion-icon></span> 
+    <span *ngIf="!stars.length"><ion-icon *ngFor="let s of [1,1,1,1,1]" color="medium" name="star-outline"></ion-icon></span> 
+  </span>
+</ion-item>
+
+<ion-item class="ion-no-padding" *ngIf="detail" lines="none">
+  <ion-buttons slot="start">
+    <ion-button fill="solid" color="secondary" shape="round" (click)="getGame()">
+      <ion-icon slot="start" name="refresh"></ion-icon>
+      Refrescar
+    </ion-button>
+  </ion-buttons>
+</ion-item>
+
+  <table *ngIf="detail">
+    <tr>
+      <th class="ion-text-start">Jugadores</th>
+      <th class="ion-text-center">ㅤ</th>
+      <th class="ion-text-center ion-padding">Golpes</th>
+      <th class="ion-text-center">Editar</th>     
+      <th class="ion-text-center">Puntos</th>
+    </tr>
+    <tr *ngFor="let u of players; index as i" class="bb">
+      <td>
+        <ion-avatar>
+          <img [src]="u.photo ? u.photo : 'assets/img/default-avatar.png'" />
+          <ion-icon *ngIf="u.teeColor" class="avatar-circle-icon" [style.color]="'#'+u.teeColor" name="ellipse"></ion-icon>
+        </ion-avatar>
+       
+      </td>
+      <td style="width: 100px;">
+        <div class="username">{{u.name}}</div>
+        <div class="hcp">HCP 14</div>
+      </td>
+      <td>
+        <div class="hits">{{u.hits ? u.hits : 0}}</div>
+      </td>
+      <td  [ngClass]="{'border-top': i == 0}" class="score ion-text-center">
+        <ion-icon *ngIf="detail.status == '2'" (click)="editScoreCard(u)" src="assets/icons/edit-pencil-grey.svg"></ion-icon>
+        <ion-icon *ngIf="detail.status !== '2'" src="assets/icons/edit-pencil-grey.svg"></ion-icon>
+      </td>
+    
+      <td>
+        <div class="hits">{{u.points ? u.points : 0}}</div>
+      </td>
+    </tr>
+  </table>
+ 
+
+  <table *ngIf="!detail">
+ 
+    <tr *ngFor="let item of [1,1,1,1,1,1]; index as i" class="bb">
+      <td>
+        <ion-avatar>
+          <ion-skeleton-text animated style="width: 100%;height: 100%;"></ion-skeleton-text>
+        </ion-avatar>
+      </td>
+      <td style="width: 50%;">
+        <div style="padding-bottom: 5px;" class="username">
+          <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+        </div>
+        <div class="hcp">
+          <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+        </div>
+      </td>
+      <td style="width: 50%;">
+        <div>
+          <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+        </div>
+      </td>
+
+    </tr>
+  </table>
+
+  <div style="padding-top: 70px;">
+    <table *ngIf="yds.length">
+      <tr *ngFor="let y of yds; index as i">
+        <td class="tee-label">Tee {{y.colorName}}</td>
+        <td [ngClass]="{'border-top': i == 0}" class="tee-value">
+          <div>
+            <ion-icon class="circle-icon" [style.color]="'#'+y.color" name="ellipse"></ion-icon>
+          </div>
+          <div class="yds-text">{{y.yds}}</div>
+        </td>
+      </tr>
+      <tr class="border-t border-b">
+        <td class="tee-label">PAR</td>
+        <td class="tee-value">{{parHole}}</td>
+      </tr>
+      <tr>
+        <td class="tee-label">HCP</td>
+        <td class="tee-value">{{hcpHole}}</td>
+      </tr>
+      <tr>
+        <td class="tee-label">MEN HCP</td>
+        <td class="tee-value">{{hcpHole}}</td>
+      </tr>
+      <tr>
+        <td class="tee-label">LADIES HCP</td>
+        <td class="tee-value border-bottom">{{hcpHole}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div *ngIf="yds.length" style="padding-top: 70px;">
+
+    <div class="label-title ion-text-start ion-padding-bottom">Comentarios del Hoyo {{selectedHole.value}}</div>
+
+  <div class="comment-container" *ngFor="let r of reviews.value">
+    <ion-item lines="none" class="ion-no-padding">
+      <ion-avatar>
+        <img
+          [src]="r.user.profile.photo ? r.user.profile.photo : '../../../../../../../../../assets/img/default-avatar.png'" />
+      </ion-avatar>
+      <ion-label class="ion-padding-start">
+        <div class="username">{{r.user.name}}</div>
+        <div class="role">Golfista</div>
+        <div>
+          <ion-icon *ngFor="let s of r.stars" [color]="s.color" name="star"></ion-icon>
+        </div>
+      </ion-label>
+      <span class="level" slot="end">
+        <div>Dificultad</div>
+        <div *ngIf="r.difficulty == 1" class="level-value very-easy">Muy Fácil</div>
+        <div *ngIf="r.difficulty == 2" class="level-value easy">Fácil</div>
+        <div *ngIf="r.difficulty == 3" class="level-value medium">Media</div>
+        <div *ngIf="r.difficulty == 4" class="level-value hard">Difícil</div>
+        <div *ngIf="r.difficulty == 5" class="level-value very-hard">Muy Difícil</div>
+      </span>
+    </ion-item>
+    <p *ngIf="r.description" class="comment">
+      {{r.description}}
+    </p>
+
+    <div class="date">{{ r.created_at | timeAgo}}</div>
+  </div>
+
+  <div class="no-comments" *ngIf="reviews.value.length == 0">
+    <ion-icon name="chatbox-outline"></ion-icon>
+    <h3>No hay comentarios disponibles</h3>
+  </div>
+
+ 
+    
+    <div class="ion-text-center" style="padding-top: 10px;">
+      <ion-button class="btn-comment" (click)="newReview()" color="light" expand="block" mode="ios">
+        Agregar Reseña
+        <ion-icon slot="start" class="icon-btn" color="secondary" name="add-circle-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

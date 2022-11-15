@@ -16,11 +16,12 @@ export class SelectFriendComponent implements OnInit {
   search = '';
 
   @Input() usersId = [];
+  
+
   constructor(
     private friendsSvc: FriendsService,
     public chatSvc: ChatService,
     private modalController: ModalController,
-    private firebaseSvc: FirebaseService
   ) { }
 
   ngOnInit() {
@@ -30,22 +31,31 @@ export class SelectFriendComponent implements OnInit {
 
   getPeopleWithHCP() {
     this.loading = true;
-    this.friendsSvc.searchFriend(this.search).subscribe(res => {
-      this.peopleWitHCP = res.data.filter(user => user.profile.handicap).filter(user => !this.usersId.includes(user.id));
-      
+    this.friendsSvc.search(this.search).subscribe(res => {
+      this.peopleWitHCP = res.data.filter(user => !this.usersId.includes(user.id));
+
       this.loading = false;
     })
   }
+/**
+ * It gets the people with HCP from the database and filters them by the users that are already in the
+ * group
+ */
+  // getPeopleWithHCP() {
+  //   this.loading = true;
+  //   this.friendsSvc.searchFriend(this.search).subscribe(res => {
+  //     this.peopleWitHCP = res.data.filter(user => user.profile.handicap).filter(user => !this.usersId.includes(user.id));
 
+  //     this.loading = false;
+  //   })
+  // }
+
+ /**
+  * We're filtering the peopleWitHCP array to only include the people who are checked, and then we're
+  * passing that array back to the modal
+  */
   savePlayers() {
-    let players = this.peopleWitHCP.filter(f => { return f.isChecked == true });
-
-    if (players.length <= 3) {
-      this.modalController.dismiss({ players });
-    } else {
-      this.firebaseSvc.Toast('Puedes agregar máximo 3 jugadores')
-    }
-
-
+    let players: any[] = this.peopleWitHCP.filter(f => { return f.isChecked == true });
+    this.modalController.dismiss({ players });
   }
 }
