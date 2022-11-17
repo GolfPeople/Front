@@ -9,7 +9,6 @@ import {
 } from '@angular/forms';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import {
-  LoadingController,
   AlertController,
   ModalController,
   Platform,
@@ -53,7 +52,6 @@ export class LoginPage implements OnInit {
   constructor(
     private loginService: LoginService,
     private router: Router,
-    private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     private loadingSvc: LoadingService,
     private modalCtrl: ModalController,
@@ -83,18 +81,18 @@ export class LoginPage implements OnInit {
   login(user) {
     this.loadingSvc.presentLoading();
     this.firebaseSvc.Login(user).then(res => {
-      this.loadingCtrl.dismiss();
+      // this.loadingSvc.dismissLoading();
       console.log(res);
 
       this.loginDB(user)
     }, error => {
-      this.loadingCtrl.dismiss();
+      this.loadingSvc.dismissLoading();
       this.firebaseSvc.Toast(error.error);
     })
   }
 
   loginDB({ email, password }) {
-    this.loadingSvc.presentLoading();
+    // this.loadingSvc.presentLoading();
 
 
     this.loginService.login({ email, password }).subscribe(
@@ -103,11 +101,11 @@ export class LoginPage implements OnInit {
         // this.loginService.isLogged$.subscribe((data) => console.log(data));
         this.isLoading = false;
         this.getUserInfo(false);
-        this.loadingCtrl.dismiss();
+        this.loadingSvc.dismissLoading();
 
       },
       (errRes) => {
-        this.loadingCtrl.dismiss();
+        this.loadingSvc.dismissLoading();
         let message;
         errRes === 'Credenciales incorrectas'
           ? (message = 'Datos incorrectos, intenta de nuevo.')
@@ -123,7 +121,7 @@ export class LoginPage implements OnInit {
     this.userService.getUserInfoToSave().subscribe((data) => {
       this.userService.user.next(data);
       this.userService.userPhoto.next(data.profile.photo);
-      this.loadingCtrl.dismiss();
+      this.loadingSvc.dismissLoading();
 
       localStorage.setItem('user_id', data.id)
 
@@ -135,7 +133,7 @@ export class LoginPage implements OnInit {
 
     }, error => {
       this.firebaseSvc.Toast('Ha ocurrido un error, intenta de nuevo')
-      this.loadingCtrl.dismiss();
+      this.loadingSvc.dismissLoading();
     });
   }
 
