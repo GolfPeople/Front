@@ -8,11 +8,15 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { CampusDataService } from '../../../campus/services/campus-data.service';
 import { NewReviewComponent } from '../../../campus/pages/campus-detail/components/new-review/new-review.component';
 import { PointsHitsModalComponent } from 'src/app/pages/tabs/components/points-hits-modal/points-hits-modal.component';
+import { COEFICIENTE } from 'src/app/core/constant';
+
+
 @Component({
   selector: 'app-score-card',
   templateUrl: './score-card.page.html',
   styleUrls: ['./score-card.page.scss'],
 })
+
 export class ScoreCardPage implements OnInit {
 
   id;
@@ -168,13 +172,13 @@ export class ScoreCardPage implements OnInit {
     return hits;
   }
 
-  golpesExtras(users){
+  golpesExtras(users: any[]){
     
     this.campusSvg.getCourseGames(this.detail.campuses_id).subscribe(course => {
       this.course = course;
       const porcentaje = 0.95;
-
-      users.filter(user=>{
+      
+      users.filter( user =>{
   
         let gender = '';
         if (user.data.profile.gender == 2){
@@ -191,52 +195,57 @@ export class ScoreCardPage implements OnInit {
     
         this.getTeesLists();
         let genderColor = gender + user.teeColor;
-        let myTeelist = this.teesLists[genderColor];
+        
+        let myTeelist : Tee | undefined = this.teesLists[genderColor];
+        
+        if (!!myTeelist) {
+          let hcpJuego = Math.round(porcentaje * (parseFloat(user.data.profile.handicap) * myTeelist.slope / COEFICIENTE + myTeelist.rating - myTeelist.parTotal));
 
-        let hcpJuego = Math.round(porcentaje * (parseFloat(user.data.profile.handicap) * myTeelist.slope / 113 + myTeelist.rating - myTeelist.parTotal));
+          let golpesExtra = [];
 
-        let golpesExtra = [];
+          for (var i = 0; i < this.course.layoutTotalHoles; i++) {
 
-        for (var i = 0; i < this.course.layoutTotalHoles; i++) {
+            let goplesExtraMinimoHoyo = Math.trunc(hcpJuego / this.course.layoutTotalHoles);
+            let golpesExtraSobrante = 0;
+        
+            if (goplesExtraMinimoHoyo == 0){
+              golpesExtraSobrante = hcpJuego;
+            }
+            else if (goplesExtraMinimoHoyo > 3){
+              goplesExtraMinimoHoyo = 4;
+              golpesExtraSobrante = 0;
+            }
+            else{
+              golpesExtraSobrante = hcpJuego - (goplesExtraMinimoHoyo * this.course.layoutTotalHoles);
+            }
+        
+            golpesExtra[i] = goplesExtraMinimoHoyo;
+            if (myTeelist.hcpHole[i] <= golpesExtraSobrante){
+                golpesExtra[i] = 1 + goplesExtraMinimoHoyo;
+            }
 
-          let goplesExtraMinimoHoyo = Math.trunc(hcpJuego / this.course.layoutTotalHoles);
-          let golpesExtraSobrante = 0;
-      
-          if (goplesExtraMinimoHoyo == 0){
-            golpesExtraSobrante = hcpJuego;
           }
-          else if (goplesExtraMinimoHoyo > 3){
-            goplesExtraMinimoHoyo = 4;
-            golpesExtraSobrante = 0;
-          }
-          else{
-            golpesExtraSobrante = hcpJuego - (goplesExtraMinimoHoyo * this.course.layoutTotalHoles);
-          }
-      
-          golpesExtra[i] = goplesExtraMinimoHoyo;
-          if (myTeelist.hcpHole[i] <= golpesExtraSobrante){
-              golpesExtra[i] = 1 + goplesExtraMinimoHoyo;
-          }
 
+          let hcpJuegoUser = { UserId: user.data.profile.user_id, hcpJuego: hcpJuego, golpesExtra: golpesExtra };
+          this.hitsExtraData[user.data.profile.user_id] = hcpJuegoUser;
+          //this.hitsExtraData.push(hcpJuegoUser);
         }
-
-        let hcpJuegoUser = { UserId: user.data.profile.user_id, hcpJuego: hcpJuego, golpesExtra: golpesExtra };
-        this.hitsExtraData[user.data.profile.user_id] = hcpJuegoUser;
-        //this.hitsExtraData.push(hcpJuegoUser);
 
       })
     })
   }
 
-  golpesExtrasUser(user: number){
+  golpesExtrasUser(user: number) {
     return this.hitsExtraData.filter(x => { return x.UserId == user; });
   }
   
   getTeesLists() {
+    
     for (let t of JSON.parse(this.course.teesList).teesList) {
       let genderColor = t.gender + t.teeColorValue;
-      let slope, rating, parTotal, hcpHole, parHole = 0;
-
+      let slope, rating, parTotal : number = 0;
+      let hcpHole, parHole : Array<number> = [];
+      
       if (t.gender == "men"){
         slope = t.slopeMen;
         rating = t.ratingMen;
@@ -252,7 +261,7 @@ export class ScoreCardPage implements OnInit {
         parHole = JSON.parse(this.course.scorecarddetails).wmnScorecardList[0].parHole;
       }
 
-      this.teesLists[genderColor] = {
+      const TeeList: Tee = {
         gender: t.gender, 
         rating: rating, 
         slope: slope, 
@@ -262,6 +271,8 @@ export class ScoreCardPage implements OnInit {
         hcpHole: hcpHole,
         parHole: parHole
       };
+
+      this.teesLists[genderColor] = TeeList;
     }
   }
 
@@ -593,4 +604,15 @@ export class ScoreCardPage implements OnInit {
     });
 
   }
+}
+
+interface Tee{
+  gender: string;
+  rating: number;
+  slope: number;
+  teeColorValue: string;
+  teeColorName: string;
+  parTotal: number;
+  hcpHole: Array<number>;
+  parHole: Array<number>;
 }
