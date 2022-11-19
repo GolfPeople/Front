@@ -301,43 +301,33 @@ export class ScoreCardPage implements OnInit {
 
   }
 
+  getAllData() {
+    this.getHoleData();
+    this.getHoleLikes();
+    this.getPlayersData();
+    this.getHCPYPAR();
+    this.getYds();
+
+    if (this.course.reviews) {
+      this.getRating();
+      this.getHoleLevel();
+      this.filterReviews();
+    }
+  }
+
   nextHole() {
     if (this.selectedHole.value < this.limit) {
       this.selectedHole.next(this.selectedHole.value + 1);
-
-      this.getHoleData();
-      this.getHoleLikes();
-      this.getPlayersData();
-      this.getHCPYPAR();
-      this.getYds();
-
-      if (this.course.reviews) {
-        this.getRating();
-        this.getHoleLevel();
-        this.filterReviews();
-      }
-      
+      this.getAllData();
     }
   }
 
   backHole() {
     if (this.selectedHole.value > 1) {
       this.selectedHole.next(this.selectedHole.value - 1);
-      this.getHoleData();
-      this.getHoleLikes();
-      this.getPlayersData();
-      this.getHCPYPAR();
-      this.getYds();
-
-      if (this.course.reviews) {
-        this.getRating();
-        this.getHoleLevel();
-        this.filterReviews();
-      }
+      this.getAllData();
     }
   }
-
-
 
   async newReview() {
     const modal = await this.modalController.create({
@@ -358,60 +348,55 @@ export class ScoreCardPage implements OnInit {
       this.getGame();
     }
   }
-  getGame() {
+  async getGame() {
     this.loadingCourse = true;
-    this.gameSvc.getAllGames().subscribe(res => {
+    const res = await this.gameSvc.getAllGames().toPromise();
+    
+    this.gameSvc.games$.next(res.data.reverse().map(g => {
 
-      this.gameSvc.games$.next(res.data.reverse().map(g => {
-
-        return {
-          campuses_id: g.campuses_id,
-          address: g.address,
-          created_at: g.created_at,
-          points: g.points,
-          date: g.date,
-          id: g.id,
-          lat: g.lat,
-          long: g.long,
-          name: g.name,
-          game_init: g.game_init,
-          reserves: g.reserves,
-          isOwner: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.status == '4').length ? true : false),
-          owner_id: g.users.filter(u => u.status == '4')[0].user_id,
-          users: g.users.filter(u => { return ['2', '4'].includes(u.status) }),
-          fav: false,
-          isMember: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.status == '2').length ? true : false),
-          status: g.status,
-          request_users: g.request_users,
-          isInvited: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.status == '1').length ? true : false),
-          pending: (g.request_users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id'))).length ? true : false)
-        }
-      }))
-
-      this.detail = this.gameSvc.games$.value.filter(res => res.id == this.id)[0];
-      //console.log(this.detail);
-
-
-      if (this.detail.game_init.path == '1') {
-        this.limit = 18;
-      } else {
-        this.limit = 9;
+      return {
+        campuses_id: g.campuses_id,
+        address: g.address,
+        created_at: g.created_at,
+        points: g.points,
+        date: g.date,
+        id: g.id,
+        lat: g.lat,
+        long: g.long,
+        name: g.name,
+        game_init: g.game_init,
+        reserves: g.reserves,
+        isOwner: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.status == '4').length ? true : false),
+        owner_id: g.users.filter(u => u.status == '4')[0].user_id,
+        users: g.users.filter(u => { return ['2', '4'].includes(u.status) }),
+        fav: false,
+        isMember: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.status == '2').length ? true : false),
+        status: g.status,
+        request_users: g.request_users,
+        isInvited: (g.users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id')) && u.status == '1').length ? true : false),
+        pending: (g.request_users.filter(u => u.user_id == JSON.parse(localStorage.getItem('user_id'))).length ? true : false)
       }
+    }))
 
+    this.detail = this.gameSvc.games$.value.filter(res => res.id == this.id)[0];
+    //console.log(this.detail);
 
-      this.getPlayersData();
-      this.getHoleData();
-      this.getHoleLikes();
-      this.getusersExtrahits(); 
-      this.getGolfCourse(this.detail);
-    })
+    if (this.detail.game_init.path == '1') {
+      this.limit = 18;
+    } else {
+      this.limit = 9;
+    }
+
+    this.getPlayersData();
+    this.getHoleData();
+    this.getHoleLikes();
+    this.getusersExtrahits(); 
+    await this.getGolfCourse(this.detail);
   }
 
   getusersExtrahits() {
     this.golpesExtras(this.detail.users);
   }
-
-
 
   getHoleData() {
     this.holeData = this.detail.points.filter(res => res.hole == this.selectedHole.value.toString());
@@ -448,27 +433,23 @@ export class ScoreCardPage implements OnInit {
     })
   }
 
-  getGolfCourse(game) {
+  async getGolfCourse(game) {
     this.loadingCourse = true;
-    this.campusSvg.getCourseGames(game.campuses_id).subscribe(res => {
+    const res = await this.campusSvg.getCourseGames(game.campuses_id).toPromise();
+    this.course = res;
+    this.course.teesList = JSON.parse(this.course.teesList);
+    this.course.scorecarddetails = JSON.parse(this.course.scorecarddetails);
 
-      this.course = res;
-      this.course.teesList = JSON.parse(this.course.teesList);
-      this.course.scorecarddetails = JSON.parse(this.course.scorecarddetails);
+    this.getHCPYPAR();
+    this.getYds();
 
+    if (this.course.reviews) {
+      this.getRating();
+      this.getHoleLevel();
+      this.filterReviews();
+    }
 
-      this.getHCPYPAR();
-      this.getYds();
-
-      if (this.course.reviews) {
-        this.getRating();
-        this.getHoleLevel();
-        this.filterReviews();
-      }
-
-      this.loadingCourse = false;
-    })
-
+    this.loadingCourse = false;
   }
 
   getRating() {
