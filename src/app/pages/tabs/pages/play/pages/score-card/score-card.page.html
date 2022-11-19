@@ -12,9 +12,9 @@
   </ion-buttons>
 </ion-toolbar>
 <ion-toolbar class="ion-text-center hole-toolbar" color="primary">
-  <ion-icon *ngIf="limit" (click)="backHole()" name="chevron-back"></ion-icon>
+  <ion-icon *ngIf="limit && loadedData" (click)="backHole()" name="chevron-back"></ion-icon>
   <span class="hole">HOYO {{selectedHole.value}}</span>
-  <ion-icon *ngIf="limit" (click)="nextHole()" name="chevron-forward"></ion-icon>
+  <ion-icon *ngIf="limit && loadedData" (click)="nextHole()" name="chevron-forward"></ion-icon>
 </ion-toolbar>
 <ion-toolbar class="data-toolbar" color="primary">
   <ion-buttons slot="start">

@@ -25,6 +25,8 @@ export class ScoreCardPage implements OnInit {
   selectedHole = new BehaviorSubject(1);
   reviews = new BehaviorSubject([])
 
+  loadedData: boolean = false;
+
   hcpHole;
   parHole;
   level;
@@ -62,13 +64,14 @@ export class ScoreCardPage implements OnInit {
 
   }
 
-  ionViewWillEnter() {
-    this.getGame();
+  async ionViewWillEnter() {
+    await this.getGame();
   }
 
   doRefresh(event) {
-    setTimeout(() => {
-      this.ionViewWillEnter();
+    this.loadedData = false;
+    setTimeout(async () => {
+      await this.ionViewWillEnter();
       event.target.complete();
     }, 500)
   }
@@ -278,6 +281,7 @@ export class ScoreCardPage implements OnInit {
 
 
   async writePointsAndHits(user) {
+    this.loadedData = false;
     let data = {
       user_id: user.id,
       hole: this.selectedHole.value,
@@ -290,15 +294,9 @@ export class ScoreCardPage implements OnInit {
     const loading = await this.firebaseSvc.loader().create();
     await loading.present();
 
-    this.gameSvc.writePointsAndHits(this.detail.id, data).subscribe(res => {
-      this.getGame();
-      loading.dismiss();
-    }, error => {
-      console.log(error);
-
-      loading.dismiss();
-    })
-
+    await this.gameSvc.writePointsAndHits(this.detail.id, data).toPromise();
+    await this.getGame();
+    loading.dismiss();
   }
 
   getAllData() {
@@ -345,10 +343,11 @@ export class ScoreCardPage implements OnInit {
     const { data } = await modal.onWillDismiss();
 
     if (data) {
-      this.getGame();
+      await this.getGame();
     }
   }
   async getGame() {
+    this.loadedData = false;
     this.loadingCourse = true;
     const res = await this.gameSvc.getAllGames().toPromise();
     
@@ -439,7 +438,8 @@ export class ScoreCardPage implements OnInit {
     this.course = res;
     this.course.teesList = JSON.parse(this.course.teesList);
     this.course.scorecarddetails = JSON.parse(this.course.scorecarddetails);
-
+    
+    this.loadedData = true;
     this.getHCPYPAR();
     this.getYds();
 
@@ -468,7 +468,6 @@ export class ScoreCardPage implements OnInit {
           this.stars.push({ color: 'medium' })
         }
       }
-
 
     })
     if (!op.length) {
@@ -550,7 +549,6 @@ export class ScoreCardPage implements OnInit {
     });
 
   }
-
 
   getPlayersData() {
     this.players = this.detail.users.map(u => {
