@@ -23,6 +23,7 @@ export class FriendsListPage implements OnInit {
 
   usersFiltered = [];
   searchResult: string = '';
+  userCheckeds = [];
 
   type: string;
   constructor(
@@ -48,6 +49,22 @@ export class FriendsListPage implements OnInit {
     }
   }
 
+  isChecked(value) {
+    return (this.userCheckeds.findIndex(v => v == value) >= 0);
+  }
+
+  addUsertoChecked(e: any) {
+    if (e.target.checked) {
+      if(!this.isChecked(e.target.value))
+        this.userCheckeds.push(e.target.value);
+    } else {
+      const index = this.userCheckeds.findIndex( v => v == e.target.value);
+      this.userCheckeds.splice(index,1);
+    }
+
+    console.log("this.userCheckeds::> ",this.userCheckeds);
+  }
+
   ionViewWillEnter() {
     if (this.type == 'single') {
       this.toggle$.next(false);
@@ -66,7 +83,7 @@ export class FriendsListPage implements OnInit {
 
   getUsers() {
     this.loading = true;
-    this.friendsSvc.search('').subscribe(res => {
+    this.friendsSvc.searchFriend('').subscribe(res => {
       this.chatSvc.friends$.next(res.data);
       this.usersFiltered = this.chatSvc.friends$.value
       this.loading = false;
@@ -74,9 +91,11 @@ export class FriendsListPage implements OnInit {
   }
 
   filterUsers() {
-    if (this.searchResult) {
-      this.usersFiltered = this.chatSvc.friends$.value.filter(user => {
-        return user.name.toLocaleLowerCase().includes(this.searchResult.toLocaleLowerCase())
+    if (this.searchResult.length > 2) {
+      this.loading = true;
+      this.friendsSvc.searchFriend(this.searchResult.toLocaleLowerCase()).subscribe(res => {
+        this.usersFiltered = res.data
+        this.loading = false;
       })
     } else {
       this.usersFiltered = this.chatSvc.friends$.value
@@ -100,8 +119,10 @@ export class FriendsListPage implements OnInit {
                 message: e.payload.doc.data()['message'],
               };
             });
-            r.lastmsg = msg[0].message
-            r.unreadMsg = msg.filter(message => message.read == false && message.user_id !== JSON.parse(localStorage.getItem('user_id'))).length;
+            if(!!msg){
+              r.lastmsg = msg[0].message
+              r.unreadMsg = msg.filter(message => message.read == false && message.user_id !== JSON.parse(localStorage.getItem('user_id'))).length;
+            }
           })
       }
       this.chatSvc.rooms$.next(rooms);
@@ -155,10 +176,10 @@ export class FriendsListPage implements OnInit {
     })
   }
 
-
   async createGroupName() {
-    let users = this.chatSvc.friends$.value.filter(e => { return e.isChecked == true });
-    if (users.length > 1) {
+    // let users = this.chatSvc.friends$.value.filter(e => { return e.isChecked == true });
+
+    if (this.userCheckeds.length > 1) {
       const alert = await this.alertCtrl.create({
         cssClass: 'my-custom-class',
         header: 'Ingresa el nombre del grupo',
@@ -178,7 +199,7 @@ export class FriendsListPage implements OnInit {
           }, {
             text: 'Aceptar',
             handler: (res) => {
-              this.createGrupalChatRoom(res.name, users);
+              this.createGrupalChatRoom(res.name, this.userCheckeds);
             }
           }
         ]
@@ -191,9 +212,9 @@ export class FriendsListPage implements OnInit {
   }
 
   async createGrupalChatRoom(groupName, users) {
-    let usersId = [];
-    usersId = users.map(u => { return (u.id) })
-    let data = { users: usersId, name: groupName }
+    // let usersId = [];
+    // usersId = users.map(u => { return (u.id) })
+    let data = { users: this.userCheckeds, name: groupName }
     const loading = await this.firebaseService.loader().create();
     await loading.present();
 

@@ -181,11 +181,11 @@ export class ChatRoomPage implements OnInit {
                 created_at: e.payload.doc.data()['created_at'],
               };
             })
-
-            r.lastmsg = msg[0].message
-            r.lastDate = msg[0].created_at.toDate();
-            r.unreadMsg = msg.filter(message => { return message.read == false && message.user_id !== this.uid }).length;
-
+            if(msg.length > 0) {
+              r.lastmsg = msg[0].message
+              r.lastDate = msg[0].created_at.toDate();
+              r.unreadMsg = msg.filter(message => { return message.read == false && message.user_id !== this.uid }).length;
+            }
           })
       }
       this.chatSvc.rooms$.next(rooms);

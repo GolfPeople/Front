@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "248337356424",
+    "firebase_url": "https://golf-people-default-rtdb.firebaseio.com",
+    "project_id": "golf-people",
+    "storage_bucket": "golf-people.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248337356424:android:3a46a8b8129aca9b94313d",
+        "android_client_info": {
+          "package_name": "com.golfpeople.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "248337356424-0663f81e2hddih8p0kj5arpj4q1b4033.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.golfpeople.app",
+            "certificate_hash": "b468e0974695641737897e725a26722a0ea0176b"
+          }
+        },
+        {
+          "client_id": "248337356424-1n8q46d66lm45c7d2jpammq8d3n4t6u0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.golfpeople.app",
+            "certificate_hash": "6f7be54a39d13f3b703071c45518bc7ad4ea8f5d"
+          }
+        },
+        {
+          "client_id": "248337356424-rrkfhjgnjpaqlnlekm24u92vdpnkdq26.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.golfpeople.app",
+            "certificate_hash": "09b3686c301d7c3bed80722fa26f5aaafa7d3140"
+          }
+        },
+        {
+          "client_id": "248337356424-rga3dmm2ejeoj5v5m1o5fnian9213jjq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIz-mEchU00hYYqiGHTCmWNqWO78CZOcI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248337356424-rga3dmm2ejeoj5v5m1o5fnian9213jjq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "248337356424-lorl1f322ct1kr0kcnmlj8gilc90q5pk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.golfpeople.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
