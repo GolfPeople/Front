@@ -1,4 +1,4 @@
-<app-header backButton="true" icon="../../../../assets/icons/message.svg" title="Nuevo Chat"></app-header>
+<app-header backButton="/tabs/chat-room" icon="../../../../assets/icons/message.svg" title="Nuevo Chat"></app-header>
 <ion-content class="ion-padding">
   <app-toggle-options [toggle]="toggle$" [options]="toggleOptions"></app-toggle-options>
   <!--============== Refrescar friends============== -->
@@ -44,7 +44,7 @@
               <div *ngIf="f.profile.address" class="country">{{f.profile.address}}</div>
               <div *ngIf="f.profile.handicap" class="hcp">HCP {{f.profile.handicap}}</div>
             </ion-label>
-            <ion-checkbox [(ngModel)]="f.isChecked"></ion-checkbox>
+            <ion-checkbox (ionChange)="addUsertoChecked($event)" [ngModel]="isChecked(f.id)" [value]="f.id"></ion-checkbox>
           </ion-item>
         </div>
       </div>
