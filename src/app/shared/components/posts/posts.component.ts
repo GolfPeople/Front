@@ -5,7 +5,6 @@ import {
   Input,
   Output,
   EventEmitter,
-  HostListener,
   Inject,
   ViewChild,
   ElementRef,
@@ -22,9 +21,6 @@ export class PostsComponent implements OnInit {
   @Input() posts: PostsResponse[];
   @Input() loadingMore: boolean = false;
   @Output() loadMore = new EventEmitter();
-
-  private hideScrollHeight = 200;
-  private showScrollheight = 500;
 
   constructor(@Inject(DOCUMENT) private document: Document) {}
 

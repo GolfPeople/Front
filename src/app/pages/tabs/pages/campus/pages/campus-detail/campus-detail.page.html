@@ -2,7 +2,7 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-grid style="width: 100%;" fixed>
+  <ion-grid style="width: 100%;" fixed *ngIf="detail">
     <ion-row>
       <ion-col size="12">
         <ion-toolbar style="--background: transparent;">
@@ -87,7 +87,7 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-<div  style="padding-top: 50%;">
+  <div style="padding-top: 50%;">
     <ion-spinner color="light"></ion-spinner>
-</div>
+  </div>
 </ion-content>

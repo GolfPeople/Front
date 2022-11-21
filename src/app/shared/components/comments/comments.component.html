@@ -1,11 +1,14 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-button (click)="closeModal()">
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Comentarios</ion-title>
+    <ion-title class="ion-text-center">
+      <ion-icon name="chatbubble-outline"></ion-icon>
+      Comentarios
+    </ion-title>
   </ion-toolbar>
   <ion-item>
     <ion-label
@@ -17,7 +20,7 @@
 <ion-content>
   <ion-item class="comment" lines="none" *ngFor="let comment of comments">
     <ion-avatar class="ion-margin-end">
-      <img [src]="comment.user.profile.photo" />
+      <img [src]="comment.user.profile.photo || 'assets/img/default-avatar.png'" />
     </ion-avatar>
     <ion-label class="normal">
       {{ comment.user.name }}

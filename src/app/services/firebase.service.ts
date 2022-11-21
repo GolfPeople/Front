@@ -163,11 +163,12 @@ export class FirebaseService {
 
 
   async uploadPhoto(id, file): Promise<any> {
-    const storage = getStorage();
-    const storageRef = ref(storage, id);
-    return uploadString(storageRef, file, 'data_url').then(res => {
-      return this.storage.ref(id).getDownloadURL().toPromise();
-    })
+    console.log("STORAGE DE FIREBASE NO DISPONIBLE");
+    // const storage = getStorage();
+    // const storageRef = ref(storage, id);
+    // return uploadString(storageRef, file, 'data_url').then(res => {
+    //   return this.storage.ref(id).getDownloadURL().toPromise();
+    // })
   }
 
   async logout() {

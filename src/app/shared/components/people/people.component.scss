@@ -12,9 +12,14 @@
   border: 1px solid #dddddd;
   border-radius: 10px;
 
+  ion-card-content{
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
   ion-avatar {
-    width: 100px;
-    height: 100px;
+    width: 75px;
+    height: 75px;
     margin-bottom: 5px;
   }
 
@@ -24,7 +29,8 @@
     font-size: 1.3rem;
     line-height: 1.7rem;
     color: #000;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
+    height: 42px;
   }
 
   a {
