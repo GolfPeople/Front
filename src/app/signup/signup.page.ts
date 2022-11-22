@@ -173,8 +173,7 @@ export class SignupPage implements OnInit {
       this.userService.user.next(data);
       this.userService.userPhoto.next(data.profile.photo);
       this.loadingCtrl.dismiss();
-     console.log(data);
-      localStorage.setItem('user_gender_id', data.profile.gender);
+
       localStorage.setItem('user_id', data.id)
 
       this.router.navigate(['/complete-profile']);

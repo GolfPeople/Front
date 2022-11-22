@@ -10,7 +10,7 @@
         Guardar
       </ion-button>
     </div>
-    <div *ngIf="isInvited == true" class="btn">
+    <div class="btn">
       <ion-button (click)="validateGame()" color="success" mode="ios" shape="round">
         <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
         Validar
@@ -34,7 +34,7 @@
       <div class="date">{{ detail.date | date:'dd MMMM y'}}</div>
     </ion-label>
     <span class="modality" slot="end">
-      {{detail.tournament_init.modality}}
+      {{detail.game_init.modality}}
     </span>
   </ion-item>
 
@@ -168,7 +168,7 @@
 
 
 <div *ngIf="detail && (detail.status == '2' && !detail.validate)" class="ion-text-center ion-padding-top">
-  <div *ngIf="isInvited == true" class="ion-padding-vertical">
+  <div class="ion-padding-vertical">
     <ion-button (click)="validateGame()" class="btn-bottom" color="success" mode="ios" shape="round">
       <ion-icon slot="start" name="checkmark-circle-outline"></ion-icon>
       Validar Resultados

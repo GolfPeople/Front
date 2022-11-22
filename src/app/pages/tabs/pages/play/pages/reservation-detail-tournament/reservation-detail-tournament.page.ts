@@ -18,15 +18,13 @@ export class ReservationDetailTournamentPage implements OnInit {
   public id :string;
   tournaments : Tournament;
   loading: boolean;
-  isMember:any;
-  isInvited= false;
   constructor(
     private route:ActivatedRoute,
     public tournamentSvc: TournamentService,
     private loadingCtrl: LoadingController
   ) {
     this.tournaments = new Tournament();
-   } 
+   }
   
 
   async ngOnInit() {
@@ -36,24 +34,15 @@ export class ReservationDetailTournamentPage implements OnInit {
 
     await loading.present();
     this.id = this.route.snapshot.paramMap.get('id');
-   // console.log(this.id);
+    console.log(this.id);
 
     this.tournamentSvc.getTournamentDetail(this.id).subscribe(res => {
       
       this.tournaments = res;
-      (res.players.filter(u => 
-        {
-          if(u.user.id == JSON.parse(localStorage.getItem('user_id')) &&  u.admin == 1){
-            this.isInvited = true; 
-           } 
-        }));
-      this.isMember = (res.players.filter(u => u.user.id == JSON.parse(localStorage.getItem('user_id')) && ['2', '4'].includes(u.status)).length ? true : false);
-     
       if (res.lat) {
-
         this.createMap(res.lat, res.long);
       }
-   //   console.log(this.tournaments);
+      console.log(this.tournaments);
       loading.dismiss();
     })
 
@@ -61,7 +50,7 @@ export class ReservationDetailTournamentPage implements OnInit {
 
   
   ngAfterViewInit(): void {
-   // this.createMap();   
+   // this.createMap();  
   }
 
   doRefresh(event) {

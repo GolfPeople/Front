@@ -28,7 +28,11 @@ import { DesignerAvatarComponent } from './components/designer-avatar/designer-a
 import { CampoCardComponent } from './components/campo-card/campo-card.component';
 import { EventCardComponent } from './components/event-card/event-card.component';
 import { ProductsComponent } from './components/products/products.component';
+import { LanguageSelectorComponent } from './components/language-selector/language-selector.component'
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { AppSettingsConfig } from '../core/services/configs/app-settings.config';
+import { CurrentUserService } from '../core/services/current-user.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 const components = [
   SelectDateComponent,
@@ -50,7 +54,8 @@ const components = [
   PublicAvatarComponent,
   DesignerAvatarComponent,
   CampoCardComponent,
-  EventCardComponent
+  EventCardComponent,
+  LanguageSelectorComponent
 ];
 
 @NgModule({
@@ -65,6 +70,10 @@ const components = [
     FormsModule,
     RouterModule,
     ImageCropperModule,   
+  ],
+  providers: [
+    AppSettingsConfig,
+    CurrentUserService
   ],
   exports: [components, JsonToDataPipe],
 })

@@ -1,0 +1,90 @@
+<ion-content>
+  <ion-grid style="padding: 3rem;padding-top: 4rem;">
+    <ion-row>
+      <ion-col class="ion-text-center ion-align-items-center" size="12">
+        <ion-label class="title">!EXCELENTE PARTIDA JOSÉ! <br />
+          SIGUE ASÍ
+        </ion-label>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col class="ion-text-center ion-align-items-center" size="12">
+        <ion-label class="sub-title">Tu handicap GolfPeople ha bajado a</ion-label>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12" class="ion-text-center">
+        <img src="assets/icons/handicap.svg" alt="" />
+        <canvas id="canvas_h1" #canvas_h1 width="100" height="100"></canvas>
+        <canvas id="canvas_h2" #canvas_h2 width="100" height="100"></canvas>
+        <label for="" class="label-value">
+          <p class="value">{{valueHandicap}}</p>
+          <p class="title-value" [innerHtml]="titleHandicap"></p>
+        </label>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="row-card">
+      <ion-col size="5">
+        <ion-card button (click)="buttonSelect = 'hf';valueHandicap = 9.10;updateGraphDataH2([valueHandicap, 10-valueHandicap]);titleHandicap = 'Handicap <br/> <strong>Federativo</strong>'" [ngClass]="{'button-green': buttonSelect === 'hf'}">
+          <ion-card-content class="ion-no-padding">
+            <ion-grid class="ion-no-padding">
+              <ion-row>
+                <ion-col size="3" class="ion-align-self-center ion-text-center">
+                  <ion-icon name="ellipse" style="color: #009838;"></ion-icon>
+                </ion-col>
+
+                <ion-col size="9">
+                  <ion-label class="hf ion">
+                    <p class="title">
+                      Handicap <br />
+                      Federativo
+                    </p>
+                    <p class="point">9.10</p>
+                  </ion-label>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="2"></ion-col>
+
+      <ion-col size="5" class="ion-text-center">
+        <ion-card button (click)="buttonSelect = 'hg';valueHandicap = 4.50;updateGraphDataH2([valueHandicap, 10-valueHandicap]);titleHandicap = 'Handicap <br/> <strong>GolfPeople</strong>'" [ngClass]="{'button-blue': buttonSelect === 'hg'}">
+          <ion-card-content class="ion-no-padding">
+            <ion-grid class="ion-no-padding">
+              <ion-row>
+                <ion-col size="3" class="ion-align-self-center ion-text-center">
+                  <ion-icon name="ellipse" style="color: #009dd6;"></ion-icon>
+                </ion-col>
+
+                <ion-col size="9" class="ion-text-center">
+                  <ion-label class="hf">
+                    <p class="title">
+                      Handicap <br />
+                      GolfPeople
+                    </p>
+                    <p class="point">4.50</p>
+                  </ion-label>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col class="ion-text-center ion-align-items-center" size="12">
+        <ion-button shape="round" expand="block" fill="outline">
+          <ion-icon name="share-social" class="ion-margin-end"></ion-icon>
+          Compartir Resultados
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

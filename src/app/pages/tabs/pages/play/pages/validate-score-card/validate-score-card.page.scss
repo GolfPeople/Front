@@ -70,7 +70,7 @@ ion-button{
     font-size: 13px;
 }
 
-.modality, .scoringMode{
+.modality{
     color: var(--ion-color-medium);
 }
 table{
@@ -100,7 +100,7 @@ table{
     border-bottom: 1px solid #ddd;
 
     td{
-        padding-top: 15px;
+        padding-top: 15px !important;
         padding-bottom: 10px;
 
         &.first{

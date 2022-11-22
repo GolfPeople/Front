@@ -1,0 +1,19 @@
+<ion-button id="click-trigger" >
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <img class="flag mr-24" [src]="selectedLanguage.icon" width="16px">
+    <span class="iso text-uppercase">{{ (selectedLanguage?.value || 'fi-FI') }}</span>
+  </div>
+</ion-button >
+
+<ion-popover trigger="click-trigger" triggerAction="click">
+  <ng-template>
+    <ion-content class="ion-padding">
+      <ion-button *ngFor="let lang of languages" (click)="selectLanguage(lang)">
+        <span fxLayout="row" fxLayoutAlign="start center">
+          <img class="flag mr-16" [src]="lang.icon" width="16px">
+          <span class="iso">{{ lang.text }}</span>
+        </span>
+      </ion-button>
+    </ion-content>
+  </ng-template>
+</ion-popover>
