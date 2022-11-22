@@ -2,13 +2,11 @@ import {
   Component,
   OnInit,
   Input,
-  AfterContentChecked,
   ViewChild,
   ViewEncapsulation,
   Output,
   EventEmitter,
 } from '@angular/core';
-import { Router } from '@angular/router';
 import {
   ActionSheetController,
   AlertController,
@@ -21,13 +19,11 @@ import { SwiperComponent } from 'swiper/angular';
 import SwiperCore, { Pagination, Lazy } from 'swiper';
 
 import { PostsService } from '../../../core/services/posts.service';
-import { switchMap } from 'rxjs/operators';
 import { ReactionsService } from 'src/app/core/services/reactions.service';
 import { Like, PostsResponse } from 'src/app/core/interfaces/interfaces';
 import { EditPostComponent } from 'src/app/pages/tabs/components/edit-post/edit-post.component';
 import { LikesComponent } from '../likes/likes.component';
 import { CommentsComponent } from '../comments/comments.component';
-import { threadId } from 'worker_threads';
 
 SwiperCore.use([Lazy, Pagination]);
 
@@ -165,7 +161,7 @@ export class PostComponent implements OnInit {
                     },
                   },
                   {
-                    text: 'cancelar',
+                    text: 'Cancelar',
                     role: 'cancel',
                   },
                 ],
@@ -223,7 +219,7 @@ export class PostComponent implements OnInit {
           },
 
           {
-            text: 'Cancel',
+            text: 'Cancelar',
             icon: 'close',
             role: 'cancel',
             handler: () => {
@@ -254,7 +250,7 @@ export class PostComponent implements OnInit {
           },
 
           {
-            text: 'Cancel',
+            text: 'Cancelar',
             icon: 'close',
             role: 'cancel',
             handler: () => {

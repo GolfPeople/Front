@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { LoadingController, ModalController } from '@ionic/angular';
 import {
   PostsResponse,
@@ -27,7 +26,6 @@ export class CommentsComponent implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
-    private FirebaseStorage: AngularFirestore,
     private commentSvc: CommentService,
     private loadingCtrl: LoadingController,
     private postsSvc: PostsService,

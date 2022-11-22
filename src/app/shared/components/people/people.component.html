@@ -1,9 +1,8 @@
-<div class="card">
+<!-- <div class="card">
   <ion-avatar [routerLink]="['/tabs/user-profile', user.profile.user_id]">
     <img [src]="user.profile.photo || avatarDefault" />
   </ion-avatar>
   <h2 class="card-text">{{ user.name }}</h2>
-  <!-- <a class="conect-button">Conectar</a> -->
   <ion-button
     (click)="
       sentRequest
@@ -15,4 +14,25 @@
   >
     {{ sentRequest ? "En espera" : "Conectar" }}
   </ion-button>
-</div>
+</div> -->
+
+<ion-card class="card">
+  <ion-card-content>
+    <ion-avatar [routerLink]="['/tabs/user-profile', user.profile.user_id]">
+      <img [src]="user.profile.photo || avatarDefault" />
+    </ion-avatar>
+    <h2 class="card-text">{{ user.name }}</h2>
+  </ion-card-content>
+
+  <ion-button
+    (click)="
+      sentRequest
+        ? unfollow(user.profile.user_id)
+        : sendFriendRequest(user.profile.user_id)
+    "
+    [ngClass]="{ connected: sentRequest }"
+    shape="round"
+  >
+    {{ sentRequest ? "En espera" : "Conectar" }}
+  </ion-button>
+</ion-card>

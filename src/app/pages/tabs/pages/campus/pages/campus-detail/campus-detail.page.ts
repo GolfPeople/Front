@@ -79,11 +79,15 @@ ionViewWillEnter(){
   }
 
 
-  getGolfCourse() {
+  async getGolfCourse() {
 
-    this.campusSvg.getData().subscribe(async ({ data }) => {
+    try{
+      const { data } = await this.campusSvg.getData().toPromise();
+      
       this.campusSvg.golfCourses.next(data.reverse());
       this.detail = data.filter(res => res.id == this.id)[0];
+      if(!this.detail) return;
+
       this.detail.teesList = JSON.parse(this.detail.teesList);
       this.detail.scorecarddetails = JSON.parse(this.detail.scorecarddetails);
       this.detail.designer = JSON.parse(this.detail.designer);
@@ -144,10 +148,9 @@ ionViewWillEnter(){
           user_id: res.user_id          
         }
       }));
-    },
-      (error) => {
-        console.log('Error -->', error);
-      }
-    );
+    } catch(e) {
+      console.log("Error getGolfCourse::> ",e);
+    }
+    
   }
 }

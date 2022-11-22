@@ -105,11 +105,11 @@ export class SecurityComponent implements OnInit {
       .subscribe(
         (res) => {
           console.log('RES -->', res.message);
-
+          this.loadingSvc.dismissLoading();
+          
           if (res.message === 'Contraseña inválida') {
             this.currentPasswordError = 'La contraseña actual es incorrecta';
             console.log(this.currentPasswordError);
-            this.loadingSvc.dismissLoading();
             this.errorModal(this.currentPasswordError);
             return;
           }

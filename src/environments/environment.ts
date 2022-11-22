@@ -7,7 +7,7 @@ export const environment = {
     projectId: 'golf-people',
     appId: '1:248337356424:web:aab2d7e1bb1bc13494313d',
     databaseURL: 'https://golf-people-default-rtdb.firebaseio.com',
-    storageBucket: 'golf-people.appspot.com',
+    // storageBucket: 'golf-people.appspot.com',
     locationId: 'europe-west6',
     apiKey: 'AIzaSyC0OsRsAPOyimEggpzSGd_rfm6N_Hfrz2w',
     authDomain: 'golf-people.firebaseapp.com',

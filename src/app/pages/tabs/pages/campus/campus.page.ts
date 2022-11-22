@@ -1,8 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { GoogleMap, Marker } from '@capacitor/google-maps';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Marker } from '@capacitor/google-maps';
 import { ModalController } from '@ionic/angular';
 import { FirebaseService } from 'src/app/services/firebase.service';
-import { environment } from 'src/environments/environment';
 import { CreateFieldPage } from '../create-field/create-field.page';
 import { CampusDataService } from './services/campus-data.service';
 
@@ -14,7 +13,6 @@ declare const google;
   styleUrls: ['./campus.page.scss'],
 })
 export class CampusPage implements OnInit {
-  geocoder = new google.maps.Geocoder();
 
   golfCourses = [];
   searchedCampos
@@ -43,7 +41,6 @@ export class CampusPage implements OnInit {
   golfCourseDetail(id) {
     this.firebaseSvc.routerLink('/tabs/campus/campus-detail/' + id)
   }
-
 
   async createMap(markers) {
 
